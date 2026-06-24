@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_player",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_player",
+  "parent":{
+    "name":"MDB2",
+    "path":"MDB2.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
