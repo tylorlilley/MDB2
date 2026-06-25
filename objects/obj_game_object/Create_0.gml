@@ -1,3 +1,9 @@
+enum STATES {
+	STILL,
+	FALLING,
+	PUSHED
+}
+
 is_fixed = true;
 
 is_left = false;
@@ -14,8 +20,9 @@ is_moving = false;
 
 hits = 0;
 move_timer = 0;
-virtual_y = 0;
-virtual_x = 0;
+virtual_y = y;
+virtual_x = x;
+transition_timer = 0;
 
 get_solid_objects = function(x_offset, y_offset, func, only_full_solids = false) {
 	var _solid_objects = ds_list_create(), _total_potential_objects = instance_place_list(x+x_offset, y+y_offset, obj_game_object, _solid_objects, true);
@@ -55,27 +62,27 @@ get_ceiling_objects = function(only_full_solids = false) {
 }
 
 get_left_ceiling_objects = function() {
-	return get_solid_objects(-15, -1, is_solid_from_below);
+	return get_solid_objects(-16, -8, is_solid_from_below);
 }
 
 get_right_ceiling_objects = function() {
-	return get_solid_objects(14, -1, is_solid_from_below);
+	return get_solid_objects(16, -8, is_solid_from_below);
 }
 
 get_left_pushable_objects = function() {
-	return get_solid_objects(-1, 0, can_be_pushed_left);
+	return get_solid_objects(-8, 0, can_be_pushed_left);
 }
 
 get_right_pushable_objects = function() {
-	return get_solid_objects(1, 0, can_be_pushed_right);
+	return get_solid_objects(8, 0, can_be_pushed_right);
 }
 
 get_left_climbable_objects = function() {
-	return get_solid_objects(-1, 0, can_be_climbed_from_right);
+	return get_solid_objects(-8, 0, can_be_climbed_from_right);
 }
 
 get_right_climbable_objects = function() {
-	return get_solid_objects(1, 0, can_be_climbed_from_left);
+	return get_solid_objects(8, 0, can_be_climbed_from_left);
 }
 
 
@@ -137,8 +144,13 @@ can_ladder_down = function() {
 	);
 }
 
+can_start_laddering = function() {
+	var _closest_ladder = get_closest_ladder();
+	return (instance_exists(_closest_ladder) && x == _closest_ladder.x && y == _closest_ladder.y);
+}
+
 can_be_pushed_left = function() {
-	if (!is_pushable) { return false; }
+	if (!is_pushable || !is_grounded()) { return false; }
 	
 	// Check if blocked by a right wall
 	var _wall_list = get_left_wall_objects(), _can_be_pushed = ds_list_empty(_wall_list);
@@ -147,7 +159,7 @@ can_be_pushed_left = function() {
 }
 
 can_be_pushed_right = function() {
-	if (!is_pushable) { return false; }
+	if (!is_pushable || !is_grounded()) { return false; }
 	
 	// Check if blocked by a right wall
 	var _wall_list = get_right_wall_objects(), _can_be_pushed = ds_list_empty(_wall_list);

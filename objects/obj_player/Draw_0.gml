@@ -30,9 +30,6 @@ switch (state) {
 	case PLAYER_STATES.POWERFLY: { player_timer_string = string(fly_timer); break; }
 	case PLAYER_STATES.FALL: { player_timer_string = string(fall_timer); break; }
 	case PLAYER_STATES.POWERFALL: { player_timer_string = string(fall_timer); break; }
-	case PLAYER_STATES.CLIMB: { player_timer_string = string(climb_timer); break; }
-	case PLAYER_STATES.HOP: { player_timer_string = string(hop_timer); break; }
-	case PLAYER_STATES.HOP_UP: { player_timer_string = string(hop_timer); break; }
 }
 draw_set_font(ft_teko);
 draw_set_color(c_black);

@@ -1,0 +1,11 @@
+{
+  "$GMNotes":"v1",
+  "%Name":"TODO",
+  "name":"TODO",
+  "parent":{
+    "name":"MDB2",
+    "path":"MDB2.yyp",
+  },
+  "resourceType":"GMNotes",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,6 @@
+
+Climbable Things
+Moveable Platforms
+Cape stops flapping when grabbing ladder after running sometimes
+Make Cape not Go to Side for start of Landing
+Landing pause for on Ladder?
