@@ -74,11 +74,13 @@ function player_init() {
 	cape_image_index = 0;
 	cape_timer = 0;
 	step_index = 0;
+	air_walk = false;
 	
 	// Player Specific Variables
 	prev_state = PLAYER_STATES.STAND;
 	state = PLAYER_STATES.STAND;
 	image_speed = 0;
+	depth = -2;
 	cape_x = x;
 	cape_y = y;
 	cape_depth = 1;
@@ -162,19 +164,33 @@ function player_init() {
 		else { start_falling(); }
 	}
 	
+	start_walking = function() {
+		state = PLAYER_STATES.WALK;
+		transition_timer = 4;
+		x += (is_left) ? -8 : 8;
+	}
+	
+	start_hopping = function(x_dist) {
+		//virtual_y -= 4;
+		state = PLAYER_STATES.HOP_UP;
+		transition_timer = 8;
+		x += x_dist
+		y -= 8;	
+	}
+	
 	reset_controls()
 }
 
 function update_player_state() {
 	prev_state = state;
-	var _in_ground = place_meeting(x, y, obj_solid);
+	var _prev_virtual_x = virtual_x
+	var _in_ground = place_meeting(x, y, obj_sand);
 	var _ground_objects = get_ground_objects(), _on_ground = is_grounded();
 	var _ceiling_objects = get_ceiling_objects(), _under_ceiling = is_under_ceiling();
 	var _wall_objects = noone, _against_wall = false;
-	var _player_can_input = true; //(transition_timer == 0);
 	var _prev_is_left = is_left;
 	
-	// Check for ladders
+	// Check Controls
 	reset_controls();
 	update_controls();
 
@@ -191,7 +207,21 @@ function update_player_state() {
 
 		switch (state) {
 			case PLAYER_STATES.HOP:
-			case PLAYER_STATES.HOP_UP: { virtual_y += (state == PLAYER_STATES.HOP_UP) ? -1 : 1; }
+			case PLAYER_STATES.HOP_UP: {
+				var _move_fast = (state == PLAYER_STATES.HOP_UP && transition_timer >= 6) || (state == PLAYER_STATES.HOP && transition_timer <= 2);
+				var _move_slow = (state == PLAYER_STATES.HOP_UP && transition_timer >= 2) || (state == PLAYER_STATES.HOP && transition_timer <= 6);
+				var _move_none = (state == PLAYER_STATES.HOP_UP && transition_timer >= 0) || (state == PLAYER_STATES.HOP && transition_timer <= 8);
+				
+				var _y_move = 0;
+				if (_move_fast) { _y_move = 2; }
+				else if (_move_slow) { _y_move = 1; }
+				else if (_move_none) { _y_move = 0; }
+				
+				virtual_y += _y_move * ((state == PLAYER_STATES.HOP_UP) ? -1 : 1);
+				if (virtual_x > x) { virtual_x -= 1; }
+				else if (virtual_x < x) { virtual_x += 1; }
+				break;
+			}
 			case PLAYER_STATES.WALK:  { virtual_x += (is_left) ? -2 : 2; break; }
 			case PLAYER_STATES.PUSH_WALK: {
 				virtual_x += (is_left) ? -1 : 1;
@@ -292,23 +322,41 @@ function update_player_state() {
 			case PLAYER_STATES.HOP_UP: {
 				_wall_objects = ((is_left) ? get_left_wall_objects() : get_right_wall_objects());
 				var _can_walk = (ds_list_empty(_wall_objects));
+				var _on_hop_height_ground = false;
+				x += (is_left) ? -8 : 8;
+				_on_hop_height_ground = is_grounded();
+				x -= (is_left) ? -8 : 8;
 				
-				virtual_y += 4;
 				if (_on_ground) { start_standing(); }
+				else if (_on_hop_height_ground && _can_walk) {
+					start_walking();
+					air_walk = true;
+				}
 				else {
-					if (_can_walk) {
-						state = PLAYER_STATES.HOP;
-						transition_timer = 4;
-						x += (is_left) ? -8 : 8;
-						y += 8;
+					// TODO: Check for Climbing Flip
+					var _can_climb = (key_jump || key_up) && ((is_left && key_left) || (!is_left && key_right)) && !_under_ceiling, _prev_x = x, _prev_y = y;
+					var _climbable_objects = (is_left) ? get_left_climbable_objects() : get_right_climbable_objects();
+					var _climbed_obj = _climbable_objects[| 0];
+					ds_list_destroy(_climbable_objects);
+					_can_climb = _can_climb && instance_exists(_climbed_obj) && y < _climbed_obj.y;
+					
+					if (_can_climb) { 
+						state = PLAYER_STATES.CLIMB;
+						transition_timer = 24;
+						y -= 8;
 					}
 					else {
-						start_falling();
+						state = PLAYER_STATES.HOP;
+						transition_timer = 8;
+						if (_can_walk && _prev_virtual_x != virtual_x) {
+							x += (is_left) ? -8 : 8;
+						}
+						y += 8;
 					}
 				}
 				break;
 			}
-			case PLAYER_STATES.HOP: 
+			case PLAYER_STATES.HOP:
 			case PLAYER_STATES.STAND:
 			case PLAYER_STATES.WALK:
 			case PLAYER_STATES.PUSH:
@@ -320,18 +368,16 @@ function update_player_state() {
 					start_falling();
 				}
 				else {
-					// Change State due to Player Input
-					/*
-					if (key_jump && !_under_ceiling) {
-						state = PLAYER_STATES.HOP_UP;
-						is_left = key_left;
-						if (key_left || key_right) { state = PLAYER_STATES.HOP; x += (is_left) ? -8 : 8; }
-						transition_timer = 8;
-						y -= 8;
+					if (state == PLAYER_STATES.HOP) {
+						start_standing();
+						transition_timer = 4;
 					}
-					*/
-					
-					if (key_left || key_right) {
+					else if (state == PLAYER_STATES.WALK && air_walk) {
+						start_standing();
+						transition_timer = 4;
+						air_walk = false;
+					}
+					else if (key_left || key_right) {
 						is_left = key_left;
 						
 						if ((prev_state == PLAYER_STATES.WALK || prev_state == PLAYER_STATES.PUSH_WALK || prev_state == PLAYER_STATES.PUSH) && is_left != _prev_is_left) {
@@ -345,52 +391,45 @@ function update_player_state() {
 							// Determine if can move in that direction
 							_wall_objects = ((is_left) ? get_left_wall_objects() : get_right_wall_objects());
 							var _can_walk = (ds_list_empty(_wall_objects));
-					
-							if (_can_walk) {
-								var _can_hop = false;
-						
-								// Check for Small Hole
-								if ((key_up || key_jump) && !_under_ceiling) {
-									x += (is_left) ? -8 : 8;
-									var _about_to_fall = !is_grounded() && !is_under_ceiling();
-									x += (is_left) ? -8 : 8;
-									_can_hop = (_about_to_fall && is_grounded() && !is_under_ceiling());
-									x = virtual_x;
-								}
-						
-								state = (_can_hop) ? PLAYER_STATES.HOP_UP : PLAYER_STATES.WALK;
-								transition_timer = 4;
-								x += (is_left) ? -8 : 8;
-								if (_can_hop) { y -= 8; }
+							var _can_hop = (key_up || key_jump) && !_under_ceiling;
+							
+							if (_can_hop) {
+								var _x_hop_distance = (is_left) ? -8 : 8;
+								start_hopping((_can_walk) ? _x_hop_distance : 0);
 							}
-							else {
+							else if (_can_walk) {
+								start_walking();
+							}
+							else { 
 								_wall_objects = is_left ? get_left_climbable_objects() : get_right_climbable_objects();
 								_against_wall = ((ds_list_size(_wall_objects) > 0) && (key_up || key_jump) && !_under_ceiling);
 						
 								if (_against_wall) {
 									// Climb Wall
-									
+									/*
 									transition_timer = 28;
 									y -= 8;
 									state = PLAYER_STATES.CLIMB;
+									*/
 								}
 								else {
 									// Push Wall
 									_wall_objects = is_left ? get_left_pushable_objects() : get_right_pushable_objects();
 									_against_wall = (ds_list_size(_wall_objects) > 0);
+									if (_against_wall) { pushed_obj = _wall_objects[| 0]; }
 
-									if (_against_wall) {
+									if (_against_wall && instance_exists(pushed_obj) && y <= pushed_obj.y) {
 										// Push Box
 										state = PLAYER_STATES.PUSH_WALK;
 										x += (is_left) ? -8 : 8;
 										transition_timer = 8;
-										pushed_obj = _wall_objects[| 0];
 										pushed_obj.state = STATES.PUSHED;
 										pushed_obj.x += (is_left) ? -8 : 8
 										pushed_obj.transition_timer = 8;
 									}
 									else {
 										// Push Against Solid Wall
+										pushed_obj = noone;
 										state = PLAYER_STATES.PUSH;
 									}
 								}
@@ -398,8 +437,11 @@ function update_player_state() {
 						}
 					}
 					else if (key_up || key_jump) {
-						if (state == PLAYER_STATES.POWERCROUCH && !_under_ceiling) { state = PLAYER_STATES.FLY; y -= 8; transition_timer = 4; }
-						else { start_standing(); } // TODO: Look Up?
+						if (_under_ceiling) { start_standing(); }
+						else {
+							if (state == PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.FLY; y -= 8; transition_timer = 4; }
+							else { start_hopping(0); }
+						}
 					}
 					else if (key_down) {
 						if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
@@ -497,7 +539,14 @@ function update_player_state() {
 	
 	// Update player position for moving platforms
 	// TODO
-	
+
+	// Clean up ds lists
+	if (_ground_objects != undefined && ds_exists(_ground_objects, ds_type_list)) { ds_list_destroy(_ground_objects); }
+	if (_ceiling_objects != undefined && ds_exists(_ceiling_objects, ds_type_list)) { ds_list_destroy(_ceiling_objects); }
+	if (_wall_objects != undefined && ds_exists(_wall_objects, ds_type_list)) { ds_list_destroy(_wall_objects); }
+}
+
+function update_cape_graphics() {
 	// Update Cape State
 	if (cape_timer > 0) {
 		cape_timer--;
@@ -665,26 +714,6 @@ function update_player_state() {
 		}
 	}
 	
-	// Update Cape Depth Relative to Player
-	switch (state) {
-		case PLAYER_STATES.FALL: {
-			if (sprite_index == spr_player_tumble && image_index > 0) { cape_depth = depth - 1; }
-			else { cape_depth = depth + 1; }
-			break;
-		}
-		case PLAYER_STATES.LADDER:
-		case PLAYER_STATES.LADDER_UP:
-		case  PLAYER_STATES.LADDER_DOWN:
-		case  PLAYER_STATES.POWERFALL: {
-			cape_depth = depth - 1;
-			break;
-		}
-		default: {
-			cape_depth = depth + 1;
-			break;
-		}
-	}
-	
 	// Interrupt Previous Cape State to Set New One
 	if (state != prev_state) {
 		if (state == PLAYER_STATES.HOP_UP) {
@@ -741,10 +770,25 @@ function update_player_state() {
 		}
 	}
 
-	// Clean up ds lists
-	if (_ground_objects != undefined && ds_exists(_ground_objects, ds_type_list)) { ds_list_destroy(_ground_objects); }
-	if (_ceiling_objects != undefined && ds_exists(_ceiling_objects, ds_type_list)) { ds_list_destroy(_ceiling_objects); }
-	if (_wall_objects != undefined && ds_exists(_wall_objects, ds_type_list)) { ds_list_destroy(_wall_objects); }
+	// Update Cape Depth Relative to Player
+	switch (state) {
+		case PLAYER_STATES.FALL: {
+			if (sprite_index == spr_player_tumble && image_index > 0) { cape_depth = depth - 1; }
+			else { cape_depth = depth + 1; }
+			break;
+		}
+		case PLAYER_STATES.LADDER:
+		case PLAYER_STATES.LADDER_UP:
+		case PLAYER_STATES.LADDER_DOWN:
+		case PLAYER_STATES.POWERFALL: {
+			cape_depth = depth - 1;
+			break;
+		}
+		default: {
+			cape_depth = depth + 1;
+			break;
+		}
+	}
 }
 
 function update_player_graphics() {
@@ -754,8 +798,8 @@ function update_player_graphics() {
 		// Set New Sprites
 		switch (state) {
 			case PLAYER_STATES.CLIMB: {
-				sprite_index = spr_player_climb;
-				image_index = 0;
+				sprite_index = spr_player_climb //spr_player_hop_climb;
+				image_index = 2 // 0;
 				break;
 			}
 			case PLAYER_STATES.STAND: {
@@ -869,3 +913,46 @@ function update_player_graphics() {
 		step_index = (image_index == 1) ? 2 : 0;
 	}
 }
+
+/*
+			case PLAYER_STATES.CLIMB: {
+				if (transition_timer < 28 && transition_timer >= 24) {
+					virtual_y -= 2; if (virtual_y == y) { y -= 8; }
+				}
+				else if (transition_timer < 24 && transition_timer >= 22) {
+					virtual_y -= 1;
+				}
+				else if (transition_timer < 22 && transition_timer >= 20) {
+					virtual_y -= 1;
+					virtual_x += (is_left) ? -1 : 1;
+				}
+				else if (transition_timer < 20 && transition_timer >= 18) {
+
+					if (transition_timer == 19) {
+						x += (is_left) ? -8 : 8;
+					}
+					else {
+						virtual_x += (is_left) ? -2 : 2;
+					}
+				}
+				else if (transition_timer < 18 && transition_timer >= 16) {
+					if (transition_timer == 16) {
+						virtual_y -= 2;
+					}
+				}
+				else if (transition_timer < 16 && transition_timer >= 14) {
+					if (transition_timer == 14) {
+						virtual_x += (is_left) ? -2 : 2;
+						virtual_y -= 2;
+					}
+				}
+				else if (transition_timer < 14 && transition_timer >= 12) {
+					if (transition_timer == 12) {
+						virtual_x += (is_left) ? -2 : 2;
+					}
+				}
+				else if (transition_timer < 6) { transition_timer = 0; }
+				
+				break;
+			}
+*/

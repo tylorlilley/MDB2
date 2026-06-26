@@ -23,8 +23,9 @@ move_timer = 0;
 virtual_y = y;
 virtual_x = x;
 transition_timer = 0;
+state = STATES.STILL;
 
-get_solid_objects = function(x_offset, y_offset, func, only_full_solids = false) {
+get_solid_objects = function(x_offset, y_offset, pred, only_full_solids = false) {
 	var _solid_objects = ds_list_create(), _total_potential_objects = instance_place_list(x+x_offset, y+y_offset, obj_game_object, _solid_objects, true);
 
 
@@ -32,7 +33,7 @@ get_solid_objects = function(x_offset, y_offset, func, only_full_solids = false)
 	{
 		var obj = _solid_objects[| i];
 		var _inside_obj =  place_meeting(x, y, obj);
-		if (!instance_exists(obj) || obj.id == id || !method_call(method(obj.id, func), [only_full_solids]) || _inside_obj) { ds_list_delete(_solid_objects, i); }
+		if (!instance_exists(obj) || obj.id == id || !pred(obj, only_full_solids) || _inside_obj) { ds_list_delete(_solid_objects, i); }
 	}
 	
 	return _solid_objects;
@@ -40,51 +41,77 @@ get_solid_objects = function(x_offset, y_offset, func, only_full_solids = false)
 
 // Get List of Specified Objects
 get_left_wall_objects = function(only_full_solids = false) {
-	return get_solid_objects(-8, 0, is_solid_from_right, only_full_solids);
+	return get_solid_objects(-8, 0, function(inst, ofs) {
+        return inst.is_solid_from_right(ofs);
+    }, only_full_solids);
 }
 
 get_right_wall_objects = function(only_full_solids = false) {
-	return get_solid_objects(8, 0, is_solid_from_left, only_full_solids);
+	return get_solid_objects(8, 0, function(inst, ofs) {
+        return inst.is_solid_from_left(ofs);
+    }, only_full_solids);
 }
 
 get_ground_objects = function(only_full_solids = false) {
-	return get_solid_objects(0, 8, is_solid_from_above, only_full_solids);
+	return get_solid_objects(0, 8, function(inst, ofs) {
+        return inst.is_solid_from_above(ofs);
+    }, only_full_solids);
 }
 
 get_ceiling_objects = function(only_full_solids = false) {
-	var _ceiling_objects = get_solid_objects(0, -8, is_solid_from_below, only_full_solids);
+	/*
+	var _ceiling_objects = get_solid_objects(0, 8, function(inst) {
+        return inst.is_solid_from_below(only_full_solids);
+    });
+	
 	for (var i = ds_list_size(_ceiling_objects)-1; i >= 0; i--)
 	{
 		var obj = _ceiling_objects[| i];
 		if (obj.y >= y) { ds_list_delete(_ceiling_objects, i); }
 	}
 	return _ceiling_objects;
+	*/
+	
+	return get_solid_objects(0, -8, function(inst, ofs) {
+        return inst.is_solid_from_below(ofs);
+    }, only_full_solids);
 }
 
 get_left_ceiling_objects = function() {
-	return get_solid_objects(-16, -8, is_solid_from_below);
+	return get_solid_objects(-8, -8, function(inst) {
+        return inst.is_solid_from_below();
+    });
 }
 
 get_right_ceiling_objects = function() {
-	return get_solid_objects(16, -8, is_solid_from_below);
+	return get_solid_objects(8, -8, function(inst) {
+        return inst.is_solid_from_below();
+    });
 }
 
 get_left_pushable_objects = function() {
-	return get_solid_objects(-8, 0, can_be_pushed_left);
+	return get_solid_objects(-8, 0, function(inst) {
+        return inst.can_be_pushed_left();
+    });
 }
 
 get_right_pushable_objects = function() {
-	return get_solid_objects(8, 0, can_be_pushed_right);
+	return get_solid_objects(8, 0, function(inst) {
+        return inst.can_be_pushed_right();
+    });
 }
 
 get_left_climbable_objects = function() {
-	return get_solid_objects(-8, 0, can_be_climbed_from_right);
+	return get_solid_objects(-8, 0, function(inst) {
+        return inst.can_be_climbed_from_right();
+    });
 }
 
 get_right_climbable_objects = function() {
-	return get_solid_objects(8, 0, can_be_climbed_from_left);
+	return get_solid_objects(8, 0, function(inst) {
+        return inst.can_be_climbed_from_left();
+    });
 }
-
 
 // Boolean Checks
 is_grounded = function(only_full_solids = false) {
@@ -140,7 +167,7 @@ can_ladder_down = function() {
 	var _closest_ladder = get_closest_ladder();
 	return (
 		instance_exists(_closest_ladder) &&
-		(!is_grounded() || place_meeting(x, y, obj_solid) ||  place_meeting(x, _closest_ladder.y+sprite_height, obj_ladder))
+		(!is_grounded() || place_meeting(x, y, obj_sand) ||  place_meeting(x, _closest_ladder.y+sprite_height, obj_ladder))
 	);
 }
 

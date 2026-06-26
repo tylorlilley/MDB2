@@ -1,19 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_solid",
+  "%Name":"obj_crate",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_solid",
+  "name":"obj_crate",
   "overriddenProperties":[],
   "parent":{
     "name":"MDB2",
     "path":"MDB2.yyp",
   },
   "parentObjectId":{
-    "name":"obj_game_object",
-    "path":"objects/obj_game_object/obj_game_object.yy",
+    "name":"obj_solid",
+    "path":"objects/obj_solid/obj_solid.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -32,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_crate",
+    "path":"sprites/spr_crate/spr_crate.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

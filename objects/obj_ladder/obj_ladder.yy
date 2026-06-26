@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_box",
-    "path":"sprites/spr_box/spr_box.yy",
+    "name":"spr_ladder",
+    "path":"sprites/spr_ladder/spr_ladder.yy",
   },
   "spriteMaskId":null,
   "visible":true,
