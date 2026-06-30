@@ -27,12 +27,14 @@
   "resources":[
     {"id":{"name":"ft_teko","path":"fonts/ft_teko/ft_teko.yy",},},
     {"id":{"name":"TODO","path":"notes/TODO/TODO.yy",},},
+    {"id":{"name":"obj_controller","path":"objects/obj_controller/obj_controller.yy",},},
     {"id":{"name":"obj_crate","path":"objects/obj_crate/obj_crate.yy",},},
     {"id":{"name":"obj_game_object","path":"objects/obj_game_object/obj_game_object.yy",},},
     {"id":{"name":"obj_ladder","path":"objects/obj_ladder/obj_ladder.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_sand","path":"objects/obj_sand/obj_sand.yy",},},
     {"id":{"name":"obj_solid","path":"objects/obj_solid/obj_solid.yy",},},
+    {"id":{"name":"rm_controller","path":"rooms/rm_controller/rm_controller.yy",},},
     {"id":{"name":"rm_ladder_test","path":"rooms/rm_ladder_test/rm_ladder_test.yy",},},
     {"id":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},},
     {"id":{"name":"scr_game_object_functions","path":"scripts/scr_game_object_functions/scr_game_object_functions.yy",},},
@@ -76,6 +78,7 @@
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
+    {"roomId":{"name":"rm_controller","path":"rooms/rm_controller/rm_controller.yy",},},
     {"roomId":{"name":"rm_ladder_test","path":"rooms/rm_ladder_test/rm_ladder_test.yy",},},
     {"roomId":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},},
   ],

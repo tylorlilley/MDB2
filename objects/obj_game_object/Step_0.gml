@@ -12,7 +12,7 @@ if (!is_fixed && object_index != obj_player) {
 		
 		// Start Falling
 		if (!_on_ground) {
-			y += 8;
+			grid_step_down();
 			transition_timer = 4;
 			state = STATES.FALLING;
 		}

@@ -1,4 +1,3 @@
-draw_sprite_ext(spr_box, 0, x, y, 1, 1, 0, c_teal, 0.5);
 var _cape_x = virtual_x, _cape_y = virtual_y;
 
 if (state != PLAYER_STATES.LADDER &&
@@ -10,13 +9,15 @@ if (state != PLAYER_STATES.LADDER &&
 	state != PLAYER_STATES.POWERFLY) {
 	_cape_x += ((is_left) ? 8 : -8);
 }
+
+var _x_offset = (is_left) ? sprite_width : 0;
 if (cape_depth <= depth) {
-	draw_sprite_ext(sprite_index, image_index, virtual_x, virtual_y, image_xscale, 1, 0, c_white, 1);
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x, _cape_y, image_xscale, 1, 0, c_white, 1);
+	draw_sprite_ext(sprite_index, image_index, virtual_x-_x_offset, virtual_y, image_xscale, 1, 0, image_blend, 1);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x-_x_offset, _cape_y, image_xscale, 1, 0, c_white, 1);
 }
 else {
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x, _cape_y, image_xscale, 1, 0, c_white, 1);
-	draw_sprite_ext(sprite_index, image_index, virtual_x, virtual_y, image_xscale, 1, 0, c_white, 1);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x-_x_offset, _cape_y, image_xscale, 1, 0, c_white, 1);
+	draw_sprite_ext(sprite_index, image_index, virtual_x-_x_offset, virtual_y, image_xscale, 1, 0, c_white, 1);
 }
 //draw_sprite_ext(spr_box, 0, virtual_x, virtual_y, 1, 1, 0, c_red, 0.5);
 
