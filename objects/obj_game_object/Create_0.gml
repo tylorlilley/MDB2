@@ -17,13 +17,16 @@ is_left_wall = false;
 is_climbable = false;
 is_pushable = false;
 is_moving = false;
+is_fragile = false;
+is_connected = false;
 
-hits = 0;
+hits = 1;
 move_timer = 0;
 virtual_y = y;
 virtual_x = x;
 transition_timer = 0;
 state = STATES.STILL;
+particle_color =  c_white;
 
 grid_add = function() {
 	var _grid_width = sprite_get_width(sprite_index) div 8, _grid_height = sprite_get_height(sprite_index) div  8;
@@ -244,4 +247,72 @@ is_solid_from_right = function(only_full_solids = false) {
 
 is_solid_from_all_sides = function() {
 	return is_right_wall && is_left_wall && is_ceiling && is_ground;
+}
+
+create_particles = function(_total_particles) {
+	var  _move_left = irandom(1);
+	for (var _i = 0; _i <= _total_particles; _i++) {
+		var _p = instance_create_depth(x, y, -5, obj_particle);
+		with (_p) {
+			image_blend = other.particle_color;
+			hspeed = irandom(4) / 2 * ((_move_left) ? -1 : 1);
+			vspeed = irandom(5) / 2 * -1;
+			gravity = 0.25;
+			_move_left = !_move_left;
+			if (irandom(3) == 0) { image_xscale = 2; image_yscale = 2; }
+		}
+	}
+}
+
+// Game Action Functions
+get_damaged = function() {
+	hits--;
+	if (hits == 0) { instance_destroy(); }
+}
+
+fall_on = function() {
+	if (is_fragile) { get_damaged(); }
+	else { create_particles(irandom(1)); }
+}
+
+fly_into = function() {
+	if (is_fragile) { get_damaged(); }
+	else { create_particles(irandom(1)); }
+}
+
+powerfly_into = function() {
+	get_damaged();
+}
+
+powerfall_on = function() { // TODO: Fix that this always happens twice to connected areas
+	get_damaged();
+	if (is_connected) {
+		var _connected_instances = get_connected_instances([id]);
+		for (var _i = 0; _i < array_length(_connected_instances); _i++) {
+			var _inst = _connected_instances[_i];
+			if (!instance_exists(_inst) || id == _inst.id) { continue; }
+			else { _inst.get_damaged(); }
+		}
+	}
+}
+
+get_connected_instances = function(_connected_instances) {
+	for (var _dir = 0; _dir < 4; _dir++) {
+		var _x_offset = 0, _y_offset = 0;
+		if (_dir == 0) { _x_offset = 8; }
+		if (_dir == 1) { _x_offset = -8; }
+		if (_dir == 2) { _y_offset = 8; }
+		if (_dir == 3) { _y_offset = -8; }
+			
+		var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8, object_index);
+		for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
+			var _inst_id =  _instances_to_check[_i].id
+			if (!array_contains(_connected_instances, _inst_id)) {
+				array_push(_connected_instances, _inst_id);
+				array_concat(_connected_instances, _inst_id.get_connected_instances(_connected_instances));
+			}
+		}
+	}
+
+	return _connected_instances;
 }

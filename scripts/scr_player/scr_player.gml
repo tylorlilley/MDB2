@@ -179,6 +179,14 @@ function player_init() {
 		grid_step_up();
 	}
 	
+	keep_falling = function() {
+		// Keep Falling
+		grid_step_down();
+		transition_timer = 4;
+		fall_timer++;
+		if (fall_timer >= 16) { state = PLAYER_STATES.POWERFALL; }
+	}
+	
 	reset_controls()
 }
 
@@ -458,9 +466,13 @@ function update_player_state() {
 			case PLAYER_STATES.POWERFLY: {
 				if (_under_ceiling) {
 					// Bonk against ceiling
-					if (state == PLAYER_STATES.POWERFLY) {
-						// y += 8;
-						// TODO: Damage ceiling
+					// grid_step_down();
+					
+					// Damage Ceiling
+					for (var _i = 0; _i < array_length(_ceiling_objects); i++) {
+						var _inst = _ceiling_objects[_i];
+						if (state == PLAYER_STATES.POWERFLY) { _inst.powerfly_into(); }
+						else { _inst.fly_into(); }
 					}
 					start_falling();
 				}
@@ -484,24 +496,32 @@ function update_player_state() {
 						}
 						virtual_y = y;
 						start_falling();
-						// TODO: Damage floor
-					}
-					else { 
-						if (fall_timer < 10) { start_standing(); }
-						else {
-							if (key_left || key_right) { is_left = key_left; }
-							state = PLAYER_STATES.LAND;
-							transition_timer = 8;
+						
+						// Damage Ground
+						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+							var _inst = _ground_objects[_i];
+							if (instance_exists(_inst)) { _inst.powerfall_on(); } // TODO: This only effects the two blocks you fell on and not all four. For connected areas this causes double hits
 						}
 					}
+					else {
+						// Attempt to Land on Ground
+						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+							var _inst = _ground_objects[_i];
+							_inst.fall_on();
+						}
+						// Land or Keep Falling TODO: This to other states (fly, powerfly, powerfall); and add functions for pushed(), climbed(), etc; Do this for Landing from Hop too?
+						if (is_grounded()) { 
+							if (fall_timer < 10) { start_standing(); }
+							else {
+								if (key_left || key_right) { is_left = key_left; }
+								state = PLAYER_STATES.LAND;
+								transition_timer = 8;
+							}
+						}
+						else { keep_falling(); fall_timer = 0; }
+					}
 				}
-				else {
-					// Keep Falling
-					grid_step_down();
-					transition_timer = 4;
-					fall_timer++;
-					if (fall_timer >= 16) { state = PLAYER_STATES.POWERFALL; }
-				}
+				else { keep_falling(); }
 				break;
 			}
 			case PLAYER_STATES.LADDER:
@@ -875,9 +895,11 @@ function update_player_graphics() {
 	}
 
 	// Handle special cases
-	if (state == PLAYER_STATES.FALL && fall_timer == 10) {
-		sprite_index = spr_player_tumble;
-		image_index = -1;
+	if (state == PLAYER_STATES.FALL) {
+		if (fall_timer <= 10) {
+			sprite_index = (fall_timer == 10) ? spr_player_tumble : spr_player_fall;
+			image_index = -1;
+		}
 	}
 	
 	// Update Animations

@@ -1,18 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"obj_sand",
-  "eventList":[],
+  "%Name":"obj_particle",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
-  "name":"obj_sand",
+  "name":"obj_particle",
   "overriddenProperties":[],
   "parent":{
     "name":"MDB2",
     "path":"MDB2.yyp",
   },
-  "parentObjectId":{
-    "name":"obj_solid_area",
-    "path":"objects/obj_solid_area/obj_solid_area.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -31,8 +30,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_grid_space",
-    "path":"sprites/spr_grid_space/spr_grid_space.yy",
+    "name":"spr_pixel",
+    "path":"sprites/spr_pixel/spr_pixel.yy",
   },
   "spriteMaskId":null,
   "visible":true,

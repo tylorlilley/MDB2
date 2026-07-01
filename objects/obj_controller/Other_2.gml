@@ -14,4 +14,4 @@ for (var _x = 0; _x < _cols; _x++) {
     }
 }
 
-room_goto(rm_ladder_test);
+room_goto(rm_area_test);

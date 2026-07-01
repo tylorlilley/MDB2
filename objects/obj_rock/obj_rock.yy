@@ -1,21 +1,20 @@
 {
   "$GMObject":"",
-  "%Name":"obj_solid",
+  "%Name":"obj_rock",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":1,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_solid",
+  "name":"obj_rock",
   "overriddenProperties":[],
   "parent":{
     "name":"MDB2",
     "path":"MDB2.yyp",
   },
   "parentObjectId":{
-    "name":"obj_game_object",
-    "path":"objects/obj_game_object/obj_game_object.yy",
+    "name":"obj_solid_area",
+    "path":"objects/obj_solid_area/obj_solid_area.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
