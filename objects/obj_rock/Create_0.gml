@@ -1,5 +1,7 @@
 event_inherited();
 
-hits = 1;
+hits = 2;
 main_sprite = spr_rock;
-is_connected = false;
+outline_sprite = spr_rock_outline;
+walk_particles = 1;
+particle_color = make_color_rgb(136, 112, 0);

@@ -74,7 +74,7 @@ else if (!_area_below && !_area_left && !_area_above && !_area_right) { // Alone
 var _is_even_x = ((x div 8) % 2 == 0), _is_even_y = ((y div 8) % 2 == 0);
 draw_sprite_part(main_sprite, 0, ((_is_even_x) ? 0 : 8), ((_is_even_y) ? 0 : 8), 8, 8, x, y);
 draw_sprite_part(main_sprite, (((x+y) div 8) % 4)  + 1, ((_is_even_x) ? 0 : 8), ((_is_even_y) ? 0 : 8), 8, 8, x, y);
-draw_sprite_part(spr_sand_outline, 0, _x_offset, _y_offset, 8, 8, x, y);
+draw_sprite_part(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y);
 
 // Additionally Draw Corners
 _x_offset = -1;
@@ -84,7 +84,7 @@ var _area_above_left = at_grid_position(x-8, y-8, 8, 8, object_index);
 var _area_below_right = at_grid_position(x+8, y+8, 8, 8, object_index);
 var _area_below_left = at_grid_position(x-8, y+8, 8, 8, object_index);
 	
-if (!_area_above_right && _area_above && _area_right) { _x_offset = 20; _y_offset = 0; draw_sprite_part(spr_sand_outline, 0, _x_offset, _y_offset, 8, 8, x, y); }
-if (!_area_above_left && _area_above && _area_left) { _x_offset = 16; _y_offset = 0; draw_sprite_part(spr_sand_outline, 0, _x_offset, _y_offset, 8, 8, x, y); }
-if (!_area_below_right && _area_below && _area_right) { _x_offset = 20; _y_offset = 4;  draw_sprite_part(spr_sand_outline, 0, _x_offset, _y_offset, 8, 8, x, y); }
-if (!_area_below_left && _area_below && _area_left) { _x_offset = 16; _y_offset = 4;  draw_sprite_part(spr_sand_outline, 0, _x_offset, _y_offset, 8, 8, x, y); }
+if (!_area_above_right && _area_above && _area_right) { _x_offset = 20; _y_offset = 0; draw_sprite_part(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y); }
+if (!_area_above_left && _area_above && _area_left) { _x_offset = 16; _y_offset = 0; draw_sprite_part(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y); }
+if (!_area_below_right && _area_below && _area_right) { _x_offset = 20; _y_offset = 4;  draw_sprite_part(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y); }
+if (!_area_below_left && _area_below && _area_left) { _x_offset = 16; _y_offset = 4;  draw_sprite_part(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y); }

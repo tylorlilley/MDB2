@@ -1,10 +1,10 @@
-if (!is_fixed && object_index != obj_player) {
+if (has_gravity && object_index != obj_player) {
 	var _on_ground = is_grounded();
 	
 	if (transition_timer > 0) {
 		transition_timer--;
 		
-		if (state == STATES.FALLING) { virtual_y += 2; }
+		if (state == STATES.FALLING) { virtual_y += 2; fall_timer++; }
 	}
 	
 	if (transition_timer == 0) {

@@ -4,7 +4,7 @@ enum STATES {
 	PUSHED
 }
 
-is_fixed = true;
+has_gravity = false;
 
 is_left = false;
 is_up = false;
@@ -26,7 +26,9 @@ virtual_y = y;
 virtual_x = x;
 transition_timer = 0;
 state = STATES.STILL;
-particle_color =  c_white;
+particle_color = c_white;
+fall_timer = 0;
+image_speed = 0;
 
 grid_add = function() {
 	var _grid_width = sprite_get_width(sprite_index) div 8, _grid_height = sprite_get_height(sprite_index) div  8;
@@ -234,7 +236,9 @@ is_solid_from_below = function(only_full_solids = false) {
 }
 
 is_solid_from_above = function(only_full_solids = false) {
-	return is_ground && (is_solid_from_all_sides() || !only_full_solids);
+	var _falling_state = false;
+	_falling_state = (object_index == obj_player && (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL)) || (object_index != obj_player && state == STATES.FALLING);
+	return !_falling_state && is_ground && (is_solid_from_all_sides() || !only_full_solids);
 }
 
 is_solid_from_left = function(only_full_solids = false) {
@@ -252,14 +256,14 @@ is_solid_from_all_sides = function() {
 create_particles = function(_total_particles) {
 	var  _move_left = irandom(1);
 	for (var _i = 0; _i <= _total_particles; _i++) {
-		var _p = instance_create_depth(x, y, -5, obj_particle);
+		var _p = instance_create_depth(x+sprite_width/2, y+sprite_height/2, -5, obj_particle);
 		with (_p) {
 			image_blend = other.particle_color;
-			hspeed = irandom(4) / 2 * ((_move_left) ? -1 : 1);
-			vspeed = irandom(5) / 2 * -1;
-			gravity = 0.25;
+			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
+			vspeed = (random(5) / 2 * -1) - 2;
+			gravity = 0.375;
 			_move_left = !_move_left;
-			if (irandom(3) == 0) { image_xscale = 2; image_yscale = 2; }
+			if (irandom(3) == 0) { image_index = 1; }
 		}
 	}
 }
@@ -272,7 +276,19 @@ get_damaged = function() {
 
 fall_on = function() {
 	if (is_fragile) { get_damaged(); }
-	else { create_particles(irandom(1)); }
+	else if (walk_particles > 0) {
+		for (var _i = 0; _i < (fall_timer % 4)+2; _i++) { create_walk_particles(); }
+	}
+}
+
+walk_on = function() {
+	create_walk_particles();
+}
+
+create_walk_particles = function() {
+	if (irandom(10-walk_particles) == 0) {
+		create_particles(irandom(walk_particles));
+	}
 }
 
 fly_into = function() {
@@ -280,11 +296,11 @@ fly_into = function() {
 	else { create_particles(irandom(1)); }
 }
 
-powerfly_into = function() {
-	get_damaged();
+powerfall_on = function() {
+	powerfly_into();
 }
 
-powerfall_on = function() { // TODO: Fix that this always happens twice to connected areas
+powerfly_into = function() {
 	get_damaged();
 	if (is_connected) {
 		var _connected_instances = get_connected_instances([id]);

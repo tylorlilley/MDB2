@@ -9,4 +9,6 @@ is_right_wall = true;
 is_left_wall = true;
 
 is_climbable = true;
-is_fixed = true;
+has_gravity = false;
+
+walk_particles = 0;

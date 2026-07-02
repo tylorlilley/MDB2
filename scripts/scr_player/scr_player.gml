@@ -63,7 +63,7 @@ function player_state_to_string(state) {
 
 function player_init() {
 	// Game Object Variables
-	is_fixed = false;
+	has_gravity = true;
 	is_ground = true;
 	is_ceiling = false;
 	is_right_wall = false;
@@ -76,6 +76,9 @@ function player_init() {
 	cape_timer = 0;
 	step_index = 0;
 	air_walk = false;
+	dazed = true;
+	holding_obj = false;
+	prev_holding_obj = false;
 	
 	// Player Specific Variables
 	prev_state = PLAYER_STATES.STAND;
@@ -91,9 +94,9 @@ function player_init() {
 	animation_timer = 0;
 	
 	crouch_timer = 0;
-	fall_timer = 0;
 	fly_timer = 0;
 	idle_timer = 0;
+	
 	
 	pushed_obj = noone;
 	
@@ -148,6 +151,8 @@ function player_init() {
 	}
 	
 	start_falling = function() {
+		holding_obj = false;
+		prev_holding_obj = false;
 		state =  PLAYER_STATES.FALL;
 		fall_timer = 0;
 		transition_timer = 4;
@@ -158,8 +163,11 @@ function player_init() {
 		if (is_grounded()) {
 			state = (key_down) ? PLAYER_STATES.CROUCH : PLAYER_STATES.STAND;
 			transition_timer = 0;
+			dazed = false;
+			air_walk = false;
 			if (key_left || key_right) { is_left = key_left; }
-			if (key_up) { idle_timer = 0; sprite_index = spr_player_look_up; }
+			else if (holding_obj) { sprite_index = spr_player_hold_idle; }
+			else if (key_up) { idle_timer = 0; sprite_index = spr_player_look_up; }
 			else { sprite_index = spr_player_idle; }
 		}
 		else { start_falling(); }
@@ -167,8 +175,13 @@ function player_init() {
 	
 	start_walking = function() {
 		state = PLAYER_STATES.WALK;
-		transition_timer = 4;
+		transition_timer = (holding_obj) ? 16 : 4;
 		grid_step_horizontal();
+		var _ground_objects = get_ground_objects();
+		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+			var _inst = _ground_objects[_i];
+			_inst.walk_on()
+		}
 	}
 	
 	start_hopping = function(_should_move_horizontally = false) {
@@ -179,14 +192,6 @@ function player_init() {
 		grid_step_up();
 	}
 	
-	keep_falling = function() {
-		// Keep Falling
-		grid_step_down();
-		transition_timer = 4;
-		fall_timer++;
-		if (fall_timer >= 16) { state = PLAYER_STATES.POWERFALL; }
-	}
-	
 	reset_controls()
 }
 
@@ -194,8 +199,6 @@ function update_player_state() {
 	prev_state = state;
 	var _prev_virtual_x = virtual_x
 	var _in_ground = at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_solid); // TODO This reacts to all solids regardless of one-way status
-	var _ground_objects = get_ground_objects(), _on_ground = is_grounded();
-	var _ceiling_objects = get_ceiling_objects(), _under_ceiling = is_under_ceiling();
 	var _prev_is_left = is_left;
 	
 	// Check Controls
@@ -230,7 +233,7 @@ function update_player_state() {
 				else if (virtual_x < x) { virtual_x += 1; }
 				break;
 			}
-			case PLAYER_STATES.WALK:  { virtual_x += (is_left) ? -2 : 2; break; }
+			case PLAYER_STATES.WALK:  { virtual_x += ((is_left) ? -1 : 1) * ((holding_obj) ? 0.5 : 2); break; }
 			case PLAYER_STATES.PUSH_WALK: {
 				virtual_x += (is_left) ? -1 : 1;
 				if (instance_exists(pushed_obj)) { pushed_obj.virtual_x += (is_left) ? -1 : 1; }
@@ -317,7 +320,7 @@ function update_player_state() {
 				// Determine Next State
 				if (key_up) { is_up = true; state = PLAYER_STATES.LADDER_UP; }
 				else if (key_down) { is_up = false; state = PLAYER_STATES.LADDER_DOWN; }
-				else if ((key_left || key_right) && (_on_ground && !_in_ground)) { start_standing(); }
+				else if ((key_left || key_right) && (is_grounded() && !_in_ground)) { start_standing(); }
 				else { state = PLAYER_STATES.LADDER; }
 			}
 		}
@@ -329,23 +332,24 @@ function update_player_state() {
 			}
 			case PLAYER_STATES.HOP_UP: {
 				var _can_walk = ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
+				var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
 				var _on_hop_height_ground = false, _prev_x = x, _prev_y = y;
 				grid_step_horizontal();
 				_on_hop_height_ground = is_grounded();
 				grid_move_to(_prev_x, _prev_y);
 				
-				if (_on_ground) { start_standing(); }
-				else if (_on_hop_height_ground && _can_walk) {
+				if (is_grounded()) { start_standing(); }
+				if (_on_hop_height_ground && _can_walk && _horizontal_input) {
 					start_walking();
 					air_walk = true;
 				}
 				else {
-					var _can_climb = (key_jump || key_up) && ((is_left && key_left) || (!is_left && key_right)) && !_under_ceiling;
+					var _can_climb = (key_jump || key_up) && !is_under_ceiling();
 					var _climbable_objects = (is_left) ? get_left_climbable_objects() : get_right_climbable_objects();
 					var _climbed_obj = grid_array_first(_climbable_objects);
 					_can_climb = _can_climb && instance_exists(_climbed_obj) && y < _climbed_obj.y;
 					
-					if (_can_climb) { 
+					if (_can_climb && _horizontal_input) { 
 						state = PLAYER_STATES.CLIMB;
 						transition_timer = 24;
 						grid_step_up();
@@ -369,18 +373,43 @@ function update_player_state() {
 			case PLAYER_STATES.CROUCH:
 			case PLAYER_STATES.TURN:
 			case PLAYER_STATES.POWERCROUCH: {
-				if (!_on_ground) {
+				if (!is_grounded()) {
 					start_falling();
 				}
 				else {
+					// Update Whether Holding Up Objects
+					prev_holding_obj = holding_obj;
+					holding_obj = false;
+					var _ceiling_objects = get_ceiling_objects();
+					for (var _i = 0; _i < array_length(_ceiling_objects); _i++) {
+						var _inst = _ceiling_objects[_i];
+						if (instance_exists(_inst) && _inst.has_gravity && _inst.is_grounded()) {
+							is_ground = false;
+							if (!_inst.is_grounded() && _inst.state != STATES.FALLING) { holding_obj = true; }
+							is_ground = true;
+						}
+					}
+					
+						
 					if (state == PLAYER_STATES.HOP) {
 						start_standing();
 						transition_timer = 4;
+						var _ground_objects = get_ground_objects();
+						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+							var _inst = _ground_objects[_i];
+							if (instance_exists(_inst) && _inst.is_solid_from_above()) { _inst.fall_on(); }
+						}
 					}
 					else if (state == PLAYER_STATES.WALK && air_walk) {
 						start_standing();
 						transition_timer = 4;
-						air_walk = false;
+					}
+					else if (holding_obj) {
+						is_left = key_left;
+						var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
+						
+						if (_can_walk && (key_left || key_right)) { start_walking(); }
+						else { start_standing(); }
 					}
 					else if (key_left || key_right) {
 						is_left = key_left;
@@ -391,20 +420,20 @@ function update_player_state() {
 							is_left = _prev_is_left;
 						}
 						else {
-							state = PLAYER_STATES.WALK;
-					
-							// Determine if can move in that direction
 							var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
-							var _can_hop = (key_up || key_jump) && !_under_ceiling;
+							var _can_hop = (key_up || key_jump) && !is_under_ceiling();
 							
-							if (_can_hop) { start_hopping(_can_walk); }
+							if (_can_hop) {
+								var _more_ceiling_objects = (key_left) ? get_left_ceiling_objects() : get_right_ceiling_objects();
+								start_hopping(_can_walk && array_length(_more_ceiling_objects) == 0);
+							}
 							else if (_can_walk) {
 								start_walking();
 							}
 							else { 
 								var _climbable_objects = (is_left) ? get_left_climbable_objects() : get_right_climbable_objects();
 						
-								if ((array_length(_climbable_objects) > 0) && (key_up || key_jump) && !_under_ceiling) {
+								if ((array_length(_climbable_objects) > 0) && (key_up || key_jump) && !is_under_ceiling()) {
 									// Climb Wall
 									/*
 									transition_timer = 28;
@@ -416,8 +445,15 @@ function update_player_state() {
 									// Push Wall
 									var _pushable_objects = is_left ? get_left_pushable_objects() : get_right_pushable_objects();
 									pushed_obj = grid_array_first(_pushable_objects);
+									
+									if (instance_exists(pushed_obj)) {
+										pushed_obj.grid_remove();
+										_can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
+										pushed_obj.grid_add();
+									}
+									else { _can_walk = false; }
 
-									if (instance_exists(pushed_obj) && y <= pushed_obj.y) {
+									if (_can_walk) { // && y >= pushed_obj.y
 										// Push Box
 										state = PLAYER_STATES.PUSH_WALK;
 										grid_step_horizontal();
@@ -439,9 +475,9 @@ function update_player_state() {
 						}
 					}
 					else if (key_up || key_jump) {
-						if (_under_ceiling) { start_standing(); }
+						if (is_under_ceiling()) { start_standing(); }
 						else {
-							if (state == PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.FLY; transition_timer = 4; grid_step_down(); }
+							if (state == PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.FLY; transition_timer = 4; grid_step_up(); }
 							else { start_hopping(); }
 						}
 					}
@@ -464,64 +500,155 @@ function update_player_state() {
 			}
 			case PLAYER_STATES.FLY:
 			case PLAYER_STATES.POWERFLY: {
-				if (_under_ceiling) {
-					// Bonk against ceiling
-					// grid_step_down();
-					
-					// Damage Ceiling
-					for (var _i = 0; _i < array_length(_ceiling_objects); i++) {
+				// First, fly into ceiilng objects
+				if (is_under_ceiling()) {
+					// Attempt to Bump Ceiling
+					var _ceiling_objects = get_ceiling_objects();
+					for (var _i = 0; _i < array_length(_ceiling_objects); _i++) {
 						var _inst = _ceiling_objects[_i];
-						if (state == PLAYER_STATES.POWERFLY) { _inst.powerfly_into(); }
-						else { _inst.fly_into(); }
+						_inst.fly_into();
 					}
-					start_falling();
+				}
+				
+				// If still under ceiling, collide with them
+				if (is_under_ceiling()) {
+					if (state == PLAYER_STATES.POWERFLY) {
+						// Get Targets to Damage
+						var _damaged_instances = []
+						for (var _dir = 0; _dir < 2; _dir++) {
+							var _x_offset = (_dir == 1) ? 8 : 0, _y_offset = -8;
+							
+							var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8);
+							for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
+								var _inst =  _instances_to_check[_i]
+								if (_inst.is_ceiling && _inst.id != id && !array_contains(_damaged_instances, _inst.id)) {
+									array_push(_damaged_instances, _inst.id);
+								}
+							}
+						}
+						
+						// Damage Targets
+						while (array_length(_damaged_instances) > 0) {
+							var _inst = grid_array_first(_damaged_instances);
+							array_delete(_damaged_instances, 0, 1);
+							if (instance_exists(_inst)) {
+								if (_inst.is_connected) {
+									// Remove any connected instances from list of instances to damage
+									var _connected_instances = _inst.get_connected_instances([_inst.id])
+									for (var _i = 0; _i < array_length(_connected_instances); _i++) {
+										var _connected_inst = _connected_instances[_i]
+										var _index = array_get_index(_damaged_instances, _connected_inst.id);
+										if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
+									}
+								}
+								else if (object_is_ancestor(_inst.object_index, obj_solid_area) && abs(y - _inst.y) <= 8) {
+									// Damage deeper for connected areas
+									var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y-8, 8, 8);
+									for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
+										var _new_inst =  _instances_to_check[_i]
+										if (_new_inst.object_index == _inst.object_index && _new_inst.is_ceiling && _new_inst.id != id && !array_contains(_damaged_instances, _new_inst.id)) {
+											array_push(_damaged_instances, _new_inst.id);
+										}
+									}
+								}
+								_inst.powerfly_into(); 
+							}
+						}
+						
+						// Player reaction to Collision
+						virtual_y = y;
+						start_falling();
+						dazed = true;
+					}
+					else { start_falling(); }
 				}
 				else {
 					// Keep Flying
-					grid_step_down();
+					grid_step_up();
 					transition_timer = 4;
 					fly_timer++;
-					if (fly_timer > 12) { state = PLAYER_STATES.POWERFLY; }
+					if (fly_timer >= 16) { state = PLAYER_STATES.POWERFLY; }
 				}
 				break;
 			}
 			case PLAYER_STATES.FALL:
 			case PLAYER_STATES.POWERFALL: {
-				if (_on_ground) {
-					// Bonk against floor
-					if (state == PLAYER_STATES.POWERFALL) {
-						if (!_under_ceiling) {
-							grid_step_up();
-							grid_step_up();
-						}
-						virtual_y = y;
-						start_falling();
-						
-						// Damage Ground
-						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-							var _inst = _ground_objects[_i];
-							if (instance_exists(_inst)) { _inst.powerfall_on(); } // TODO: This only effects the two blocks you fell on and not all four. For connected areas this causes double hits
-						}
-					}
-					else {
-						// Attempt to Land on Ground
-						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-							var _inst = _ground_objects[_i];
-							_inst.fall_on();
-						}
-						// Land or Keep Falling TODO: This to other states (fly, powerfly, powerfall); and add functions for pushed(), climbed(), etc; Do this for Landing from Hop too?
-						if (is_grounded()) { 
-							if (fall_timer < 10) { start_standing(); }
-							else {
-								if (key_left || key_right) { is_left = key_left; }
-								state = PLAYER_STATES.LAND;
-								transition_timer = 8;
-							}
-						}
-						else { keep_falling(); fall_timer = 0; }
+				// First, land on ground objects
+				if (is_grounded()) {
+					// Attempt to Land on Ground
+					var _ground_objects = get_ground_objects();
+					for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+						var _inst = _ground_objects[_i];
+						_inst.fall_on();
 					}
 				}
-				else { keep_falling(); }
+				
+				if (is_grounded()) {
+					// Bonk against floor
+					if (state == PLAYER_STATES.POWERFALL) {
+						// Get Targets to Damage
+						var _damaged_instances = [], _check_deeper_right = false, _check_deeper_left = false;
+						for (var _dir = 0; _dir < 2; _dir++) {
+							var _x_offset = (_dir == 1) ? 8 : 0, _y_offset = 16;
+							
+							var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8);
+							for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
+								var _inst =  _instances_to_check[_i]
+								if (_inst.is_ground && _inst.id != id && !array_contains(_damaged_instances, _inst.id)) {
+									array_push(_damaged_instances, _inst.id);
+								}
+							}
+						}
+						
+						// Damage Targets
+						while (array_length(_damaged_instances) > 0) {
+							var _inst = grid_array_first(_damaged_instances);
+							array_delete(_damaged_instances, 0, 1);
+							if (instance_exists(_inst)) {
+								if (_inst.is_connected) {
+									// Remove any connected instances from list of instances to damage
+									var _connected_instances = _inst.get_connected_instances([_inst.id])
+									for (var _i = 0; _i < array_length(_connected_instances); _i++) {
+										var _connected_inst = _connected_instances[_i]
+										var _index = array_get_index(_damaged_instances, _connected_inst.id);
+										if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
+									}
+								}
+								else if (object_is_ancestor(_inst.object_index, obj_solid_area) && abs(y - _inst.y) <= 16) {
+									// Damage deeper for connected areas
+									var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y+8, 8, 8);
+									for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
+										var _new_inst =  _instances_to_check[_i]
+										if (_new_inst.object_index == _inst.object_index && _new_inst.is_ground && _new_inst.id != id && !array_contains(_damaged_instances, _new_inst.id)) {
+											array_push(_damaged_instances, _new_inst.id);
+										}
+									}
+								}
+								_inst.powerfall_on(); 
+							}
+						}
+						
+						// Player reaction to landing
+						if (!is_under_ceiling()) { grid_step_up(); }
+						if (!is_under_ceiling()) { grid_step_up(); }
+						virtual_y = y;
+						start_falling();
+					}
+					else if (fall_timer < 10) { start_standing(); }
+					else {
+						// Landing Delay for Tumbling animation
+						if (key_left || key_right) { is_left = key_left; }
+						state = PLAYER_STATES.LAND;
+						transition_timer = 8;
+					}
+				}
+				else {
+					// Keep Falling
+					grid_step_down();
+					transition_timer = 4;
+					fall_timer++;
+					if (fall_timer >= 16 && !dazed) { state = PLAYER_STATES.POWERFALL; }
+				}
 				break;
 			}
 			case PLAYER_STATES.LADDER:
@@ -601,14 +728,22 @@ function update_cape_graphics() {
 			case CAPE_STATES.STAND:
 			case CAPE_STATES.CROUCH: {
 				if (state == PLAYER_STATES.WALK) {
-					cape_state = CAPE_STATES.FLUTTER;
-					cape_sprite_index = spr_cape_flutter;
-					cape_image_index = 0;
-					cape_timer = 8;
+					if (holding_obj) {
+						cape_state = CAPE_STATES.STAND;
+						cape_sprite_index = spr_cape_hold;
+						cape_image_index = 0;
+						cape_timer = 0;
+					}
+					else {
+						cape_state = CAPE_STATES.FLUTTER;
+						cape_sprite_index = spr_cape_flutter;
+						cape_image_index = 0;
+						cape_timer = 8;
+					}
 				}
 				else if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.PUSH || state == PLAYER_STATES.PUSH_WALK) {
 					cape_state = CAPE_STATES.STAND;
-					cape_sprite_index = spr_cape_stand;
+					cape_sprite_index = (holding_obj) ? spr_cape_hold : spr_cape_stand;
 					cape_image_index = 0;
 					cape_timer = 0;
 				}
@@ -805,7 +940,7 @@ function update_cape_graphics() {
 
 function update_player_graphics() {
 	image_xscale = (is_left) ? -1 : 1;
-	if (prev_state != state) {
+	if (prev_state != state || prev_holding_obj != holding_obj) {
 		image_index = 0;
 		// Set New Sprites
 		switch (state) {
@@ -815,12 +950,12 @@ function update_player_graphics() {
 				break;
 			}
 			case PLAYER_STATES.STAND: {
-				sprite_index = spr_player_idle;
+				sprite_index = (holding_obj) ? spr_player_hold_idle : spr_player_idle;
 				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.WALK: {
-				sprite_index = spr_player_walk;
+				sprite_index = (holding_obj) ? spr_player_hold_walk : spr_player_walk;
 				image_index = step_index;
 				break;
 			}
@@ -896,8 +1031,14 @@ function update_player_graphics() {
 
 	// Handle special cases
 	if (state == PLAYER_STATES.FALL) {
-		if (fall_timer <= 10) {
-			sprite_index = (fall_timer == 10) ? spr_player_tumble : spr_player_fall;
+		// Determine Fall Type
+		var _new_sprite_index = spr_player_fall;
+		if (dazed) { _new_sprite_index = spr_player_dazed_fall; }
+		else if (fall_timer >= 10) { _new_sprite_index = spr_player_tumble; }
+		
+		// Reset Graphics If They've Changed
+		if (sprite_index != _new_sprite_index) {
+			sprite_index = _new_sprite_index;
 			image_index = -1;
 		}
 	}
@@ -908,13 +1049,17 @@ function update_player_graphics() {
 	else { animation_timer++; }
 	if (animation_timer >= 64) { animation_timer = 0; }
 	switch (state) {
-		case PLAYER_STATES.STAND: { if (sprite_index == spr_player_idle && idle_timer % 32 == 0) { image_index++; } break; }
+		case PLAYER_STATES.STAND: {
+			if (sprite_index == spr_player_idle && idle_timer % 32 == 0) { image_index++; }
+			else if (sprite_index == spr_player_hold_walk && idle_timer % 8 == 0) { image_index++; if (image_index > 1) { image_index = 0; } }
+			break; 
+		}
 		case PLAYER_STATES.PUSH:
 		case PLAYER_STATES.PUSH_WALK: 
 		case PLAYER_STATES.LADDER_UP:
 		case PLAYER_STATES.LADDER_DOWN: { if (animation_timer % 8 == 0) { image_index++; } break; }
 		case PLAYER_STATES.LAND:
-		case PLAYER_STATES.WALK: { if (animation_timer % 4 == 0) { image_index++; } break; }
+		case PLAYER_STATES.WALK: { if (animation_timer % ((sprite_index == spr_player_hold_walk) ? 8 : 4) == 0) { image_index++; } break; }
 		case PLAYER_STATES.TURN:
 		case PLAYER_STATES.CLIMB:
 		case PLAYER_STATES.FALL:

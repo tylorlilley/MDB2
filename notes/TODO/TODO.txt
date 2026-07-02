@@ -3,3 +3,12 @@ Moveable Platforms
 Cape stops flapping when grabbing ladder after running sometimes
 Make Cape not Go to Side for start of Landing
 Landing pause for on Ladder?
+Become dazed for a period when something lands ON the player
+Particles from walking and not just falling?
+
+Animation on snap to pushing vs standing
+Animation on recoil from powerfall bounce
+Stop single frame flicker of stand after climb up before jumping while holding jump down
+
+
+						// Land or Keep Falling TODO: This to other states (fly, powerfly, powerfall); and add functions for pushed(), climbed(), etc; Do this for Landing from Hop too?
