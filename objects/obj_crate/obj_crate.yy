@@ -8,8 +8,8 @@
   "name":"obj_crate",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Game Objects",
+    "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
     "name":"obj_solid",
@@ -36,6 +36,9 @@
     "name":"spr_crate",
     "path":"sprites/spr_crate/spr_crate.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_box_16x16",
+    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+  },
   "visible":true,
 }

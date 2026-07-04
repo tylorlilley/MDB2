@@ -11,8 +11,8 @@
   "name":"obj_game_object",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Parents",
+    "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -32,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_box_16x16",
+    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

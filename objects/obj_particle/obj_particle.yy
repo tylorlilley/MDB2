@@ -9,8 +9,8 @@
   "name":"obj_particle",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Objects",
+    "path":"folders/Objects.yy",
   },
   "parentObjectId":null,
   "persistent":false,

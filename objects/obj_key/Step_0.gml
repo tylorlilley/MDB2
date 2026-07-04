@@ -10,7 +10,9 @@ else {
 	image_index = 0;
 }
 
-if (at_grid_position_exact(x, y, sprite_width, sprite_height, obj_player)) {
-	create_particles(8 + irandom(8));
+if (at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_player)) {
+	//create_particles(8 + irandom(8));
+	particle_color = c_white;
+	create_particles(8 + irandom(8), true, spr_sparkle);
 	instance_destroy();
 }

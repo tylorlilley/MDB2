@@ -8,8 +8,8 @@
   "name":"obj_sand",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Solid Areas",
+    "path":"folders/Objects/Solid Areas.yy",
   },
   "parentObjectId":{
     "name":"obj_solid_area",
@@ -33,9 +33,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_grid_space",
-    "path":"sprites/spr_grid_space/spr_grid_space.yy",
+    "name":"spr_editor_sand",
+    "path":"sprites/spr_editor_sand/spr_editor_sand.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_box_8x8",
+    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
+  },
   "visible":true,
 }

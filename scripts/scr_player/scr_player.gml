@@ -11,7 +11,7 @@ enum PLAYER_STATES
 	// Non-Grounded States
 	HOP,
 	HOP_UP,
-	FLY,
+	FLY, // Currently Unused
 	POWERFLY,
 	FALL,
 	POWERFALL,
@@ -92,6 +92,7 @@ function player_init() {
 	virtual_y = y;
 	transition_timer = 0;
 	animation_timer = 0;
+	ring_out_timer = 0;
 	
 	crouch_timer = 0;
 	fly_timer = 0;
@@ -174,14 +175,25 @@ function player_init() {
 	}
 	
 	start_walking = function() {
-		state = PLAYER_STATES.WALK;
-		transition_timer = (holding_obj) ? 16 : 4;
-		grid_step_horizontal();
-		var _ground_objects = get_ground_objects();
-		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-			var _inst = _ground_objects[_i];
-			_inst.walk_on()
+		// First, walk on next object
+		if (is_grounded() || air_walk) {
+			// Attempt to Land on Ground
+			var _left_ground_objects = get_solid_objects_at(x - 8, y + 16, 8, 8, function(inst) { return inst.is_solid_from_above(); });
+			var _right_ground_objects = get_solid_objects_at(x + 16, y + 16, 8, 8, function(inst) { return inst.is_solid_from_above(); });
+			var _ground_objects = (is_left) ? _left_ground_objects : _right_ground_objects;
+			for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+				var _inst = _ground_objects[_i]
+				 _inst.walk_on();
+			}
 		}
+		
+		// Continue with Walking or Fall
+		if (is_grounded() || air_walk) {
+			state = PLAYER_STATES.WALK;
+			transition_timer = (holding_obj) ? 16 : 4;
+			grid_step_horizontal();
+		}
+		else { start_falling(); }
 	}
 	
 	start_hopping = function(_should_move_horizontally = false) {
@@ -231,12 +243,18 @@ function update_player_state() {
 				virtual_y += _y_move * ((state == PLAYER_STATES.HOP_UP) ? -1 : 1);
 				if (virtual_x > x) { virtual_x -= 1; }
 				else if (virtual_x < x) { virtual_x += 1; }
+				
 				break;
 			}
-			case PLAYER_STATES.WALK:  { virtual_x += ((is_left) ? -1 : 1) * ((holding_obj) ? 0.5 : 2); break; }
+			case PLAYER_STATES.WALK:  {
+				virtual_x += ((is_left) ? -1 : 1) * ((holding_obj) ? 0.5 : 2);
+
+				break;
+			}
 			case PLAYER_STATES.PUSH_WALK: {
 				virtual_x += (is_left) ? -1 : 1;
 				if (instance_exists(pushed_obj)) { pushed_obj.virtual_x += (is_left) ? -1 : 1; }
+				
 				break;
 			}
 			case PLAYER_STATES.FLY:
@@ -340,8 +358,8 @@ function update_player_state() {
 				
 				if (is_grounded()) { start_standing(); }
 				if (_on_hop_height_ground && _can_walk && _horizontal_input) {
-					start_walking();
 					air_walk = true;
+					start_walking();
 				}
 				else {
 					var _can_climb = (key_jump || key_up) && !is_under_ceiling();
@@ -421,14 +439,19 @@ function update_player_state() {
 						}
 						else {
 							var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
+							var _more_ceiling_objects = (key_left) ? get_left_ceiling_objects() : get_right_ceiling_objects(), _under_more_ceiling = array_length(_more_ceiling_objects) != 0;
 							var _can_hop = (key_up || key_jump) && !is_under_ceiling();
 							
-							if (_can_hop) {
-								var _more_ceiling_objects = (key_left) ? get_left_ceiling_objects() : get_right_ceiling_objects();
-								start_hopping(_can_walk && array_length(_more_ceiling_objects) == 0);
+							var _can_hop_up = _can_hop, _can_hop_forward = _can_walk && _can_hop && !_under_more_ceiling;
+							
+							if (_can_hop_forward) {
+								start_hopping(_can_hop_forward);
 							}
 							else if (_can_walk) {
 								start_walking();
+							}
+							else if (_can_hop_up) {
+								start_hopping(_can_hop_forward);
 							}
 							else { 
 								var _climbable_objects = (is_left) ? get_left_climbable_objects() : get_right_climbable_objects();
@@ -453,7 +476,7 @@ function update_player_state() {
 									}
 									else { _can_walk = false; }
 
-									if (_can_walk) { // && y >= pushed_obj.y
+									if (_can_walk && y == pushed_obj.y) {
 										// Push Box
 										state = PLAYER_STATES.PUSH_WALK;
 										grid_step_horizontal();
@@ -477,7 +500,7 @@ function update_player_state() {
 					else if (key_up || key_jump) {
 						if (is_under_ceiling()) { start_standing(); }
 						else {
-							if (state == PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.FLY; transition_timer = 4; grid_step_up(); }
+							if (state == PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.POWERFLY; transition_timer = 4; grid_step_up(); }
 							else { start_hopping(); }
 						}
 					}

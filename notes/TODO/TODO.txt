@@ -9,6 +9,8 @@ Particles from walking and not just falling?
 Animation on snap to pushing vs standing
 Animation on recoil from powerfall bounce
 Stop single frame flicker of stand after climb up before jumping while holding jump down
+controller not reseting grid on room restart
 
+Extra noise and walk particles when turning
 
 						// Land or Keep Falling TODO: This to other states (fly, powerfly, powerfall); and add functions for pushed(), climbed(), etc; Do this for Landing from Hop too?

@@ -12,8 +12,8 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 			var _instances_at_grid_position = global.controller.game_object_grid[_checked_x][_checked_y];
 			for (var _i = 0; _i < array_length(_instances_at_grid_position); _i++) {
 				var _inst = _instances_at_grid_position[_i];
-				if (instance_exists(_inst) && id != _inst && (_inst.object_index == _object_index || object_is_ancestor(_inst.object_index, _object_index)) && !array_contains(_instances_at_current_position, _inst)) {
-					array_push(_instances_at_current_position, _inst);
+				if (instance_exists(_inst) && id != _inst.id && (_inst.object_index == _object_index || object_is_ancestor(_inst.object_index, _object_index)) && !array_contains(_instances_at_current_position, _inst.id)) {
+					array_push(_instances_at_current_position, _inst.id);
 				}
 			}
 		}

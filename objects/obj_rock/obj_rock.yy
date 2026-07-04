@@ -3,14 +3,13 @@
   "%Name":"obj_rock",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_rock",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Solid Areas",
+    "path":"folders/Objects/Solid Areas.yy",
   },
   "parentObjectId":{
     "name":"obj_solid_area",
@@ -34,9 +33,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_grid_space",
-    "path":"sprites/spr_grid_space/spr_grid_space.yy",
+    "name":"spr_editor_rock",
+    "path":"sprites/spr_editor_rock/spr_editor_rock.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_box_8x8",
+    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
+  },
   "visible":true,
 }

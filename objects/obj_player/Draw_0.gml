@@ -12,14 +12,14 @@ if (state != PLAYER_STATES.LADDER &&
 if (holding_obj && (state == PLAYER_STATES.STAND || state == PLAYER_STATES.WALK)) {
 	_cape_x = _virtual_x;
 }
-var _x_offset = (is_left) ? sprite_width : 0;
+var _x_offset = (is_left) ? sprite_get_width(sprite_index) : 0;
 if (cape_depth <= depth) {
-	draw_sprite_ext(sprite_index, image_index, _virtual_x-_x_offset, _virtual_y, image_xscale, 1, 0, image_blend, 1);
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x-_x_offset, _cape_y, image_xscale, 1, 0, c_white, 1);
+	draw_sprite_ext(sprite_index, image_index, _virtual_x+_x_offset, _virtual_y, image_xscale, 1, 0, image_blend, 1);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y, image_xscale, 1, 0, c_white, 1);
 }
 else {
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x-_x_offset, _cape_y, image_xscale, 1, 0, c_white, 1);
-	draw_sprite_ext(sprite_index, image_index, _virtual_x-_x_offset, _virtual_y, image_xscale, 1, 0, c_white, 1);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y, image_xscale, 1, 0, c_white, 1);
+	draw_sprite_ext(sprite_index, image_index, _virtual_x+_x_offset, _virtual_y, image_xscale, 1, 0, c_white, 1);
 }
 //draw_sprite_ext(spr_box, 0, _virtual_x, _virtual_y, 1, 1, 0, c_red, 0.5);
 

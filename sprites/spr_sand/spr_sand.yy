@@ -29,8 +29,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"Solids",
-    "path":"folders/Sprites/Solids.yy",
+    "name":"Sand",
+    "path":"folders/Sprites/Solids/Sand.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

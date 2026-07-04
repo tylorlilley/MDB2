@@ -9,8 +9,8 @@
   "name":"obj_key",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Game Objects",
+    "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
     "name":"obj_game_object",
@@ -37,6 +37,9 @@
     "name":"spr_key",
     "path":"sprites/spr_key/spr_key.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_box_16x16",
+    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+  },
   "visible":true,
 }

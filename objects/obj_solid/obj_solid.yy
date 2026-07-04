@@ -10,8 +10,8 @@
   "name":"obj_solid",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Parents",
+    "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
     "name":"obj_game_object",
@@ -35,9 +35,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_grid_space",
-    "path":"sprites/spr_grid_space/spr_grid_space.yy",
+    "name":"spr_box_8x8",
+    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_box_8x8",
+    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
+  },
   "visible":true,
 }

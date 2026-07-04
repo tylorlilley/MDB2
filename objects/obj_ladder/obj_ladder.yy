@@ -8,8 +8,8 @@
   "name":"obj_ladder",
   "overriddenProperties":[],
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Game Objects",
+    "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
     "name":"obj_game_object",
@@ -36,6 +36,9 @@
     "name":"spr_ladder",
     "path":"sprites/spr_ladder/spr_ladder.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_box_16x16",
+    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+  },
   "visible":true,
 }

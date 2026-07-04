@@ -84,9 +84,9 @@ grid_step_down = function() {
 }
 
 // Collision Detection
-get_solid_objects = function(_x_offset, _y_offset, _pred, _only_full_solids = false) {
+get_solid_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _only_full_solids = false) {
 	var _overlapping_objects =  instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
-	var _potential_objects = instances_at_grid_position(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index)), _solid_objects = [];
+	var _potential_objects = instances_at_grid_position(_x_pos, _y_pos, _width, _height), _solid_objects = [];
 
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
 	{
@@ -97,29 +97,39 @@ get_solid_objects = function(_x_offset, _y_offset, _pred, _only_full_solids = fa
 	return _solid_objects;
 }
 
+get_solid_objects = function(_x_offset, _y_offset, _pred, _only_full_solids = false) {
+	return get_solid_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _only_full_solids);
+}
+
 // Get List of Specified Objects
-get_left_wall_objects = function(only_full_solids = false) {
-	return get_solid_objects(-8, 0, function(inst, ofs) {
-        return inst.is_solid_from_right(ofs);
-    }, only_full_solids);
+get_ground_objects_at  = function(_x_pos, _y_pos, _width = 8, _height = 8, _only_full_solids = false) {
+	return get_solid_objects_at(_x_pos, _y_pos + 8, _width, _height, function(inst, ofs) {
+        return inst.is_solid_from_above(ofs);
+    }, _only_full_solids);
 }
 
-get_right_wall_objects = function(only_full_solids = false) {
-	return get_solid_objects(8, 0, function(inst, ofs) {
-        return inst.is_solid_from_left(ofs);
-    }, only_full_solids);
-}
-
-get_ground_objects = function(only_full_solids = false) {
+get_ground_objects = function(_only_full_solids = false) {
 	return get_solid_objects(0, 8, function(inst, ofs) {
         return inst.is_solid_from_above(ofs);
-    }, only_full_solids);
+    }, _only_full_solids);
 }
 
-get_ceiling_objects = function(only_full_solids = false) {
+get_left_wall_objects = function(_only_full_solids = false) {
+	return get_solid_objects(-8, 0, function(inst, ofs) {
+        return inst.is_solid_from_right(ofs);
+    }, _only_full_solids);
+}
+
+get_right_wall_objects = function(_only_full_solids = false) {
+	return get_solid_objects(8, 0, function(inst, ofs) {
+        return inst.is_solid_from_left(ofs);
+    }, _only_full_solids);
+}
+
+get_ceiling_objects = function(_only_full_solids = false) {
 	return get_solid_objects(0, -8, function(inst, ofs) {
         return inst.is_solid_from_below(ofs);
-    }, only_full_solids);
+    }, _only_full_solids);
 }
 
 get_left_ceiling_objects = function() {
@@ -131,6 +141,18 @@ get_left_ceiling_objects = function() {
 get_right_ceiling_objects = function() {
 	return get_solid_objects(8, -8, function(inst) {
         return inst.is_solid_from_below();
+    });
+}
+
+get_left_ground_objects = function() {
+	return get_solid_objects(-8, 8, function(inst) {
+        return inst.is_solid_from_above();
+    });
+}
+
+get_right_ground_objects = function() {
+	return get_solid_objects(8, 8, function(inst) {
+        return inst.is_solid_from_above();
     });
 }
 
@@ -159,20 +181,20 @@ get_right_climbable_objects = function() {
 }
 
 // Boolean Checks
-is_grounded = function(only_full_solids = false) {
-	return array_length(get_ground_objects(only_full_solids)) > 0;
+is_grounded = function(_only_full_solids = false) {
+	return array_length(get_ground_objects(_only_full_solids)) > 0;
 }
 
-is_under_ceiling = function(only_full_solids = false) {
-	return array_length(get_ceiling_objects(only_full_solids)) > 0;
+is_under_ceiling = function(_only_full_solids = false) {
+	return array_length(get_ceiling_objects(_only_full_solids)) > 0;
 }
 
-is_blocked_on_left = function(only_full_solids = false) {
-	return array_length(get_left_wall_objects(only_full_solids)) > 0;
+is_blocked_on_left = function(_only_full_solids = false) {
+	return array_length(get_left_wall_objects(_only_full_solids)) > 0;
 }
 
-is_blocked_on_right = function(only_full_solids = false) {
-	return array_length(get_right_wall_objects(only_full_solids)) > 0;
+is_blocked_on_right = function(_only_full_solids = false) {
+	return array_length(get_right_wall_objects(_only_full_solids)) > 0;
 }
 
 get_closest_ladder = function() {
@@ -231,41 +253,53 @@ can_be_climbed_from_right = function() {
 	return array_length(get_right_ceiling_objects()) == 0;
 }
 
-is_solid_from_below = function(only_full_solids = false) {
-	return is_ceiling && (is_solid_from_all_sides() || !only_full_solids);
+is_solid_from_below = function(_only_full_solids = false) {
+	return is_ceiling && (is_solid_from_all_sides() || !_only_full_solids);
 }
 
-is_solid_from_above = function(only_full_solids = false) {
+is_solid_from_above = function(_only_full_solids = false) {
 	var _falling_state = false;
 	_falling_state = (object_index == obj_player && (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL)) || (object_index != obj_player && state == STATES.FALLING);
-	return !_falling_state && is_ground && (is_solid_from_all_sides() || !only_full_solids);
+	return !_falling_state && is_ground && (is_solid_from_all_sides() || !_only_full_solids);
 }
 
-is_solid_from_left = function(only_full_solids = false) {
-	return is_left_wall && (is_solid_from_all_sides() || !only_full_solids);
+is_solid_from_left = function(_only_full_solids = false) {
+	return is_left_wall && (is_solid_from_all_sides() || !_only_full_solids);
 }
 
-is_solid_from_right = function(only_full_solids = false) {
-	return is_right_wall && (is_solid_from_all_sides() || !only_full_solids);
+is_solid_from_right = function(_only_full_solids = false) {
+	return is_right_wall && (is_solid_from_all_sides() || !_only_full_solids);
 }
 
 is_solid_from_all_sides = function() {
 	return is_right_wall && is_left_wall && is_ceiling && is_ground;
 }
 
-create_particles = function(_total_particles) {
-	var  _move_left = irandom(1);
-	for (var _i = 0; _i <= _total_particles; _i++) {
-		var _p = instance_create_depth(x+sprite_width/2, y+sprite_height/2, -5, obj_particle);
+create_particles = function(_total_particles, _randomize = true, _particle_sprite = spr_particle) {
+	var  _move_left = irandom(1), _particles = [];
+	for (var _i = 0; _i < _total_particles; _i++) {
+		var _p = instance_create_depth(x+sprite_get_width(sprite_index)/2, y+sprite_get_height(sprite_index)/2, -5, obj_particle);
+		array_push(_particles, _p);
 		with (_p) {
+			sprite_index = _particle_sprite;
+			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO make this a param
+			depth = -9999;
 			image_blend = other.particle_color;
 			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
-			vspeed = (random(5) / 2 * -1) - 2;
-			gravity = 0.375;
+			vspeed = (random(6) / 2 * -1) - 2;
+			gravity = 0.5;
+			
+			if (_randomize) {
+				if (irandom(3) == 0) { image_index = 1; }
+				image_angle = irandom(3) * 90;
+				image_xscale = (irandom(1) == 0) ? -1 : 1;
+				image_yscale = (irandom(1) == 0) ? -1 : 1;
+			}
+			
 			_move_left = !_move_left;
-			if (irandom(3) == 0) { image_index = 1; }
 		}
 	}
+	return _particles;
 }
 
 // Game Action Functions
@@ -279,15 +313,19 @@ fall_on = function() {
 	else if (walk_particles > 0) {
 		for (var _i = 0; _i < (fall_timer % 4)+2; _i++) { create_walk_particles(); }
 	}
+	if (audio_exists(step_sound)) { audio_play_sound(step_sound, 2, false); }
 }
 
 walk_on = function() {
-	create_walk_particles();
+	if (walk_particles > 0) { create_walk_particles(); }
+	if (audio_exists(step_sound)) { audio_play_sound(step_sound, 2, false); }
 }
 
 create_walk_particles = function() {
-	if (irandom(10-walk_particles) == 0) {
-		create_particles(irandom(walk_particles));
+	if (walk_particles <= 0) { return; }
+	
+	if (irandom(8 % (8 / walk_particles)) == 8) {
+		create_particles(1);
 	}
 }
 
