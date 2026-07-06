@@ -70,17 +70,22 @@ grid_move_to = function(_new_x, _new_y) {
 	grid_add();
 }
 
-grid_step_horizontal = function() {
-	var x_offset = (is_left) ? -8 : 8;
-	grid_move_to(x+x_offset, y);
+grid_move_horizontal = function() {
+	var _x_offset = (is_left) ? -8 : 8;
+	grid_move_to(x + _x_offset, y);
 }
 
-grid_step_up = function() {
-	grid_move_to(x, y-8);
+grid_move_reverse_horizontal = function() {
+	var _x_offset = (is_left) ? 8 : -8;
+	grid_move_to(x + _x_offset, y);
 }
 
-grid_step_down = function() {
-	grid_move_to(x, y+8);
+grid_move_up = function() {
+	grid_move_to(x, y - 8);
+}
+
+grid_move_down = function() {
+	grid_move_to(x, y + 8);
 }
 
 // Collision Detection
@@ -225,8 +230,7 @@ can_ladder_down = function() {
 }
 
 can_start_laddering = function() {
-	var _closest_ladder = get_closest_ladder();
-	return (instance_exists(_closest_ladder) && x == _closest_ladder.x && y == _closest_ladder.y);
+	return at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
 }
 
 can_be_pushed_left = function() {
@@ -313,18 +317,19 @@ fall_on = function() {
 	else if (walk_particles > 0) {
 		for (var _i = 0; _i < (fall_timer % 4)+2; _i++) { create_walk_particles(); }
 	}
-	if (audio_exists(step_sound)) { audio_play_sound(step_sound, 2, false); }
+	if (audio_exists(step_sound)) { play_sound(step_sound); }
 }
 
 walk_on = function() {
 	if (walk_particles > 0) { create_walk_particles(); }
-	if (audio_exists(step_sound)) { audio_play_sound(step_sound, 2, false); }
+	if (audio_exists(step_sound)) { play_sound(step_sound); }
 }
 
 create_walk_particles = function() {
 	if (walk_particles <= 0) { return; }
 	
-	if (irandom(8 % (8 / walk_particles)) == 8) {
+	var _rand = irandom(8);
+	if (_rand % (8/walk_particles) == 0) {
 		create_particles(1);
 	}
 }

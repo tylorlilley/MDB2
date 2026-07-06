@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":2.0883675,
+  "duration":1.5659411,
   "exportDir":"",
   "name":"snd_player_death",
   "parent":{
@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_player_death.wav",
-  "volume":1.0,
+  "volume":0.33,
 }

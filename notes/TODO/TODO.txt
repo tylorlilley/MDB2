@@ -12,5 +12,14 @@ Stop single frame flicker of stand after climb up before jumping while holding j
 controller not reseting grid on room restart
 
 Extra noise and walk particles when turning
+more sound effects
+Refactore the ground left and ground right walk on call?
+
+Pop Fragile after walking on it?
+
+// IDEAS
+
+Scrolling rooms
+wrap-around screen movements (horizontal or vertical)
 
 						// Land or Keep Falling TODO: This to other states (fly, powerfly, powerfall); and add functions for pushed(), climbed(), etc; Do this for Landing from Hop too?

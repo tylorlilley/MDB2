@@ -13,3 +13,5 @@ has_gravity = false;
 
 walk_particles = 0;
 step_sound = noone;
+
+depth = 10;

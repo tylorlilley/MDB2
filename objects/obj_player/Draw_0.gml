@@ -5,6 +5,7 @@ if (state != PLAYER_STATES.LADDER &&
 	state != PLAYER_STATES.LADDER_DOWN &&
 	state != PLAYER_STATES.FALL &&
 	state != PLAYER_STATES.POWERFALL &&
+	state != PLAYER_STATES.WIN &&
 	state != PLAYER_STATES.FLY &&
 	state != PLAYER_STATES.POWERFLY) {
 	_cape_x += ((is_left) ? 8 : -8);
@@ -23,6 +24,7 @@ else {
 }
 //draw_sprite_ext(spr_box, 0, _virtual_x, _virtual_y, 1, 1, 0, c_red, 0.5);
 
+/*
 player_state_string = player_state_to_string(state);
 player_timer_string = "";
 

@@ -13,6 +13,7 @@ if (draw_game_object_grid) {
 	}
 }
 
+// Draw Transition
 if (transition_timer > transition_delay) {
 	// Determine Transition Parameters
 	var _max_scale = room_width;

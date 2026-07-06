@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_game_audio_functions",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_game_audio_functions",
+  "parent":{
+    "name":"MDB2",
+    "path":"MDB2.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

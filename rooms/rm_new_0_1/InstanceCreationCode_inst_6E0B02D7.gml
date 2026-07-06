@@ -1,0 +1,1 @@
+sign_symbol = 0;

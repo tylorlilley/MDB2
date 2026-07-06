@@ -12,7 +12,7 @@ if (has_gravity && object_index != obj_player) {
 		
 		// Start Falling
 		if (!_on_ground) {
-			grid_step_down();
+			grid_move_down();
 			transition_timer = 4;
 			state = STATES.FALLING;
 		}

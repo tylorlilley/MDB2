@@ -1,5 +1,7 @@
 event_inherited();
 
+depth = 2;
+
 has_gravity = true;
 is_pushable = true;
 particle_color = make_color_rgb(136, 112, 0);

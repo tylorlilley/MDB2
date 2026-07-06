@@ -11,7 +11,7 @@ if (x > 0 && y > 0 && x < room_width && y < room_height) {
 	_player_particle.hspeed /= 2;
 }
 
-audio_play_sound(snd_player_death, 100, false);
+play_sound(snd_player_death);
 with (global.controller) {
 	last_player_x = other.last_x;
 	last_player_y = other.last_y;
