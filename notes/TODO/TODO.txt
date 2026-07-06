@@ -1,21 +1,23 @@
+// REFACTOR:
 
-Moveable Platforms
-Cape stops flapping when grabbing ladder after running sometimes
-Make Cape not Go to Side for start of Landing
-Landing pause for on Ladder?
-Become dazed for a period when something lands ON the player
-Particles from walking and not just falling?
+Refactor Player script to add states:
+- LOOK-UP
+- CRUSHED_STAND, CRUSHED_WALK
+- TUMBLE
+- WIN
+- RECOIL
+- HOP_FORWARD. HOP_UP_FORWARD?
 
-Animation on snap to pushing vs standing
-Animation on recoil from powerfall bounce
-Stop single frame flicker of stand after climb up before jumping while holding jump down
-controller not reseting grid on room restart
+Go to next level on any press during timer, not just held down up or jump
+- apply this to inputs for all timers
 
-Extra noise and walk particles when turning
-more sound effects
-Refactore the ground left and ground right walk on call?
+Add an Animation on recoil from powerfall bounce - reverse tumble up?
+
+// GAME OBJECTS
 
 Pop Fragile after walking on it?
+Moveable Platforms
+Crates/Bubbles with things in them
 
 // IDEAS
 
