@@ -35,12 +35,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_box_8x8",
-    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
+    "name":"spr_box_16x16",
+    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
   },
   "spriteMaskId":{
-    "name":"spr_box_8x8",
-    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
+    "name":"spr_box_16x16",
+    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
   },
   "visible":true,
 }

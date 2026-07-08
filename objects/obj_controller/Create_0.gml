@@ -2,6 +2,7 @@ window_set_size(256*3, 240*3);
 game_set_speed(30, gamespeed_fps);
 depth = -9999;
 global.controller = id;
+original_controls = false;
 draw_game_object_grid = false;
 transition_surface = noone;
 transition_duration = 24;
@@ -36,4 +37,4 @@ transition_room = function(_new_room) {
 	room_goto(_new_room);
 }
 
-transition_room(rm_new_1_1);
+transition_room(rm_ladder_test);

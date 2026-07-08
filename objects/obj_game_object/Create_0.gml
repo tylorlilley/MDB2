@@ -217,15 +217,21 @@ can_ladder_up = function() {
 	var _closest_ladder = get_closest_ladder();
 	return (
 		instance_exists(_closest_ladder) &&
-		(y > _closest_ladder.y || at_grid_position_exact(x, _closest_ladder.y-sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder))
+		x == _closest_ladder.x &&
+		(y > _closest_ladder.y || at_grid_position(x, _closest_ladder.y-sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder))
 	);
 }
 
+/**
+ * Function Description
+ * @returns {bool} Description
+ */
 can_ladder_down = function() {
 	var _closest_ladder = get_closest_ladder();
 	return (
 		instance_exists(_closest_ladder) &&
-		(!is_grounded() || at_grid_position_exact(x, _closest_ladder.y+sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder)) // at_grid_position(x, y, 1, 1, obj_solid)
+		x == _closest_ladder.x &&
+		(!is_grounded(true) || at_grid_position(x, y + sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder)) // at_grid_position(x, y, 1, 1, obj_solid)
 	);
 }
 

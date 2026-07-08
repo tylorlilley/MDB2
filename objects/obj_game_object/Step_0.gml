@@ -1,6 +1,4 @@
 if (has_gravity && object_index != obj_player) {
-	var _on_ground = is_grounded();
-	
 	if (transition_timer > 0) {
 		transition_timer--;
 		
@@ -8,11 +6,14 @@ if (has_gravity && object_index != obj_player) {
 	}
 	
 	if (transition_timer == 0) {
+		// Move Based on Previous State
+		if (state == STATES.FALLING) { grid_move_down(); }
+		
+		// Reset State
 		state = STATES.STILL;
 		
 		// Start Falling
-		if (!_on_ground) {
-			grid_move_down();
+		if (!is_grounded()) {
 			transition_timer = 4;
 			state = STATES.FALLING;
 		}
