@@ -20,6 +20,7 @@ enum PLAYER_STATES
 	FLY, // Currently Unused
 	POWERFLY,
 	FALL,
+	DAZED_FALL,
 	TUMBLE,
 	POWERFALL,
 	RECOIL,
@@ -62,7 +63,9 @@ function player_state_to_string(state) {
 		case PLAYER_STATES.FLY: { _player_state_string = "Fly"; break; }
 		case PLAYER_STATES.POWERFLY: { _player_state_string = "Power Fly"; break; }
 		case PLAYER_STATES.FALL: { _player_state_string = "Fall"; break; }
+		case PLAYER_STATES.DAZED_FALL: { _player_state_string = "Dazed"; break; }
 		case PLAYER_STATES.RECOIL: { _player_state_string = "Recoil"; break; }
+		case PLAYER_STATES.TUMBLE: { _player_state_string = "Tumble"; break; }
 		case PLAYER_STATES.POWERFALL: { _player_state_string = "Power Fall"; break; }
 		case PLAYER_STATES.LAND: { _player_state_string = "Land"; break; }
 		case PLAYER_STATES.CLIMB: { _player_state_string = "Climb"; break; }
@@ -91,9 +94,8 @@ function player_init() {
 	cape_sprite_index = spr_cape_stand;
 	cape_image_index = 0;
 	cape_timer = 0;
-	step_index = 0;
+	step_index = 1;
 	air_walk = false;
-	dazed = true;
 	
 	// Player Specific Variables
 	prev_state = PLAYER_STATES.STAND;
@@ -108,10 +110,8 @@ function player_init() {
 	transition_timer = 0;
 	animation_timer = 0;
 	ring_out_timer = 0;
-	
 	crouch_timer = 0;
 	fly_timer = 0;
-	idle_timer = 0;
 	
 	pushed_obj = noone;
 	
@@ -165,8 +165,8 @@ function player_init() {
 		}
 	}
 	
-	start_falling = function() {
-		state =  PLAYER_STATES.FALL;
+	start_falling = function(_is_dazed = false) {
+		state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 		fall_timer = 0;
 		recoil_timer = 0;
 		transition_timer = 4;
@@ -186,7 +186,6 @@ function player_init() {
 			else if (key_down && !global.controller.original_controls) { state = PLAYER_STATES.CROUCH; }
 			else if (key_up && !global.controller.original_controls) { state = PLAYER_STATES.LOOK_UP; }
 			transition_timer = (_is_crushed) ? 4 : 0;
-			dazed = false;
 			air_walk = false;
 			if (key_left || key_right) { is_left = key_left; }
 		}
@@ -250,10 +249,9 @@ function update_player_state() {
 	// Reset various player state timers
 	if (!is_ladder_state()) { is_up = false; }
 	if (state != PLAYER_STATES.CROUCH && state != PLAYER_STATES.POWERCROUCH) { crouch_timer = 0; }
-	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
+	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
 	if (state != PLAYER_STATES.RECOIL) { recoil_timer = 0; }
 	if (state != PLAYER_STATES.FLY && state != PLAYER_STATES.POWERFLY) { fly_timer = 0; }
-	if (state != PLAYER_STATES.STAND && prev_state != PLAYER_STATES.STAND) { idle_timer = 0; }
 	
 	// While Transitioning
 	if (transition_timer > 0) {
@@ -292,7 +290,9 @@ function update_player_state() {
 			case PLAYER_STATES.FLY:
 			case PLAYER_STATES.POWERFLY: { virtual_y -= 2; fly_timer++; break; }
 			case PLAYER_STATES.RECOIL: { virtual_y -= 4; recoil_timer++; break; }
+			case PLAYER_STATES.TUMBLE:
 			case PLAYER_STATES.FALL:
+			case PLAYER_STATES.DAZED_FALL:
 			case PLAYER_STATES.POWERFALL: { virtual_y += 2; fall_timer++; break; }
 			case PLAYER_STATES.LADDER_UP: { virtual_y -= 1; break; } 
 			case PLAYER_STATES.LADDER_DOWN: { virtual_y += 1; break; }
@@ -300,45 +300,36 @@ function update_player_state() {
 			case PLAYER_STATES.LADDER: { break; }
 			case PLAYER_STATES.LAND: { break; }
 			case PLAYER_STATES.CLIMB: {
-				if (transition_timer < 28 && transition_timer >= 24) {
-					virtual_y -= 2;
-					if (transition_timer == 24) {
-						grid_move_up();
-					}
-				}
-				else if (transition_timer < 24 && transition_timer >= 22) {
+				if (transition_timer < 24 && transition_timer >= 22) {
 					virtual_y -= 1;
-					if (transition_timer == 22) {
-						grid_move_up();
-					}
 				}
 				else if (transition_timer < 22 && transition_timer >= 20) {
 					virtual_y -= 1;
-					virtual_x += (is_left) ? -1 : 1;
+					if (transition_timer == 20) {
+						grid_move_up();
+					}
 				}
 				else if (transition_timer < 20 && transition_timer >= 18) {
 					if (transition_timer == 18) {
-						grid_move_horizontal();
-						walk_on_ground_objects();
-					}
-					else {
 						virtual_x += (is_left) ? -2 : 2;
+						walk_on_ground_objects(); // TODO: Should we not do this here?
 					}
 				}
 				else if (transition_timer < 18 && transition_timer >= 16) {
 					if (transition_timer == 16) {
-						virtual_y -= 2;
+						virtual_x += (is_left) ? -2 : 2;
 					}
 				}
 				else if (transition_timer < 16 && transition_timer >= 14) {
 					if (transition_timer == 14) {
-						virtual_x += (is_left) ? -2 : 2;
 						virtual_y -= 2;
 					}
 				}
 				else if (transition_timer < 14 && transition_timer >= 12) {
 					if (transition_timer == 12) {
 						virtual_x += (is_left) ? -2 : 2;
+						grid_move_horizontal();
+						virtual_y -= 2;
 					}
 				}
 				else if (transition_timer < 6) { transition_timer = 0; }
@@ -448,7 +439,6 @@ function update_player_state() {
 					pushed_obj = noone;
 				}
 				if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) { grid_move_down(); }
-				if (state == PLAYER_STATES.STAND && prev_state == PLAYER_STATES.STAND) { idle_timer++; }
 
 				// Update New State
 				if (start_laddering()) { }
@@ -656,21 +646,21 @@ function update_player_state() {
 						
 							// Player reaction to Collision
 							virtual_y = y;
-							start_falling();
-							dazed = true;
+							start_falling(true);
 						}
 						else { start_falling(); }
 					}
 					else {
 						// Keep Flying
 						transition_timer = 4;
-						fly_timer++;
 						if (fly_timer >= 16 && state != PLAYER_STATES.POWERFLY) { state = PLAYER_STATES.POWERFLY; play_sound(snd_player_powerup); }
 					}
 				}
 				break;
 			}
 			case PLAYER_STATES.FALL:
+			case PLAYER_STATES.DAZED_FALL:
+			case PLAYER_STATES.TUMBLE:
 			case PLAYER_STATES.POWERFALL: {
 				// Move Position Based on Previous State
 				grid_move_down();
@@ -753,9 +743,9 @@ function update_player_state() {
 					}
 					else {
 						// Keep Falling
+						if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
+						if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; play_sound(snd_player_takeoff); }
 						transition_timer = 4;
-						fall_timer++;
-						if (fall_timer >= 16 && !dazed && state != PLAYER_STATES.POWERFALL) { state = PLAYER_STATES.POWERFALL; play_sound(snd_player_takeoff); }
 					}
 				}
 				break;
@@ -767,11 +757,10 @@ function update_player_state() {
 				// Decide New State
 				if (start_laddering()) { }
 				else if (is_grounded()) { start_standing(); }
-				else if (is_under_ceiling() || recoil_timer > 4) { start_falling(); }
+				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); }
 				else {
 					// Keep Recoiling
-					transition_timer = 4;
-					recoil_timer++;
+					transition_timer = 2;
 				}
 				break;
 			}
@@ -795,7 +784,7 @@ function update_player_state() {
 						play_sound(snd_player_ladder_step);
 					}
 					else if (!instance_exists(get_closest_ladder())) { 
-						state = PLAYER_STATES.FALL;
+						start_falling();
 					}
 					else if ((key_left || key_right) && (is_grounded() && !_in_ground)) { is_left = key_left; start_walking(); }
 					else { state = PLAYER_STATES.LADDER; }
@@ -848,7 +837,7 @@ function update_cape_graphics() {
 				break;
 			}
 			case CAPE_STATES.RECOIL: {
-				if (state == PLAYER_STATES.FALL) {
+				if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL) {
 					cape_state = CAPE_STATES.FALL_START;
 					cape_sprite_index = spr_cape_fall_start;
 					cape_image_index = 0;
@@ -875,7 +864,7 @@ function update_cape_graphics() {
 					cape_image_index = 0;
 					cape_timer = 8;
 				}
-				else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL) {
+				else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
 					cape_state = CAPE_STATES.FALL_START;
 					cape_sprite_index = spr_cape_fall_start;
 					cape_image_index = 0;
@@ -928,7 +917,7 @@ function update_cape_graphics() {
 					cape_image_index = 0;
 					cape_timer = 0;
 				}
-				else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL) {
+				else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
 					cape_state = CAPE_STATES.FALL_START;
 					cape_sprite_index = spr_cape_fall_start;
 					cape_image_index = 0;
@@ -950,7 +939,7 @@ function update_cape_graphics() {
 						cape_image_index = 0;
 						cape_timer = 8;
 					}
-					else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL) {
+					else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
 						cape_state = CAPE_STATES.FALL_START;
 						cape_sprite_index = spr_cape_fall_start;
 						cape_image_index = 0;
@@ -966,7 +955,7 @@ function update_cape_graphics() {
 				break;
 			}
 			case CAPE_STATES.FALL_START: {
-				if (state == PLAYER_STATES.FALL ) {
+				if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
 					cape_state = CAPE_STATES.FALL;
 					cape_sprite_index = spr_cape_fall;
 					cape_image_index = 0;
@@ -1008,7 +997,7 @@ function update_cape_graphics() {
 				break;
 			}
 			case CAPE_STATES.FALL: {
-				if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL) {
+				if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
 					cape_state = CAPE_STATES.FALL;
 					cape_sprite_index = spr_cape_fall;
 					cape_image_index = 0;
@@ -1070,7 +1059,7 @@ function update_cape_graphics() {
 				cape_timer = 8;
 			}
 		}
-		else if (state == PLAYER_STATES.FALL) {
+		else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) {
 			cape_state = CAPE_STATES.FALL_START;
 			cape_sprite_index = spr_cape_fall_start;
 			cape_image_index = 0;
@@ -1082,12 +1071,14 @@ function update_cape_graphics() {
 			cape_image_index = 0;
 			cape_timer = 52;
 		}
-		else if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.POWERFALL && prev_state == PLAYER_STATES.FALL) {
+		/*
+		else if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.POWERFALL && (prev_state != PLAYER_STATES.DAZED_FALL || prev_state != PLAYER_STATES.TUMBLE)) {
 			cape_state = CAPE_STATES.STOP_FLUTTER;
 			cape_sprite_index = spr_cape_stop_flutter;
 			cape_image_index = 0;
 			cape_timer = 4;
 		}
+		*/
 		else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
 			if (cape_state == CAPE_STATES.FLUTTER || cape_state == CAPE_STATES.FALL) {
 				cape_state = CAPE_STATES.FALL_TO_LADDER;
@@ -1106,8 +1097,8 @@ function update_cape_graphics() {
 
 	// Update Cape Depth Relative to Player
 	switch (state) {
-		case PLAYER_STATES.FALL: {
-			if (sprite_index == spr_player_tumble && image_index > 1) { cape_depth = depth - 1; }
+		case PLAYER_STATES.TUMBLE: {
+			if (image_index > 1) { cape_depth = depth - 1; }
 			else { cape_depth = depth + 1; }
 			break;
 		}
@@ -1133,12 +1124,14 @@ function update_cape_graphics() {
 function update_player_graphics() {
 	image_xscale = (is_left) ? -1 : 1;
 	if (prev_state != state) {
+		animation_timer = 0;
 		image_index = 0;
+		
 		// Set New Sprites
 		switch (state) {
 			case PLAYER_STATES.CLIMB: {
 				sprite_index = spr_player_climb //spr_player_hop_climb;
-				image_index = 2 // 0;
+				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.CRUSHED_STAND: {
@@ -1158,7 +1151,7 @@ function update_player_graphics() {
 			}
 			case PLAYER_STATES.LOOK_UP: {
 				sprite_index = spr_player_look_up;
-				image_index = 0;
+				// image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.WALK_FORWARD: {
@@ -1174,7 +1167,7 @@ function update_player_graphics() {
 			}
 			case PLAYER_STATES.CROUCH: {
 				sprite_index = spr_player_crouch;
-				image_index = 0;
+				// image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.POWERCROUCH: {
@@ -1184,34 +1177,44 @@ function update_player_graphics() {
 			}
 			case PLAYER_STATES.FALL: {
 				sprite_index = spr_player_fall;
+				// image_index = 0;
+				break;
+			}
+			case PLAYER_STATES.DAZED_FALL: {
+				sprite_index = spr_player_dazed_fall;
+				image_index = 0;
+				break;
+			}
+			case PLAYER_STATES.TUMBLE: {
+				sprite_index = spr_player_tumble;
 				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.RECOIL: {
 				sprite_index = spr_player_recoil;
-				image_index = -1;
+				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.POWERFALL: {
 				sprite_index = spr_player_powerfall;
-				image_index = 1;
+				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
 				sprite_index = spr_player_hop_up;
-				image_index = 0;
+				// image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.HOP_DOWN:
 			case PLAYER_STATES.HOP_DOWN_FORWARD: {
 				sprite_index = spr_player_hop_down;
-				image_index = 0;
+				// image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.LADDER: {
 				sprite_index = spr_player_ladder;
-				 image_index = 0;
+				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.LADDER_UP:
@@ -1222,22 +1225,22 @@ function update_player_graphics() {
 			}
 			case PLAYER_STATES.FLY: {
 				sprite_index = sp_player_fly;
-				image_index = 0;
+				//image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.POWERFLY: {
 				sprite_index = spr_player_powerfly;
-				image_index = 1;
+				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.TURN: {
 				sprite_index = spr_player_turn;
-				image_index = 1;
+				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.LAND: {
 				sprite_index = spr_player_tumble_land;
-				image_index = 1;
+				image_index = 0;
 				break;
 			}
 			case PLAYER_STATES.WIN: {
@@ -1247,47 +1250,45 @@ function update_player_graphics() {
 			}
 		}
 	}
-
-	// Handle special cases
-	if (state == PLAYER_STATES.FALL) {
-		// Determine Fall Type
-		var _new_sprite_index = spr_player_fall;
-		if (dazed) { _new_sprite_index = spr_player_dazed_fall; }
-		else if (fall_timer >= 10) { _new_sprite_index = spr_player_tumble; if (sprite_index != spr_player_tumble) { play_sound(snd_player_powerup); } }
+	else {
+		// Update Current Animations
+		animation_timer++;
+		animation_timer = animation_timer % 64;
+		animation_speed = 1;
 		
-		// Reset Graphics if They've Changed
-		if (sprite_index != _new_sprite_index) {
-			sprite_index = _new_sprite_index;
-			image_index = -1;
+		// Set Speed for Different Animations
+		switch (state) {
+			case PLAYER_STATES.STAND:
+			case PLAYER_STATES.CRUSHED_STAND: { animation_speed = 32; break; }
+			case PLAYER_STATES.PUSH_STAND:
+			case PLAYER_STATES.PUSH_FORWARD: 
+			case PLAYER_STATES.LADDER_UP:
+			case PLAYER_STATES.LADDER_DOWN: { animation_speed = 8; break; }
+			case PLAYER_STATES.LAND:
+			case PLAYER_STATES.CRUSHED_FORWARD:
+			case PLAYER_STATES.WALK_FORWARD: { animation_speed = 4; break; }
+			case PLAYER_STATES.TURN:
+			case PLAYER_STATES.CLIMB:
+			case PLAYER_STATES.FALL:
+			case PLAYER_STATES.DAZED_FALL:
+			case PLAYER_STATES.POWERFALL:
+			case PLAYER_STATES.POWERFLY:
+			case PLAYER_STATES.POWERCROUCH: { animation_speed = 2; break; }
+			case PLAYER_STATES.RECOIL:
+			case PLAYER_STATES.TUMBLE: { animation_speed = 1; break; }
+			default: { animation_speed = 0; }
 		}
-	}
-	
-	// Update Animations
-	image_speed = 0;
-	if (state != prev_state) { animation_timer = 0; }
-	else { animation_timer++; }
-	if (animation_timer >= 64) { animation_timer = 0; }
-	switch (state) {
-		case PLAYER_STATES.STAND: { if (idle_timer % 32 == 0) { image_index++; } break; }
-		case PLAYER_STATES.CRUSHED_STAND: { if (animation_timer % 32 == 0) { image_index++; } break; }
-		case PLAYER_STATES.CRUSHED_FORWARD:
-		case PLAYER_STATES.PUSH_STAND:
-		case PLAYER_STATES.PUSH_FORWARD: 
-		case PLAYER_STATES.LADDER_UP:
-		case PLAYER_STATES.LADDER_DOWN: { if (animation_timer % 8 == 0) { image_index++; } break; }
-		case PLAYER_STATES.LAND:
-		case PLAYER_STATES.WALK_FORWARD: { if (animation_timer % ((sprite_index == spr_player_crushed_walk) ? 8 : 4) == 0) { image_index++; } break; }
-		case PLAYER_STATES.TURN:
-		case PLAYER_STATES.CLIMB:
-		case PLAYER_STATES.FALL:
-		case PLAYER_STATES.RECOIL:
-		case PLAYER_STATES.POWERFALL:
-		case PLAYER_STATES.POWERFLY:
-		case PLAYER_STATES.POWERCROUCH: { if (animation_timer % 2 == 0) { image_index++; } break; }
-	}
-	if (image_index >= image_number) { image_index = (image_index % image_number); }
-	if (state == PLAYER_STATES.LADDER_DOWN || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.PUSH_FORWARD) {
-		step_index = (image_index == 1) ? 2 : 0;
+		
+		// Update Images in Animations
+		if (animation_speed > 0) {
+			// Update Animation Based on Selected Speed
+			if (animation_timer % animation_speed == 0) { image_index++; }
+			image_index = image_index % image_number;
+			// Update Step Index
+			if (state == PLAYER_STATES.LADDER_DOWN || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.PUSH_FORWARD) {
+				if (image_index % 2 == 1) { step_index = image_index + 2; }
+			}
+		}
 	}
 }
 
