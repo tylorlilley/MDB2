@@ -1,7 +1,9 @@
 enum STATES {
 	STILL,
 	FALLING,
-	PUSHED
+	PUSHED,
+	SURFACE,
+	FLOAT
 }
 
 has_gravity = false;
@@ -28,7 +30,9 @@ transition_timer = 0;
 state = STATES.STILL;
 particle_color = c_white;
 fall_timer = 0;
+swim_timer = 0;
 image_speed = 0;
+destroyed_sound = snd_explosion;
 
 grid_add = function() {
 	var _grid_width = sprite_get_width(sprite_index) div 8, _grid_height = sprite_get_height(sprite_index) div  8;
@@ -102,85 +106,87 @@ get_solid_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _only_fu
 	return _solid_objects;
 }
 
-get_solid_objects = function(_x_offset, _y_offset, _pred, _only_full_solids = false) {
+get_relative_solid_objects = function(_x_offset, _y_offset, _pred, _only_full_solids = false) {
 	return get_solid_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _only_full_solids);
 }
 
 // Get List of Specified Objects
+/*
 get_ground_objects_at  = function(_x_pos, _y_pos, _width = 8, _height = 8, _only_full_solids = false) {
 	return get_solid_objects_at(_x_pos, _y_pos + 8, _width, _height, function(inst, ofs) {
         return inst.is_solid_from_above(ofs);
     }, _only_full_solids);
 }
+*/
 
 get_ground_objects = function(_only_full_solids = false) {
-	return get_solid_objects(0, 8, function(inst, ofs) {
+	return get_relative_solid_objects(0, 8, function(inst, ofs) {
         return inst.is_solid_from_above(ofs);
     }, _only_full_solids);
 }
 
 get_left_wall_objects = function(_only_full_solids = false) {
-	return get_solid_objects(-8, 0, function(inst, ofs) {
+	return get_relative_solid_objects(-8, 0, function(inst, ofs) {
         return inst.is_solid_from_right(ofs);
     }, _only_full_solids);
 }
 
 get_right_wall_objects = function(_only_full_solids = false) {
-	return get_solid_objects(8, 0, function(inst, ofs) {
+	return get_relative_solid_objects(8, 0, function(inst, ofs) {
         return inst.is_solid_from_left(ofs);
     }, _only_full_solids);
 }
 
 get_ceiling_objects = function(_only_full_solids = false) {
-	return get_solid_objects(0, -8, function(inst, ofs) {
+	return get_relative_solid_objects(0, -8, function(inst, ofs) {
         return inst.is_solid_from_below(ofs);
     }, _only_full_solids);
 }
 
 get_left_ceiling_objects = function() {
-	return get_solid_objects(-8, -8, function(inst) {
+	return get_relative_solid_objects(-8, -8, function(inst) {
         return inst.is_solid_from_below();
     });
 }
 
 get_right_ceiling_objects = function() {
-	return get_solid_objects(8, -8, function(inst) {
+	return get_relative_solid_objects(8, -8, function(inst) {
         return inst.is_solid_from_below();
     });
 }
 
 get_left_ground_objects = function() {
-	return get_solid_objects(-8, 8, function(inst) {
+	return get_relative_solid_objects(-8, 8, function(inst) {
         return inst.is_solid_from_above();
     });
 }
 
 get_right_ground_objects = function() {
-	return get_solid_objects(8, 8, function(inst) {
+	return get_relative_solid_objects(8, 8, function(inst) {
         return inst.is_solid_from_above();
     });
 }
 
 get_left_pushable_objects = function() {
-	return get_solid_objects(-8, 0, function(inst) {
+	return get_relative_solid_objects(-8, 0, function(inst) {
         return inst.can_be_pushed_left();
     });
 }
 
 get_right_pushable_objects = function() {
-	return get_solid_objects(8, 0, function(inst) {
+	return get_relative_solid_objects(8, 0, function(inst) {
         return inst.can_be_pushed_right();
     });
 }
 
 get_left_climbable_objects = function() {
-	return get_solid_objects(-8, 0, function(inst) {
+	return get_relative_solid_objects(-8, 0, function(inst) {
         return inst.can_be_climbed_from_right();
     });
 }
 
 get_right_climbable_objects = function() {
-	return get_solid_objects(8, 0, function(inst) {
+	return get_relative_solid_objects(8, 0, function(inst) {
         return inst.can_be_climbed_from_left();
     });
 }
@@ -200,6 +206,25 @@ is_blocked_on_left = function(_only_full_solids = false) {
 
 is_blocked_on_right = function(_only_full_solids = false) {
 	return array_length(get_right_wall_objects(_only_full_solids)) > 0;
+}
+
+is_fully_submerged = function() {
+	return at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_water);
+}
+
+is_partially_submerged = function() {
+	return (at_grid_position(x, y+sprite_get_height(sprite_index)/2, sprite_get_width(sprite_index), sprite_get_height(sprite_index)/2, obj_water) &&
+								!at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index)/2, obj_water));
+}
+
+get_inside_solids = function() {
+	return get_relative_solid_objects(0, 0, function(inst) {
+        return inst.is_solid_from_all_sides();
+    });
+}
+
+is_inside_solid = function() {
+	return array_length(get_inside_solids()) > 0;
 }
 
 get_closest_ladder = function() {
@@ -231,7 +256,7 @@ can_ladder_down = function() {
 	return (
 		instance_exists(_closest_ladder) &&
 		x == _closest_ladder.x &&
-		(!is_grounded(true) || at_grid_position(x, y + sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder)) // at_grid_position(x, y, 1, 1, obj_solid)
+		(!is_grounded(true) || at_grid_position(x, y + sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder))
 	);
 }
 
@@ -269,7 +294,7 @@ is_solid_from_below = function(_only_full_solids = false) {
 
 is_solid_from_above = function(_only_full_solids = false) {
 	var _falling_state = false;
-	_falling_state = (object_index == obj_player && (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL)) || (object_index != obj_player && state == STATES.FALLING);
+	_falling_state = (object_is_ancestor(object_index, obj_dynamic_game_object)) ? (!is_floating_state() && !is_grounded_state()) : false;
 	return !_falling_state && is_ground && (is_solid_from_all_sides() || !_only_full_solids);
 }
 
@@ -285,6 +310,8 @@ is_solid_from_all_sides = function() {
 	return is_right_wall && is_left_wall && is_ceiling && is_ground;
 }
 
+get_float_offset = function() { return 0; }
+
 create_particles = function(_total_particles, _randomize = true, _particle_sprite = spr_particle) {
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {
@@ -295,6 +322,7 @@ create_particles = function(_total_particles, _randomize = true, _particle_sprit
 			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO make this a param
 			depth = -9999;
 			image_blend = other.particle_color;
+			image_alpha = other.image_alpha;
 			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
 			vspeed = (random(6) / 2 * -1) - 2;
 			gravity = 0.5;

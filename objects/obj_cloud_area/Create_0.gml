@@ -1,11 +1,13 @@
 event_inherited();
 
+image_alpha = 0.5;
 particle_color = c_white;
 step_sound = snd_step_cloud;
+destroyed_sound = snd_pop;
 is_fragile = true;
 
 hits = 1;
-main_sprite = spr_cloud_tile;
+main_sprite = spr_cloud_tile; //spr_box_16x16;
 outline_sprite = spr_cloud_outline;
 walk_particles = 4;
 particle_color = c_white;

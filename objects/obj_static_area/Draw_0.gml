@@ -76,7 +76,7 @@ if (outline_sprite != noone) {
 	if (!_area_left) { _main_width--; _main_left++; _main_x++; }
 }
 
-draw_sprite_part(main_sprite, _main_sprite_image_index, _main_left, _main_top, _main_width, _main_height, _main_x, _main_y);
+draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, _main_width, _main_height, _main_x, _main_y, 1, 1, image_blend, image_alpha);
 if (fuzzing_sprite != noone) {
 	draw_sprite_part(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y);
 }

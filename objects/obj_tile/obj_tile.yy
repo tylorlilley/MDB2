@@ -12,8 +12,8 @@
     "path":"folders/Objects/Solid Areas.yy",
   },
   "parentObjectId":{
-    "name":"obj_solid_area",
-    "path":"objects/obj_solid_area/obj_solid_area.yy",
+    "name":"obj_static_area",
+    "path":"objects/obj_static_area/obj_static_area.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

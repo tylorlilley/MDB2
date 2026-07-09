@@ -12,8 +12,8 @@
     "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_solid",
-    "path":"objects/obj_solid/obj_solid.yy",
+    "name":"obj_static_game_object",
+    "path":"objects/obj_static_game_object/obj_static_game_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

@@ -4,8 +4,6 @@ image_blend = c_aqua;
 image_alpha = 0.5;
 depth = -20;
 
+anim_timer = 0;
 is_connected = true;
-is_left_wall = false;
-is_right_wall = false;
-is_ceiling = false;
-is_floor = false;
+particle_color = c_aqua;

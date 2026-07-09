@@ -37,4 +37,4 @@ transition_room = function(_new_room) {
 	room_goto(_new_room);
 }
 
-transition_room(rm_new_1_1);
+transition_room(rm_water_test);

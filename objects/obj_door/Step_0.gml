@@ -1,7 +1,6 @@
 // Inherit the parent event
 event_inherited();
 
-
 if (image_index <= 1) {
 	shine();
 

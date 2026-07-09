@@ -3,6 +3,8 @@
   "%Name":"obj_water",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_water",
@@ -12,8 +14,8 @@
     "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_bubble",
-    "path":"objects/obj_bubble/obj_bubble.yy",
+    "name":"obj_static_game_object",
+    "path":"objects/obj_static_game_object/obj_static_game_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,8 +35,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_box_8x8",
-    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
+    "name":"spr_water_outline",
+    "path":"sprites/spr_water_outline/spr_water_outline.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_8x8",

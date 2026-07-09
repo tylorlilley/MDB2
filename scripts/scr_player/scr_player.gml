@@ -12,6 +12,9 @@ enum PLAYER_STATES
 	CROUCH,
 	POWERCROUCH,
 	WIN,
+	SWIM,
+	SWIM_FORWARD,
+	LAND,
 	// Non-Grounded States
 	HOP_UP,
 	HOP_DOWN,
@@ -24,11 +27,10 @@ enum PLAYER_STATES
 	TUMBLE,
 	POWERFALL,
 	RECOIL,
-	LAND,
-	CLIMB,
 	LADDER,
 	LADDER_UP,
-	LADDER_DOWN
+	LADDER_DOWN,
+	CLIMB
 }
 
 enum CAPE_STATES
@@ -77,6 +79,8 @@ function player_state_to_string(state) {
 		case PLAYER_STATES.HOP_DOWN_FORWARD: { _player_state_string = "Hop Forward Down"; break; }
 		case PLAYER_STATES.HOP_UP_FORWARD: { _player_state_string = "Hop Forward Up" break; }
 		case PLAYER_STATES.WIN: { _player_state_string = "Win" break; }
+		case PLAYER_STATES.SWIM: { _player_state_string = "Float" break; }
+		case PLAYER_STATES.SWIM_FORWARD: { _player_state_string = "Swim" break; }
 	}
 	return _player_state_string;
 }
@@ -96,6 +100,7 @@ function player_init() {
 	cape_timer = 0;
 	step_index = 1;
 	air_walk = false;
+	climbed_inst = noone;
 	
 	// Player Specific Variables
 	prev_state = PLAYER_STATES.STAND;
@@ -112,8 +117,7 @@ function player_init() {
 	ring_out_timer = 0;
 	crouch_timer = 0;
 	fly_timer = 0;
-	
-	pushed_obj = noone;
+	swim_timer = 0;
 	
 	is_grounded_state = function() {
 		return state < PLAYER_STATES.FLY;
@@ -137,6 +141,10 @@ function player_init() {
 	
 	is_crouch_state = function() {
 		return (state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH)
+	}
+	
+	is_floating_state = function() {
+		return state == PLAYER_STATES.SWIM;
 	}
 	
 	reset_controls = function() {
@@ -177,6 +185,12 @@ function player_init() {
 		transition_timer = 52;
 		cape_timer = 52;
 		image_index = 0;
+	}
+	
+	start_climbing = function(_climbed_obj) {
+		state = PLAYER_STATES.CLIMB;
+		transition_timer = 24;
+		climbed_inst = _climbed_obj;
 	}
 	
 	start_standing = function(_is_crushed = false) {
@@ -240,8 +254,7 @@ function player_init() {
 
 function update_player_state() {
 	prev_state = state;
-	var _in_ground = at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_solid); // TODO This reacts to all solids regardless of one-way status
-	
+
 	// Check Controls
 	if (state != PLAYER_STATES.WIN) { reset_controls(); }
 	update_controls();
@@ -252,6 +265,7 @@ function update_player_state() {
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
 	if (state != PLAYER_STATES.RECOIL) { recoil_timer = 0; }
 	if (state != PLAYER_STATES.FLY && state != PLAYER_STATES.POWERFLY) { fly_timer = 0; }
+	if (state != PLAYER_STATES.SWIM && state != PLAYER_STATES.SWIM_FORWARD) { swim_timer = 0; }
 	
 	// While Transitioning
 	if (transition_timer > 0) {
@@ -281,12 +295,9 @@ function update_player_state() {
 				break;
 			}
 			case PLAYER_STATES.CRUSHED_FORWARD: { virtual_x += (is_left) ? -0.5 : 0.5; break; }
-			case PLAYER_STATES.WALK_FORWARD:  { virtual_x += (is_left) ? -2 : 2; break; }
-			case PLAYER_STATES.PUSH_FORWARD: {
-				virtual_x += (is_left) ? -1 : 1;
-				if (instance_exists(pushed_obj)) { pushed_obj.virtual_x += (is_left) ? -1 : 1; }
-				break;
-			}
+			case PLAYER_STATES.WALK_FORWARD: { virtual_x += (is_left) ? -2 : 2; break; }
+			case PLAYER_STATES.SWIM_FORWARD: 
+			case PLAYER_STATES.PUSH_FORWARD: { virtual_x += (is_left) ? -1 : 1; swim_timer++; break; }
 			case PLAYER_STATES.FLY:
 			case PLAYER_STATES.POWERFLY: { virtual_y -= 2; fly_timer++; break; }
 			case PLAYER_STATES.RECOIL: { virtual_y -= 4; recoil_timer++; break; }
@@ -364,6 +375,32 @@ function update_player_state() {
 	// While Not Transitioning
 	if (transition_timer == 0) {
 		switch (state) {
+			case PLAYER_STATES.SWIM:
+			case PLAYER_STATES.SWIM_FORWARD: {
+				if (state == PLAYER_STATES.SWIM_FORWARD) { grid_move_horizontal(); }
+				swim_timer++;
+
+				if (start_laddering()) { }
+				else {
+					if (key_left || key_right) { is_left = key_left; }
+					
+					
+					var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
+					var _can_climb = (key_jump || key_up) && !is_under_ceiling();
+					var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
+					var _climbable_objects = (is_left) ? get_left_climbable_objects() : get_right_climbable_objects();
+					var _climbed_obj = grid_array_first(_climbable_objects);
+					_can_climb = _can_climb && instance_exists(_climbed_obj) && y < _climbed_obj.y;
+					
+					if (_can_climb && _horizontal_input) { start_climbing(_climbed_obj); }
+					else if (_can_walk && _horizontal_input) {
+						transition_timer = 8;
+						state = PLAYER_STATES.SWIM_FORWARD;
+					}
+					else { state = PLAYER_STATES.SWIM; }
+				}
+				break;
+			}
 			case PLAYER_STATES.WIN: {
 				if (visible && (key_up || key_jump)) {
 					visible = false;
@@ -409,10 +446,7 @@ function update_player_state() {
 					var _climbed_obj = grid_array_first(_climbable_objects);
 					_can_climb = _can_climb && instance_exists(_climbed_obj) && y < _climbed_obj.y;
 					
-					if (_can_climb && (_horizontal_input || global.controller.original_controls)) { 
-						state = PLAYER_STATES.CLIMB;
-						transition_timer = 24;
-					}
+					if (_can_climb && (_horizontal_input || global.controller.original_controls)) { start_climbing(_climbed_obj); }
 					else {
 						state = (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD) ? PLAYER_STATES.HOP_DOWN_FORWARD : PLAYER_STATES.HOP_DOWN;
 						transition_timer = 8;
@@ -435,8 +469,6 @@ function update_player_state() {
 				// Move Position Based on Previous State
 				if (state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.PUSH_FORWARD || state == PLAYER_STATES.CRUSHED_FORWARD || state == PLAYER_STATES.HOP_DOWN_FORWARD) {
 					grid_move_horizontal();
-					with (pushed_obj) { grid_move_horizontal(); }
-					pushed_obj = noone;
 				}
 				if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) { grid_move_down(); }
 
@@ -521,28 +553,27 @@ function update_player_state() {
 							else {
 								// Push Wall
 								var _pushable_objects = is_left ? get_left_pushable_objects() : get_right_pushable_objects();
-								pushed_obj = grid_array_first(_pushable_objects);
+								var _pushed_obj = grid_array_first(_pushable_objects);
 									
-								if (instance_exists(pushed_obj)) {
-									pushed_obj.grid_remove();
+								if (instance_exists(_pushed_obj)) {
+									_pushed_obj.grid_remove();
 									_can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
-									pushed_obj.grid_add();
+									_pushed_obj.grid_add();
 								}
 								else { _can_walk = false; }
 
-								if (_can_walk && y == pushed_obj.y) {
+								if (_can_walk && y == _pushed_obj.y) {
 									// Push Box
 									state = PLAYER_STATES.PUSH_FORWARD;
 									transition_timer = 8;
-									pushed_obj.is_left = is_left;
-									with (pushed_obj) {
+									with (_pushed_obj) {
+										is_left = other.is_left;
 										state = STATES.PUSHED;
 										transition_timer = 8;
 									}
 								}
 								else if (!global.controller.original_controls) {
 									// Push Against Solid Wall
-									pushed_obj = noone;
 									state = PLAYER_STATES.PUSH_STAND;
 									transition_timer = 4;
 								}
@@ -629,7 +660,7 @@ function update_player_state() {
 											if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
 										}
 									}
-									else if (object_is_ancestor(_inst.object_index, obj_solid_area) && abs(y - _inst.y) <= 8) {
+									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= 8) {
 										// Damage deeper for connected areas
 										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y-8, 8, 8);
 										for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
@@ -710,7 +741,7 @@ function update_player_state() {
 											if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
 										}
 									}
-									else if (object_is_ancestor(_inst.object_index, obj_solid_area) && abs(y - _inst.y) <= 16) {
+									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= 16) {
 										// Damage deeper for connected areas
 										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y+8, 8, 8);
 										for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
@@ -786,7 +817,7 @@ function update_player_state() {
 					else if (!instance_exists(get_closest_ladder())) { 
 						start_falling();
 					}
-					else if ((key_left || key_right) && (is_grounded() && !_in_ground)) { is_left = key_left; start_walking(); }
+					else if ((key_left || key_right) && (is_grounded() && !is_inside_solid())) { is_left = key_left; start_walking(); }
 					else { state = PLAYER_STATES.LADDER; }
 				}
 				else { start_falling(); }
@@ -1243,6 +1274,16 @@ function update_player_graphics() {
 				image_index = 0;
 				break;
 			}
+			case PLAYER_STATES.SWIM: {
+				sprite_index = spr_player_float;
+				image_index = step_index;
+				break;
+			}
+			case PLAYER_STATES.SWIM_FORWARD: {
+				sprite_index = spr_player_swim;
+				image_index = 1;
+				break;
+			}
 			case PLAYER_STATES.WIN: {
 				sprite_index = spr_player_win;
 				image_index = 0;
@@ -1263,6 +1304,8 @@ function update_player_graphics() {
 			case PLAYER_STATES.PUSH_STAND:
 			case PLAYER_STATES.PUSH_FORWARD: 
 			case PLAYER_STATES.LADDER_UP:
+			case PLAYER_STATES.SWIM:
+			case PLAYER_STATES.SWIM_FORWARD:
 			case PLAYER_STATES.LADDER_DOWN: { animation_speed = 8; break; }
 			case PLAYER_STATES.LAND:
 			case PLAYER_STATES.CRUSHED_FORWARD:
@@ -1294,10 +1337,33 @@ function update_player_graphics() {
 
 function update_player_collisions_at_position() {
 	// Get Destroyed From Solids
-	// TODO: Change this to be based on a game object property and not the object type
-	var _inside_solid = at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_solid);
-	if (_inside_solid && !is_ladder_state()) { instance_destroy(); }
-		
+	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
+								
+	if (is_fully_submerged()) {
+		switch (state) {
+			case PLAYER_STATES.LADDER:
+			case PLAYER_STATES.LADDER_UP:
+			case PLAYER_STATES.LADDER_DOWN: {
+				// No effect on ladders
+				break;
+			}
+			case PLAYER_STATES.RECOIL: {
+				// No Special Recoil?
+				break;
+			}
+			default: {
+				fall_timer -= 2;
+				if (fall_timer <= 0) {
+					state = PLAYER_STATES.RECOIL;
+				}
+				break;
+			}
+		}
+	}
+	else if (is_partially_submerged()) {
+		if (state == PLAYER_STATES.RECOIL) { state = PLAYER_STATES.SWIM; transition_timer = 4; }
+	}
+						
 	// Win Game From Door
 	else if (at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_door) && state != PLAYER_STATES.WIN && instance_number(obj_key) == 0) {
 		start_winning();

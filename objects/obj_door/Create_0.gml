@@ -3,4 +3,5 @@ event_inherited();
 
 depth = 5;
 particle_color = make_color_rgb(240, 180, 60);
+
 anim_timer = 60 + irandom(8);

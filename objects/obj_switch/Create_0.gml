@@ -1,5 +1,6 @@
 event_inherited();
 
+depth = 9;
 image_blend = c_red;
 pressed = false;
 

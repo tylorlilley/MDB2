@@ -1,13 +1,13 @@
 {
   "$GMObject":"",
-  "%Name":"obj_solid",
+  "%Name":"obj_dynamic_game_object",
   "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":1,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_solid",
+  "name":"obj_dynamic_game_object",
   "overriddenProperties":[],
   "parent":{
     "name":"Parents",
@@ -38,9 +38,6 @@
     "name":"spr_box_16x16",
     "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
   },
-  "spriteMaskId":{
-    "name":"spr_box_16x16",
-    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
-  },
+  "spriteMaskId":null,
   "visible":true,
 }

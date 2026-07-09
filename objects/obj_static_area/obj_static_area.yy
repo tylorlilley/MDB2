@@ -1,20 +1,20 @@
 {
   "$GMObject":"",
-  "%Name":"obj_solid_area",
+  "%Name":"obj_static_area",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_solid_area",
+  "name":"obj_static_area",
   "overriddenProperties":[],
   "parent":{
     "name":"Parents",
     "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
-    "name":"obj_solid",
-    "path":"objects/obj_solid/obj_solid.yy",
+    "name":"obj_game_object",
+    "path":"objects/obj_game_object/obj_game_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
