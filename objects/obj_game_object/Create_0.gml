@@ -278,14 +278,16 @@ can_be_pushed_right = function() {
 
 can_be_climbed_from_left = function() {
 	if (!is_climbable) { return false; }
+	if (array_length(get_right_ceiling_objects()) > 0) { return false; }
 	
-	return array_length(get_left_ceiling_objects()) == 0;
+	return (!is_connected || !at_grid_position(x-8, y, 8, 8, object_index));
 }
 
 can_be_climbed_from_right = function() {
 	if (!is_climbable) { return false; }
+	if (array_length(get_right_ceiling_objects()) > 0) { return false; }
 	
-	return array_length(get_right_ceiling_objects()) == 0;
+	return (!is_connected || !at_grid_position(x+8, y, 8, 8, object_index));
 }
 
 is_solid_from_below = function(_only_full_solids = false) {
@@ -294,7 +296,7 @@ is_solid_from_below = function(_only_full_solids = false) {
 
 is_solid_from_above = function(_only_full_solids = false) {
 	var _falling_state = false;
-	_falling_state = (object_is_ancestor(object_index, obj_dynamic_game_object)) ? (!is_floating_state() && !is_grounded_state()) : false;
+	_falling_state = false // (object_is_ancestor(object_index, obj_dynamic_game_object)) ? (!is_floating_state() && !is_grounded_state()) : false;
 	return !_falling_state && is_ground && (is_solid_from_all_sides() || !_only_full_solids);
 }
 

@@ -1,10 +1,13 @@
 CLOUD EDGES
 MAKE OBJECTS FLOAT SLOW TO STOP AND SLOW TO RISE
+Player Diving
 Falling Dynamic Objects That Are Solid Fall/Rise Past each Other
+Hopped Into Wall??
 Cape Animation for Swimming
 Swimming Crushed State?
 Tumble sound effect replaced with longer sound effect that plays for entire fall
 Make Particles Color an argument
+Make PowerFall Stop Working Underwater?
 
 // REFACTOR:
 

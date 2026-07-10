@@ -381,9 +381,11 @@ function update_player_state() {
 				swim_timer++;
 
 				if (start_laddering()) { }
+				else if (is_grounded()) { start_standing(); }
+				// else if (fully_submerged()) { start_surfacing(); }
+				else if (!is_partially_submerged()) { start_falling(); }
 				else {
 					if (key_left || key_right) { is_left = key_left; }
-					
 					
 					var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
 					var _can_climb = (key_jump || key_up) && !is_under_ceiling();
@@ -441,7 +443,7 @@ function update_player_state() {
 					start_walking();
 				}
 				else {
-					var _can_climb = (key_jump || key_up || global.controller.original_controls) && !is_under_ceiling();
+					var _can_climb = (state == PLAYER_STATES.HOP_UP && (key_jump || key_up || global.controller.original_controls)) && !is_under_ceiling();
 					var _climbable_objects = (is_left) ? get_left_climbable_objects() : get_right_climbable_objects();
 					var _climbed_obj = grid_array_first(_climbable_objects);
 					_can_climb = _can_climb && instance_exists(_climbed_obj) && y < _climbed_obj.y;
@@ -710,7 +712,7 @@ function update_player_state() {
 				
 					if (is_grounded()) {
 						// Bonk against floor
-						if (state == PLAYER_STATES.POWERFALL) {
+						if (state == PLAYER_STATES.POWERFALL && !is_fully_submerged() && !is_partially_submerged()) {
 							// Get Targets to Damage
 							var _damaged_instances = [], _check_deeper_right = false, _check_deeper_left = false;
 							for (var _dir = 0; _dir < 2; _dir++) {
@@ -788,7 +790,7 @@ function update_player_state() {
 				// Decide New State
 				if (start_laddering()) { }
 				else if (is_grounded()) { start_standing(); }
-				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); }
+				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); fall_timer = -8; }
 				else {
 					// Keep Recoiling
 					transition_timer = 2;

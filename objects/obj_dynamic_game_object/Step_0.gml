@@ -5,13 +5,17 @@ if (has_gravity) {
 		transition_timer--;
 		
 		if (state == STATES.FALLING) {
-			if (!is_grounded()) { virtual_y += (is_fully_submerged() && fall_timer <= 8) ? 1 : 2; }
-			
-			if (is_fully_submerged()) { fall_timer -= 2; }
+			var _fall_speed = 2;
+			if (is_fully_submerged()) {
+				if (fall_timer == 0 || is_grounded()) { _fall_speed = 0; }
+				else if (fall_timer < 8) { _fall_speed = 1; }
+			}
 			else { fall_timer++; }
+			
+			virtual_y += _fall_speed;
 		}
 		else if (state == STATES.SURFACE) {
-			if (!is_under_ceiling()) { virtual_y -= 1; }
+			virtual_y -= (fall_timer <= 8) ? 1 : 2;
 		}
 		else if (state == STATES.PUSHED) {
 			virtual_x += (is_left) ? -1 : 1;
@@ -19,7 +23,7 @@ if (has_gravity) {
 	}
 	
 	if (transition_timer == 0) {
-		if (state != STATES.FALLING) { fall_timer = 0; }
+		if (state != STATES.FALLING && state != STATES.SURFACE) { fall_timer = 0; }
 		if ( state != STATES.FLOAT) { swim_timer = 0; }
 		
 		switch (state) {
@@ -39,11 +43,12 @@ if (has_gravity) {
 			}
 			case STATES.SURFACE: {
 				// Move Based on Previous State
-				if (!is_under_ceiling()) { grid_move_up(); }
+				grid_move_up();
 				
 				if (is_fully_submerged()) {
 					// Keep Surfacing
-					transition_timer = 8;
+					fall_timer += 4;
+					transition_timer = (fall_timer <= 8) ? 8 : 4;
 				}
 				else {
 					// Start Floating
@@ -54,20 +59,23 @@ if (has_gravity) {
 			}
 			case STATES.FALLING: {
 				// Move Based on Previous State
-				if (!is_grounded()) { grid_move_down(); }
+				if (fall_timer > 0 && !is_grounded()) { grid_move_down(); }
 				
-				if (fall_timer <= 0) {
-					// Start Surfacing
-					transition_timer = 8;
-					state = STATES.SURFACE;
-				}
-				else if (!is_fully_submerged() && is_grounded()) {
-					// Become Still
-					state = STATES.STILL;
+				if (!is_fully_submerged()) {
+					 if (is_grounded()) { state = STATES.STILL; }
+					 else { transition_timer = 4; }
 				}
 				else {
-					// Keep Falling
-					transition_timer = (is_fully_submerged() && fall_timer <= 8) ? 8 : 4;
+					// Surface or Update Fall Timer
+					if (fall_timer <= 0) {
+						state = STATES.SURFACE;
+						transition_timer = 8;
+					}
+					else if (fall_timer > 8) { fall_timer = fall_timer div 4; }
+					else { fall_timer -= 4; }
+					if (fall_timer < 0) { fall_timer = 0; }
+
+					transition_timer = (fall_timer < 8 || is_grounded()) ? 8 : 4;
 				}
 				break;
 			}
