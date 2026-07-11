@@ -223,7 +223,7 @@ is_blocked_on_right = function(_only_full_solids = false) {
 }
 
 is_fully_submerged = function() {
-	return at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_water);
+	return at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_water);
 }
 
 is_partially_submerged = function() {

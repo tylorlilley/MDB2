@@ -65,18 +65,19 @@ game_object_step = function() {
 			if (state == STATES.FALLING) {
 				var _fall_speed = 2;
 				if (is_fully_submerged()) {
-					if (fall_timer == 0 || is_grounded()) { _fall_speed = 0; }
+					if (array_length(carried_objects) > 0) { _fall_speed = 2; }
+					else if (fall_timer == 0 || is_grounded()) { _fall_speed = 0; }
 					else if (fall_timer < 8) { _fall_speed = 1; }
 				}
 				else { fall_timer++; }
 			
-				virtual_y += _fall_speed;
+				if (virtual_y != y) { virtual_y += _fall_speed; }
 			}
 			else if (state == STATES.SURFACE) {
-				virtual_y -= (fall_timer <= 8) ? 1 : 2;
+				if (virtual_y != y) { virtual_y -= (fall_timer <= 8) ? 1 : 2; }
 			}
 			else if (state == STATES.PUSHED) {
-				virtual_x += (is_left) ? -1 : 1;
+				if (virtual_x != x) { virtual_x += (is_left) ? -1 : 1; }
 			}
 		}
 	
@@ -103,8 +104,7 @@ game_object_step = function() {
 				case STATES.SURFACE: {
 					if (is_fully_submerged()) {
 						// Keep Surfacing
-						grid_move_up();
-						fall_timer += 4;
+						if (!is_under_ceiling()) { grid_move_up(); fall_timer += 4; }
 						transition_timer = (fall_timer <= 8) ? 8 : 4;
 					}
 					else {
@@ -115,7 +115,32 @@ game_object_step = function() {
 					break;
 				}
 				case STATES.FALLING: {
-					if (!is_fully_submerged()) {
+					if (is_fully_submerged()) {
+						if (fall_timer <= 0 && array_length(carried_objects) == 0) {
+							// Start Surfacing
+							if (!is_under_ceiling) { grid_move_up(); transition_timer = 8; }
+							state = STATES.SURFACE;
+						}
+						else {
+							// Keep Falling
+							if (fall_timer > 8) { fall_timer = fall_timer div 4; }
+							else { fall_timer -= 4; }
+							
+							if (fall_timer > 0 || array_length(carried_objects) != 0) {
+								if (!is_grounded()) { grid_move_down(); fall_timer = 8; }
+								else { 
+									// Start Surfacing
+									if (!is_under_ceiling) { grid_move_up(); transition_timer = 8; }
+									state = STATES.SURFACE;
+									fall_timer = 8;
+								}
+							}
+							if (fall_timer < 0) { fall_timer = 0; }
+
+							transition_timer = (fall_timer < 8) ? 8 : 4;
+						}
+					}
+					else {
 						 if (is_grounded()) { state = STATES.STILL; }
 						 else {
 							 // Keep Falling
@@ -123,24 +148,7 @@ game_object_step = function() {
 							 transition_timer = 4;
 						}
 					}
-					else {
-						if (fall_timer <= 0) {
-							// Start Surfacing
-							grid_move_up();
-							state = STATES.SURFACE;
-							transition_timer = 8;
-						}
-						else {
-							// Keep Falling
-							if (fall_timer > 8) { fall_timer = fall_timer div 4; }
-							else { fall_timer -= 4; }
-							
-							if (fall_timer > 0) {  if (!is_grounded()) { grid_move_down(); } }
-							else { fall_timer = 0; }
-
-							transition_timer = (fall_timer < 8) ? 8 : 4;
-						}
-					}
+					
 					break;
 				}
 				case STATES.FLOAT: { swim_timer++; break; }

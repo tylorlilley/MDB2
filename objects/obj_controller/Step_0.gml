@@ -13,7 +13,6 @@ array_sort(_dynamic_instances, function(_a, _b) {
 for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     var _inst = _dynamic_instances[_i];
     if (instance_exists(_inst)) { _inst.game_object_step(); }
-	show_debug_message(string(_inst.id) + " " + object_get_name(_inst.object_index));
 }
 
 // Handle Static Object Step

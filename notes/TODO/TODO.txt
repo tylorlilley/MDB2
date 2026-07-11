@@ -1,3 +1,8 @@
+Movement while on Moving Objects Doesn't Work
+Pushing a crate doesn't move the objects above it
+Moving a stack into a wall messes with the objects above it
+Stack of boxes falling into water doesn't work - bottom box floats up through other things?
+
 CLOUD EDGES
 MAKE OBJECTS FLOAT SLOW TO STOP AND SLOW TO RISE
 Player Diving

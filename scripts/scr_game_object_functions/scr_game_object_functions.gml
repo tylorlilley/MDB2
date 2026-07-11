@@ -41,6 +41,15 @@ function at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_game_objec
 	return array_length(instances_at_grid_position(_x, _y, _w, _h, _object_index)) > 0;
 }
 
+function at_each_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object) {
+	for (var _grid_x = 0; _grid_x < _w; _grid_x += 8) {
+		for (var _grid_y = 0; _grid_y < _h; _grid_y += 8) {
+			if (!at_grid_position(_x+_grid_x, _y+_grid_y, 8, 8, _object_index)) { return false; }
+		}
+	}
+	return true;
+}
+
 function at_grid_position_exact(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object) {
 	return array_length(instances_at_grid_position_exact(_x, _y, _w, _h, _object_index)) > 0;
 }
