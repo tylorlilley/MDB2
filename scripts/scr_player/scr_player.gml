@@ -178,6 +178,7 @@ function player_init() {
 		fall_timer = 0;
 		recoil_timer = 0;
 		transition_timer = 4;
+		grid_move_down();
 	}
 	
 	start_winning = function() {
@@ -220,22 +221,24 @@ function player_init() {
 	start_walking = function(_is_crushed = false) {
 		// First, walk on next object
 		var _prev_x = x, _prev_y = y;
-		grid_move_horizontal();
+		grid_move_to((is_left) ? x-8 : x+8, y);
 		walk_on_ground_objects();
 		grid_move_to(_prev_x, _prev_y);
 		
 		// Continue with Walking or Fall
 		if (is_grounded() || air_walk) {
 			state = (_is_crushed) ? PLAYER_STATES.CRUSHED_FORWARD : PLAYER_STATES.WALK_FORWARD;
+			grid_move_horizontal(is_left);
 			transition_timer = (_is_crushed) ? 16 : 4;
 		}
 		else { start_falling(); }
 	}
 	
 	start_hopping = function(_should_move_horizontally = false) {
-		//virtual_y -= 4;
 		play_sound(snd_player_jump);
 		state = (_should_move_horizontally) ? PLAYER_STATES.HOP_UP_FORWARD: PLAYER_STATES.HOP_UP
+		if (_should_move_horizontally) { grid_move_horizontal(is_left); }
+		grid_move_up();
 		transition_timer = 8;
 	}
 	
@@ -339,7 +342,7 @@ function update_player_state() {
 				else if (transition_timer < 14 && transition_timer >= 12) {
 					if (transition_timer == 12) {
 						virtual_x += (is_left) ? -2 : 2;
-						grid_move_horizontal();
+						grid_move_horizontal(is_left);
 						virtual_y -= 2;
 					}
 				}
@@ -374,10 +377,14 @@ function update_player_state() {
 	
 	// While Not Transitioning
 	if (transition_timer == 0) {
+		virtual_x = x;
+		virtual_y = y;
+		
+		update_player_collisions_at_position();
+		
 		switch (state) {
 			case PLAYER_STATES.SWIM:
 			case PLAYER_STATES.SWIM_FORWARD: {
-				if (state == PLAYER_STATES.SWIM_FORWARD) { grid_move_horizontal(); }
 				swim_timer++;
 
 				if (start_laddering()) { }
@@ -398,6 +405,7 @@ function update_player_state() {
 					else if (_can_walk && _horizontal_input) {
 						transition_timer = 8;
 						state = PLAYER_STATES.SWIM_FORWARD;
+						grid_move_horizontal(is_left);
 					}
 					else { state = PLAYER_STATES.SWIM; }
 				}
@@ -410,7 +418,6 @@ function update_player_state() {
 					with (obj_door) { image_index = 3; create_particles(8 + irandom(8)); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
-					global.controller.target_room = room_next(room);
 					global.controller.last_player_x = x;
 					global.controller.last_player_y = y;
 				}
@@ -423,15 +430,11 @@ function update_player_state() {
 			}
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
-				// Move Position Based on Previous State
-				grid_move_up();
-				if (state == PLAYER_STATES.HOP_UP_FORWARD) { grid_move_horizontal(); }
-					
 				// Check Current Position
 				var _can_walk = ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
 				var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
 				var _on_hop_height_ground = false, _prev_x = x, _prev_y = y;
-				grid_move_horizontal();
+				grid_move_to((is_left) ? x-8 : x+8, y);
 				_on_hop_height_ground = is_grounded();
 				grid_move_to(_prev_x, _prev_y);
 
@@ -451,6 +454,8 @@ function update_player_state() {
 					if (_can_climb && (_horizontal_input || global.controller.original_controls)) { start_climbing(_climbed_obj); }
 					else {
 						state = (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD) ? PLAYER_STATES.HOP_DOWN_FORWARD : PLAYER_STATES.HOP_DOWN;
+						grid_move_down();
+						if (state == PLAYER_STATES.HOP_DOWN_FORWARD) { grid_move_horizontal(is_left); }
 						transition_timer = 8;
 					}
 				}
@@ -468,14 +473,8 @@ function update_player_state() {
 			case PLAYER_STATES.CROUCH:
 			case PLAYER_STATES.TURN:
 			case PLAYER_STATES.POWERCROUCH: {
-				// Move Position Based on Previous State
-				if (state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.PUSH_FORWARD || state == PLAYER_STATES.CRUSHED_FORWARD || state == PLAYER_STATES.HOP_DOWN_FORWARD) {
-					grid_move_horizontal();
-				}
-				if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) { grid_move_down(); }
-
 				// Update New State
-				if (start_laddering()) { }
+				if (state != PLAYER_STATES.CRUSHED_STAND && state != PLAYER_STATES.CRUSHED_FORWARD && start_laddering()) { }
 				else if (!is_grounded()) {
 					start_falling();
 				}
@@ -566,13 +565,17 @@ function update_player_state() {
 
 								if (_can_walk && y == _pushed_obj.y) {
 									// Push Box
-									state = PLAYER_STATES.PUSH_FORWARD;
-									transition_timer = 8;
 									with (_pushed_obj) {
+										// Start Being Pushed
 										is_left = other.is_left;
+										grid_move_horizontal(is_left);
 										state = STATES.PUSHED;
 										transition_timer = 8;
 									}
+									// Push Self
+									state = PLAYER_STATES.PUSH_FORWARD;
+									transition_timer = 8;
+									grid_move_horizontal(is_left);
 								}
 								else if (!global.controller.original_controls) {
 									// Push Against Solid Wall
@@ -614,9 +617,6 @@ function update_player_state() {
 			}
 			case PLAYER_STATES.FLY:
 			case PLAYER_STATES.POWERFLY: {
-				// Move Position Based on Previous State
-				grid_move_up();
-					
 				if (start_laddering()) { }
 				else {
 					// First, fly into ceiilng objects
@@ -686,6 +686,7 @@ function update_player_state() {
 					else {
 						// Keep Flying
 						transition_timer = 4;
+						grid_move_up();
 						if (fly_timer >= 16 && state != PLAYER_STATES.POWERFLY) { state = PLAYER_STATES.POWERFLY; play_sound(snd_player_powerup); }
 					}
 				}
@@ -695,9 +696,6 @@ function update_player_state() {
 			case PLAYER_STATES.DAZED_FALL:
 			case PLAYER_STATES.TUMBLE:
 			case PLAYER_STATES.POWERFALL: {
-				// Move Position Based on Previous State
-				grid_move_down();
-					
 				if (start_laddering()) { }
 				else {
 					// First, land on ground objects
@@ -761,8 +759,10 @@ function update_player_state() {
 							// Player reaction to landing
 							state = PLAYER_STATES.RECOIL;
 							transition_timer = 2;
+							grid_move_up();
 						}
 						else if (fall_timer < 10) {
+							// Land without extra Delay
 							start_standing();
 							transition_timer = 4;
 						}
@@ -778,21 +778,20 @@ function update_player_state() {
 						// Keep Falling
 						if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 						if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; play_sound(snd_player_takeoff); }
+						grid_move_down();
 						transition_timer = 4;
 					}
 				}
 				break;
 			}
 			case PLAYER_STATES.RECOIL: {
-				// Move Position Based on Previous State
-				grid_move_up();
-				
 				// Decide New State
 				if (start_laddering()) { }
 				else if (is_grounded()) { start_standing(); }
 				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); fall_timer = -8; }
 				else {
 					// Keep Recoiling
+					grid_move_up();
 					transition_timer = 2;
 				}
 				break;
@@ -800,21 +799,19 @@ function update_player_state() {
 			case PLAYER_STATES.LADDER:
 			case PLAYER_STATES.LADDER_UP:
 			case PLAYER_STATES.LADDER_DOWN: {
-				// Move Position Based on Previous State
-				if (state == PLAYER_STATES.LADDER_UP) { grid_move_up(); }
-				else if (state == PLAYER_STATES.LADDER_DOWN) { grid_move_down(); }
-						
 				// Decide New State Based on Player Input
 				if (instance_exists(get_closest_ladder())) {
 					if (key_up && can_ladder_up()) {
 						transition_timer = 8;	
 						state = PLAYER_STATES.LADDER_UP;
 						play_sound(snd_player_ladder_step);
+						grid_move_up();
 					}
 					else if (key_down && can_ladder_down()) {
 						transition_timer = 8;	
 						state = PLAYER_STATES.LADDER_DOWN;
 						play_sound(snd_player_ladder_step);
+						grid_move_down();
 					}
 					else if (!instance_exists(get_closest_ladder())) { 
 						start_falling();
@@ -840,13 +837,9 @@ function update_player_state() {
 				break;
 			}
 		}
-		
-		virtual_x = x;
-		virtual_y = y;
 	}
-	
-	// Update player position for moving platforms
-	// TODO
+
+	update_carried_object_offsets();
 }
 
 function update_cape_graphics() {
@@ -1365,11 +1358,26 @@ function update_player_collisions_at_position() {
 	else if (is_partially_submerged()) {
 		if (state == PLAYER_STATES.RECOIL) { state = PLAYER_STATES.SWIM; transition_timer = 4; }
 	}
-						
-	// Win Game From Door
-	else if (at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_door) && state != PLAYER_STATES.WIN && instance_number(obj_key) == 0) {
-		start_winning();
-		stop_music();
-		play_sound(snd_level_clear);
+	
+	// Collide with Full Overlaps
+	var _fully_overlapping_instances = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
+	for (var _i = 0; _i < array_length(_fully_overlapping_instances); _i++) {
+		var _inst = _fully_overlapping_instances[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (_inst.is_a(obj_door)) {
+			if (_inst.image_index >= 2 && state != PLAYER_STATES.WIN) {
+				start_winning();
+				stop_music();
+				play_sound(snd_level_clear);
+			}
+		}
+		if (_inst.is_a(obj_key)) {
+			with (_inst) {
+				instance_destroy();
+				particle_color = c_white;
+				create_particles(8 + irandom(8), true, spr_sparkle);
+			}
+		}
 	}
 }

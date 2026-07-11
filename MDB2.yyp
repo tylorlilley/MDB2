@@ -55,6 +55,7 @@
     {"id":{"name":"obj_key","path":"objects/obj_key/obj_key.yy",},},
     {"id":{"name":"obj_ladder","path":"objects/obj_ladder/obj_ladder.yy",},},
     {"id":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},},
+    {"id":{"name":"obj_moving_platform","path":"objects/obj_moving_platform/obj_moving_platform.yy",},},
     {"id":{"name":"obj_particle","path":"objects/obj_particle/obj_particle.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_rock","path":"objects/obj_rock/obj_rock.yy",},},
@@ -200,6 +201,7 @@
     {"roomId":{"name":"rm_new_1_1","path":"rooms/rm_new_1_1/rm_new_1_1.yy",},},
     {"roomId":{"name":"rm_new_1_2","path":"rooms/rm_new_1_2/rm_new_1_2.yy",},},
     {"roomId":{"name":"rm_new_1_3","path":"rooms/rm_new_1_3/rm_new_1_3.yy",},},
+    {"roomId":{"name":"rm_water_test","path":"rooms/rm_water_test/rm_water_test.yy",},},
     {"roomId":{"name":"rm_new_0_1","path":"rooms/rm_new_0_1/rm_new_0_1.yy",},},
     {"roomId":{"name":"rm_ladder_test","path":"rooms/rm_ladder_test/rm_ladder_test.yy",},},
     {"roomId":{"name":"rm_old3_1_3","path":"rooms/rm_old3_1_3/rm_old3_1_3.yy",},},
@@ -207,7 +209,6 @@
     {"roomId":{"name":"rm_area_test","path":"rooms/rm_area_test/rm_area_test.yy",},},
     {"roomId":{"name":"rm_area_test_1","path":"rooms/rm_area_test_1/rm_area_test_1.yy",},},
     {"roomId":{"name":"rm_old2_1_1","path":"rooms/rm_old2_1_1/rm_old2_1_1.yy",},},
-    {"roomId":{"name":"rm_water_test","path":"rooms/rm_water_test/rm_water_test.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

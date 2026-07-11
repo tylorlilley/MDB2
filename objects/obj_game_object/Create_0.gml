@@ -74,14 +74,22 @@ grid_move_to = function(_new_x, _new_y) {
 	grid_add();
 }
 
-grid_move_horizontal = function() {
-	var _x_offset = (is_left) ? -8 : 8;
-	grid_move_to(x + _x_offset, y);
-}
+grid_move_horizontal = function(_is_left) {
+	var _x_offset = (_is_left) ? -8 : 8;
+	var _can_move = (_is_left) ? !is_blocked_on_left() : !is_blocked_on_right()
+	if (_can_move && x+_x_offset >= 0 && x+_x_offset <= room_width-sprite_get_width(sprite_index)) { 
+		grid_move_to(x + _x_offset, y);
+		
+		for (var _i = 0; _i < array_length(carried_objects); _i++) {
+			var _carried_inst = carried_objects[_i];
+			if (instance_exists(_carried_inst)) {
+				_carried_inst.grid_move_horizontal(_is_left);
+			}
+		}
 
-grid_move_reverse_horizontal = function() {
-	var _x_offset = (is_left) ? 8 : -8;
-	grid_move_to(x + _x_offset, y);
+		return [];
+	}
+	else { return []; }
 }
 
 grid_move_up = function() {
@@ -118,6 +126,12 @@ get_ground_objects_at  = function(_x_pos, _y_pos, _width = 8, _height = 8, _only
     }, _only_full_solids);
 }
 */
+
+get_carried_objects = function() {
+	return get_relative_solid_objects(0, -8, function(inst) {
+        return inst.is_a(obj_dynamic_game_object) && inst.has_gravity;
+    });
+}
 
 get_ground_objects = function(_only_full_solids = false) {
 	return get_relative_solid_objects(0, 8, function(inst, ofs) {
@@ -340,6 +354,10 @@ create_particles = function(_total_particles, _randomize = true, _particle_sprit
 		}
 	}
 	return _particles;
+}
+
+is_a = function(_object_index) {
+	return (object_index == _object_index || object_is_ancestor(object_index, _object_index));
 }
 
 // Game Action Functions

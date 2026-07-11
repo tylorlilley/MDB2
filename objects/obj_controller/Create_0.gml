@@ -8,6 +8,7 @@ transition_surface = noone;
 transition_duration = 24;
 transition_hold = 12;
 transition_delay = 40;
+room_seed = random_get_seed();
 
 frame_sounds = [];
 
@@ -21,7 +22,7 @@ initialize_room = function(_new_room) {
 	var _cols = room_get_info(_new_room).width div 8, _rows = room_get_info(_new_room).height div 8;
 	game_object_grid = array_create(_cols);
 	for (var _x = 0; _x < _cols; _x++) {
-		game_object_grid[_x] = array_create(_rows, []);
+		game_object_grid[_x] = array_create(_rows);
 		for (var _y = 0; _y < _rows; _y++) {
 	        game_object_grid[_x][_y] = [];
 	    }
@@ -29,10 +30,12 @@ initialize_room = function(_new_room) {
 }
 
 reset_room = function() {
-	transition_room(room);
+	transition_room(room, room_seed);
 }
 
-transition_room = function(_new_room) {
+transition_room = function(_new_room, _new_room_seed = noone) {
+	room_seed = (_new_room_seed == noone) ? randomize() : _new_room_seed;
+	random_set_seed(room_seed);
 	initialize_room(_new_room);
 	room_goto(_new_room);
 }
