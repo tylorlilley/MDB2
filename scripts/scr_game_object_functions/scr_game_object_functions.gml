@@ -166,10 +166,10 @@ get_damaged = function() {
 	if (hits == 0) { instance_destroy(); }
 }
 
-fall_on = function() {
+fall_on = function(_fall_dist) {
 	if (is_fragile) { get_damaged(); }
 	else if (walk_particles > 0) {
-		for (var _i = 0; _i < (fall_timer % 4)+2; _i++) { create_walk_particles(); }
+		for (var _i = 0; _i < (_fall_dist % 4)+2; _i++) { create_walk_particles(); }
 	}
 	if (audio_exists(step_sound)) { play_sound(step_sound); }
 }

@@ -21,10 +21,6 @@ get_float_offset = function() {
 	return _y_offset;
 }
 
-update_transition_speed = function() {
-	transition_speed = (transition_timer > 0) ? (2 * (4 / transition_timer)) : 0;
-}
-
 // State References
 is_grounded_state = function() {
 	return (state == STATES.PUSHED || state == STATES.STILL);
@@ -44,7 +40,7 @@ grid_move_to = function(_new_x, _new_y) {
 
 virtual_move_horizontal = function(_x_offset) {
 	virtual_x += _x_offset
-	for (var _i = 0; _i < array_length(carried_objects); _i++) {
+	for (var _i = 0; _i < array_length(get_carried_objects()); _i++) {
 		var _inst = carried_objects[_i];
 		_inst.virtual_move_horizontal(_x_offset);
 	}
@@ -52,52 +48,108 @@ virtual_move_horizontal = function(_x_offset) {
 
 virtual_move_vertical = function(_y_offset) {
 	virtual_y += _y_offset
-	for (var _i = 0; _i < array_length(carried_objects); _i++) {
+	for (var _i = 0; _i < array_length(get_carried_objects()); _i++) {
 		var _inst = carried_objects[_i];
 		_inst.virtual_move_vertical(_y_offset);
 	}
 }
 
-grid_move_up = function() {
+grid_move_up = function(_speed) {
+	if (is_under_ceiling() || _speed == 0) { return false; }
+	
+	var _carried_objects = get_carried_objects();
+	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+		var _inst = _carried_objects[_i];
+		_inst.grid_move_up(_speed);
+	}
 	grid_move_to(x, y - 8);
-	for (var _i = 0; _i < array_length(carried_objects); _i++) {
-		var _inst = carried_objects[_i];
-		_inst.grid_move_up();
-	}
+	y_transition_timer += 8 / _speed;
+	
+	return true;
 }
 
-grid_move_down = function() {
+grid_move_down = function(_speed) {
+	if (is_grounded() || _speed == 0) { return false; }
+	
+	var _carried_objects = get_carried_objects();
+	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+		var _inst = _carried_objects[_i];
+		_inst.grid_move_down(_speed);
+	}
 	grid_move_to(x, y + 8);
-	for (var _i = 0; _i < array_length(carried_objects); _i++) {
-		var _inst = carried_objects[_i];
-		_inst.grid_move_down();
-	}
+	y_transition_timer += 8 / _speed;
+	
+	return true;
 }
 
-grid_move_left = function() {
+grid_move_left = function(_speed) {
+	if (is_blocked_on_left() || _speed == 0) { return false; }
+	
+	var _carried_objects = get_carried_objects();
+	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+		var _inst = _carried_objects[_i];
+		_inst.grid_move_left(_speed);
+	}
 	grid_move_to(x - 8, y);
-	for (var _i = 0; _i < array_length(carried_objects); _i++) {
-		var _inst = carried_objects[_i];
-		_inst.grid_move_left();
-	}
+	x_transition_timer += 8 / _speed;
+	
+	return true;
 }
 
-grid_move_right = function() {
+grid_move_right = function(_speed) {
+	if (is_blocked_on_right() || _speed == 0) { return false; }
+	
+	var _carried_objects = get_carried_objects();
+	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+		var _inst = _carried_objects[_i];
+		_inst.grid_move_right(_speed);
+	}
 	grid_move_to(x + 8, y);
-	for (var _i = 0; _i < array_length(carried_objects); _i++) {
-		var _inst = carried_objects[_i];
-		_inst.grid_move_right();
-	}
+	x_transition_timer += 8 / _speed;
+	
+	return true;
 }
 
+grid_move_up_direct = function(_speed) {
+	grid_move_to(x, y - 8);
+	x_transition_timer += 8 / _speed;
+}
+
+grid_move_down_direct = function(_speed) {
+	grid_move_to(x, y + 8);
+	y_transition_timer += 8 / _speed;
+}
+
+grid_move_horizontal = function(_speed) {
+	if (_speed < 0 && !grid_move_left(_speed)) {
+		sound_play(snd_soft_thud);
+		return false; 
+	}
+	else if (_speed > 0 && !grid_move_right(_speed)) {
+		sound_play(snd_soft_thud);
+		return false; 
+	}
+	
+	return true;
+}
 
 // Collision Detection
 
 // Get List of Specified Objects
 get_carried_objects = function() {
-	return get_relative_solid_objects(0, -8, function(inst) {
+	var _actual_carried_objects = []
+	var _possible_carried_objects = get_relative_solid_objects(0, -8, function(inst) {
         return is_a(inst, obj_dynamic_object) && inst.has_gravity;
     });
+	for (var _i = 0; _i < array_length(_possible_carried_objects); _i++) {
+		var _inst = _possible_carried_objects[_i];
+		if (_inst.is_grounded()) {
+			grid_remove();
+			if (!_inst.is_grounded()) { array_push(_actual_carried_objects, _inst); }
+			grid_add();
+		}
+	}
+	return _actual_carried_objects;
 }
 
 get_ground_objects = function(_only_full_solids = false) {
@@ -188,11 +240,9 @@ is_partially_submerged = function() {
 
 start_being_pushed = function(_pushed_left) {
 	// Start Being Pushed
-	if (_pushed_left) { grid_move_left(); }
-	else { grid_move_right(); }
+	if (_pushed_left) { grid_move_left(1); }
+	else { grid_move_right(1); }
 	state = STATES.PUSHED;
-	transition_timer = 8;
-	update_transition_speed();
 }
 
 game_object_move = function() {
@@ -203,7 +253,8 @@ game_object_step = function() {
 	if (has_gravity) {
 		if (transition_timer > 0) {
 			transition_timer--;
-		
+			
+			/*
 			if (state == STATES.FALLING) {
 				if (!is_fully_submerged()) { fall_timer++; }
 				if (y != virtual_y) { virtual_move_vertical(transition_speed); }
@@ -218,11 +269,12 @@ game_object_step = function() {
 				if (x != virtual_x) { virtual_move_horizontal(transition_speed * _x_offset); }
 				else { transition_timer = 0; }
 			}
+			*/
 		}
 	
 		if (transition_timer == 0) {
-			virtual_x = x;
-			virtual_y = y;
+			//virtual_x = x;
+			//virtual_y = y;
 			
 			if (state != STATES.FALLING && state != STATES.SURFACE) { fall_timer = 0; }
 			if ( state != STATES.FLOAT) { swim_timer = 0; }
@@ -232,14 +284,13 @@ game_object_step = function() {
 				case STATES.PUSHED: {
 					if (is_fully_submerged()) {
 						// Start Surfacing
-						if (!is_under_ceiling) { grid_move_up(); transition_timer = 8; }
+						if (!is_under_ceiling) { grid_move_up(1); }
 						state = STATES.SURFACE;
 						fall_timer = 0;
 					}
 					else if (!is_grounded()) {
 						// Start Falling
-						grid_move_down();
-						transition_timer = 4;
+						grid_move_down(2);
 						state = STATES.FALLING;
 					}
 					else { state = STATES.STILL; }
@@ -249,8 +300,7 @@ game_object_step = function() {
 				case STATES.SURFACE: {
 					if (is_fully_submerged()) {
 						// Keep Surfacing
-						if (!is_under_ceiling()) { grid_move_up(); fall_timer += 4; }
-						transition_timer = 8;
+						if (!is_under_ceiling()) { grid_move_up((fall_timer < 8) ? 1 : 2); fall_timer += 4; }
 					}
 					else {
 						// Start Floating
@@ -263,7 +313,7 @@ game_object_step = function() {
 					if (is_grounded()) { state = STATES.STILL; }
 					else {
 						if (is_fully_submerged()) {
-							if (array_length(carried_objects) == 0) {
+							if (array_length(get_carried_objects()) == 0) {
 								// Falling Underwater With Nothing Pushing Down
 								
 								// Reduce Fall Timer
@@ -279,8 +329,7 @@ game_object_step = function() {
 								}
 								else {
 									// Keep Falling
-									grid_move_down();
-									transition_timer = (fall_timer < 8) ? 8 : 4;
+									grid_move_down((fall_timer < 8) ? 1 : 2);
 								}
 								
 							}
@@ -288,16 +337,14 @@ game_object_step = function() {
 								// Falling Underwater While Being Pushed Down
 								
 								 // Keep Falling
-								 grid_move_down();
-								 transition_timer = 4;
+								 grid_move_down(2);
 							}
 						}
 						else {
 							// Falling While Not Underwater
 							
 							// Keep Falling
-							 grid_move_down();
-							 transition_timer = 4;
+							 grid_move_down(2);
 						}
 					}
 					
@@ -305,8 +352,6 @@ game_object_step = function() {
 				}
 				case STATES.FLOAT: { swim_timer++; break; }
 			}
-		
-			update_transition_speed();
 		}
 	}
 	else {
@@ -318,20 +363,14 @@ game_object_step = function() {
 		}
 		
 		if (transition_timer == 0) {	
-			virtual_x = x;
-			virtual_y = y;
-			
 			var _can_move = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
 			if (_can_move) {
-				if (is_left) { grid_move_left(); }
-				else { grid_move_right(); }
-				transition_timer = 4;
+				if (is_left) { grid_move_left(2); }
+				else { grid_move_right(2); }
 			}
 			else {
 				is_left = !is_left;
 			}
-			
-			update_transition_speed();
 		}
 	}
 }

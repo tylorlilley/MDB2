@@ -104,6 +104,7 @@
     {"id":{"name":"snd_player_takeoff","path":"sounds/snd_player_takeoff/snd_player_takeoff.yy",},},
     {"id":{"name":"snd_player_tumble","path":"sounds/snd_player_tumble/snd_player_tumble.yy",},},
     {"id":{"name":"snd_pop","path":"sounds/snd_pop/snd_pop.yy",},},
+    {"id":{"name":"snd_soft_thud","path":"sounds/snd_soft_thud/snd_soft_thud.yy",},},
     {"id":{"name":"snd_step_bridge","path":"sounds/snd_step_bridge/snd_step_bridge.yy",},},
     {"id":{"name":"snd_step_bubble","path":"sounds/snd_step_bubble/snd_step_bubble.yy",},},
     {"id":{"name":"snd_step_cloud","path":"sounds/snd_step_cloud/snd_step_cloud.yy",},},

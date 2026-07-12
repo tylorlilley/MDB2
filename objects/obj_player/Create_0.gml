@@ -1,4 +1,5 @@
 event_inherited();
+
 // Game Object Variables
 has_gravity = true;
 is_ground = true;

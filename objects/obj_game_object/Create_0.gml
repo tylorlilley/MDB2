@@ -23,11 +23,7 @@ is_fragile = false;
 is_connected = false;
 
 hits = 1;
-move_timer = 0;
-transition_timer = 0;
 particle_color = c_white;
-fall_timer = 0;
-swim_timer = 0;
 image_speed = 0;
 destroyed_sound = snd_explosion;
 

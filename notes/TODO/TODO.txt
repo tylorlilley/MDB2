@@ -1,6 +1,6 @@
 Dynamic Objects don't interact with each other
 Stack of falling crates into water don't work
-
+Pushing stack of crates don't work
 Pushng a crate from both sides doesn't work
 Pushing a crate doesn't move the objects above it properly
 Movement while on Moving Objects Doesn't Work
@@ -16,6 +16,7 @@ Swimming Crushed State?
 Tumble sound effect replaced with longer sound effect that plays for entire fall
 Make Particles Color an argument
 Make PowerFall Stop Working Underwater?
+keep crushed walk in grid until movement finishes?
 
 // REFACTOR:
 

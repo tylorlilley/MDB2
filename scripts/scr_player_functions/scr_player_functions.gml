@@ -146,8 +146,7 @@ start_falling = function(_is_dazed = false) {
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 	fall_timer = 0;
 	recoil_timer = 0;
-	transition_timer = 4;
-	grid_move_down();
+	grid_move_down(2);
 }
 	
 start_winning = function() {
@@ -197,9 +196,9 @@ start_walking = function(_is_crushed = false) {
 	// Continue with Walking or Fall
 	if (is_grounded() || air_walk) {
 		state = (_is_crushed) ? PLAYER_STATES.CRUSHED_FORWARD : PLAYER_STATES.WALK_FORWARD;
-		transition_timer = (_is_crushed) ? 16 : 4;
-		if (is_left) { grid_move_left(); }
-		else { grid_move_right(); }
+		var _speed = (_is_crushed) ? 0.5 : 2;
+		grid_move_horizontal(_speed * left_value())
+		transition_timer = (_is_crushed) ? 4 : 0;
 	}
 	else { start_falling(); }
 }
@@ -207,12 +206,8 @@ start_walking = function(_is_crushed = false) {
 start_hopping = function(_should_move_horizontally = false) {
 	play_sound(snd_player_jump);
 	state = (_should_move_horizontally) ? PLAYER_STATES.HOP_UP_FORWARD: PLAYER_STATES.HOP_UP
-	if (_should_move_horizontally) {
-		if (is_left) { grid_move_left(); }
-		else { grid_move_right(); }
-	}
-	grid_move_up();
-	transition_timer = 8;
+	if (_should_move_horizontally) { grid_move_horizontal(left_value()); }
+	grid_move_up(1);
 }
 	
 start_laddering = function() {
@@ -259,6 +254,11 @@ can_start_laddering = function() {
 	return at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
 }
 
+left_value = function() {
+	return (is_left) ? -1 : 1;
+}
+
+// Main Functions
 update_player_state = function() {
 	prev_state = state;
 
@@ -277,6 +277,8 @@ update_player_state = function() {
 	// While Transitioning
 	if (transition_timer > 0) {
 		transition_timer--;
+		
+		var _prev_virtual_x = virtual_x, _prev_virtual_y = virtual_y;
 
 		switch (state) {
 			case PLAYER_STATES.HOP_DOWN:
@@ -324,13 +326,12 @@ update_player_state = function() {
 				else if (transition_timer < 22 && transition_timer >= 20) {
 					virtual_y += (-1);
 					if (transition_timer == 20) {
-						grid_move_up();
+						grid_move_up(1);
 					}
 				}
 				else if (transition_timer < 20 && transition_timer >= 18) {
 					if (transition_timer == 18) {
-						if (is_left) { grid_move_left(); }
-						else { grid_move_right(); }
+						grid_move_horizontal(left_value())
 						virtual_x += ((is_left) ? -2 : 2);
 						walk_on_ground_objects(); // TODO: Should we not do this here?
 					}
@@ -381,6 +382,9 @@ update_player_state = function() {
 				break;
 			}
 		}
+	
+		virtual_x = _prev_virtual_x;
+		virtual_y = _prev_virtual_y;
 	}
 	
 	// While Not Transitioning
@@ -459,12 +463,10 @@ update_player_state = function() {
 					else {
 						if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD) {
 							state = PLAYER_STATES.HOP_DOWN_FORWARD
-							if (is_left) { grid_move_left(); }
-							else { grid_move_right(); }
+							grid_move_horizontal(left_value());
 						}
 						else { state = PLAYER_STATES.HOP_DOWN; }
-						grid_move_down();
-						transition_timer = 8;
+						grid_move_down(1);
 					}
 				}
 				break;
@@ -529,7 +531,7 @@ update_player_state = function() {
 						var _ground_objects = get_ground_objects();
 						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 							var _inst = _ground_objects[_i];
-							if (instance_exists(_inst) && _inst.is_solid_from_above()) { _inst.fall_on(); }
+							if (instance_exists(_inst) && _inst.is_solid_from_above()) { _inst.fall_on(fall_timer); }
 						}
 					}
 					else if (state == PLAYER_STATES.WALK_FORWARD && air_walk) {
@@ -576,9 +578,7 @@ update_player_state = function() {
 									_pushed_obj.start_being_pushed(is_left);
 									// Push Self
 									state = PLAYER_STATES.PUSH_FORWARD;
-									transition_timer = 8;
-									if (is_left) { grid_move_left(); }
-									else { grid_move_right(); }
+									grid_move_horizontal(left_value())
 								}
 								else if (!global.controller.original_controls) {
 									// Push Against Solid Wall
@@ -598,9 +598,8 @@ update_player_state = function() {
 							else {
 								if (state == PLAYER_STATES.POWERCROUCH) {
 									state = PLAYER_STATES.POWERFLY;
-									transition_timer = 4;
 									play_sound(snd_player_takeoff);
-									grid_move_up();
+									grid_move_up(2);
 								}
 								else if (!global.controller.original_controls) { start_hopping(); }
 							}
@@ -693,8 +692,7 @@ update_player_state = function() {
 					}
 					else {
 						// Keep Flying
-						transition_timer = 4;
-						grid_move_up();
+						grid_move_up(2);
 						if (fly_timer >= 16 && state != PLAYER_STATES.POWERFLY) { state = PLAYER_STATES.POWERFLY; play_sound(snd_player_powerup); }
 					}
 				}
@@ -712,7 +710,7 @@ update_player_state = function() {
 						var _ground_objects = get_ground_objects();
 						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 							var _inst = _ground_objects[_i];
-							_inst.fall_on();
+							_inst.fall_on(fall_timer);
 						}
 					}
 				
@@ -766,8 +764,7 @@ update_player_state = function() {
 						
 							// Player reaction to landing
 							state = PLAYER_STATES.RECOIL;
-							transition_timer = 2;
-							grid_move_up();
+							if (!grid_move_up(4)) { play_sound(snd_soft_thud); }
 						}
 						else if (fall_timer < 10) {
 							// Land without extra Delay
@@ -786,8 +783,7 @@ update_player_state = function() {
 						// Keep Falling
 						if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 						if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; play_sound(snd_player_takeoff); }
-						grid_move_down();
-						transition_timer = 4;
+						grid_move_down(2);
 					}
 				}
 				break;
@@ -799,8 +795,7 @@ update_player_state = function() {
 				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); fall_timer = -8; }
 				else {
 					// Keep Recoiling
-					grid_move_up();
-					transition_timer = 2;
+					grid_move_up(4);
 				}
 				break;
 			}
@@ -810,16 +805,14 @@ update_player_state = function() {
 				// Decide New State Based on Player Input
 				if (instance_exists(get_closest_ladder())) {
 					if (key_up && can_ladder_up()) {
-						transition_timer = 8;	
 						state = PLAYER_STATES.LADDER_UP;
 						play_sound(snd_player_ladder_step);
-						grid_move_up();
+						grid_move_up_direct(1);
 					}
 					else if (key_down && can_ladder_down()) {
-						transition_timer = 8;	
 						state = PLAYER_STATES.LADDER_DOWN;
 						play_sound(snd_player_ladder_step);
-						grid_move_down();
+						grid_move_down_direct(1);
 					}
 					else if (!instance_exists(get_closest_ladder())) { 
 						start_falling();

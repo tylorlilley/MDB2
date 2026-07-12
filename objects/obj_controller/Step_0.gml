@@ -2,7 +2,8 @@
 var _dynamic_instances = [];
 
 with (obj_dynamic_object) {
-	carried_objects = get_carried_objects();
+	//carried_objects = get_carried_objects();
+	//if (transition_timer == 0) { virtual_x = x; virtual_y = y; }
 }
 with (obj_dynamic_object) { array_push(_dynamic_instances, id); }
 array_sort(_dynamic_instances, function(_a, _b) {
@@ -11,6 +12,24 @@ array_sort(_dynamic_instances, function(_a, _b) {
 for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     var _inst = _dynamic_instances[_i];
     if (instance_exists(_inst)) { _inst.game_object_step(); }
+}
+for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
+    var _inst = _dynamic_instances[_i];
+	with(_inst) {
+		// Update Virtual X and Y Positions Based on new Actual Positions
+		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
+		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff div x_transition_timer);
+		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff div y_transition_timer);
+		if (_x_speed != 0) { virtual_x += _x_speed; }
+		if (_y_speed != 0) { virtual_y += _y_speed; }
+		
+		// Update Transition Timers Based on Remaining Transition Time
+		if (x_transition_timer > 0) { x_transition_timer--; }
+		if (y_transition_timer > 0) { y_transition_timer-- }
+		if (x_transition_timer > 0 && y_transition_timer > 0) { transition_timer = min(x_transition_timer, y_transition_timer); }
+		else if (x_transition_timer > 0) { transition_timer = x_transition_timer; }
+		else if (y_transition_timer > 0) { transition_timer = y_transition_timer; }
+	}
 }
 
 // Handle Static Object Step
