@@ -1,19 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_ladder",
+  "%Name":"obj_static_object",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_ladder",
+  "name":"obj_static_object",
   "overriddenProperties":[],
   "parent":{
-    "name":"Game Objects",
-    "path":"folders/Objects/Game Objects.yy",
+    "name":"Parents",
+    "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_game_object",
+    "path":"objects/obj_game_object/obj_game_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_ladder",
-    "path":"sprites/spr_ladder/spr_ladder.yy",
+    "name":"spr_box_16x16",
+    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_16x16",

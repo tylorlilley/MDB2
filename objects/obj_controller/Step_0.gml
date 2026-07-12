@@ -1,12 +1,10 @@
 // Handle Dynamic Game Object Step
 var _dynamic_instances = [];
 
-with (obj_dynamic_game_object) {
+with (obj_dynamic_object) {
 	carried_objects = get_carried_objects();
-	carrier_x_offset = 0;
-	carrier_count = 0;
 }
-with (obj_dynamic_game_object) { array_push(_dynamic_instances, id); }
+with (obj_dynamic_object) { array_push(_dynamic_instances, id); }
 array_sort(_dynamic_instances, function(_a, _b) {
     return sign(_b.y - _a.y);
 });
@@ -54,11 +52,11 @@ with (obj_ladder) {
 	else if (!_ladder_above) { image_index = 2; }
 }
 with (obj_key) {
-	shine();
+	shine_periodically();
 }
 with (obj_door) {
 	if (image_index <= 1) {
-		shine();
+		shine_periodically();
 
 		if (instance_number(obj_key) == 0) {
 			create_particles(8 + irandom(8));

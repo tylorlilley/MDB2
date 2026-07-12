@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_game_audio_functions",
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

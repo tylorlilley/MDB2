@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_game_object",
+  "%Name":"scr_player_functions",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_game_object",
+  "name":"scr_player_functions",
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

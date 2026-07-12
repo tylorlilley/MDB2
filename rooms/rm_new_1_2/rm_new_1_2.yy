@@ -933,8 +933,8 @@
   ],
   "name":"rm_new_1_2",
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Rooms",
+    "path":"folders/Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

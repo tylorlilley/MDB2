@@ -1,19 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_static_game_object",
+  "%Name":"obj_mirror_player",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_static_game_object",
+  "name":"obj_mirror_player",
   "overriddenProperties":[],
   "parent":{
-    "name":"Parents",
-    "path":"folders/Objects/Parents.yy",
+    "name":"Game Objects",
+    "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_game_object",
-    "path":"objects/obj_game_object/obj_game_object.yy",
+    "name":"obj_player",
+    "path":"objects/obj_player/obj_player.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,12 +33,9 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_box_16x16",
-    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+    "name":"spr_player_dazed_stand",
+    "path":"sprites/spr_player_dazed_stand/spr_player_dazed_stand.yy",
   },
-  "spriteMaskId":{
-    "name":"spr_box_16x16",
-    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
-  },
+  "spriteMaskId":null,
   "visible":true,
 }

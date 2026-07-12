@@ -1,3 +1,4 @@
+grid_remove();
 if (x > 0 && y > 0 && x < room_width && y < room_height) {
 	particle_color = make_color_rgb(60, 188, 255);
 	create_particles(8 + irandom(8));
@@ -16,4 +17,3 @@ with (global.controller) {
 	last_player_x = other.last_x;
 	last_player_y = other.last_y;
 }
-instance_destroy();

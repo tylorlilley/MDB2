@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_player",
+  "%Name":"scr_dynamic_object_functions",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_player",
+  "name":"scr_dynamic_object_functions",
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

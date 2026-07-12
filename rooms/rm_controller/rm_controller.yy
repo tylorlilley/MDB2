@@ -17,8 +17,8 @@
   ],
   "name":"rm_controller",
   "parent":{
-    "name":"MDB2",
-    "path":"MDB2.yyp",
+    "name":"Rooms",
+    "path":"folders/Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{
