@@ -106,10 +106,6 @@ is_crouch_state = function() {
 	return (state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH)
 }
 	
-is_crouch_state = function() {
-	return (state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH)
-}
-	
 is_floating_state = function() {
 	return state == PLAYER_STATES.SWIM;
 }
@@ -232,8 +228,7 @@ for (var _i = 0; _i < array_length(_ladder_objects); _i++) {
 return _closest_ladder;
 }
 
-can_ladder_up = function() {
-	var _closest_ladder = get_closest_ladder();
+can_ladder_up = function(_closest_ladder) {
 	return (
 		instance_exists(_closest_ladder) &&
 		x == _closest_ladder.x &&
@@ -241,8 +236,7 @@ can_ladder_up = function() {
 	);
 }
 
-can_ladder_down = function() {
-	var _closest_ladder = get_closest_ladder();
+can_ladder_down = function(_closest_ladder) {
 	return (
 		instance_exists(_closest_ladder) &&
 		x == _closest_ladder.x &&
@@ -803,19 +797,17 @@ update_player_state = function() {
 			case PLAYER_STATES.LADDER_UP:
 			case PLAYER_STATES.LADDER_DOWN: {
 				// Decide New State Based on Player Input
-				if (instance_exists(get_closest_ladder())) {
-					if (key_up && can_ladder_up()) {
+				var _closest_ladder = get_closest_ladder();
+				if (instance_exists(_closest_ladder)) {
+					if (key_up && can_ladder_up(_closest_ladder)) {
 						state = PLAYER_STATES.LADDER_UP;
 						play_sound(snd_player_ladder_step);
 						grid_move_up_direct(1);
 					}
-					else if (key_down && can_ladder_down()) {
+					else if (key_down && can_ladder_down(_closest_ladder)) {
 						state = PLAYER_STATES.LADDER_DOWN;
 						play_sound(snd_player_ladder_step);
 						grid_move_down_direct(1);
-					}
-					else if (!instance_exists(get_closest_ladder())) { 
-						start_falling();
 					}
 					else if ((key_left || key_right) && (is_grounded() && !is_inside_solid())) { is_left = key_left; start_walking(); }
 					else { state = PLAYER_STATES.LADDER; }
@@ -880,6 +872,7 @@ update_cape_graphics = function() {
 					cape_image_index = 0;
 					cape_timer = 8;
 				}
+				break;
 			}
 			case CAPE_STATES.FLUTTER:
 			case CAPE_STATES.TURN: {
@@ -1248,7 +1241,7 @@ update_player_graphics = function() {
 				break;
 			}
 			case PLAYER_STATES.FLY: {
-				sprite_index = sp_player_fly;
+				sprite_index = spr_player_fly;
 				//image_index = 0;
 				break;
 			}

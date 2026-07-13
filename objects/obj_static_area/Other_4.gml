@@ -1,0 +1,1 @@
+update_graphics_for_connections();

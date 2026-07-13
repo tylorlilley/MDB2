@@ -8,6 +8,7 @@ if (x > 0 && y > 0 && x < room_width && y < room_height) {
 	var _player_particle = create_particles(1, false, spr_player_dying_particle)[0]
 	_player_particle.image_rotation = (_player_particle.hspeed < 0) ? 1 : -1;
 	_player_particle.image_angle = 15 * _player_particle.image_rotation;
+	_player_particle.image_blend = image_blend;
 	_player_particle.vspeed--;
 	_player_particle.hspeed /= 2;
 }

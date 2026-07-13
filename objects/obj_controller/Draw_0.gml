@@ -37,6 +37,5 @@ if (transition_timer > transition_delay) {
 	surface_reset_target();
 		
 	// Draw Transition
-	//draw_surface(transition_surface, 0, 0);
-	surface_free(transition_surface);
+	draw_surface(transition_surface, 0, 0);
 }

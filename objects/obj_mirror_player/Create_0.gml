@@ -2,6 +2,8 @@
 event_inherited();
 
 image_blend = make_colour_rgb(60, 60, 60);
+is_left = false;
+sprite_index = spr_player_idle;
 
 update_controls = function() {
 	key_left = key_left || keyboard_check_pressed(vk_right);

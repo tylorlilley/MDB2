@@ -15,3 +15,14 @@ depth = 10;
 main_sprite = spr_box_16x16;
 outline_sprite = noone;
 fuzzing_sprite = noone;
+
+update_graphics_for_connections = function() {
+	is_connected_above = at_grid_position(x, y-8, 8, 8, object_index);
+	is_connected_below = at_grid_position(x, y+8, 8, 8, object_index);
+	is_connected_on_left = at_grid_position(x-8, y, 8, 8, object_index);
+	is_connected_on_right = at_grid_position(x+8, y, 8, 8, object_index);
+	is_connected_top_right = at_grid_position(x+8, y-8, 8, 8, object_index);
+	is_connected_top_left = at_grid_position(x-8, y-8, 8, 8, object_index);
+	is_connected_bottom_right = at_grid_position(x+8, y+8, 8, 8, object_index);
+	is_connected_bottom_left = at_grid_position(x-8, y+8, 8, 8, object_index);
+}

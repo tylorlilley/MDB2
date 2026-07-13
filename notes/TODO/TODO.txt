@@ -1,10 +1,7 @@
-Dynamic Objects don't interact with each other
+
 Stack of falling crates into water don't work
-Pushing stack of crates don't work
 Pushng a crate from both sides doesn't work
-Pushing a crate doesn't move the objects above it properly
 Movement while on Moving Objects Doesn't Work
-Moving a stack into a wall messes with the objects above it
 
 CLOUD EDGES
 MAKE OBJECTS FLOAT SLOW TO STOP AND SLOW TO RISE
