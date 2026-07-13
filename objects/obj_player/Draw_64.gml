@@ -1,5 +1,6 @@
 player_state_string = player_state_to_string(state);
 player_timer_string = "";
+cape_state_string = cape_state_to_string(cape_state);
 
 switch (state) {
 	case PLAYER_STATES.CROUCH: { player_timer_string = string(crouch_timer); break; }
@@ -12,8 +13,10 @@ switch (state) {
 	case PLAYER_STATES.SWIM: { player_timer_string = string(swim_timer); break; }
 	case PLAYER_STATES.SWIM_FORWARD: { player_timer_string = string(swim_timer); break; }
 }
+
 draw_set_font(ft_teko);
 draw_set_color(c_white);
+draw_text(4, room_height-44, "Cape State: " + cape_state_string + " " + string(cape_timer));
 draw_text(4, room_height-32, "Player State: " + player_state_string + " " + player_timer_string);
 draw_text(4, room_height-20, "Tranistion: " + string(transition_timer));
 

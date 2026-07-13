@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"shd_palettizer",
+  "name":"shd_palettizer",
+  "parent":{
+    "name":"Sprites",
+    "path":"folders/Sprites.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

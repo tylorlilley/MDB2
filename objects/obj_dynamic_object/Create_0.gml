@@ -19,6 +19,7 @@ is_solid_from_left = true;
 
 is_climbable = true;
 has_gravity = true;
+contents = noone;
 
 walk_particles = 0;
 step_sound = noone;

@@ -1,4 +1,3 @@
-
 get_float_offset = function() {
 	var _ampliutude = 2, _period = 30, _swim_bob = round(_ampliutude * sin(swim_timer*(pi / _period)));
 	swim_timer = swim_timer % _period;
@@ -21,6 +20,13 @@ get_float_offset = function() {
 	return _y_offset;
 }
 
+spawn_contents = function() {
+	if (contents != noone) {
+		instance_activate_object(contents);
+		contents.grid_move_to(other.x, other.y);
+	}
+}
+
 // State References
 is_grounded_state = function() {
 	return (state == STATES.PUSHED || state == STATES.STILL);
@@ -31,13 +37,6 @@ is_floating_state = function() {
 }
 
 // Movement Functions
-grid_move_to = function(_new_x, _new_y) {
-	grid_remove();
-	x = _new_x;
-	y = _new_y;
-	grid_add();
-}
-
 virtual_move_horizontal = function(_x_offset) {
 	virtual_x += _x_offset
 	for (var _i = 0; _i < array_length(get_carried_objects()); _i++) {
@@ -132,8 +131,6 @@ grid_move_horizontal = function(_speed) {
 	
 	return true;
 }
-
-// Collision Detection
 
 // Get List of Specified Objects
 get_carried_objects = function(_sort_x_by_negative = true) {
@@ -252,7 +249,8 @@ start_being_pushed = function(_pushed_left) {
 	state = STATES.PUSHED;
 }
 
-game_object_move = function() {
+is_carrying_key = function() {
+	return (contents != noone && contents.object_index == obj_key);
 }
 
 // Step Function

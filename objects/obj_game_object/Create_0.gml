@@ -21,11 +21,14 @@ is_pushable = false;
 is_moving = false;
 is_fragile = false;
 is_connected = false;
+is_player_lethal = false;
+is_robot_lethal = false;
 
 hits = 1;
 particle_color = c_white;
 image_speed = 0;
 destroyed_sound = snd_explosion;
+shine_timer = 60 + irandom(8);
 
 scr_game_object_functions();
 grid_add();

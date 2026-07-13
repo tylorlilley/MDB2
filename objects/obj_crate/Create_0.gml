@@ -2,10 +2,10 @@ event_inherited();
 
 depth = 2;
 is_pushable = true;
+shine_timer = 60 + irandom(8);
 
 particle_color = make_color_rgb(136, 112, 0);
 step_sound = snd_step_wood;
-contents = instance_create_depth(-128, -128, 0, obj_key);
 instance_deactivate_object(contents);
 
 parent_can_be_pushed_left = can_be_pushed_left;

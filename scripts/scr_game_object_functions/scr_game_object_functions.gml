@@ -1,4 +1,11 @@
 // Solid Grid Functions
+grid_move_to = function(_new_x, _new_y) {
+	grid_remove();
+	x = _new_x;
+	y = _new_y;
+	grid_add();
+}
+
 grid_add = function() {
 	var _grid_width = sprite_get_width(sprite_index) div 8, _grid_height = sprite_get_height(sprite_index) div  8;
 	var _max_x = room_width div 8, _max_y = room_height div 8;
@@ -91,7 +98,7 @@ can_be_climbed_from_left = function(_ignored_objects) {
 
 can_be_climbed_from_right = function(_ignored_objects) {
 	if (!is_climbable) { return false; }
-	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
+	if (array_length(get_left_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x+8, y, 8, 8, object_index));
 }
@@ -103,7 +110,7 @@ is_solid_from_all_sides = function() {
 // Visual Effect Functions
 get_float_offset = function() { return 0; }
 
-create_particles = function(_total_particles, _randomize = true, _particle_sprite = spr_particle) {
+create_particles = function(_total_particles, _color, _randomize = true, _particle_sprite = spr_particle) {
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {
 		var _p = instance_create_depth(x+sprite_get_width(sprite_index)/2, y+sprite_get_height(sprite_index)/2, -5, obj_particle);
@@ -112,7 +119,7 @@ create_particles = function(_total_particles, _randomize = true, _particle_sprit
 			sprite_index = _particle_sprite;
 			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO make this a param
 			depth = -9999;
-			image_blend = other.particle_color;
+			image_blend = _color;
 			image_alpha = other.image_alpha;
 			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
 			vspeed = (random(6) / 2 * -1) - 2;
@@ -131,15 +138,13 @@ create_particles = function(_total_particles, _randomize = true, _particle_sprit
 	return _particles;
 }
 
+create_sparkles = function(_max_amount) {
+	create_particles(_max_amount, c_white, true, spr_sparkle);
+}
+
 shine_periodically = function() {
-	anim_timer--;
-	if (anim_timer == 0) {
-		image_index = 1;
-		anim_timer = 120 + irandom(16);
-	}
-	else {
-		image_index = 0;
-	}
+	shine_timer--;
+	if (shine_timer < 0) { shine_timer = 120 + irandom(16); create_sparkles(irandom(4)); }
 }
 
 // Game Action Functions
@@ -166,13 +171,13 @@ create_walk_particles = function() {
 	
 	var _rand = irandom(8);
 	if (_rand % (8/walk_particles) == 0) {
-		create_particles(1);
+		create_particles(1, particle_color);
 	}
 }
 
 fly_into = function() {
 	if (is_fragile) { get_damaged(); }
-	else { create_particles(irandom(1)); }
+	else { create_particles(irandom(1), particle_color); }
 }
 
 powerfall_on = function() {
@@ -204,7 +209,6 @@ get_connected_instances = function(_connected_instances) {
 			var _inst_id =  _instances_to_check[_i].id
 			if (!array_contains(_connected_instances, _inst_id)) {
 				array_push(_connected_instances, _inst_id);
-				array_concat(_connected_instances, _inst_id.get_connected_instances(_connected_instances));
 			}
 		}
 	}

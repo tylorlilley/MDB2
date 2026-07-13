@@ -13,6 +13,7 @@ room_seed = random_get_seed();
 frame_sounds = [];
 
 initialize_room = function(_new_room) {
+	room_keys = 0;
 	play_sound(snd_fade_in);
 	
 	transition_timer = transition_delay + transition_duration + transition_hold;
@@ -40,4 +41,4 @@ transition_room = function(_new_room, _new_room_seed = noone) {
 	room_goto(_new_room);
 }
 
-transition_room(rm_water_test);
+transition_room(rm_robot_test);

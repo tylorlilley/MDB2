@@ -35,6 +35,9 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 }
 
 // Handle Static Object Step
+with (obj_dynamic_object) {
+	if (is_carrying_key()) { shine_periodically(); }
+}
 with (obj_water) {
 	anim_timer++;
 	anim_timer = anim_timer % (8 * 8);
@@ -66,15 +69,14 @@ with (obj_key) {
 	shine_periodically();
 }
 with (obj_door) {
-	if (image_index <= 1) {
+	if (image_index == 0) {
 		shine_periodically();
 
-		if (instance_number(obj_key) == 0) {
-			create_particles(8 + irandom(8));
-			particle_color = c_white;
-			create_particles(8 + irandom(8), true, spr_sparkle);	
+		if (global.controller.room_keys == 0) {
+			create_particles(8 + irandom(8), particle_color);
+			create_sparkles(8 + irandom(8));
 			particle_color = make_color_rgb(136, 112, 0);
-			image_index = 2;
+			image_index = 1;
 			play_sound(snd_door_open);
 			play_sound(snd_explosion);
 		}

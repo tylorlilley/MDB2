@@ -1,17 +1,16 @@
 // NEXT:
-Make crate's contents stuff available to any dynamic object
-Use it to make key soldiers
+Pushing crate doesn't show the offset of the pushing graphics for the player correctly?
 Soliders on top of soliders shouldn't move each other as carried objects?
+- Implemented but figure out if this makes sens or matches the original cadence
+Implement is_player_lethal and is_robot_lethal
 
 // PAST OBJECTS TO RECREATE
 - Switch and Switch Blocks
 - Tree
 - Portals (12 of each)
 - Gear Blocks
-- Lava / Spikes
-- Key Soldiers
+- Lava / Spikes - Destroy if overlapped like obj_water? Original has them destroy if you are standing on even 8px of them too
 - Reforming Clouds
-- Solider Spawner
 
 Climb when only 8 px are available instead of limiting to 16 px?
 Make Particles Color an argument
@@ -26,6 +25,7 @@ keep crushed walk in grid until movement finishes so crates dont fall until afte
 - Add Robot States
 - Make Sure Crates Float Right, including Stacks of Crates
 - Add Cape Animation for Swiming
+- Add Splash Particles when Walking half submerged, entering or leaving surface
 
 // ROBOT TODO:
 - Add Swim State

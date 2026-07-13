@@ -85,6 +85,25 @@ player_state_to_string = function(state) {
 	return _player_state_string;
 }
 
+cape_state_to_string = function() {
+	var _cape_state_string = "UNKNOWN STATE"
+	switch (cape_state) {
+		case CAPE_STATES.STAND: { _cape_state_string = "Stand"; break; }
+		case CAPE_STATES.CROUCH: { _cape_state_string = "Crouch"; break; }
+		case CAPE_STATES.FLUTTER: { _cape_state_string = "Fluttering"; break; }
+		case CAPE_STATES.STOP_FLUTTER: { _cape_state_string = "Stop Fluttering"; break; }
+		case CAPE_STATES.TURN: { _cape_state_string = "Turn"; break; }
+		case CAPE_STATES.LADDER: { _cape_state_string = "Ladder"; break; }
+		case CAPE_STATES.FALL_TO_LADDER: { _cape_state_string = "Fall to Ladder"; break; }
+		case CAPE_STATES.FLY: { _cape_state_string = "Fly"; break; }
+		case CAPE_STATES.FALL_START: { _cape_state_string = "Start to Fall"; break; }
+		case CAPE_STATES.FALL: { _cape_state_string = "Fall";break; }
+		case CAPE_STATES.RECOIL: { _cape_state_string = "Recoil";break; }
+		case CAPE_STATES.WIN: { _cape_state_string = "Win";break; }
+	}
+	return _cape_state_string;
+}
+
 // TODO: State Based Functions
 is_grounded_state = function() {
 	return state < PLAYER_STATES.FLY;
@@ -367,7 +386,7 @@ update_player_state = function() {
 					if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
 					if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
 					if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
-					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); particle_color = c_white; create_particles(4 + irandom(6), false, spr_sparkle); }
+					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); particle_color = c_white; create_sparkles(4 + irandom(6)); }
 				}
 				if (transition_timer == 0) { image_index = 0; cape_image_index = 0; cape_timer = 52; }
 			}
@@ -424,7 +443,7 @@ update_player_state = function() {
 				if (visible && (key_up || key_jump)) {
 					visible = false;
 					play_sound(snd_explosion);
-					with (obj_door) { image_index = 3; create_particles(8 + irandom(8)); }
+					with (obj_door) { image_index = 2; create_particles(8 + irandom(8), particle_color); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
 					global.controller.last_player_x = x;
@@ -989,8 +1008,8 @@ update_cape_graphics = function() {
 					cape_timer = 8;
 				}
 				else if (state == PLAYER_STATES.LAND) {
-					cape_state = CAPE_STATES.STOP_FLUTTER;
-					cape_sprite_index = spr_cape_stop_flutter;
+					cape_state = CAPE_STATES.RECOIL;
+					cape_sprite_index = spr_cape_recoil;
 					cape_image_index = 0;
 					cape_timer = 4;
 				}
@@ -1030,6 +1049,12 @@ update_cape_graphics = function() {
 					cape_image_index = 0;
 					cape_timer = 8;
 				}
+				else if (state == PLAYER_STATES.LAND) {
+					cape_state = CAPE_STATES.RECOIL;
+					cape_sprite_index = spr_cape_recoil;
+					cape_image_index = 0;
+					cape_timer = 4;
+				}
 				else if (state == PLAYER_STATES.RECOIL) {
 					cape_state = CAPE_STATES.RECOIL;
 					cape_sprite_index = spr_cape_recoil;
@@ -1060,7 +1085,13 @@ update_cape_graphics = function() {
 	
 	// Interrupt Previous Cape State to Set New One
 	if (state != prev_state) {
-		if (state == PLAYER_STATES.HOP_UP || state == PLAYER_STATES.HOP_UP_FORWARD) {
+		if ((cape_state == CAPE_STATES.FALL_START || cape_state == CAPE_STATES.FALL) && is_grounded_state()) {
+			cape_state = CAPE_STATES.STOP_FLUTTER;
+			cape_sprite_index = spr_cape_stop_flutter;
+			cape_image_index = 0;
+			cape_timer = 4;
+		}
+		else if (state == PLAYER_STATES.HOP_UP || state == PLAYER_STATES.HOP_UP_FORWARD) {
 			cape_state = CAPE_STATES.STOP_FLUTTER;
 			cape_sprite_index = spr_cape_stop_flutter;
 			cape_image_index = 0;
@@ -1098,14 +1129,12 @@ update_cape_graphics = function() {
 			cape_image_index = 0;
 			cape_timer = 52;
 		}
-		/*
-		else if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.POWERFALL && (prev_state != PLAYER_STATES.DAZED_FALL || prev_state != PLAYER_STATES.TUMBLE)) {
-			cape_state = CAPE_STATES.STOP_FLUTTER;
-			cape_sprite_index = spr_cape_stop_flutter;
+		else if (state == PLAYER_STATES.LAND) {
+			cape_state = CAPE_STATES.RECOIL;
+			cape_sprite_index = spr_cape_recoil;
 			cape_image_index = 0;
 			cape_timer = 4;
 		}
-		*/
 		else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
 			if (cape_state == CAPE_STATES.FLUTTER || cape_state == CAPE_STATES.FALL) {
 				cape_state = CAPE_STATES.FALL_TO_LADDER;
@@ -1120,6 +1149,13 @@ update_cape_graphics = function() {
 				cape_timer = 0;
 			}
 		}
+	}
+	else if (state == PLAYER_STATES.LAND && image_index > 0) {
+		// Switch from falling to behind cape in the middle of landing animatiom
+		cape_state = CAPE_STATES.STOP_FLUTTER;
+		cape_sprite_index = spr_cape_stop_flutter;
+		cape_image_index = 0;
+		cape_timer = 4;
 	}
 
 	// Update Cape Depth Relative to Player
@@ -1366,7 +1402,7 @@ update_player_collisions_at_position = function() {
 		if (!instance_exists(_inst)) { continue; }
 		
 		if (is_a(_inst, obj_door)) {
-			if (can_be_controlled && _inst.image_index >= 2 && state == PLAYER_STATES.STAND) {
+			if (can_be_controlled && _inst.image_index > 0 && state == PLAYER_STATES.STAND) {
 				start_winning();
 				stop_music();
 				play_sound(snd_level_clear);
@@ -1376,8 +1412,7 @@ update_player_collisions_at_position = function() {
 			if (can_be_controlled) {
 				with (_inst) {
 					instance_destroy();
-					particle_color = c_white;
-					create_particles(8 + irandom(8), true, spr_sparkle);
+					create_sparkles(8 + irandom(8));
 				}
 			}
 		}

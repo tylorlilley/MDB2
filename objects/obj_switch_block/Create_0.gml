@@ -24,6 +24,6 @@ toggle_solid = function(_create_particles) {
 	
 	if (_create_particles) {
 		particle_color = image_blend;
-		create_particles(1+irandom(1), true, spr_sparkle);
+		create_sparkles(1+irandom(1));
 	}
 }

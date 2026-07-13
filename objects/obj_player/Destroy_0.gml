@@ -1,11 +1,12 @@
+// Repeat some things instead of using event_inherited()
 grid_remove();
+spawn_contents();
+
+// Handle Creating Death Particles
 if (x > 0 && y > 0 && x < room_width && y < room_height) {
-	particle_color = death_particle_color1;
-	create_particles(8 + irandom(8));
-	particle_color = death_particle_color2;
-	create_particles(8 + irandom(8));
-	particle_color = c_white;
-	var _player_particle = create_particles(1, false, death_sprite)[0]
+	create_particles(8 + irandom(8), death_particle_color1);
+	create_particles(8 + irandom(8), death_particle_color2);
+	var _player_particle = create_particles(1, c_white, false, death_sprite)[0]
 	_player_particle.image_rotation = (_player_particle.hspeed < 0) ? 1 : -1;
 	_player_particle.image_angle = 15 * _player_particle.image_rotation;
 	_player_particle.image_blend = image_blend;
@@ -13,6 +14,7 @@ if (x > 0 && y > 0 && x < room_width && y < room_height) {
 	_player_particle.hspeed /= 2;
 }
 
+// Other Player Death Stuff
 play_sound(snd_player_death);
 if (last_x && last_y) {
 	with (global.controller) {

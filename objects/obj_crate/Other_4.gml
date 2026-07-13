@@ -1,0 +1,1 @@
+if (is_carrying_key()) { sprite_index = spr_gold_crate; }
