@@ -99,10 +99,12 @@ switch(room) {
 
 // Draw HUD
 draw_set_valign(fa_top)
+draw_set_alpha(0.5);
 draw_set_color(c_black);
 draw_rectangle(0, 0, 256, 16, false);
+draw_set_alpha(1);
 draw_set_color(c_white);
 draw_set_font(ft_teko);
-draw_text(4, -2, _room_name);
-draw_text(256-20, -2, "x" + string(instance_number(obj_key)));
+draw_text(4, -1, _room_name);
+draw_text(256-20, -1, "x" + string(instance_number(obj_key)));
 draw_sprite(spr_key_icon, 0, 256-20-16, 0);

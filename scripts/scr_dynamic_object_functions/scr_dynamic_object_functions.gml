@@ -63,7 +63,7 @@ grid_move_up = function(_speed) {
 		_inst.grid_move_up(_speed);
 	}
 	grid_move_to(x, y - 8);
-	y_transition_timer += 8 / _speed;
+	y_transition_timer += abs(8 / _speed);
 	
 	return true;
 }
@@ -77,7 +77,7 @@ grid_move_down = function(_speed) {
 		_inst.grid_move_down(_speed);
 	}
 	grid_move_to(x, y + 8);
-	y_transition_timer += 8 / _speed;
+	y_transition_timer += abs(8 / _speed);
 	
 	return true;
 }
@@ -85,13 +85,13 @@ grid_move_down = function(_speed) {
 grid_move_left = function(_speed) {
 	if (is_blocked_on_left() || _speed == 0) { return false; }
 	
-	var _carried_objects = get_carried_objects();
+	var _carried_objects = get_carried_objects(false);
 	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
 		var _inst = _carried_objects[_i];
 		_inst.grid_move_left(_speed);
 	}
 	grid_move_to(x - 8, y);
-	x_transition_timer += 8 / _speed;
+	x_transition_timer += abs(8 / _speed);
 	
 	return true;
 }
@@ -99,25 +99,25 @@ grid_move_left = function(_speed) {
 grid_move_right = function(_speed) {
 	if (is_blocked_on_right() || _speed == 0) { return false; }
 	
-	var _carried_objects = get_carried_objects();
+	var _carried_objects = get_carried_objects(true);
 	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
 		var _inst = _carried_objects[_i];
 		_inst.grid_move_right(_speed);
 	}
 	grid_move_to(x + 8, y);
-	x_transition_timer += 8 / _speed;
+	x_transition_timer += abs(8 / _speed);
 	
 	return true;
 }
 
 grid_move_up_direct = function(_speed) {
 	grid_move_to(x, y - 8);
-	x_transition_timer += 8 / _speed;
+	y_transition_timer += abs(8 / _speed);
 }
 
 grid_move_down_direct = function(_speed) {
 	grid_move_to(x, y + 8);
-	y_transition_timer += 8 / _speed;
+	y_transition_timer += abs(8 / _speed);
 }
 
 grid_move_horizontal = function(_speed) {
@@ -136,11 +136,14 @@ grid_move_horizontal = function(_speed) {
 // Collision Detection
 
 // Get List of Specified Objects
-get_carried_objects = function() {
+get_carried_objects = function(_sort_x_by_negative = true) {
+	// Get All Dynamic Objects Above Current Position
 	var _actual_carried_objects = []
 	var _possible_carried_objects = get_relative_solid_objects(0, -8, function(inst) {
         return is_a(inst, obj_dynamic_object) && inst.has_gravity;
     });
+	
+	// Weed Out Any Objects Also Resting on Something Else
 	for (var _i = 0; _i < array_length(_possible_carried_objects); _i++) {
 		var _inst = _possible_carried_objects[_i];
 		if (_inst.is_grounded()) {
@@ -149,6 +152,10 @@ get_carried_objects = function() {
 			grid_add();
 		}
 	}
+	
+	// Sort and Return
+	if (_sort_x_by_negative) { array_sort(_actual_carried_objects, function(_a, _b) { return sign(_b.x - _a.x); }); }
+	else { array_sort(_actual_carried_objects, function(_a, _b) { return sign(_a.x - _b.x); }); }
 	return _actual_carried_objects;
 }
 
@@ -313,7 +320,7 @@ game_object_step = function() {
 					if (is_grounded()) { state = STATES.STILL; }
 					else {
 						if (is_fully_submerged()) {
-							if (array_length(get_carried_objects()) == 0) {
+							if (array_length(get_carried_objects(is_left)) == 0) {
 								// Falling Underwater With Nothing Pushing Down
 								
 								// Reduce Fall Timer

@@ -255,7 +255,7 @@ can_start_laddering = function() {
 }
 
 left_value = function() {
-	return (is_left) ? -1 : 1;
+	return ((is_left) ? -1 : 1);
 }
 
 // Main Functions

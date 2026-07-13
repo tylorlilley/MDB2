@@ -26,9 +26,11 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 		// Update Transition Timers Based on Remaining Transition Time
 		if (x_transition_timer > 0) { x_transition_timer--; }
 		if (y_transition_timer > 0) { y_transition_timer-- }
-		if (x_transition_timer > 0 && y_transition_timer > 0) { transition_timer = min(x_transition_timer, y_transition_timer); }
-		else if (x_transition_timer > 0) { transition_timer = x_transition_timer; }
-		else if (y_transition_timer > 0) { transition_timer = y_transition_timer; }
+		var _new_transition_timer = 0;
+		if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = min(x_transition_timer, y_transition_timer); }
+		else if (x_transition_timer > 0) { _new_transition_timer = x_transition_timer; }
+		else if (y_transition_timer > 0) { _new_transition_timer = y_transition_timer; }
+		transition_timer = max(transition_timer, _new_transition_timer);
 	}
 }
 
