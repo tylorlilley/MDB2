@@ -60,7 +60,7 @@ with (obj_switch) {
 
 	image_index = (pressed || _pressed_on) ? 1 : 0;
 
-	if (!is_grounded()) { instance_destroy(); }
+	if (!is_on_ground()) { instance_destroy(); }
 }
 with (obj_key) {
 	shine_periodically();
@@ -80,6 +80,14 @@ with (obj_door) {
 		}
 	}
 }
+with (obj_spawner) {
+	timer--;
+	if timer <= 0 {
+		var _inst = instance_create_depth(x, y, depth, spawned_obj);
+		_inst.is_left = is_left;
+	    timer = frequency;
+	}
+}
 
 // Game Object End Step
 with (obj_player) {
@@ -88,18 +96,21 @@ with (obj_player) {
 	}
 	else { ring_out_timer = 0; }
 
-	if (ring_out_timer == 8) { play_sound(snd_player_offscreen); }
+	if (ring_out_timer == 8) { if (can_be_controlled) { play_sound(snd_player_offscreen); } }
 	else if (ring_out_timer == 40) { instance_destroy(); }
 }
 
 // Handle Transition Code
-if (instance_number(obj_player) == 0 && transition_timer == 0) { transition_timer = 1; }
+var _controllable_player_exists = false;
+with (obj_player) { if (can_be_controlled) { _controllable_player_exists = true; } }
+
+if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 1; }
 else if (transition_timer > 0) {
 	transition_timer++;
 	
 	if (transition_timer == transition_delay) { play_sound(snd_fade_out); }
 	else if (transition_timer == transition_duration + transition_hold + transition_delay) { 
-		if (instance_number(obj_player) == 0) { reset_room(); }
+		if (!_controllable_player_exists) { reset_room(); }
 		else { transition_room(room_next(room)); }
 		play_sound(snd_fade_in);
 	}

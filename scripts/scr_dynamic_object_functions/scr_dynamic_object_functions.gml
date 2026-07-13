@@ -69,7 +69,7 @@ grid_move_up = function(_speed) {
 }
 
 grid_move_down = function(_speed) {
-	if (is_grounded() || _speed == 0) { return false; }
+	if (is_on_ground() || _speed == 0) { return false; }
 	
 	var _carried_objects = get_carried_objects();
 	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
@@ -139,16 +139,16 @@ grid_move_horizontal = function(_speed) {
 get_carried_objects = function(_sort_x_by_negative = true) {
 	// Get All Dynamic Objects Above Current Position
 	var _actual_carried_objects = []
-	var _possible_carried_objects = get_relative_solid_objects(0, -8, function(inst) {
-        return is_a(inst, obj_dynamic_object) && inst.has_gravity;
+	var _possible_carried_objects = get_relative_solid_objects(0, -8, function(_inst) {
+        return is_a(_inst, obj_dynamic_object) && _inst.has_gravity;
     });
 	
 	// Weed Out Any Objects Also Resting on Something Else
 	for (var _i = 0; _i < array_length(_possible_carried_objects); _i++) {
 		var _inst = _possible_carried_objects[_i];
-		if (_inst.is_grounded()) {
+		if (_inst.is_on_ground()) {
 			grid_remove();
-			if (!_inst.is_grounded()) { array_push(_actual_carried_objects, _inst); }
+			if (!_inst.is_on_ground()) { array_push(_actual_carried_objects, _inst); }
 			grid_add();
 		}
 	}
@@ -159,81 +159,81 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 	return _actual_carried_objects;
 }
 
-get_ground_objects = function(_only_full_solids = false) {
-	return get_relative_solid_objects(0, 8, function(inst, ofs) {
-        return inst.is_solid_from_above(ofs);
-    }, _only_full_solids);
+get_ground_objects = function() {
+	return get_relative_solid_objects(0, 8, function(_inst) {
+        return _inst.is_solid_from_above;
+    });
 }
 
-get_left_wall_objects = function(_only_full_solids = false) {
-	return get_relative_solid_objects(-8, 0, function(inst, ofs) {
-        return inst.is_solid_from_right(ofs);
-    }, _only_full_solids);
+get_left_wall_objects = function() {
+	return get_relative_solid_objects(-8, 0, function(_inst) {
+        return _inst.is_solid_from_right;
+    });
 }
 
-get_right_wall_objects = function(_only_full_solids = false) {
-	return get_relative_solid_objects(8, 0, function(inst, ofs) {
-        return inst.is_solid_from_left(ofs);
-    }, _only_full_solids);
+get_right_wall_objects = function(e) {
+	return get_relative_solid_objects(8, 0, function(_inst) {
+        return _inst.is_solid_from_left;
+    });
 }
 
-get_ceiling_objects = function(_only_full_solids = false) {
-	return get_relative_solid_objects(0, -8, function(inst, ofs) {
-        return inst.is_solid_from_below(ofs);
-    }, _only_full_solids);
+get_ceiling_objects = function() {
+	return get_relative_solid_objects(0, -8, function(_inst) {
+        return _inst.is_solid_from_below;
+    });
 }
 
 get_left_ground_objects = function() {
-	return get_relative_solid_objects(-8, 8, function(inst) {
-        return inst.is_solid_from_above();
+	return get_relative_solid_objects(-8, 8, function(_inst) {
+        return _inst.is_solid_from_above;
     });
 }
 
 get_right_ground_objects = function() {
-	return get_relative_solid_objects(8, 8, function(inst) {
-        return inst.is_solid_from_above();
+	return get_relative_solid_objects(8, 8, function(_inst) {
+        return _inst.is_solid_from_above;
     });
 }
 
 get_left_pushable_objects = function() {
-	return get_relative_solid_objects(-8, 0, function(inst) {
-        return inst.can_be_pushed_left();
+	return get_relative_solid_objects(-8, 0, function(_inst) {
+        return _inst.can_be_pushed_left();
     });
 }
 
 get_right_pushable_objects = function() {
-	return get_relative_solid_objects(8, 0, function(inst) {
-        return inst.can_be_pushed_right();
+	return get_relative_solid_objects(8, 0, function(_inst) {
+        return _inst.can_be_pushed_right();
     });
 }
 
-get_left_climbable_objects = function() {
-	return get_relative_solid_objects(-8, 0, function(inst) {
-        return inst.can_be_climbed_from_right();
-    });
+get_left_climbable_objects = function(_ignored_objects) {
+	return get_relative_solid_objects(-8, 0, function(_inst, _ignored) {
+        return _inst.can_be_climbed_from_right(_ignored);
+    }, _ignored_objects);
 }
 
-get_right_climbable_objects = function() {
-	return get_relative_solid_objects(8, 0, function(inst) {
-        return inst.can_be_climbed_from_left();
-    });
+get_right_climbable_objects = function(_ignored_objects) {
+	return get_relative_solid_objects(8, 0, function(_inst, _ignored) {
+        return _inst.can_be_climbed_from_left(_ignored);
+    }, _ignored_objects);
 }
 
 // Boolean Checks
-is_grounded = function(_only_full_solids = false) {
-	return array_length(get_ground_objects(_only_full_solids)) > 0;
+is_on_ground = function() {
+	return array_length(get_ground_objects()) > 0;
 }
 
-is_under_ceiling = function(_only_full_solids = false) {
-	return array_length(get_ceiling_objects(_only_full_solids)) > 0;
+is_under_ceiling = function() {
+	return array_length(get_ceiling_objects()) > 0;
 }
 
-is_blocked_on_left = function(_only_full_solids = false) {
-	return array_length(get_left_wall_objects(_only_full_solids)) > 0;
+is_blocked_on_left = function() {
+	return array_length(get_left_wall_objects()) > 0;
 }
 
-is_blocked_on_right = function(_only_full_solids = false) {
-	return array_length(get_right_wall_objects(_only_full_solids)) > 0;
+is_blocked_on_right = function() {
+	return array_length(get_right_wall_objects()) > 0;
 }
 
 is_fully_submerged = function() {
@@ -295,7 +295,7 @@ game_object_step = function() {
 						state = STATES.SURFACE;
 						fall_timer = 0;
 					}
-					else if (!is_grounded()) {
+					else if (!is_on_ground()) {
 						// Start Falling
 						grid_move_down(2);
 						state = STATES.FALLING;
@@ -317,7 +317,7 @@ game_object_step = function() {
 					break;
 				}
 				case STATES.FALLING: {
-					if (is_grounded()) { state = STATES.STILL; }
+					if (is_on_ground()) { state = STATES.STILL; }
 					else {
 						if (is_fully_submerged()) {
 							if (array_length(get_carried_objects(is_left)) == 0) {

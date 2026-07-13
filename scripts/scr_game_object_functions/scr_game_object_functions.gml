@@ -31,38 +31,38 @@ grid_remove = function() {
 }
 
 // State Querying Functions
-get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _only_full_solids = false) {
-	var _ignored_objects =  instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_game_object);
+get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects = []) {
+	_ignored_objects = array_concat(_ignored_objects, instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_game_object));
 	var _potential_objects = instances_at_grid_position(_x_pos, _y_pos, _width, _height), _static_objects = [];
 
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
 	{
 		var _inst = _potential_objects[_i];
-		if (_pred(_inst, _only_full_solids) && !array_contains(_ignored_objects, _inst)) { array_push(_static_objects, _inst); }
+		if (_pred(_inst, _ignored_objects) && !array_contains(_ignored_objects, _inst)) { array_push(_static_objects, _inst); }
 	}
 	
 	return _static_objects;
 }
 
-get_relative_solid_objects = function(_x_offset, _y_offset, _pred, _only_full_solids = false) {
-	return  get_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _only_full_solids);
+get_relative_solid_objects = function(_x_offset, _y_offset, _pred, _ignored_objects) {
+	return  get_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _ignored_objects);
 }
 
-get_left_ceiling_objects = function() {
-	return get_relative_solid_objects(-8, -8, function(inst) {
-        return inst.is_solid_from_below();
-    });
+get_left_ceiling_objects = function(_ignored_objects) {
+	return get_relative_solid_objects(-8, -8, function(_inst) {
+        return _inst.is_solid_from_below;
+    }, _ignored_objects);
 }
 
-get_right_ceiling_objects = function() {
-	return get_relative_solid_objects(8, -8, function(inst) {
-        return inst.is_solid_from_below();
-    });
+get_right_ceiling_objects = function(_ignored_objects) {
+	return get_relative_solid_objects(8, -8, function(_inst) {
+        return _inst.is_solid_from_below;
+    }, _ignored_objects);
 }
 
 get_inside_solids = function() {
-	return get_relative_solid_objects(0, 0, function(inst) {
-        return inst.is_solid_from_all_sides();
+	return get_relative_solid_objects(0, 0, function(_inst) {
+        return _inst.is_solid_from_all_sides();
     });
 }
 
@@ -71,51 +71,33 @@ is_inside_solid = function() {
 }
 
 can_be_pushed_left = function() {
-	if (!is_pushable || !is_grounded()) { return false; }
+	if (!is_pushable || !is_on_ground()) { return false; }
 	
 	return array_length(get_left_wall_objects()) == 0;
 }
 
 can_be_pushed_right = function() {
-	if (!is_pushable || !is_grounded()) { return false; }
+	if (!is_pushable || !is_on_ground()) { return false; }
 
 	return array_length(get_right_wall_objects()) == 0;
 }
 
-can_be_climbed_from_left = function() {
+can_be_climbed_from_left = function(_ignored_objects) {
 	if (!is_climbable) { return false; }
-	if (array_length(get_right_ceiling_objects()) > 0) { return false; }
+	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x-8, y, 8, 8, object_index));
 }
 
-can_be_climbed_from_right = function() {
+can_be_climbed_from_right = function(_ignored_objects) {
 	if (!is_climbable) { return false; }
-	if (array_length(get_right_ceiling_objects()) > 0) { return false; }
+	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x+8, y, 8, 8, object_index));
 }
 
-is_solid_from_below = function(_only_full_solids = false) {
-	return is_ceiling && (is_solid_from_all_sides() || !_only_full_solids);
-}
-
-is_solid_from_above = function(_only_full_solids = false) {
-	var _falling_state = false;
-	// _falling_state = (object_is_ancestor(object_index, obj_dynamic_object)) ? (!is_floating_state() && !is_grounded_state()) : false;
-	return !_falling_state && is_ground && (is_solid_from_all_sides() || !_only_full_solids);
-}
-
-is_solid_from_left = function(_only_full_solids = false) {
-	return is_left_wall && (is_solid_from_all_sides() || !_only_full_solids);
-}
-
-is_solid_from_right = function(_only_full_solids = false) {
-	return is_right_wall && (is_solid_from_all_sides() || !_only_full_solids);
-}
-
 is_solid_from_all_sides = function() {
-	return is_right_wall && is_left_wall && is_ceiling && is_ground;
+	return is_solid_from_right && is_solid_from_left && is_solid_from_below && is_solid_from_above;
 }
 
 // Visual Effect Functions

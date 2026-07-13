@@ -1,1 +1,1 @@
-with (obj_player) { instance_destroy(); }
+with (obj_player) { if (can_be_controlled) { instance_destroy(); } }

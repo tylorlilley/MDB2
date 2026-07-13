@@ -1,9 +1,9 @@
 event_inherited();
 
-is_ground = true;
-is_ceiling = true;
-is_right_wall = true;
-is_left_wall = true;
+is_solid_from_above = true;
+is_solid_from_below = true;
+is_solid_from_right = true;
+is_solid_from_left = true;
 
 is_climbable = true;
 

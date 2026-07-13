@@ -1,36 +1,48 @@
+// NEXT:
+Make crate's contents stuff available to any dynamic object
+Use it to make key soldiers
+Soliders on top of soliders shouldn't move each other as carried objects?
 
-Stack of falling crates into water don't work
-Pushng a crate from both sides doesn't work
-Movement while on Moving Objects Doesn't Work
+// PAST OBJECTS TO RECREATE
+- Switch and Switch Blocks
+- Tree
+- Portals (12 of each)
+- Gear Blocks
+- Lava / Spikes
+- Key Soldiers
+- Reforming Clouds
+- Solider Spawner
 
-CLOUD EDGES
-MAKE OBJECTS FLOAT SLOW TO STOP AND SLOW TO RISE
-Player Diving
-Falling Dynamic Objects That Are Solid Fall/Rise Past each Other
-Hopped Into Wall??
-Cape Animation for Swimming
-Swimming Crushed State?
-Tumble sound effect replaced with longer sound effect that plays for entire fall
+Climb when only 8 px are available instead of limiting to 16 px?
 Make Particles Color an argument
-Make PowerFall Stop Working Underwater?
-keep crushed walk in grid until movement finishes?
-
-// REFACTOR:
-
-When Player Walks Offscreen a bunch of noises happen
-Move a Bunch of Game Functions that only player uses out of game object
+Tumble sound effect replaced with longer sound effect that plays for entire fall
+Fix visible cloud edges
 Make Combined Up and Jump a global variable to switch on and off
-
-// GAME OBJECTS
-
-Pop Fragile after walking on it? - add bubble squeeze graphics
+keep crushed walk in grid until movement finishes so crates dont fall until after movement completes?
 
 
-Moveable Platforms
+// WATER TODO:
+- Add Player States
+- Add Robot States
+- Make Sure Crates Float Right, including Stacks of Crates
+- Add Cape Animation for Swiming
+
+// ROBOT TODO:
+- Add Swim State
+- What to do about Crushed States?
+
+// POTENTIAL REFACTOR:
+
+
+
+
+
+// FUTURE IDEAS
+
 Crates/Bubbles with things in them
-
-// IDEAS
-
+Moveable Platforms
+Advanced Robots
+- Move and utilize far more of the various player states than just walk, turn, and fall
 Scrolling rooms
 wrap-around screen movements (horizontal or vertical)
 

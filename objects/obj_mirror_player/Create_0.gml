@@ -6,11 +6,11 @@ is_left = false;
 sprite_index = spr_player_idle;
 
 update_controls = function() {
-	key_left = key_left || keyboard_check_pressed(vk_right);
-	key_right = key_right || keyboard_check_pressed(vk_left);
-	key_up = key_up || keyboard_check_pressed(vk_up);
-	key_down = key_down || keyboard_check_pressed(vk_down);
-	key_jump = key_jump || keyboard_check_pressed(ord("Z"));
+	key_left = key_left || keyboard_check(vk_right);
+	key_right = key_right || keyboard_check(vk_left);
+	key_up = key_up || keyboard_check(vk_up);
+	key_down = key_down || keyboard_check(vk_down);
+	key_jump = key_jump || keyboard_check(ord("Z"));
 		
 	// Cancel out opposite inputs
 	if (key_left && key_right) {

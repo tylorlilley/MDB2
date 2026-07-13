@@ -2,10 +2,10 @@ event_inherited();
 
 // Game Object Variables
 has_gravity = true;
-is_ground = true;
-is_ceiling = false;
-is_right_wall = false;
-is_left_wall = false;
+is_solid_from_above = true;
+is_solid_from_below = true;
+is_solid_from_right = true;
+is_solid_from_left = true;
 is_left = true;
 	
 cape_state = CAPE_STATES.STAND;
@@ -24,6 +24,18 @@ depth = -2;
 cape_x = x;
 cape_y = y;
 cape_depth = 1;
+
+death_sprite = spr_player_dying_particle;
+death_particle_color1 = make_color_rgb(60, 188, 255);
+death_particle_color2 = make_color_rgb(0, 0, 255);
+
+can_be_controlled = true;
+can_power_up = true;
+can_push_objects = !global.controller.original_controls;
+can_be_crushed = !global.controller.original_controls;
+has_cape = true;
+last_x = -999;
+last_y = -999;
 
 transition_timer = 0;
 animation_timer = 0;
