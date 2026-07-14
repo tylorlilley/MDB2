@@ -1,9 +1,13 @@
 // NEXT:
-Climbing logic in three places
+Cloud Edges
+
+Refactor Climbing logic in three places
 
 Pushing crate doesn't show the offset of the pushing graphics for the player correctly?
 
-Implement is_player_lethal and is_robot_lethal
+Portals
+
+Background Sand Cave Tiles
 
 // PAST OBJECTS TO RECREATE
 - Switch and Switch Blocks

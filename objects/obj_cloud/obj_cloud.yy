@@ -8,12 +8,12 @@
   "name":"obj_cloud",
   "overriddenProperties":[],
   "parent":{
-    "name":"Game Objects",
-    "path":"folders/Objects/Game Objects.yy",
+    "name":"Solid Areas",
+    "path":"folders/Objects/Solid Areas.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_static_area",
+    "path":"objects/obj_static_area/obj_static_area.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,12 +33,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_cloud",
-    "path":"sprites/spr_cloud/spr_cloud.yy",
+    "name":"spr_editor_cloud",
+    "path":"sprites/spr_editor_cloud/spr_editor_cloud.yy",
   },
   "spriteMaskId":{
-    "name":"spr_box_16x16",
-    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+    "name":"spr_box_8x8",
+    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
   },
   "visible":true,
 }
