@@ -38,7 +38,6 @@ update_controls = function() {
 	}
 }
 
-
 parent_update_player_graphics = update_player_graphics;
 update_player_graphics = function() {
 	parent_update_player_graphics();

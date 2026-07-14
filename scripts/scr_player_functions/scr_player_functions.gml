@@ -104,7 +104,30 @@ cape_state_to_string = function() {
 	return _cape_state_string;
 }
 
-// TODO: State Based Functions
+is_push_state = function() {
+	return (state == PLAYER_STATES.PUSH_STAND || state == PLAYER_STATES.PUSH_FORWARD)
+}
+
+is_crushed_state = function() {
+	return (state == PLAYER_STATES.CRUSHED_STAND || state == PLAYER_STATES.CRUSHED_FORWARD);
+}
+
+is_stand_state = function() {
+	return (state == PLAYER_STATES.STAND || state == PLAYER_STATES.LOOK_UP || state == PLAYER_STATES.PUSH_STAND || state == PLAYER_STATES.CRUSHED_STAND);
+}
+
+is_hop_down_state = function() {
+	return (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD);
+}
+
+is_hop_up_state = function() {
+	return (state == PLAYER_STATES.HOP_UP || state == PLAYER_STATES.HOP_UP_FORWARD);
+}
+
+is_hop_forward_state = function() {
+	return (state == PLAYER_STATES.HOP_DOWN_FORWARD || state == PLAYER_STATES.HOP_UP_FORWARD);
+}
+
 is_grounded_state = function() {
 	return state < PLAYER_STATES.FLY;
 }
@@ -118,7 +141,7 @@ is_fly_state = function() {
 }
 	
 is_fall_state = function() {
-	return (state == PLAYER_STATES.FALL || state == PLAYER_STATES.POWERFALL)
+	return (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.POWERFALL)
 }
 	
 is_crouch_state = function() {
@@ -305,8 +328,8 @@ update_player_state = function() {
 			case PLAYER_STATES.HOP_DOWN_FORWARD:
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
-				var _is_hopping_down = (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD);
-				var _is_hopping_forward = (state == PLAYER_STATES.HOP_DOWN_FORWARD || state == PLAYER_STATES.HOP_UP_FORWARD);
+				var _is_hopping_down = is_hop_down_state();
+				var _is_hopping_forward = is_hop_forward_state();
 				
 				var _y_move = 0;
 				if (_is_hopping_down) {
@@ -545,7 +568,7 @@ update_player_state = function() {
 					}
 						
 					// Update Landing on Objects from Hop/Airwalk
-					if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) {
+					if (is_hop_down_state()) {
 						if (transition_timer == 0) { start_standing(); }
 						transition_timer = 4;
 						var _ground_objects = get_ground_objects();
@@ -861,6 +884,30 @@ update_player_state = function() {
 	}
 }
 
+set_cape_state = function(_state, _sprite, _image, _timer) {
+	cape_state = _state;
+	cape_sprite_index = _sprite;
+	cape_image_index = _image;
+	cape_timer = _timer;
+
+}
+
+start_cape_flutter = function() { set_cape_state(CAPE_STATES.FLUTTER, spr_cape_flutter, 0, 8); }
+start_cape_flutter_end = function() { set_cape_state(CAPE_STATES.STOP_FLUTTER, spr_cape_stop_flutter, 0, 4); }
+start_cape_fly = function() { set_cape_state(CAPE_STATES.FLY, spr_cape_fly, 0, 8); }
+start_cape_fall = function() { set_cape_state(CAPE_STATES.FALL, spr_cape_fall, 0, 8); }
+start_cape_fall_begin = function() { set_cape_state(CAPE_STATES.FALL_START, spr_cape_fall_start, 0, 4); }
+start_cape_fall_onto_ladder = function() { set_cape_state(CAPE_STATES.FALL_TO_LADDER, spr_cape_fall_to_ladder, 2, 4); }
+start_cape_fall_onto_ladder_full = function() { set_cape_state(CAPE_STATES.FALL_TO_LADDER, spr_cape_fall_to_ladder, 0, 8); }
+start_cape_crushed = function() { set_cape_state(CAPE_STATES.STAND, spr_cape_crushed, 0, 0); }
+start_cape_crushed = function() { set_cape_state(CAPE_STATES.WIN, spr_cape_crushed, 0, 52); }
+start_cape_stand = function() { set_cape_state(CAPE_STATES.STAND, spr_cape_stand, 0, 0); }
+start_cape_crouch = function() { set_cape_state(CAPE_STATES.CROUCH, spr_cape_crouch, 0, 0); }
+start_cape_ladder = function() { set_cape_state(CAPE_STATES.LADDER, spr_cape_ladder, 0, 0); }
+start_cape_land = function() { set_cape_state(CAPE_STATES.RECOIL, spr_cape_recoil, 0, 4); }
+start_cape_recoil = function() { set_cape_state(CAPE_STATES.RECOIL, spr_cape_recoil, 0, 8); }
+start_cape_turn = function() { set_cape_state(CAPE_STATES.TURN, spr_cape_turn, 0, 4); }
+			
 update_cape_graphics = function() {
 	// Update Cape State
 	if (cape_timer > 0) {
@@ -874,210 +921,60 @@ update_cape_graphics = function() {
 	// Set New Cape State Only After Current Animation Finishes
 	if (cape_timer == 0) {
 		switch (cape_state) {
-			case CAPE_STATES.WIN: {
-				cape_state = CAPE_STATES.WIN;
-				cape_sprite_index = spr_cape_crushed;
-				cape_image_index = 0;
-				cape_timer = 52;
-				break;
-			}
+			case CAPE_STATES.WIN: { set_cape_state(CAPE_STATES.WIN, spr_cape_crushed, 0, 52); break; }
 			case CAPE_STATES.RECOIL: {
-				if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL) {
-					cape_state = CAPE_STATES.FALL_START;
-					cape_sprite_index = spr_cape_fall_start;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
-				else if (state == PLAYER_STATES.RECOIL) {
-					cape_state = CAPE_STATES.FLY;
-					cape_sprite_index = spr_cape_fly;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
-				else {
-					cape_state = CAPE_STATES.FLUTTER;
-					cape_sprite_index = spr_cape_flutter;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
+				if (is_fall_state()) { start_cape_fall_begin(); }
+				else if (state == PLAYER_STATES.RECOIL) { start_cape_fly(); }
+				else { start_cape_flutter(); }
 				break;
 			}
 			case CAPE_STATES.FLUTTER:
 			case CAPE_STATES.TURN: {
-				if (state == PLAYER_STATES.WALK_FORWARD) {
-					cape_state = CAPE_STATES.FLUTTER;
-					cape_sprite_index = spr_cape_flutter;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
-				else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
-					cape_state = CAPE_STATES.FALL_START;
-					cape_sprite_index = spr_cape_fall_start;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
-				else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
-					cape_state = CAPE_STATES.FALL_TO_LADDER;
-					cape_sprite_index = spr_cape_fall_to_ladder;
-					cape_image_index = 2;
-					cape_timer = 4;
-				}
-				else { //if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH) {
-					cape_state = CAPE_STATES.STOP_FLUTTER;
-					cape_sprite_index = spr_cape_stop_flutter;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
+				if (state == PLAYER_STATES.WALK_FORWARD) { start_cape_flutter(); }
+				else if (is_fall_state()) { start_cape_fall_begin(); }
+				else if (is_ladder_state()) { start_cape_fall_onto_ladder(); }
+				else { start_cape_flutter_end(); }
 				break;
 			}
 			case CAPE_STATES.STOP_FLUTTER:
 			case CAPE_STATES.STAND:
 			case CAPE_STATES.CROUCH: {
-				if (state == PLAYER_STATES.WALK_FORWARD) {
-					cape_state = CAPE_STATES.FLUTTER;
-					cape_sprite_index = spr_cape_flutter;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
-				else if (state == PLAYER_STATES.CRUSHED_STAND || state == PLAYER_STATES.CRUSHED_FORWARD) {
-					cape_state = CAPE_STATES.STAND;
-					cape_sprite_index = spr_cape_crushed;
-					cape_image_index = 0;
-					cape_timer = 0;
-				}
-				else if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.LOOK_UP || state == PLAYER_STATES.PUSH_STAND || state == PLAYER_STATES.PUSH_FORWARD) {
-					cape_state = CAPE_STATES.STAND;
-					cape_sprite_index = spr_cape_stand;
-					cape_image_index = 0;
-					cape_timer = 0;
-				}
-				else if (state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH) {
-					cape_state = CAPE_STATES.CROUCH;
-					cape_sprite_index = spr_cape_crouch;
-					cape_image_index = 0;
-					cape_timer = 0;
-				}
-				else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
-					cape_state = CAPE_STATES.LADDER;
-					cape_sprite_index = spr_cape_ladder;
-					cape_image_index = 0;
-					cape_timer = 0;
-				}
-				else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
-					cape_state = CAPE_STATES.FALL_START;
-					cape_sprite_index = spr_cape_fall_start;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
-				else if (state == PLAYER_STATES.WIN) {
-					cape_state = CAPE_STATES.STAND;
-					cape_sprite_index = spr_cape_crushed;
-					cape_image_index = 0;
-					cape_timer = 0;
-				}
+				if (state == PLAYER_STATES.WALK_FORWARD) { start_cape_flutter(); }
+				else if (is_crushed_state()) { start_cape_crushed(); }
+				else if (is_stand_state() || is_push_state()) { start_cape_stand(); }
+				else if (is_crouch_state()) { start_cape_crouch(); }
+				else if (is_ladder_state()) { start_cape_ladder(); }
+				else if (is_fall_state()) { start_cape_fall_begin(); }
+				else if (state == PLAYER_STATES.WIN) { start_cape_crushed(); }
 				break;
 			}
 			case CAPE_STATES.FLY: {
-				if (cape_state == CAPE_STATES.FLY) {
-					if (state == PLAYER_STATES.FLY || state == PLAYER_STATES.POWERFLY) {
-						cape_state = CAPE_STATES.FLY;
-						cape_sprite_index = spr_cape_fly;
-						cape_image_index = 0;
-						cape_timer = 8;
-					}
-					else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
-						cape_state = CAPE_STATES.FALL_START;
-						cape_sprite_index = spr_cape_fall_start;
-						cape_image_index = 0;
-						cape_timer = 4;
-					}
-					else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
-						cape_state = CAPE_STATES.LADDER;
-						cape_sprite_index = spr_cape_ladder;
-						cape_image_index = 0;
-						cape_timer = 0;
-					}
-				}
+				if (is_fly_state()) { start_cape_fly(); }
+				else if (is_fall_state()) { start_cape_fall_begin(); }
+				else if (is_ladder_state()) { start_cape_ladder(); }
 				break;
 			}
 			case CAPE_STATES.FALL_START: {
-				if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
-					cape_state = CAPE_STATES.FALL;
-					cape_sprite_index = spr_cape_fall;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
-				else if (state == PLAYER_STATES.LAND) {
-					cape_state = CAPE_STATES.RECOIL;
-					cape_sprite_index = spr_cape_recoil;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
-				else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
-					cape_state = CAPE_STATES.FALL_TO_LADDER;
-					cape_sprite_index = spr_cape_fall_to_ladder;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
-				else {
-					cape_state = CAPE_STATES.STOP_FLUTTER;
-					cape_sprite_index = spr_cape_stop_flutter;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
+				if (is_fall_state()) { start_cape_fall(); }
+				else if (state == PLAYER_STATES.LAND) { start_cape_land(); }
+				else if (is_ladder_state()) { start_cape_fall_onto_ladder_full(); }
+				else { start_cape_flutter_end(); }
 				break;
 			}
 			case CAPE_STATES.FALL_TO_LADDER: {
-				if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
-					cape_state = CAPE_STATES.LADDER;
-					cape_sprite_index = spr_cape_ladder;
-					cape_image_index = 0;
-					cape_timer = 0;
-				}
-				else {
-					cape_state = CAPE_STATES.STOP_FLUTTER;
-					cape_sprite_index = spr_cape_stop_flutter;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
+				if (is_ladder_state()) { start_cape_ladder(); }
+				else { start_cape_flutter_end(); }
 				break;
 			}
 			case CAPE_STATES.FALL: {
-				if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.TUMBLE || state == PLAYER_STATES.DAZED_FALL || state == PLAYER_STATES.POWERFALL) {
-					cape_state = CAPE_STATES.FALL;
-					cape_sprite_index = spr_cape_fall;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
-				else if (state == PLAYER_STATES.LAND) {
-					cape_state = CAPE_STATES.RECOIL;
-					cape_sprite_index = spr_cape_recoil;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
-				else if (state == PLAYER_STATES.RECOIL) {
-					cape_state = CAPE_STATES.RECOIL;
-					cape_sprite_index = spr_cape_recoil;
-					cape_image_index = 0;
-					cape_timer = 8;
-				}
-				else {
-					cape_state = CAPE_STATES.STOP_FLUTTER;
-					cape_sprite_index = spr_cape_stop_flutter;
-					cape_image_index = 0;
-					cape_timer = 4;
-				}
+				if (is_fall_state()) { start_cape_fall(); }
+				else if (state == PLAYER_STATES.LAND) { start_cape_land(); }
+				else if (state == PLAYER_STATES.RECOIL) { start_cape_recoil(); }
+				else { start_cape_flutter_end(); }
 				break;
 			}
 			default: {
-				if (state != PLAYER_STATES.LADDER &&
-					state != PLAYER_STATES.LADDER_UP &&
-					state != PLAYER_STATES.LADDER_DOWN) {
-					cape_state = CAPE_STATES.STAND;
-					cape_sprite_index = spr_cape_stand;
-					cape_image_index = 0;
-					cape_timer = 0;
-				}
+				if (!is_ladder_state()) { start_cape_stand(); }
 				break;
 			}
 		}
@@ -1085,77 +982,24 @@ update_cape_graphics = function() {
 	
 	// Interrupt Previous Cape State to Set New One
 	if (state != prev_state) {
-		if ((cape_state == CAPE_STATES.FALL_START || cape_state == CAPE_STATES.FALL) && is_grounded_state()) {
-			cape_state = CAPE_STATES.STOP_FLUTTER;
-			cape_sprite_index = spr_cape_stop_flutter;
-			cape_image_index = 0;
-			cape_timer = 4;
-		}
-		else if (state == PLAYER_STATES.HOP_UP || state == PLAYER_STATES.HOP_UP_FORWARD) {
-			cape_state = CAPE_STATES.STOP_FLUTTER;
-			cape_sprite_index = spr_cape_stop_flutter;
-			cape_image_index = 0;
-			cape_timer = 4;
-		}
-		else if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) {
-			cape_state = CAPE_STATES.FLUTTER;
-			cape_sprite_index = spr_cape_flutter;
-			cape_image_index = 0;
-			cape_timer = 8;
-		}
-		else if (state == PLAYER_STATES.TURN) {
-			cape_state = CAPE_STATES.TURN;
-			cape_sprite_index = spr_cape_turn;
-			cape_image_index = 0;
-			cape_timer = 4;
-		}
+		if ((cape_state == CAPE_STATES.FALL_START || cape_state == CAPE_STATES.FALL) && is_grounded_state()) { start_cape_flutter_end(); }
+		else if (state == PLAYER_STATES.HOP_UP || state == PLAYER_STATES.HOP_UP_FORWARD) { start_cape_flutter_end(); }
+		else if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) { start_cape_flutter(); }
+		else if (state == PLAYER_STATES.TURN) { start_cape_turn(); }
 		else if (state == PLAYER_STATES.FLY || state == PLAYER_STATES.POWERFLY) {
-			if (cape_state != CAPE_STATES.FLY) {
-				cape_state = CAPE_STATES.FLY;
-				cape_sprite_index = spr_cape_fly;
-				cape_image_index = 0;
-				cape_timer = 8;
-			}
+			if (cape_state != CAPE_STATES.FLY) { start_cape_fly(); }
 		}
-		else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) {
-			cape_state = CAPE_STATES.FALL_START;
-			cape_sprite_index = spr_cape_fall_start;
-			cape_image_index = 0;
-			cape_timer = 4;
-		}
-		else if (state == PLAYER_STATES.WIN) {
-			cape_state = CAPE_STATES.WIN;
-			cape_sprite_index = spr_cape_crushed;
-			cape_image_index = 0;
-			cape_timer = 52;
-		}
-		else if (state == PLAYER_STATES.LAND) {
-			cape_state = CAPE_STATES.RECOIL;
-			cape_sprite_index = spr_cape_recoil;
-			cape_image_index = 0;
-			cape_timer = 4;
-		}
+		else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { start_cape_fall_begin(); }
+		else if (state == PLAYER_STATES.WIN) { start_cape_win(); }
+		else if (state == PLAYER_STATES.LAND) { start_cape_land(); }
 		else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
-			if (cape_state == CAPE_STATES.FLUTTER || cape_state == CAPE_STATES.FALL) {
-				cape_state = CAPE_STATES.FALL_TO_LADDER;
-				cape_sprite_index = spr_cape_fall_to_ladder;
-				cape_image_index = 2;
-				cape_timer = 4;
-			}
-			else if (cape_state != CAPE_STATES.FALL_TO_LADDER) {
-				cape_state = CAPE_STATES.LADDER;
-				cape_sprite_index = spr_cape_ladder;
-				cape_image_index = 0;
-				cape_timer = 0;
-			}
+			if (cape_state == CAPE_STATES.FLUTTER || cape_state == CAPE_STATES.FALL) { start_cape_fall_onto_ladder(); }
+			else if (cape_state != CAPE_STATES.FALL_TO_LADDER) { start_cape_ladder(); }
 		}
 	}
 	else if (state == PLAYER_STATES.LAND && image_index > 0) {
 		// Switch from falling to behind cape in the middle of landing animatiom
-		cape_state = CAPE_STATES.STOP_FLUTTER;
-		cape_sprite_index = spr_cape_stop_flutter;
-		cape_image_index = 0;
-		cape_timer = 4;
+		start_cape_flutter_end()
 	}
 
 	// Update Cape Depth Relative to Player
@@ -1367,6 +1211,16 @@ update_player_graphics = function() {
 }
 
 update_player_collisions_at_position = function() {
+	// Get Destroyed From Stepping on Lethal Tiles
+	var _grounded_objects = get_ground_objects();
+	for (var _i = 0; _i < array_length(_grounded_objects); _i++) {
+		var _inst = _grounded_objects[_i]
+		if (instance_exists(_inst)) {
+			if (object_index == obj_player && _inst.is_player_lethal) { instance_destroy(); }
+			if (object_index != obj_player && _inst.is_robot_lethal) { instance_destroy(); }
+		}
+	}
+	
 	// Get Destroyed From Solids
 	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
 								
@@ -1402,7 +1256,7 @@ update_player_collisions_at_position = function() {
 		if (!instance_exists(_inst)) { continue; }
 		
 		if (is_a(_inst, obj_door)) {
-			if (can_be_controlled && _inst.image_index > 0 && state == PLAYER_STATES.STAND) {
+			if (can_be_controlled && _inst.image_index > 0 && is_stand_state()) {
 				start_winning();
 				stop_music();
 				play_sound(snd_level_clear);

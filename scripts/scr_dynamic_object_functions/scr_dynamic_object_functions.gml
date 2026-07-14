@@ -218,19 +218,21 @@ get_right_climbable_objects = function(_ignored_objects) {
 
 // Boolean Checks
 is_on_ground = function() {
-	return array_length(get_ground_objects()) > 0;
+	return (array_length(get_ground_objects()) > 0);
 }
 
 is_under_ceiling = function() {
-	return array_length(get_ceiling_objects()) > 0;
+	return (array_length(get_ceiling_objects()) > 0);
 }
 
 is_blocked_on_left = function() {
-	return array_length(get_left_wall_objects()) > 0;
+	return (array_length(get_left_wall_objects()) > 0 || x <= ((global.controller.original_controls) ? 8 : 0));
 }
 
 is_blocked_on_right = function() {
-	return array_length(get_right_wall_objects()) > 0;
+	var _max_x = (room_width - sprite_get_width(sprite_index));
+	if (global.controller.original_controls) { _max_x -= 8; }
+	return (array_length(get_right_wall_objects()) > 0 || x >= _max_x);
 }
 
 is_fully_submerged = function() {

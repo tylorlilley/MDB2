@@ -1,7 +1,8 @@
 // NEXT:
+Climbing logic in three places
+
 Pushing crate doesn't show the offset of the pushing graphics for the player correctly?
-Soliders on top of soliders shouldn't move each other as carried objects?
-- Implemented but figure out if this makes sens or matches the original cadence
+
 Implement is_player_lethal and is_robot_lethal
 
 // PAST OBJECTS TO RECREATE
@@ -30,12 +31,8 @@ keep crushed walk in grid until movement finishes so crates dont fall until afte
 // ROBOT TODO:
 - Add Swim State
 - What to do about Crushed States?
-
-// POTENTIAL REFACTOR:
-
-
-
-
+- Soliders on top of soliders shouldn't move each other as carried objects?
+-- Implemented but figure out if this makes sens or matches the original cadence
 
 // FUTURE IDEAS
 
@@ -45,5 +42,4 @@ Advanced Robots
 - Move and utilize far more of the various player states than just walk, turn, and fall
 Scrolling rooms
 wrap-around screen movements (horizontal or vertical)
-
-						// Land or Keep Falling TODO: This to other states (fly, powerfly, powerfall); and add functions for pushed(), climbed(), etc; Do this for Landing from Hop too?
+Hidden Idols buried in specific spots in many levels as an extra layer of secrets to uncover

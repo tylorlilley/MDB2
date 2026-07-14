@@ -102,9 +102,17 @@ draw_set_valign(fa_top)
 draw_set_alpha(0.5);
 draw_set_color(c_black);
 draw_rectangle(0, 0, 256, 16, false);
+if (original_controls) {
+	draw_rectangle(0, 16, 8, 232, false);
+	draw_rectangle(248, 16, 256, 232, false);
+	draw_rectangle(0, 232, 256, 240, false);
+}
 draw_set_alpha(1);
 draw_set_color(c_white);
 draw_set_font(ft_teko);
-draw_text(4, -1, _room_name);
-draw_text(256-20, -1, "x" + string(room_keys));
-draw_sprite(spr_key_icon, 0, 256-20-16, 0);
+
+// Draw Level Text and Key Amounts
+var _text_pos = -1;
+draw_text(4, _text_pos, _room_name);
+draw_text(256-20, _text_pos, "x" + string(room_keys));
+draw_sprite(spr_key_icon, 0, 256-20-16, _text_pos+1);

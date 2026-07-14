@@ -42,6 +42,10 @@ with (obj_water) {
 	anim_timer++;
 	anim_timer = anim_timer % (8 * 8);
 }
+with (obj_lava) {
+	anim_timer++;
+	anim_timer = anim_timer % (8 * 8);
+}
 with (obj_switch) {
 	event_inherited();
 
