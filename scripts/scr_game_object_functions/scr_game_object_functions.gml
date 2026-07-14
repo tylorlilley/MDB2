@@ -209,6 +209,7 @@ get_connected_instances = function(_connected_instances) {
 			var _inst_id =  _instances_to_check[_i].id
 			if (!array_contains(_connected_instances, _inst_id)) {
 				array_push(_connected_instances, _inst_id);
+				_inst_id.get_connected_instances(_connected_instances);
 			}
 		}
 	}
