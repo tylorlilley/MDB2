@@ -235,8 +235,12 @@ is_blocked_on_right = function() {
 	return (array_length(get_right_wall_objects()) > 0 || x >= _max_x);
 }
 
+fully_covered_by = function(_object_index) {
+	return at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _object_index);
+}
+
 is_fully_submerged = function() {
-	return at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_water);
+	fully_covered_by(obj_water);
 }
 
 is_partially_submerged = function() {

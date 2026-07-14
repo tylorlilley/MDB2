@@ -3,6 +3,7 @@
   "%Name":"obj_switch_block",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":4,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_switch_block",
@@ -12,8 +13,8 @@
     "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_static_area",
+    "path":"objects/obj_static_area/obj_static_area.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

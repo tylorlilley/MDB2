@@ -1,4 +1,8 @@
 // NEXT:
+
+Player Can't Climb Crates next to Solid Walls?
+Color switch particles for destroy
+Destroy switch when not on ground
 Cloud Edges
 
 Refactor Climbing logic in three places
@@ -8,6 +12,8 @@ Pushing crate doesn't show the offset of the pushing graphics for the player cor
 Portals
 
 Background Sand Cave Tiles
+
+Test Robots Work Like Originals?
 
 // PAST OBJECTS TO RECREATE
 - Switch and Switch Blocks

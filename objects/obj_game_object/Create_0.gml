@@ -6,6 +6,10 @@ enum STATES {
 	FLOAT
 }
 
+u_base_colors = shader_get_uniform(shd_palettizer, "u_base_colors");
+u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
+main_palette = GRAYSCALE_PALETTE;
+
 has_gravity = false;
 
 is_left = false;

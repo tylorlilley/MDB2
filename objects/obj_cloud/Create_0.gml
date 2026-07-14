@@ -9,6 +9,7 @@ is_fragile = true;
 hits = 1;
 main_sprite = spr_box_16x16;
 outline_sprite = spr_cloud_outline;
+has_corners = false;
 walk_particles = 4;
 particle_color = c_white;
 fuzzing_sprite = spr_cloud_fuzzing;

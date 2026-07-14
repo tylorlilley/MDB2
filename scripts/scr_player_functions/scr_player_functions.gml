@@ -900,7 +900,7 @@ start_cape_fall_begin = function() { set_cape_state(CAPE_STATES.FALL_START, spr_
 start_cape_fall_onto_ladder = function() { set_cape_state(CAPE_STATES.FALL_TO_LADDER, spr_cape_fall_to_ladder, 2, 4); }
 start_cape_fall_onto_ladder_full = function() { set_cape_state(CAPE_STATES.FALL_TO_LADDER, spr_cape_fall_to_ladder, 0, 8); }
 start_cape_crushed = function() { set_cape_state(CAPE_STATES.STAND, spr_cape_crushed, 0, 0); }
-start_cape_crushed = function() { set_cape_state(CAPE_STATES.WIN, spr_cape_crushed, 0, 52); }
+start_cape_win = function() { set_cape_state(CAPE_STATES.WIN, spr_cape_crushed, 0, 52); }
 start_cape_stand = function() { set_cape_state(CAPE_STATES.STAND, spr_cape_stand, 0, 0); }
 start_cape_crouch = function() { set_cape_state(CAPE_STATES.CROUCH, spr_cape_crouch, 0, 0); }
 start_cape_ladder = function() { set_cape_state(CAPE_STATES.LADDER, spr_cape_ladder, 0, 0); }
@@ -921,7 +921,7 @@ update_cape_graphics = function() {
 	// Set New Cape State Only After Current Animation Finishes
 	if (cape_timer == 0) {
 		switch (cape_state) {
-			case CAPE_STATES.WIN: { set_cape_state(CAPE_STATES.WIN, spr_cape_crushed, 0, 52); break; }
+			case CAPE_STATES.WIN: { start_cape_win(); break; }
 			case CAPE_STATES.RECOIL: {
 				if (is_fall_state()) { start_cape_fall_begin(); }
 				else if (state == PLAYER_STATES.RECOIL) { start_cape_fly(); }

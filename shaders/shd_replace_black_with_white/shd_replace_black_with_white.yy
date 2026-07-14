@@ -3,8 +3,8 @@
   "%Name":"shd_replace_black_with_white",
   "name":"shd_replace_black_with_white",
   "parent":{
-    "name":"Sprites",
-    "path":"folders/Sprites.yy",
+    "name":"MDB2",
+    "path":"MDB2.yyp",
   },
   "resourceType":"GMShader",
   "resourceVersion":"2.0",

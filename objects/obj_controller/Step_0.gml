@@ -54,20 +54,18 @@ with (obj_switch) {
 	if (_pressed_on && !pressed) {
 		var _toggle_blocks = true;
 		with (obj_switch) {
-			if (id != other.id && image_blend == other.image_blend && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; }
+			if (id != other.id && switch_color == other.switch_color && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; }
 		}
 	
 		if (_toggle_blocks) {
 			with (obj_switch_block) { 
-				if (image_blend == other.image_blend) { toggle_solid(true); }
+				if (switch_color == other.switch_color) { toggle_solid(true); }
 			}
-			with (obj_switch) { if (image_blend == other.image_blend) { pressed = !pressed; } }
+			with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
 		}
 	}
 
 	image_index = (pressed || _pressed_on) ? 1 : 0;
-
-	if (!is_on_ground()) { instance_destroy(); }
 }
 with (obj_key) {
 	shine_periodically();

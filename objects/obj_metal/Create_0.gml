@@ -2,7 +2,7 @@ event_inherited();
 
 step_sound = snd_step_metal;
 
-hits = 3;
+hits = 0;
 main_sprite = spr_metal;
 outline_sprite = spr_metal_outline;
 fuzzing_sprite = spr_metal_fuzzing;

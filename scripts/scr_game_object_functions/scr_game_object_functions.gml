@@ -91,14 +91,14 @@ can_be_pushed_right = function() {
 
 can_be_climbed_from_left = function(_ignored_objects) {
 	if (!is_climbable) { return false; }
-	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
+	if (array_length(get_left_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x-8, y, 8, 8, object_index));
 }
 
 can_be_climbed_from_right = function(_ignored_objects) {
 	if (!is_climbable) { return false; }
-	if (array_length(get_left_ceiling_objects(_ignored_objects)) > 0) { return false; }
+	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x+8, y, 8, 8, object_index));
 }

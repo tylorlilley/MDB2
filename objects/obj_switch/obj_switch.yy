@@ -4,6 +4,7 @@
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":1,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_switch",
@@ -38,8 +39,8 @@
     "path":"sprites/spr_switch/spr_switch.yy",
   },
   "spriteMaskId":{
-    "name":"spr_box_16x16",
-    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+    "name":"spr_box_16x8",
+    "path":"sprites/spr_box_16x8/spr_box_16x8.yy",
   },
   "visible":true,
 }
