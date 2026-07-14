@@ -5,7 +5,6 @@ switch(room) {
 	case rm_new_1_2: { _room_name = "One Way Up"; break; }
 	case rm_new_1_3: { _room_name = "Many Ways Down"; break; }
 	/*
-	
 	// Original Game
 	case rm_old_1_1: { _room_name = "Island Shore"; break; }
 	//case rm_old_1_2: { _room_name = "Rock Bottom"; break; }
@@ -47,12 +46,13 @@ switch(room) {
 	case rm_old_5_2: { _room_name = "Warp Whiplash"; break; }
 	case rm_old_5_3: { _room_name = "Tangerine Dreams"; break; }
 	case rm_old_5_4: { _room_name = "Dusk Bowl"; break; }
-	
+	*/
 	// Second Game
 	case rm_old2_1_1: { _room_name = "Under the Pier"; break; }
 	case rm_old2_1_2: { _room_name = "Rock Bottom"; break; }
 	case rm_old2_1_3: { _room_name = "Quicksand"; break; }
 	case rm_old2_1_4: { _room_name = "Dropping In"; break; }
+	/*
 	case rm_old2_1_5: { _room_name = "Dusty Dune"; break; }
 	case rm_old2_1_6: { _room_name = "Digging for Gold"; break; }
 	case rm_old2_1_7: { _room_name = "Spelunking"; break; }

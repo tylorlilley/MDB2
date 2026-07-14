@@ -289,7 +289,7 @@ can_ladder_down = function(_closest_ladder) {
 	return (
 		instance_exists(_closest_ladder) &&
 		x == _closest_ladder.x &&
-		(!is_grounded(true) || at_grid_position(x, y + sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder))
+		(!is_on_ground() || at_grid_position(x, y + sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder))
 	);
 }
 
