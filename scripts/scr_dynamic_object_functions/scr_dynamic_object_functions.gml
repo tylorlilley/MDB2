@@ -289,7 +289,7 @@ game_object_step = function() {
 				case STATES.PUSHED: {
 					if (is_fully_submerged()) {
 						// Start Surfacing
-						if (!is_under_ceiling) { grid_move_up(1); }
+						if (!is_under_ceiling()) { grid_move_up(1); }
 						state = STATES.SURFACE;
 						fall_timer = 0;
 					}
