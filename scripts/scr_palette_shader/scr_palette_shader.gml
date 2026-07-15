@@ -13,7 +13,7 @@ global.C_BLACK = make_color_rgb(0, 0, 0);
 
 global.C_SAND_LIGHT = make_color_rgb(241, 226, 175); // make_color_rgb(247, 231, 151);
 global.C_SAND = make_color_rgb(222, 202, 131); // C_YELLOW_LIGHT
-global.C_SAND_DARK = make_color_rgb(197, 167, 631); // C_YELLOW
+global.C_SAND_DARK = make_color_rgb(197, 167, 31); // C_YELLOW
 
 global.C_YELLOW_LIGHT = make_color_rgb(247, 231, 151); // make_color_rgb(247, 231, 151);
 global.C_YELLOW = make_color_rgb(240, 188, 60); // make_color_rgb(207, 167, 0);
@@ -40,7 +40,7 @@ global.PALETTE_BLUE = [global.C_BLUE_LIGHT, global.C_BLUE, global.C_BLUE_DARK, g
 global.PALETTE_RED = [global.C_RED_LIGHT, global.C_RED, global.C_RED_DARK, global.C_BLACK];
 
 function darken_palette(_palette) {
-	return [_palette[1], _palette[1], _palette[1], global.C_BLACK]; 
+	return [_palette[1], _palette[2], _palette[3], global.C_BLACK]; 
 }
 
 function color_uniform_values(_color) {
