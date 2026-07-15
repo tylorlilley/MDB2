@@ -45,7 +45,7 @@ get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objec
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
 	{
 		var _inst = _potential_objects[_i];
-		if (_pred(_inst, _ignored_objects) && !array_contains(_ignored_objects, _inst)) { array_push(_static_objects, _inst); }
+		if (!array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
 	}
 	
 	return _static_objects;

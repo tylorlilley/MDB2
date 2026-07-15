@@ -1,9 +1,6 @@
 // Handle Dynamic Game Object Step
 var _dynamic_instances = [];
 
-with (obj_dynamic_object) {
-	swim_timer = swim_timer % 30;
-}
 with (obj_dynamic_object) { array_push(_dynamic_instances, id); }
 array_sort(_dynamic_instances, function(_a, _b) {
     return sign(_b.y - _a.y);
@@ -15,6 +12,9 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     var _inst = _dynamic_instances[_i];
 	with(_inst) {
+		// Update Swim Timer for Visual Bob
+		swim_timer = swim_timer % FLOAT_OFFSET_PERIOD_FRAMES;
+	
 		// Update Virtual X and Y Positions Based on new Actual Positions
 		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
 		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff div x_transition_timer);

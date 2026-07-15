@@ -762,7 +762,7 @@ update_player_state = function() {
 						// Bonk against floor
 						if (state == PLAYER_STATES.POWERFALL && !is_fully_submerged() && !is_partially_submerged()) {
 							// Get Targets to Damage
-							var _damaged_instances = [], _check_deeper_right = false, _check_deeper_left = false;
+							var _damaged_instances = [];
 							for (var _dir = 0; _dir < 2; _dir++) {
 								var _x_offset = (_dir == 1) ? 8 : 0, _y_offset = 16;
 							

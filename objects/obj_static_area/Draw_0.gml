@@ -75,8 +75,8 @@ if (outline_sprite != noone) {
 // Set Up Shader
 shader_set(shd_palettizer);
 
-shader_set_uniform_f_array(u_base_colors, GRAYSCALE_PALETTE);
-shader_set_uniform_f_array(u_replacement_colors, ((shine_timer == 0) ? ALL_WHITE_PALETTE : main_palette));
+shader_set_uniform_f_array(global.controller.u_base_colors, global.GRAYSCALE_PALETTE);
+shader_set_uniform_f_array(global.controller.u_replacement_colors, ((shine_timer == 0) ? global.ALL_WHITE_PALETTE : main_palette));
 
 if (main_sprite != noone) {  draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, _main_width, _main_height, _main_x, _main_y, 1, 1, image_blend, image_alpha); }
 if (fuzzing_sprite != noone) { draw_sprite_part(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y); }

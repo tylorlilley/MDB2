@@ -1,4 +1,7 @@
+#macro FLOAT_OFFSET_PERIOD_FRAMES 32
+
 get_float_offset = function() {
+	var _ampliutude = 2, _period = 32, _swim_bob = round(_ampliutude * sin(swim_timer*(pi / _period)));
 	var _y_offset = (is_floating_state()) ? _swim_bob : 0;
 	if (is_grounded_state()) {
 		_y_offset = 999;

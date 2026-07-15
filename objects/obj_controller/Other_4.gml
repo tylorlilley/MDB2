@@ -5,3 +5,6 @@ with (obj_dynamic_object) {
 		instance_deactivate_object(contents);
 	}
 }
+with (obj_crate) {
+	if (is_carrying_key()) { sprite_index = spr_gold_crate; }
+}
