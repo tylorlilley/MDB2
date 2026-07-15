@@ -11,6 +11,5 @@ main_sprite = spr_box_16x16;
 outline_sprite = spr_cloud_outline;
 has_corners = false;
 walk_particles = 4;
-particle_color = c_white;
 fuzzing_sprite = spr_cloud_fuzzing;
-fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite));
+fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);

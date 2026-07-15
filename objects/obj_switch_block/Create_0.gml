@@ -13,6 +13,7 @@ switch_color = SWITCH_COLORS.RED;
 // Create Solid Metal Area
 solid_obj = instance_create_depth(x, y, 0, obj_metal);
 solid_obj.depth = depth - 1;
+solid_obj.particle_color = get_switch_color(switch_color);
 
 // Solid Area Variables
 main_sprite = noone;

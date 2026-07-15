@@ -1,7 +1,4 @@
 get_float_offset = function() {
-	var _ampliutude = 2, _period = 30, _swim_bob = round(_ampliutude * sin(swim_timer*(pi / _period)));
-	swim_timer = swim_timer % _period;
-	
 	var _y_offset = (is_floating_state()) ? _swim_bob : 0;
 	if (is_grounded_state()) {
 		_y_offset = 999;
@@ -23,7 +20,7 @@ get_float_offset = function() {
 spawn_contents = function() {
 	if (contents != noone) {
 		instance_activate_object(contents);
-		contents.grid_move_to(other.x, other.y);
+		contents.grid_move_to(x, y);
 	}
 }
 
@@ -121,11 +118,11 @@ grid_move_down_direct = function(_speed) {
 
 grid_move_horizontal = function(_speed) {
 	if (_speed < 0 && !grid_move_left(_speed)) {
-		sound_play(snd_soft_thud);
+		play_sound(snd_soft_thud);
 		return false; 
 	}
 	else if (_speed > 0 && !grid_move_right(_speed)) {
-		sound_play(snd_soft_thud);
+		play_sound(snd_soft_thud);
 		return false; 
 	}
 	
@@ -168,7 +165,7 @@ get_left_wall_objects = function() {
     });
 }
 
-get_right_wall_objects = function(e) {
+get_right_wall_objects = function() {
 	return get_relative_solid_objects(8, 0, function(_inst) {
         return _inst.is_solid_from_left;
     });
@@ -240,7 +237,7 @@ fully_covered_by = function(_object_index) {
 }
 
 is_fully_submerged = function() {
-	fully_covered_by(obj_water);
+	return fully_covered_by(obj_water);
 }
 
 is_partially_submerged = function() {

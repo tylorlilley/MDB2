@@ -2,8 +2,7 @@
 var _dynamic_instances = [];
 
 with (obj_dynamic_object) {
-	//carried_objects = get_carried_objects();
-	//if (transition_timer == 0) { virtual_x = x; virtual_y = y; }
+	swim_timer = swim_timer % 30;
 }
 with (obj_dynamic_object) { array_push(_dynamic_instances, id); }
 array_sort(_dynamic_instances, function(_a, _b) {
@@ -47,8 +46,6 @@ with (obj_lava) {
 	anim_timer = anim_timer % (8 * 8);
 }
 with (obj_switch) {
-	event_inherited();
-
 	var _pressed_on = array_length(get_pressing_objects()) > 0
 
 	if (_pressed_on && !pressed) {

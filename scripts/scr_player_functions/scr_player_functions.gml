@@ -256,7 +256,7 @@ start_hopping = function(_should_move_horizontally = false) {
 }
 	
 start_laddering = function() {
-	var _should_ladder = ((key_up && can_start_laddering()) || (key_down && can_start_laddering()));
+	var _can_ladder = can_start_laddering(), _should_ladder = (_can_ladder && (key_up || key_down));
 	if (_should_ladder) {
 		state = PLAYER_STATES.LADDER;
 		transition_timer = 4;
@@ -412,6 +412,7 @@ update_player_state = function() {
 					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); particle_color = c_white; create_sparkles(4 + irandom(6)); }
 				}
 				if (transition_timer == 0) { image_index = 0; cape_image_index = 0; cape_timer = 52; }
+				break;
 			}
 			case PLAYER_STATES.LOOK_UP:
 			case PLAYER_STATES.STAND:

@@ -41,3 +41,11 @@ function get_switch_palette(_switch_color) {
 		case SWITCH_COLORS.YELLOW: { return YELLOW_BLOCK_PALETTE; }
 	}
 }
+
+function get_switch_color(_switch_color) {
+	switch (_switch_color) {
+		case SWITCH_COLORS.RED: { return make_colour_rgb(223, 23, 0); }
+		case SWITCH_COLORS.BLUE: { return make_colour_rgb(39, 159, 255); }
+		case SWITCH_COLORS.YELLOW: { return make_colour_rgb(207, 167, 0); }
+	}
+}

@@ -16,7 +16,7 @@ if (x > 0 && y > 0 && x < room_width && y < room_height) {
 
 // Other Player Death Stuff
 play_sound(snd_player_death);
-if (last_x && last_y) {
+if (last_x != -999 && last_y != -999) {
 	with (global.controller) {
 		last_player_x = other.last_x;
 		last_player_y = other.last_y;
