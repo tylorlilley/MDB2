@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_player_dazed_stand",
-    "path":"sprites/spr_player_dazed_stand/spr_player_dazed_stand.yy",
+    "name":"spr_editor_mirror_player",
+    "path":"sprites/spr_editor_mirror_player/spr_editor_mirror_player.yy",
   },
   "spriteMaskId":null,
   "visible":true,

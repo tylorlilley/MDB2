@@ -26,3 +26,4 @@ update_graphics_for_connections = function() {
 	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index));
 	is_connected_bottom_left = grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index));
 }
+update_graphics_for_connections();

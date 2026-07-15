@@ -4,9 +4,7 @@ with (obj_dynamic_object) {
 		contents.grid_remove();
 		instance_deactivate_object(contents);
 	}
-}
-with (obj_crate) {
-	if (is_carrying_key()) { sprite_index = spr_editor_crate_gold; }
+	if (is_carrying_key()) { original_palette = global.PALETTE_YELLOW; main_palette = global.PALETTE_YELLOW; }
 }
 with (obj_switch_block) {
 	main_palette = get_switch_palette(switch_color);

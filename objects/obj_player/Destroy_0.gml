@@ -5,8 +5,8 @@ spawn_contents();
 // Handle Creating Death Particles
 if (x > 0 && y > 0 && x < room_width && y < room_height) {
 	create_particles(8 + irandom(8));
-	create_particles(8 + irandom(8), global.PALETTE_DARK_BLUE);
-	var _player_particle = create_particles(1, main_palette, false, death_sprite)[0];
+	create_particles(8 + irandom(8), darken_palette(main_palette));
+	var _player_particle = create_particles(1, main_palette, death_sprite, false)[0];
 	_player_particle.main_palette = main_palette;
 	_player_particle.image_rotation = (_player_particle.hspeed < 0) ? 1 : -1;
 	_player_particle.image_angle = 15 * _player_particle.image_rotation;

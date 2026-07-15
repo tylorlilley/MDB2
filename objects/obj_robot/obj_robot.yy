@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_robot_walk",
-    "path":"sprites/spr_robot_walk/spr_robot_walk.yy",
+    "name":"spr_editor_robot",
+    "path":"sprites/spr_editor_robot/spr_editor_robot.yy",
   },
   "spriteMaskId":null,
   "visible":true,

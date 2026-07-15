@@ -12,8 +12,8 @@
     "path":"folders/Objects/Static Areas/Switch Blocks.yy",
   },
   "parentObjectId":{
-    "name":"obj_switch_block_yellow",
-    "path":"objects/obj_switch_block_yellow/obj_switch_block_yellow.yy",
+    "name":"obj_switch_block_yellow_on",
+    "path":"objects/obj_switch_block_yellow_on/obj_switch_block_yellow_on.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

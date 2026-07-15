@@ -12,8 +12,8 @@
     "path":"folders/Objects/Game Objects/Switches.yy",
   },
   "parentObjectId":{
-    "name":"obj_switch_blue_up",
-    "path":"objects/obj_switch_blue_up/obj_switch_blue_up.yy",
+    "name":"obj_switch_red_up",
+    "path":"objects/obj_switch_red_up/obj_switch_red_up.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_editor_switch_off_blue",
-    "path":"sprites/spr_editor_switch_off_blue/spr_editor_switch_off_blue.yy",
+    "name":"spr_editor_switch_off_red",
+    "path":"sprites/spr_editor_switch_off_red/spr_editor_switch_off_red.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_16x8",

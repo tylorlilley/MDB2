@@ -11,5 +11,5 @@ step_sound = snd_step_bubble;
 destroyed_sound = snd_pop;
 
 sprite_index = spr_bubble;
-main_palette = global.PALETTE_BLUE;
+main_palette = global.PALETTE_GRAYSCALE;
 image_alpha = 0.75;

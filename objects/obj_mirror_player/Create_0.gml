@@ -3,7 +3,8 @@ event_inherited();
 
 is_left = false;
 sprite_index = spr_player_idle;
-main_palette = global.PALETTE_GRAYSCALE;
+original_palette = global.PALETTE_GRAYSCALE;
+powered_palette = global.PALETTE_RED;
 
 update_controls = function() {
 	key_left = key_left || keyboard_check(vk_right);

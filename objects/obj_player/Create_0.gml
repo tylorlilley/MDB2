@@ -23,9 +23,12 @@ state = PLAYER_STATES.STAND;
 image_speed = 0;
 depth = -2;
 cape_depth = 1;
-
-main_palette = global.PALETTE_BLUE;
+sprite_index = spr_player_idle;
+original_palette = global.PALETTE_BLUE;
+powered_palette = global.PALETTE_RED;
 death_sprite = spr_player_dying_particle;
+idle_timer = 0;
+idle_cycle = 0;
 
 can_be_controlled = true;
 can_power_up = true;

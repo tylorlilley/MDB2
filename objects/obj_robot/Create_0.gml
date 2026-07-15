@@ -12,7 +12,7 @@ walk_timer = 0;
 
 sprite_index = spr_robot_walk;
 death_sprite = spr_robot_dying_particle;
-main_palette = global.PALETTE_GRAYSCALE;
+original_palette = global.PALETTE_GRAYSCALE;
 
 update_controls = function() {
 	walk_timer++;

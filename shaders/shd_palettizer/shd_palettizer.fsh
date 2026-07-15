@@ -19,5 +19,5 @@ vec4 recolorPixel(vec4 pixel) {
 void main()
 {
 	vec4 pixel =  texture2D( gm_BaseTexture, v_vTexcoord );
-    gl_FragColor = recolorPixel(pixel);
+    gl_FragColor = v_vColour * recolorPixel(pixel);
 }

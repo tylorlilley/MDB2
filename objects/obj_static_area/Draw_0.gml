@@ -72,11 +72,8 @@ if (outline_sprite != noone) {
 	if (!is_connected_on_left) { _main_width--; _main_left++; _main_x++; }
 }
 
-// Set Up Shader
+// Draw Main Sprite
 use_palette_shader();
-shader_set_uniform_f_array(global.controller.u_base_colors, global.PALETTE_GRAYSCALE);
-shader_set_uniform_f_array(global.controller.u_replacement_colors, ((shine_timer == 0) ? global.PALETTE_ALL_WHITE : main_palette));
-
 if (main_sprite != noone) {  draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, _main_width, _main_height, _main_x, _main_y, 1, 1, image_blend, image_alpha); }
 if (fuzzing_sprite != noone) { draw_sprite_part(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y); }
 

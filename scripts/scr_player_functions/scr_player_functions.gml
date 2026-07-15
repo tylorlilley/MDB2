@@ -311,6 +311,7 @@ update_player_state = function() {
 
 	// Reset various player state timers
 	if (!is_ladder_state()) { is_up = false; }
+	if (state != PLAYER_STATES.STAND) { idle_timer = 0; }
 	if (state != PLAYER_STATES.CROUCH && state != PLAYER_STATES.POWERCROUCH) { crouch_timer = 0; }
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
 	if (state != PLAYER_STATES.RECOIL) { recoil_timer = 0; }
@@ -1203,7 +1204,7 @@ update_player_graphics = function() {
 		// Update Images in Animations
 		if (animation_speed > 0) {
 			// Update Animation Based on Selected Speed
-			if (animation_timer % animation_speed == 0) { image_index++; }
+			if (animation_timer % animation_speed == 0) { image_index++; if (state == PLAYER_STATES.STAND) { idle_timer++; } }
 			image_index = image_index % image_number;
 			// Update Step Index
 			if (state == PLAYER_STATES.LADDER_DOWN || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.PUSH_FORWARD) {
@@ -1211,10 +1212,29 @@ update_player_graphics = function() {
 			}
 		}
 		
+		// Update Images for Idle Animations
+		if (sprite_index == spr_player_idle && state == PLAYER_STATES.STAND) {
+			if (idle_timer >= 12 && idle_cycle == 0) { idle_timer = 0; idle_cycle++; }
+			else if (idle_timer >= 13 && idle_cycle == 1) { idle_timer = 0; idle_cycle++; }
+			else if (idle_timer >= 14 && idle_cycle == 2) { idle_timer = 0; idle_cycle++; }
+			else if (idle_timer >= 16 && idle_cycle == 3) { idle_timer = 0; idle_cycle++; }
+			else if (idle_timer >= 18 && idle_cycle == 4) { idle_timer = 0; idle_cycle++; }
+			else if (idle_timer >= 24 && idle_cycle == 5) { idle_timer = 0; idle_cycle = 0; }
+		
+			if (idle_timer >= 0 && idle_timer < 12) { image_index = 0; }
+			else if (idle_timer >= 12 && idle_timer < 14) { image_index = 1; }
+			else if (idle_timer >= 14 && idle_timer < 16) { image_index = 2; }
+			else if (idle_timer >= 16 && idle_timer < 18) { image_index = 3; }
+			else if (idle_timer >= 18 && idle_timer < 19) { image_index = 4; }
+			else if (idle_timer >= 19 && idle_timer < 21) { image_index = 3; }
+			else if (idle_timer >= 21 && idle_timer < 23) { image_index = 2; }
+			else if (idle_timer >= 23) { image_index = 1; }
+		}
+
 		// Update Palette
-		main_palette = global.PALETTE_BLUE; 
+		main_palette = original_palette;
 		if ((state == PLAYER_STATES.POWERFLY || state == PLAYER_STATES.POWERFALL || state == PLAYER_STATES.POWERCROUCH) && (animation_timer % 2 == 0)) {
-			main_palette = global.PALETTE_RED; 
+			main_palette = powered_palette; 
 		}
 	}
 }
