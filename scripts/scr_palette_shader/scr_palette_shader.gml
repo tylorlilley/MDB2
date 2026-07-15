@@ -26,12 +26,12 @@ global.C_RED_DARK = color_uniform_values(make_colour_rgb(143, 6, 0));
 global.C_RED = color_uniform_values(global.GML_RED);
 global.C_RED_LIGHT = color_uniform_values(make_colour_rgb(255, 199, 207));
 
-global.ALL_WHITE_PALETTE = array_concat(C_WHITE, C_WHITE, C_WHITE, C_WHITE);
-global.GRAYSCALE_PALETTE = array_concat(C_WHITE, C_GRAY_LIGHT, C_GRAY, C_BLACK);
+global.ALL_WHITE_PALETTE = array_concat(global.C_WHITE, global.C_WHITE, global.C_WHITE, global.C_WHITE);
+global.GRAYSCALE_PALETTE = array_concat(global.C_WHITE, global.C_GRAY_LIGHT, global.C_GRAY, global.C_BLACK);
 
-global.YELLOW_BLOCK_PALETTE = array_concat(C_YELLOW_LIGHT, C_YELLOW, C_YELLOW_DARK, C_BLACK);
-global.BLUE_BLOCK_PALETTE = array_concat(C_BLUE_LIGHT, C_BLUE, C_BLUE_DARK, C_BLACK);
-global.RED_BLOCK_PALETTE = array_concat(C_RED_LIGHT, C_RED, C_RED_DARK, C_BLACK);
+global.YELLOW_BLOCK_PALETTE = array_concat(global.C_YELLOW_LIGHT, global.C_YELLOW, global.C_YELLOW_DARK, global.C_BLACK);
+global.BLUE_BLOCK_PALETTE = array_concat(global.C_BLUE_LIGHT, global.C_BLUE, global.C_BLUE_DARK, global.C_BLACK);
+global.RED_BLOCK_PALETTE = array_concat(global.C_RED_LIGHT, global.C_RED, global.C_RED_DARK, global.C_BLACK);
 
 function color_uniform_values(_color) {
 	return [color_get_red(_color)/255, color_get_green(_color)/255, color_get_blue(_color)/255, 1];

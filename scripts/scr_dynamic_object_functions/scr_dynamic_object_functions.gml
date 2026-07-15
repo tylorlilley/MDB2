@@ -1,7 +1,7 @@
 #macro FLOAT_OFFSET_PERIOD_FRAMES 32
 
 get_float_offset = function() {
-	var _ampliutude = 2, _period = 32, _swim_bob = round(_ampliutude * sin(swim_timer*(pi / _period)));
+	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES, _swim_bob = round(_amplitude * sin(swim_timer*(pi / _period)));
 	var _y_offset = (is_floating_state()) ? _swim_bob : 0;
 	if (is_grounded_state()) {
 		_y_offset = 999;
@@ -38,17 +38,19 @@ is_floating_state = function() {
 
 // Movement Functions
 virtual_move_horizontal = function(_x_offset) {
+	var _carried_objects = get_carried_objects();
 	virtual_x += _x_offset
-	for (var _i = 0; _i < array_length(get_carried_objects()); _i++) {
-		var _inst = carried_objects[_i];
+	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+		var _inst = _carried_objects[_i];
 		_inst.virtual_move_horizontal(_x_offset);
 	}
 }
 
 virtual_move_vertical = function(_y_offset) {
+	var _carried_objects = get_carried_objects();
 	virtual_y += _y_offset
-	for (var _i = 0; _i < array_length(get_carried_objects()); _i++) {
-		var _inst = carried_objects[_i];
+	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+		var _inst = _carried_objects[_i];
 		_inst.virtual_move_vertical(_y_offset);
 	}
 }
@@ -369,7 +371,7 @@ game_object_step = function() {
 		// TODO: don't base this on lack of gravity
 		if (transition_timer > 0) {
 			transition_timer--;
-			if (x != virtual_x) { virtual_move_horizontal(transition_speed * ((x < virtual_x) ? -1 : 1)); }
+			if (x != virtual_x) { virtual_move_horizontal(((x < virtual_x) ? -1 : 1)); }
 			else { transition_timer = 0; }
 		}
 		

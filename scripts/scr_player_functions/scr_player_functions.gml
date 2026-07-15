@@ -851,6 +851,8 @@ update_player_state = function() {
 				// Decide New State Based on Player Input
 				var _closest_ladder = get_closest_ladder();
 				if (instance_exists(_closest_ladder)) {
+					if (key_up || key_down) { is_up = key_up; }
+
 					if (key_up && can_ladder_up(_closest_ladder)) {
 						state = PLAYER_STATES.LADDER_UP;
 						play_sound(snd_player_ladder_step);

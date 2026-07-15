@@ -11,7 +11,6 @@ main_palette = global.GRAYSCALE_PALETTE;
 has_gravity = false;
 
 is_left = false;
-is_up = false;
 
 is_solid_from_above = false;
 is_solid_from_below = false;
@@ -20,7 +19,6 @@ is_solid_from_left = false;
 
 is_climbable = false;
 is_pushable = false;
-is_moving = false;
 is_fragile = false;
 is_connected = false;
 is_player_lethal = false;

@@ -7,6 +7,7 @@ is_solid_from_below = true;
 is_solid_from_right = true;
 is_solid_from_left = true;
 is_left = true;
+is_up = false;
 	
 cape_state = CAPE_STATES.STAND;
 cape_sprite_index = spr_cape_stand;
@@ -21,8 +22,6 @@ prev_state = PLAYER_STATES.STAND;
 state = PLAYER_STATES.STAND;
 image_speed = 0;
 depth = -2;
-cape_x = x;
-cape_y = y;
 cape_depth = 1;
 
 death_sprite = spr_player_dying_particle;

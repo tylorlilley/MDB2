@@ -67,7 +67,3 @@ function draw_sprite_silhoutte(_sprite_index, _image_index, _x, _y, _image_xscal
 function is_a(_inst, _object_index) {
 	return (_inst.object_index == _object_index || object_is_ancestor(_inst.object_index, _object_index));
 }
-
-function ds_list_contains(_list, _val) {
-	return (ds_list_find_index(_list, _val) >= 0);
-}
