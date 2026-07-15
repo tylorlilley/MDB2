@@ -6,7 +6,7 @@ enum STATES {
 	FLOAT
 }
 
-main_palette = global.GRAYSCALE_PALETTE;
+main_palette = global.PALETTE_GRAYSCALE;
 
 has_gravity = false;
 
@@ -25,7 +25,6 @@ is_player_lethal = false;
 is_robot_lethal = false;
 
 hits = 1;
-particle_color = c_white;
 image_speed = 0;
 destroyed_sound = snd_explosion;
 shine_timer = 60 + irandom(8);

@@ -9,9 +9,10 @@ can_be_crushed = false;
 
 has_cape = false;
 walk_timer = 0;
+
+sprite_index = spr_robot_walk;
 death_sprite = spr_robot_dying_particle;
-death_particle_color1 = make_colour_rgb(123, 123, 123);
-death_particle_color2 = make_colour_rgb(189, 189, 189);
+main_palette = global.PALETTE_GRAYSCALE;
 
 update_controls = function() {
 	walk_timer++;
@@ -49,16 +50,6 @@ update_player_graphics = function() {
 		case spr_player_idle: { sprite_index = (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk; break; }
 		case spr_player_fall: { sprite_index = spr_robot_fall; break; }
 		case spr_player_turn: { sprite_index = spr_robot_turn; break; }
-	}
-	
-	// Switch to Gold Sprites if Contains a Key
-	if (is_carrying_key()) {
-		switch (sprite_index) {
-			case spr_robot_walk: { sprite_index = spr_key_robot_walk; break; }
-			case spr_robot_carry: { sprite_index = spr_key_robot_carry; break; }
-			case spr_robot_turn: { sprite_index = spr_key_robot_turn; break; }
-			case spr_robot_fall: { sprite_index = spr_key_robot_fall; break; }
-		}
 	}
 	
 	image_index = (state == PLAYER_STATES.STAND) ? 0 : _image_index;

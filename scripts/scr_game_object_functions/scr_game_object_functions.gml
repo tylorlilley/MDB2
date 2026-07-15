@@ -110,16 +110,18 @@ is_solid_from_all_sides = function() {
 // Visual Effect Functions
 get_float_offset = function() { return 0; }
 
-create_particles = function(_total_particles, _color, _randomize = true, _particle_sprite = spr_particle) {
+create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
+	if (_palette == noone) { _palette = main_palette; }
+	
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {
 		var _p = instance_create_depth(x+sprite_get_width(sprite_index)/2, y+sprite_get_height(sprite_index)/2, -5, obj_particle);
 		array_push(_particles, _p);
 		with (_p) {
+			main_palette = _palette;
 			sprite_index = _particle_sprite;
 			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO make this a param
 			depth = -9999;
-			image_blend = _color;
 			image_alpha = other.image_alpha;
 			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
 			vspeed = (random(6) / 2 * -1) - 2;
@@ -139,7 +141,7 @@ create_particles = function(_total_particles, _color, _randomize = true, _partic
 }
 
 create_sparkles = function(_max_amount) {
-	create_particles(_max_amount, c_white, true, spr_sparkle);
+	create_particles(_max_amount, global.PALETTE_GRAYSCALE, spr_sparkle, true);
 }
 
 shine_periodically = function() {
@@ -150,6 +152,7 @@ shine_periodically = function() {
 draw_liquid = function() {
 	var _area_above = at_grid_position(x, y-8, 8, 8, object_index), _y_offset = (_area_above) ? 0 : 4;
 
+	use_palette_shader();
 	draw_sprite_part_ext(spr_box_8x8, 0, 0, _y_offset, 8, 8-_y_offset, x, y+_y_offset, 1, 1, image_blend, image_alpha);
 	if (!_area_above) {
 		var _x_offset = (anim_timer div 8 % 8);
@@ -182,13 +185,13 @@ create_walk_particles = function() {
 	
 	var _rand = irandom(8);
 	if (_rand % (8/walk_particles) == 0) {
-		create_particles(1, particle_color);
+		create_particles(1);
 	}
 }
 
 fly_into = function() {
 	if (is_fragile) { get_damaged(); }
-	else { create_particles(irandom(1), particle_color); }
+	else { create_particles(irandom(1)); }
 }
 
 powerfall_on = function() {

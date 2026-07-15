@@ -72,9 +72,8 @@ with (obj_door) {
 		shine_periodically();
 
 		if (global.controller.room_keys == 0) {
-			create_particles(8 + irandom(8), particle_color);
+			create_particles(8 + irandom(8));
 			create_sparkles(8 + irandom(8));
-			particle_color = make_color_rgb(136, 112, 0);
 			image_index = 1;
 			play_sound(snd_door_open);
 			play_sound(snd_explosion);

@@ -1,6 +1,7 @@
 event_inherited();
 
 depth = 0;
+main_palette = global.PALETTE_GRAYSCALE;
 
 update_graphics_for_connections = function() {
 	// Set Graphic Based on Adjacent Ladders and Solid Areas

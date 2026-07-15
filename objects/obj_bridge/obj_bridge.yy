@@ -8,8 +8,8 @@
   "name":"obj_bridge",
   "overriddenProperties":[],
   "parent":{
-    "name":"Solid Areas",
-    "path":"folders/Objects/Solid Areas.yy",
+    "name":"Static Areas",
+    "path":"folders/Objects/Static Areas.yy",
   },
   "parentObjectId":{
     "name":"obj_static_area",

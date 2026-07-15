@@ -12,4 +12,3 @@ hits = 1;
 main_sprite = spr_bridge;
 outline_sprite = noone;
 walk_particles = 1;
-particle_color = make_color_rgb(136, 112, 0);

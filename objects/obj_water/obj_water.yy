@@ -9,8 +9,8 @@
   "name":"obj_water",
   "overriddenProperties":[],
   "parent":{
-    "name":"Game Objects",
-    "path":"folders/Objects/Game Objects.yy",
+    "name":"Static Areas",
+    "path":"folders/Objects/Static Areas.yy",
   },
   "parentObjectId":{
     "name":"obj_static_object",

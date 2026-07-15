@@ -1,15 +1,5 @@
 event_inherited();
 
-/*
-is_solid_from_above = true;
-is_solid_from_below = true;
-is_solid_from_right = true;
-is_solid_from_left = true;
-is_climbable = true;
-*/
-
-switch_color = SWITCH_COLORS.RED;
-
 // Create Solid Metal Area
 solid_obj = instance_create_depth(x, y, 0, obj_metal);
 solid_obj.depth = depth - 1;
@@ -24,7 +14,7 @@ is_solid_from_right = false;
 is_solid_from_left = false;
 is_climbable = false;
 
-toggle_solid = function(_create_particles) {
+toggle_solid = function(_create_particles = false) {
 	if (instance_exists(solid_obj)) { 
 		solid_obj.grid_remove();
 		instance_deactivate_object(solid_obj);

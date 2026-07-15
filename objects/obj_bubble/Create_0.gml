@@ -7,6 +7,9 @@ is_solid_from_right = true;
 is_solid_from_left = true;
 is_climbable = true;
 
-particle_color = c_white;
 step_sound = snd_step_bubble;
 destroyed_sound = snd_pop;
+
+sprite_index = spr_bubble;
+main_palette = global.PALETTE_BLUE;
+image_alpha = 0.75;

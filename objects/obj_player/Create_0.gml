@@ -24,9 +24,8 @@ image_speed = 0;
 depth = -2;
 cape_depth = 1;
 
+main_palette = global.PALETTE_BLUE;
 death_sprite = spr_player_dying_particle;
-death_particle_color1 = make_color_rgb(60, 188, 255);
-death_particle_color2 = make_color_rgb(0, 0, 255);
 
 can_be_controlled = true;
 can_power_up = true;

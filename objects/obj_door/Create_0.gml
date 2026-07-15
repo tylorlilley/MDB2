@@ -2,6 +2,6 @@
 event_inherited();
 
 depth = 5;
-particle_color = make_color_rgb(240, 180, 60);
+main_palette = global.PALETTE_WOOD;
 
 shine_timer = 60 + irandom(8);

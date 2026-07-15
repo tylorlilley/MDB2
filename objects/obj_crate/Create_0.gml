@@ -1,10 +1,12 @@
 event_inherited();
 
 depth = 2;
+sprite_index = spr_crate;
+main_palette = global.WOOD_PALETTE;
+
 is_pushable = true;
 shine_timer = 60 + irandom(8);
 
-particle_color = make_color_rgb(136, 112, 0);
 step_sound = snd_step_wood;
 
 parent_can_be_pushed_left = can_be_pushed_left;

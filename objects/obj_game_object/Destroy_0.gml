@@ -1,3 +1,3 @@
 grid_remove();
-create_particles(irandom(6)+2, particle_color);
+create_particles(irandom(6)+2);
 play_sound(destroyed_sound);

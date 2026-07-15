@@ -409,7 +409,7 @@ update_player_state = function() {
 					if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
 					if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
 					if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
-					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); particle_color = c_white; create_sparkles(4 + irandom(6)); }
+					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_sparkles(4 + irandom(6)); }
 				}
 				if (transition_timer == 0) { image_index = 0; cape_image_index = 0; cape_timer = 52; }
 				break;
@@ -467,7 +467,7 @@ update_player_state = function() {
 				if (visible && (key_up || key_jump)) {
 					visible = false;
 					play_sound(snd_explosion);
-					with (obj_door) { image_index = 2; create_particles(8 + irandom(8), particle_color); }
+					with (obj_door) { image_index = 2; create_particles(8 + irandom(8), global.PALETTE_YELLOW); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
 					global.controller.last_player_x = x;
@@ -1209,6 +1209,12 @@ update_player_graphics = function() {
 			if (state == PLAYER_STATES.LADDER_DOWN || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.PUSH_FORWARD) {
 				if (image_index % 2 == 1) { step_index = image_index + 2; }
 			}
+		}
+		
+		// Update Palette
+		main_palette = global.PALETTE_BLUE; 
+		if ((state == PLAYER_STATES.POWERFLY || state == PLAYER_STATES.POWERFALL || state == PLAYER_STATES.POWERCROUCH) && (animation_timer % 2 == 0)) {
+			main_palette = global.PALETTE_RED; 
 		}
 	}
 }

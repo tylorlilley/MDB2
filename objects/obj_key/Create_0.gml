@@ -2,7 +2,7 @@
 event_inherited();
 
 depth = -1;
-particle_color = make_color_rgb(240, 180, 60);
+main_palette = global.PALETTE_YELLOW;
 destroyed_sound = snd_key;
 
 shine_timer = 60 + irandom(8);

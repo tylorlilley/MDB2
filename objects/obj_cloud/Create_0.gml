@@ -1,7 +1,6 @@
 event_inherited();
 
 image_alpha = 0.8;
-particle_color = c_white;
 step_sound = snd_step_cloud;
 destroyed_sound = snd_pop;
 is_fragile = true;

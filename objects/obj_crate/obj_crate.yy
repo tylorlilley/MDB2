@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_crate",
-    "path":"sprites/spr_crate/spr_crate.yy",
+    "name":"spr_editor_crate",
+    "path":"sprites/spr_editor_crate/spr_editor_crate.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_16x16",

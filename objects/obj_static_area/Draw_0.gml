@@ -16,7 +16,7 @@ else if (!is_connected_below && !is_connected_on_left && is_connected_above && i
 	_x_offset = 0;
 	_y_offset = 16;
 }
-else if (!is_connected_below && is_connected_on_left && is_connected_above && !is_connected_on_right) { // Nottom Right Corner
+else if (!is_connected_below && is_connected_on_left && is_connected_above && !is_connected_on_right) { // Bottom Right Corner
 	_x_offset = 16;
 	_y_offset = 16;
 }
@@ -56,7 +56,7 @@ else if (!is_connected_below && !is_connected_on_left && !is_connected_above && 
 	_x_offset = 16;
 	_y_offset = 32;
 }
-else if (!is_connected_below && is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Peninsula With Bottom
+else if (!is_connected_below && is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Peninsula With Left
 	_x_offset = 24;
 	_y_offset = 32;
 }
@@ -73,10 +73,9 @@ if (outline_sprite != noone) {
 }
 
 // Set Up Shader
-shader_set(shd_palettizer);
-
-shader_set_uniform_f_array(global.controller.u_base_colors, global.GRAYSCALE_PALETTE);
-shader_set_uniform_f_array(global.controller.u_replacement_colors, ((shine_timer == 0) ? global.ALL_WHITE_PALETTE : main_palette));
+use_palette_shader();
+shader_set_uniform_f_array(global.controller.u_base_colors, global.PALETTE_GRAYSCALE);
+shader_set_uniform_f_array(global.controller.u_replacement_colors, ((shine_timer == 0) ? global.PALETTE_ALL_WHITE : main_palette));
 
 if (main_sprite != noone) {  draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, _main_width, _main_height, _main_x, _main_y, 1, 1, image_blend, image_alpha); }
 if (fuzzing_sprite != noone) { draw_sprite_part(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y); }

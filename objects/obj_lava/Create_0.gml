@@ -1,10 +1,10 @@
 // Inherit the parent event
 event_inherited();
-image_blend = make_color_rgb(136, 20, 0);
+image_blend = global.C_RED;
 depth = -20;
 
 anim_timer = 0;
-particle_color = image_blend
+main_palette = global.PALETTE_RED;
 
 is_climbable = false;
 is_connected = true;

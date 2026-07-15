@@ -64,6 +64,15 @@ function draw_sprite_silhoutte(_sprite_index, _image_index, _x, _y, _image_xscal
 	gpu_set_fog(false, _silhoutte_color, 0, 0);
 }
 
+function use_palette_shader() {
+	if (main_palette != global.PALETTE_GRAYSCALE || shine_timer == 0) {
+		shader_set(shd_palettizer);
+		var _palette_to_use = ((shine_timer == 0) ? global.PALETTE_ALL_WHITE : main_palette);
+		shader_set_uniform_f_array(global.controller.u_base_colors, palette_uniform_values(global.PALETTE_GRAYSCALE));
+		shader_set_uniform_f_array(global.controller.u_replacement_colors, palette_uniform_values(_palette_to_use));
+	}
+}
+
 function is_a(_inst, _object_index) {
 	return (_inst.object_index == _object_index || object_is_ancestor(_inst.object_index, _object_index));
 }

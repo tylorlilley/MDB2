@@ -10,4 +10,3 @@ hits = 0;
 main_sprite = spr_spikes;
 outline_sprite = noone;
 walk_particles = 0;
-particle_color = make_color_rgb(189, 189, 189);

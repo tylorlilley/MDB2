@@ -6,5 +6,10 @@ with (obj_dynamic_object) {
 	}
 }
 with (obj_crate) {
-	if (is_carrying_key()) { sprite_index = spr_gold_crate; }
+	if (is_carrying_key()) { sprite_index = spr_editor_crate_gold; }
 }
+with (obj_switch_block) {
+	main_palette = get_switch_palette(switch_color);
+	solid_obj.main_palette = main_palette;
+}
+with (obj_static_area) { update_graphics_for_connections(); }
