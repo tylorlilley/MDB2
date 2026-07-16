@@ -1096,7 +1096,7 @@ update_player_graphics = function() {
 	else {
 		// Update Current Animations
 		animation_timer++;
-		animation_timer = animation_timer % 64;
+		animation_timer = animation_timer % 96;
 		animation_speed = 1;
 		
 		// Set Speed for Different Animations
@@ -1156,8 +1156,8 @@ update_player_graphics = function() {
 
 		// Update Palette
 		main_palette = original_palette;
-		if ((state == PLAYER_STATES.POWERFLY || state == PLAYER_STATES.POWERFALL || state == PLAYER_STATES.POWERCROUCH) && (animation_timer % 2 == 0)) {
-			main_palette = powered_palette; 
+		if ((state == PLAYER_STATES.POWERFLY || state == PLAYER_STATES.POWERFALL || state == PLAYER_STATES.POWERCROUCH)) {
+			main_palette = (animation_timer % 3 == 0) ? original_palette : powered_palette; 
 		}
 	}
 }

@@ -6,7 +6,7 @@ Refactor Climbing logic in three places
 Go to Next Room Errors
 Portals
 Background Sand Cave Tiles
-
+Sort tiebreak?
 Test Robots Work Like Originals?
 
 // PAST OBJECTS TO RECREATE

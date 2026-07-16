@@ -3,10 +3,10 @@ event_inherited();
 image_alpha = 0.75;
 step_sound = snd_step_cloud;
 destroyed_sound = snd_pop;
-is_fragile = true;
+//is_fragile = true;
 
 hits = 1;
-main_sprite = spr_cloud_edges;
+main_sprite = spr_box_16x16;
 outline_sprite = spr_cloud_outline;
 has_corners = true;
 walk_particles = 4;

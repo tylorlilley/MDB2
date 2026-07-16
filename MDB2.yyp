@@ -167,7 +167,6 @@
     {"id":{"name":"spr_cape_stop_flutter","path":"sprites/spr_cape_stop_flutter/spr_cape_stop_flutter.yy",},},
     {"id":{"name":"spr_cape_turn","path":"sprites/spr_cape_turn/spr_cape_turn.yy",},},
     {"id":{"name":"spr_cloud_area","path":"sprites/spr_cloud_area/spr_cloud_area.yy",},},
-    {"id":{"name":"spr_cloud_edges","path":"sprites/spr_cloud_edges/spr_cloud_edges.yy",},},
     {"id":{"name":"spr_cloud_fuzzing","path":"sprites/spr_cloud_fuzzing/spr_cloud_fuzzing.yy",},},
     {"id":{"name":"spr_cloud_outline","path":"sprites/spr_cloud_outline/spr_cloud_outline.yy",},},
     {"id":{"name":"spr_cloud","path":"sprites/spr_cloud/spr_cloud.yy",},},
