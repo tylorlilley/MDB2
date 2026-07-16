@@ -4,9 +4,8 @@
 Cloud Edges
 Two Color Switch Deadlock?
 Refactor Climbing logic in three places
-
+Go to Next Room Errors
 Portals
-
 Background Sand Cave Tiles
 
 Test Robots Work Like Originals?

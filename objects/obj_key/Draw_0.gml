@@ -1,6 +1,6 @@
 // Get Set of Keys at Position
 var _keys_at_position = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), object_index);
-var _key_position = 0, _total_keys = 0;
+var _key_position = 0, _total_keys = 1;
 for (var _i = 0; _i < array_length(_keys_at_position); _i++) {
 	var _inst = _keys_at_position[_i];
 	if (_inst.object_index == object_index) { _total_keys++; }

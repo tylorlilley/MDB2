@@ -1286,7 +1286,7 @@ update_player_collisions_at_position = function() {
 		if (!instance_exists(_inst)) { continue; }
 		
 		if (is_a(_inst, obj_door)) {
-			if (can_be_controlled && _inst.image_index > 0 && is_stand_state()) {
+			if (can_be_controlled && _inst.image_index > 0 && (is_grounded_state() || is_fall_state())) {
 				start_winning();
 				stop_music();
 				play_sound(snd_level_clear);
