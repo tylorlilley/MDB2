@@ -17,10 +17,10 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 	
 		// Update Virtual X and Y Positions Based on new Actual Positions
 		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
-		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff div x_transition_timer);
-		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff div y_transition_timer);
-		if (_x_speed > 0 && _x_speed < 1) { _x_speed = (_x_transition_timer % 2 == 0) ? 1 : 0; }
-		if (_y_speed > 0 && _y_speed < 1) { _y_speed = (_y_transition_timer % 2 == 0) ? 1 : 0; }
+		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff / x_transition_timer);
+		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff / y_transition_timer);
+		if (abs(_x_speed) > 0 && abs(_x_speed) < 1) { _x_speed = (x_transition_timer % 2 == 0) ? sign(_x_speed) : 0; }
+		if (abs(_y_speed) > 0 && abs(_y_speed) < 1) { _y_speed = (y_transition_timer % 2 == 0) ?  sign(_y_speed) : 0; }
 		virtual_x += _x_speed;
 		virtual_y += _y_speed;
 		
@@ -29,7 +29,7 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 		if (x_transition_timer > 0) { x_transition_timer--; }
 		if (y_transition_timer > 0) { y_transition_timer-- }
 		var _new_transition_timer = 0;
-		if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = min(x_transition_timer, y_transition_timer); }
+		if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = max(x_transition_timer, y_transition_timer); }
 		else if (x_transition_timer > 0) { _new_transition_timer = x_transition_timer; }
 		else if (y_transition_timer > 0) { _new_transition_timer = y_transition_timer; }
 		transition_timer = max(transition_timer, _new_transition_timer);

@@ -320,116 +320,39 @@ update_player_state = function() {
 	
 	// While Transitioning
 	if (transition_timer > 0) {
-		//transition_timer--;
-		
-		var _prev_virtual_x = virtual_x, _prev_virtual_y = virtual_y;
-
 		switch (state) {
-			case PLAYER_STATES.HOP_DOWN:
-			case PLAYER_STATES.HOP_DOWN_FORWARD:
-			case PLAYER_STATES.HOP_UP:
-			case PLAYER_STATES.HOP_UP_FORWARD: {
-				var _is_hopping_down = is_hop_down_state();
-				var _is_hopping_forward = is_hop_forward_state();
-				
-				var _y_move = 0;
-				if (_is_hopping_down) {
-					if (transition_timer < 2) { _y_move = 2; }
-					else if (transition_timer < 6) { _y_move = 1; }
-				}
-				else {
-					if (transition_timer >= 6) { _y_move = -2; }
-					else if (transition_timer >= 2) { _y_move = -1; }
-				}
-				
-				virtual_y += (_y_move);
-				if (_is_hopping_forward) { virtual_x += ((is_left) ? -1 : 1); }
-				
-				break;
-			}
-			case PLAYER_STATES.CRUSHED_FORWARD: { virtual_x += ((is_left) ? -0.5 : 0.5); break; }
-			case PLAYER_STATES.WALK_FORWARD: { virtual_x += ((is_left) ? -2 : 2); break; }
-			case PLAYER_STATES.SWIM_FORWARD: 
-			case PLAYER_STATES.PUSH_FORWARD: { virtual_x += ((is_left) ? -1 : 1); swim_timer++; break; }
-			case PLAYER_STATES.FLY:
-			case PLAYER_STATES.POWERFLY: { virtual_y += (-2); fly_timer++; break; }
-			case PLAYER_STATES.RECOIL: { virtual_y += (-4); recoil_timer++; break; }
+			case PLAYER_STATES.SWIM_FORWARD: { swim_timer ++; break; }
+			case PLAYER_STATES.POWERFLY: { fly_timer++; break; }
+			case PLAYER_STATES.RECOIL: { recoil_timer++; break; }
 			case PLAYER_STATES.TUMBLE:
 			case PLAYER_STATES.FALL:
 			case PLAYER_STATES.DAZED_FALL:
-			case PLAYER_STATES.POWERFALL: { virtual_y += (2); fall_timer++; break; }
-			case PLAYER_STATES.LADDER_UP: { virtual_y += (-1); break; } 
-			case PLAYER_STATES.LADDER_DOWN: { virtual_y += (1); break; }
-			case PLAYER_STATES.TURN: { if (transition_timer == 0) { is_left = !is_left; }  break; }
-			case PLAYER_STATES.LADDER: { break; }
-			case PLAYER_STATES.LAND: { break; }
+			case PLAYER_STATES.POWERFALL: { fall_timer++; break; }
 			case PLAYER_STATES.CLIMB: {
-				if (transition_timer < 24 && transition_timer >= 22) {
-					virtual_y += (-1);
+				if (transition_timer == 20) {
+					grid_move_up(1);
 				}
-				else if (transition_timer < 22 && transition_timer >= 20) {
-					virtual_y += (-1);
-					if (transition_timer == 20) {
-						grid_move_up(1);
-					}
+				else if (transition_timer == 18) {
+					grid_move_horizontal(left_value())
+					walk_on_ground_objects();
 				}
-				else if (transition_timer < 20 && transition_timer >= 18) {
-					if (transition_timer == 18) {
-						grid_move_horizontal(left_value())
-						virtual_x += ((is_left) ? -2 : 2);
-						walk_on_ground_objects(); // TODO: Should we not do this here?
-					}
-				}
-				else if (transition_timer < 18 && transition_timer >= 16) {
-					if (transition_timer == 16) {
-						virtual_x += ((is_left) ? -2 : 2);
-					}
-				}
-				else if (transition_timer < 16 && transition_timer >= 14) {
-					if (transition_timer == 14) {
-						virtual_y += (-2);
-					}
-				}
-				else if (transition_timer < 14 && transition_timer >= 12) {
-					if (transition_timer == 12) {
-						virtual_x += ((is_left) ? -2 : 2);
-						virtual_y += (-2);
-					}
-				}
-				else if (transition_timer == 10) { virtual_x += ((is_left) ? -2 : 2); }
-				else if (transition_timer < 6) {
-					transition_timer = 0;
-				}
+				else if (transition_timer < 6) { transition_timer = 0; }
 				
 				break;
 			}
 			case PLAYER_STATES.WIN: {
 				if (visible) {
-					if (transition_timer == 52) { image_index = 0; cape_image_index = 0; }
+					if (transition_timer == 51) { image_index = 0; cape_image_index = 0; }
 					if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
 					if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
 					if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
 					if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
 					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_sparkles(4 + irandom(6)); }
 				}
-				if (transition_timer == 0) { image_index = 0; cape_image_index = 0; cape_timer = 52; }
-				break;
-			}
-			case PLAYER_STATES.LOOK_UP:
-			case PLAYER_STATES.STAND:
-			case PLAYER_STATES.PUSH_STAND:
-			case PLAYER_STATES.CROUCH: {
-				// Do Nothing
-				break;
-			}
-			default: {
-				show_debug_message("ERROR: Transition Timer Running for state: " + player_state_to_string(state));
+				if (transition_timer == 1) { image_index = 0; cape_image_index = 0; cape_timer = 52; }
 				break;
 			}
 		}
-	
-		virtual_x = _prev_virtual_x;
-		virtual_y = _prev_virtual_y;
 	}
 	
 	// While Not Transitioning
@@ -731,7 +654,6 @@ update_player_state = function() {
 							if (_play_sound) { play_sound(snd_impact); }
 						
 							// Player reaction to Collision
-							virtual_y = y;
 							start_falling(true);
 						}
 						else { start_falling(); }

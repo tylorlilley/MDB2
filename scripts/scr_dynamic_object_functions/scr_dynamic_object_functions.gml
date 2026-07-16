@@ -1,7 +1,7 @@
 #macro FLOAT_OFFSET_PERIOD_FRAMES 32
 
 get_float_offset = function() {
-	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES, _swim_bob = round(_amplitude * sin(swim_timer*(pi / _period)));
+	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES, _swim_bob = round(_amplitude * sin(swim_timer*(2 * pi / _period)));
 	var _y_offset = (is_floating_state()) ? _swim_bob : 0;
 	if (is_grounded_state()) {
 		_y_offset = 999;
@@ -37,24 +37,6 @@ is_floating_state = function() {
 }
 
 // Movement Functions
-virtual_move_horizontal = function(_x_offset) {
-	var _carried_objects = get_carried_objects();
-	virtual_x += _x_offset
-	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-		var _inst = _carried_objects[_i];
-		_inst.virtual_move_horizontal(_x_offset);
-	}
-}
-
-virtual_move_vertical = function(_y_offset) {
-	var _carried_objects = get_carried_objects();
-	virtual_y += _y_offset
-	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-		var _inst = _carried_objects[_i];
-		_inst.virtual_move_vertical(_y_offset);
-	}
-}
-
 grid_move_up = function(_speed) {
 	if (is_under_ceiling() || _speed == 0) { return false; }
 	
@@ -258,32 +240,7 @@ is_carrying_key = function() {
 // Step Function
 game_object_step = function() {
 	if (has_gravity) {
-		if (transition_timer > 0) {
-			
-			/*
-			transition_timer--;
-			
-			if (state == STATES.FALLING) {
-				if (!is_fully_submerged()) { fall_timer++; }
-				if (y != virtual_y) { virtual_move_vertical(transition_speed); }
-				else { transition_timer = 0; }
-			}
-			else if (state == STATES.SURFACE) {
-				if (y != virtual_y) { virtual_move_vertical(transition_speed * -1); }
-				else { transition_timer = 0; }
-			}
-			else if (state == STATES.PUSHED) {
-				var _x_offset = (x < virtual_x) ? -1 : 1, _blocked = (_x_offset < 0) ? is_blocked_on_left() : is_blocked_on_right();
-				if (x != virtual_x) { virtual_move_horizontal(transition_speed * _x_offset); }
-				else { transition_timer = 0; }
-			}
-			*/
-		}
-	
 		if (transition_timer == 0) {
-			//virtual_x = x;
-			//virtual_y = y;
-			
 			if (state != STATES.FALLING && state != STATES.SURFACE) { fall_timer = 0; }
 			if ( state != STATES.FLOAT) { swim_timer = 0; }
 		
@@ -364,14 +321,6 @@ game_object_step = function() {
 	}
 	else {
 		// TODO: don't base this on lack of gravity
-		if (transition_timer > 0) {
-			/*
-			transition_timer--;
-			if (x != virtual_x) { virtual_move_horizontal(((x < virtual_x) ? -1 : 1)); }
-			else { transition_timer = 0; }
-			*/
-		}
-		
 		if (transition_timer == 0) {	
 			var _can_move = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
 			if (_can_move) {
