@@ -1,3 +1,4 @@
+// Draw Debug Mask Highlights
 if (draw_game_object_grid) {
 	for (var _grid_x = 0; _grid_x < array_length(game_object_grid); _grid_x++) {
 		for (var _grid_y = 0; _grid_y < array_length(game_object_grid[0]); _grid_y++) {
@@ -12,6 +13,10 @@ if (draw_game_object_grid) {
 		}
 	}
 }
+
+// Draw Static Areas
+	if (!surface_exists(static_area_surface)) { rebuild_static_area_surface(); }
+	draw_surface(static_area_surface, 0, 0);
 
 // Draw Transition
 if (transition_timer > transition_delay) {

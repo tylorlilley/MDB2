@@ -10,7 +10,10 @@ with (obj_switch_block_outline) {
 	solid_obj.main_palette = main_palette;
 	if (begin_off) { toggle_solid(); }
 }
-with (obj_static_area) { update_graphics_for_connections(); }
+with (obj_static_area) { get_connections_for_graphics(); }
+
+// Draw Static Area Surface
+rebuild_static_area_surface();
 
 // Spawn and Deactivate Instances
 with (obj_dynamic_object) {

@@ -70,7 +70,7 @@ with (obj_switch) {
 					if (switch_color == other.switch_color) { toggle_solid(true); }
 				}
 				with (obj_switch_block_outline) {
-					if (switch_color == other.switch_color) { solid_obj.update_graphics_for_connections(); }
+					if (switch_color == other.switch_color) { solid_obj.get_connections_for_graphics(); }
 				}
 				with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
 			}

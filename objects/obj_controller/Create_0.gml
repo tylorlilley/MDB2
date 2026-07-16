@@ -5,6 +5,7 @@ global.controller = id;
 original_controls = false;
 draw_game_object_grid = false;
 transition_surface = noone;
+static_area_surface = noone;
 transition_duration = 24;
 transition_hold = 12;
 transition_delay = 40;
@@ -44,6 +45,17 @@ transition_room = function(_new_room, _new_room_seed = noone) {
 	random_set_seed(room_seed);
 	initialize_room(_new_room);
 	room_goto(_new_room);
+}
+
+rebuild_static_area_surface = function() {
+	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); }
+	static_area_surface = surface_create(room_width, room_height);
+	surface_set_target(static_area_surface);
+	draw_clear_alpha(0, 0);
+	var _prev_depth = depth;
+	depth = 10;
+	with (obj_static_area) { draw_static_area_tile(); }
+	surface_reset_target();
 }
 
 transition_room(rm_robot_test);

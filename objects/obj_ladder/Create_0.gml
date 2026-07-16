@@ -3,7 +3,7 @@ event_inherited();
 depth = 0;
 main_palette = global.PALETTE_GRAYSCALE;
 
-update_graphics_for_connections = function() {
+get_connections_for_graphics = function() {
 	// Set Graphic Based on Adjacent Ladders and Solid Areas
 	image_index = 0;
 	var _spr_width = sprite_get_width(sprite_index), _spr_height = sprite_get_height(sprite_index);
