@@ -8,7 +8,6 @@ destroyed_sound = snd_pop;
 hits = 1;
 main_sprite = spr_box_16x16;
 outline_sprite = spr_cloud_outline;
-has_corners = true;
 walk_particles = 4;
 fuzzing_sprite = spr_cloud_fuzzing;
 fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);
