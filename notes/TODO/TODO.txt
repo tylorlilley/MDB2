@@ -1,13 +1,9 @@
 // NEXT:
 
-Player Can't Climb Crates next to Solid Walls?
-Color switch particles for destroy
-Destroy switch when not on ground
+
 Cloud Edges
 Two Color Switch Deadlock?
 Refactor Climbing logic in three places
-
-Pushing crate doesn't show the offset of the pushing graphics for the player correctly?
 
 Portals
 
@@ -29,7 +25,7 @@ Tumble sound effect replaced with longer sound effect that plays for entire fall
 Fix visible cloud edges
 Make Combined Up and Jump a global variable to switch on and off
 keep crushed walk in grid until movement finishes so crates dont fall until after movement completes?
-
+Push sounds when pushing a block and it stops moving due to running into something? Same for player?
 
 // WATER TODO:
 - Add Player States

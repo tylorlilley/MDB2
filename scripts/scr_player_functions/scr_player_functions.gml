@@ -320,7 +320,7 @@ update_player_state = function() {
 	
 	// While Transitioning
 	if (transition_timer > 0) {
-		transition_timer--;
+		//transition_timer--;
 		
 		var _prev_virtual_x = virtual_x, _prev_virtual_y = virtual_y;
 
@@ -529,6 +529,7 @@ update_player_state = function() {
 			case PLAYER_STATES.TURN:
 			case PLAYER_STATES.POWERCROUCH: {
 				// Update New State
+				if (state == PLAYER_STATES.TURN) { is_left = !is_left; }
 				if (state != PLAYER_STATES.CRUSHED_STAND && state != PLAYER_STATES.CRUSHED_FORWARD && start_laddering()) { }
 				else if (!is_on_ground()) {
 					start_falling();

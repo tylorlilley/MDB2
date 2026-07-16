@@ -19,10 +19,13 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
 		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff div x_transition_timer);
 		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff div y_transition_timer);
-		if (_x_speed != 0) { virtual_x += _x_speed; }
-		if (_y_speed != 0) { virtual_y += _y_speed; }
+		if (_x_speed > 0 && _x_speed < 1) { _x_speed = (_x_transition_timer % 2 == 0) ? 1 : 0; }
+		if (_y_speed > 0 && _y_speed < 1) { _y_speed = (_y_transition_timer % 2 == 0) ? 1 : 0; }
+		virtual_x += _x_speed;
+		virtual_y += _y_speed;
 		
 		// Update Transition Timers Based on Remaining Transition Time
+		if (transition_timer > 0) { transition_timer--; }
 		if (x_transition_timer > 0) { x_transition_timer--; }
 		if (y_transition_timer > 0) { y_transition_timer-- }
 		var _new_transition_timer = 0;

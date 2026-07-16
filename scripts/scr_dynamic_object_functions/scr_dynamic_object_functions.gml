@@ -122,14 +122,8 @@ grid_move_down_direct = function(_speed) {
 }
 
 grid_move_horizontal = function(_speed) {
-	if (_speed < 0 && !grid_move_left(_speed)) {
-		play_sound(snd_soft_thud);
-		return false; 
-	}
-	else if (_speed > 0 && !grid_move_right(_speed)) {
-		play_sound(snd_soft_thud);
-		return false; 
-	}
+	if (_speed < 0 && !grid_move_left(_speed)) { return false; }
+	else if (_speed > 0 && !grid_move_right(_speed)) { return false; }
 	
 	return true;
 }
@@ -265,9 +259,10 @@ is_carrying_key = function() {
 game_object_step = function() {
 	if (has_gravity) {
 		if (transition_timer > 0) {
-			transition_timer--;
 			
 			/*
+			transition_timer--;
+			
 			if (state == STATES.FALLING) {
 				if (!is_fully_submerged()) { fall_timer++; }
 				if (y != virtual_y) { virtual_move_vertical(transition_speed); }
@@ -370,9 +365,11 @@ game_object_step = function() {
 	else {
 		// TODO: don't base this on lack of gravity
 		if (transition_timer > 0) {
+			/*
 			transition_timer--;
 			if (x != virtual_x) { virtual_move_horizontal(((x < virtual_x) ? -1 : 1)); }
 			else { transition_timer = 0; }
+			*/
 		}
 		
 		if (transition_timer == 0) {	
