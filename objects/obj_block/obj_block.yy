@@ -1,19 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_switch_block_blue_on",
+  "%Name":"obj_block",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_switch_block_blue_on",
+  "name":"obj_block",
   "overriddenProperties":[],
   "parent":{
-    "name":"Switch Blocks",
-    "path":"folders/Objects/Static Areas/Switch Blocks.yy",
+    "name":"Parents",
+    "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
-    "name":"obj_switch_block_outline",
-    "path":"objects/obj_switch_block_outline/obj_switch_block_outline.yy",
+    "name":"obj_static_area",
+    "path":"objects/obj_static_area/obj_static_area.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_editor_switch_block_on_blue",
-    "path":"sprites/spr_editor_switch_block_on_blue/spr_editor_switch_block_on_blue.yy",
+    "name":"spr_editor_metal",
+    "path":"sprites/spr_editor_metal/spr_editor_metal.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_8x8",

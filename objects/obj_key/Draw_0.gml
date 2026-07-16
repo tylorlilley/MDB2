@@ -36,5 +36,6 @@ if (_key_position == 0) {
 	}
 	
 }
+else { visible = false; }
 
 shader_reset();

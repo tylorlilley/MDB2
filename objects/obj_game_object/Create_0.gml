@@ -7,6 +7,7 @@ enum STATES {
 }
 
 main_palette = global.PALETTE_GRAYSCALE;
+particle_palette = noone;
 
 has_gravity = false;
 

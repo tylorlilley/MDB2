@@ -52,7 +52,7 @@ get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objec
 }
 
 get_relative_solid_objects = function(_x_offset, _y_offset, _pred, _ignored_objects) {
-	return  get_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _ignored_objects);
+	return get_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _ignored_objects);
 }
 
 get_left_ceiling_objects = function(_ignored_objects) {
@@ -111,7 +111,7 @@ is_solid_from_all_sides = function() {
 get_float_offset = function() { return 0; }
 
 create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
-	if (_palette == noone) { _palette = main_palette; }
+	if (_palette == noone) { _palette = particle_palette; }
 	
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {
@@ -146,7 +146,7 @@ create_sparkles = function(_max_amount) {
 
 shine_periodically = function() {
 	shine_timer--;
-	if (shine_timer < 0) { shine_timer = 120 + irandom(16); create_sparkles(irandom(4)); }
+	if (shine_timer < 0) { shine_timer = 120 + irandom(16); if (visible) { create_sparkles(irandom(4)); } }
 }
 
 draw_liquid = function() {

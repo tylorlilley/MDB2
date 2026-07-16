@@ -12,4 +12,5 @@ destroyed_sound = snd_pop;
 
 sprite_index = spr_bubble;
 main_palette = global.PALETTE_GRAYSCALE;
+particle_palette = global.PALETTE_GRAYSCALE;
 image_alpha = 0.75;

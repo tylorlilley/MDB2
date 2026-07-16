@@ -12,3 +12,4 @@ has_corners = false;
 walk_particles = 4;
 fuzzing_sprite = spr_cloud_fuzzing;
 fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);
+particle_palette = global.PALETTE_GRAYSCALE;

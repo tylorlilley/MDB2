@@ -6,7 +6,8 @@ with (obj_dynamic_object) {
 	}
 	if (is_carrying_key()) { original_palette = global.PALETTE_YELLOW; main_palette = global.PALETTE_YELLOW; }
 }
-with (obj_switch_block) {
+with (obj_switch) { main_palette = get_switch_palette(switch_color); }
+with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);
 	solid_obj = instance_create_depth(x, y, 0, solid_obj);
 	solid_obj.depth = depth - 1;
@@ -14,3 +15,4 @@ with (obj_switch_block) {
 	if (begin_off) { toggle_solid(); }
 }
 with (obj_static_area) { update_graphics_for_connections(); }
+with (obj_game_object) { if (particle_palette == noone) { particle_palette = darken_palette(main_palette); } }

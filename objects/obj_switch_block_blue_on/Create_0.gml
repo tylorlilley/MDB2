@@ -1,3 +1,3 @@
 event_inherited();
-solid_obj = obj_metal_blue;
+solid_obj = obj_blue_block;
 switch_color = SWITCH_COLORS.BLUE;

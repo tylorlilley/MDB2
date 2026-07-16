@@ -1,19 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_metal_red",
+  "%Name":"obj_blue_block",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_metal_red",
+  "name":"obj_blue_block",
   "overriddenProperties":[],
   "parent":{
-    "name":"Static Areas",
-    "path":"folders/Objects/Static Areas.yy",
+    "name":"Parents",
+    "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
-    "name":"obj_metal",
-    "path":"objects/obj_metal/obj_metal.yy",
+    "name":"obj_block",
+    "path":"objects/obj_block/obj_block.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
