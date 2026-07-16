@@ -9,6 +9,8 @@ transition_duration = 24;
 transition_hold = 12;
 transition_delay = 40;
 room_seed = random_get_seed();
+main_palette = global.PALETTE_YELLOW;
+shine_timer = 1;
 
 u_base_colors = shader_get_uniform(shd_palettizer, "u_base_colors");
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");

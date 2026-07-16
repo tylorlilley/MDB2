@@ -111,7 +111,7 @@ is_solid_from_all_sides = function() {
 get_float_offset = function() { return 0; }
 
 create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
-	if (_palette == noone) { _palette = particle_palette; }
+	if (_palette == noone) { _palette = darken_palette(main_palette); }
 	
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {

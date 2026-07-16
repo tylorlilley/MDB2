@@ -1,9 +1,5 @@
+// Set Palettes
 with (obj_dynamic_object) {
-	if (contents != noone) {
-		contents = instance_create_depth(0, 0, 0, contents);
-		contents.grid_remove();
-		instance_deactivate_object(contents);
-	}
 	if (is_carrying_key()) { original_palette = global.PALETTE_YELLOW; main_palette = global.PALETTE_YELLOW; }
 }
 with (obj_switch) { main_palette = get_switch_palette(switch_color); }
@@ -15,4 +11,12 @@ with (obj_switch_block_outline) {
 	if (begin_off) { toggle_solid(); }
 }
 with (obj_static_area) { update_graphics_for_connections(); }
-with (obj_game_object) { if (particle_palette == noone) { particle_palette = darken_palette(main_palette); } }
+
+// Spawn and Deactivate Instances
+with (obj_dynamic_object) {
+	if (contents != noone) {
+		contents = instance_create_depth(0, 0, 0, contents);
+		contents.grid_remove();
+		instance_deactivate_object(contents);
+	}
+}

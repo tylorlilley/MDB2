@@ -5,6 +5,7 @@ is_left = false;
 sprite_index = spr_player_idle;
 original_palette = global.PALETTE_GRAYSCALE;
 powered_palette = global.PALETTE_RED;
+main_palette = original_palette;
 
 update_controls = function() {
 	key_left = key_left || keyboard_check(vk_right);

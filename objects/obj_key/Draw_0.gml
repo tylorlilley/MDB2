@@ -9,6 +9,7 @@ for (var _i = 0; _i < array_length(_keys_at_position); _i++) {
 
 // Draw Full Set of Keys Once
 if (_key_position == 0) {
+	visible = true;
 	use_palette_shader();
 	
 	if (_total_keys == 1) { draw_self(); }
