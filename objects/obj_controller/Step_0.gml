@@ -58,6 +58,9 @@ with (obj_switch) {
 			with (obj_switch_block) { 
 				if (switch_color == other.switch_color) { toggle_solid(true); }
 			}
+			with (obj_switch_block) {
+				if (switch_color == other.switch_color) { update_graphics_for_connections(); }
+			}
 			with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
 		}
 	}

@@ -8,6 +8,9 @@ with (obj_dynamic_object) {
 }
 with (obj_switch_block) {
 	main_palette = get_switch_palette(switch_color);
+	solid_obj = instance_create_depth(x, y, 0, solid_obj);
+	solid_obj.depth = depth - 1;
 	solid_obj.main_palette = main_palette;
+	if (begin_off) { toggle_solid(); }
 }
 with (obj_static_area) { update_graphics_for_connections(); }

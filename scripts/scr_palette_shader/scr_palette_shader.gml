@@ -21,7 +21,7 @@ global.C_YELLOW_DARK = make_color_rgb(136, 112, 0); // make_color_rgb(135, 103, 
 
 global.C_BROWN_LIGHT = global.C_YELLOW;
 global.C_BROWN = global.C_YELLOW_DARK;
-global.C_BROWN_DARK = make_color_rgb(64, 44, 0);; // make_color_rgb(71, 63, 0);
+global.C_BROWN_DARK = make_color_rgb(64, 44, 0); // make_color_rgb(71, 63, 0);
 
 global.C_BLUE_DARK = make_color_rgb(0, 87, 247);
 global.C_BLUE = make_color_rgb(39, 159, 255);

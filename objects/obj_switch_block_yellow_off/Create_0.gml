@@ -1,3 +1,2 @@
 event_inherited();
-
-toggle_solid();
+begin_off = true;
