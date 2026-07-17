@@ -103,6 +103,19 @@ with (obj_spawner) {
 	    timer = frequency;
 	}
 }
+with (obj_reforming_cloud_outline) {
+	if (reform_timer > 0) {
+		reform_timer--;
+		if (reform_timer == 0) { create_cloud(); }
+	}
+	image_index = 0;
+	if (reform_timer > 60) { image_index = 1; }
+	if (reform_timer <= 60 && reform_timer > 45) { image_index = 2;}
+	if (reform_timer <= 45 && reform_timer > 30) { image_index = 3;}
+	if (reform_timer <= 30 && reform_timer > 15) { image_index = 4;}
+	if (reform_timer <= 15 && reform_timer > 0) { image_index = 5;}
+	if (reform_timer == 0) { image_index = 0;}
+}
 
 // Game Object End Step
 with (obj_player) {

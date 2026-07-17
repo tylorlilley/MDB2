@@ -39,7 +39,7 @@ grid_remove = function() {
 
 // State Querying Functions
 get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects = []) {
-	_ignored_objects = array_concat(_ignored_objects, instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_game_object));
+	//_ignored_objects = array_concat(_ignored_objects, instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_game_object));
 	var _potential_objects = instances_at_grid_position(_x_pos, _y_pos, _width, _height), _static_objects = [];
 
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)

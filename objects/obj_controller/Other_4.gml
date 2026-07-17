@@ -10,6 +10,7 @@ with (obj_switch_block_outline) {
 	solid_obj.main_palette = main_palette;
 	if (begin_off) { toggle_solid(); }
 }
+with (obj_reforming_cloud_outline) { create_cloud(); }
 with (obj_static_area) { get_connections_for_graphics(); }
 
 // Draw Static Area Surface

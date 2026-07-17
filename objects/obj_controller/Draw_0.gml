@@ -15,8 +15,8 @@ if (draw_game_object_grid) {
 }
 
 // Draw Static Areas
-	if (!surface_exists(static_area_surface)) { rebuild_static_area_surface(); }
-	draw_surface(static_area_surface, 0, 0);
+if (!surface_exists(static_area_surface) || should_rebuild_static_area) { rebuild_static_area_surface(); }
+draw_surface(static_area_surface, 0, 0);
 
 // Draw Transition
 if (transition_timer > transition_delay) {

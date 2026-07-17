@@ -1,12 +1,12 @@
 event_inherited();
 
-image_alpha = 1// 0.75;
+image_alpha = 1;
 step_sound = snd_step_cloud;
 destroyed_sound = snd_pop;
 //is_fragile = true;
 
 hits = 1;
-main_sprite = spr_box_16x16;
+main_sprite = spr_cloud_area;
 outline_sprite = spr_cloud_outline;
 walk_particles = 4;
 fuzzing_sprite = spr_cloud_fuzzing;

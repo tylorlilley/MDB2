@@ -1,6 +1,5 @@
 // NEXT:
 
-Cloud Edges
 Two Color Switch Deadlock?
 Refactor Climbing logic in three places
 Go to Next Room Errors
@@ -14,7 +13,6 @@ Test Robots Work Like Originals?
 - Tree
 - Portals (12 of each)
 - Gear Blocks
-- Lava / Spikes - Destroy if overlapped like obj_water? Original has them destroy if you are standing on even 8px of them too
 - Reforming Clouds
 
 Climb when only 8 px are available instead of limiting to 16 px?

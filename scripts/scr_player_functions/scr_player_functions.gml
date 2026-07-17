@@ -16,11 +16,11 @@ enum PLAYER_STATES
 	SWIM_FORWARD,
 	LAND,
 	// Non-Grounded States
+	FLY, // Currently Unused
 	HOP_UP,
 	HOP_DOWN,
 	HOP_UP_FORWARD,
 	HOP_DOWN_FORWARD,
-	FLY, // Currently Unused
 	POWERFLY,
 	FALL,
 	DAZED_FALL,

@@ -6,6 +6,7 @@ original_controls = false;
 draw_game_object_grid = false;
 transition_surface = noone;
 static_area_surface = noone;
+should_rebuild_static_area = true;
 transition_duration = 24;
 transition_hold = 12;
 transition_delay = 40;
@@ -42,7 +43,8 @@ reset_room = function() {
 
 transition_room = function(_new_room, _new_room_seed = noone) {
 	room_seed = (_new_room_seed == noone) ? randomize() : _new_room_seed;
-	random_set_seed(room_seed);
+	random_set_seed(room_seed);	
+	should_rebuild_static_area = true;
 	initialize_room(_new_room);
 	room_goto(_new_room);
 }
@@ -56,6 +58,7 @@ rebuild_static_area_surface = function() {
 	depth = 10;
 	with (obj_static_area) { draw_static_area_tile(); }
 	surface_reset_target();
+	should_rebuild_static_area = false;
 }
 
 transition_room(rm_robot_test);
