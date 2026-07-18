@@ -213,10 +213,9 @@ start_standing = function(_is_crushed = false) {
 	else { start_falling(); }
 }
 
-start_turning = function(_prev_is_left) {
+start_turning = function() {
 	state = PLAYER_STATES.TURN;
 	transition_timer = 4;
-	is_left = _prev_is_left;
 	walk_on_ground_objects();
 }
 	
@@ -452,7 +451,6 @@ update_player_state = function() {
 			case PLAYER_STATES.TURN:
 			case PLAYER_STATES.POWERCROUCH: {
 				// Update New State
-				if (state == PLAYER_STATES.TURN) { is_left = !is_left; }
 				if (state != PLAYER_STATES.CRUSHED_STAND && state != PLAYER_STATES.CRUSHED_FORWARD && start_laddering()) { }
 				else if (!is_on_ground()) {
 					start_falling();
@@ -1164,12 +1162,25 @@ update_player_graphics = function() {
 
 update_player_collisions_at_position = function() {
 	// Get Destroyed From Stepping on Lethal Tiles
-	var _grounded_objects = get_ground_objects();
-	for (var _i = 0; _i < array_length(_grounded_objects); _i++) {
-		var _inst = _grounded_objects[_i]
-		if (instance_exists(_inst)) {
-			if (object_index == obj_player && _inst.is_player_lethal) { instance_destroy(); }
-			if (object_index != obj_player && _inst.is_robot_lethal) { instance_destroy(); }
+	if (is_grounded_state()) {
+		// Destroy if Standing on Lethal Object
+		var _grounded_objects = get_ground_objects();
+		for (var _i = 0; _i < array_length(_grounded_objects); _i++) {
+			var _inst = _grounded_objects[_i]
+			if (instance_exists(_inst)) {
+				if (object_index == obj_player && _inst.is_player_lethal) { instance_destroy(); }
+				if (object_index != obj_player && _inst.is_robot_lethal) { instance_destroy(); }
+			}
+		}
+		
+		// Destroy if Carrying Lethal Object
+		var _carried_objects = get_carried_objects();
+		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+			var _inst = _carried_objects[_i]
+			if (instance_exists(_inst)) {
+				if (object_index == obj_player && _inst.is_player_lethal) { instance_destroy(); }
+				if (object_index != obj_player && _inst.is_robot_lethal) { instance_destroy(); }
+			}
 		}
 	}
 	

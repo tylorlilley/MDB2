@@ -1,6 +1,6 @@
 window_set_size(256*3, 240*3);
 game_set_speed(30, gamespeed_fps);
-depth = -9999;
+depth = 10;
 global.controller = id;
 original_controls = false;
 draw_game_object_grid = false;
@@ -54,8 +54,6 @@ rebuild_static_area_surface = function() {
 	static_area_surface = surface_create(room_width, room_height);
 	surface_set_target(static_area_surface);
 	draw_clear_alpha(0, 0);
-	var _prev_depth = depth;
-	depth = 10;
 	with (obj_static_area) { draw_static_area_tile(); }
 	surface_reset_target();
 	should_rebuild_static_area = false;

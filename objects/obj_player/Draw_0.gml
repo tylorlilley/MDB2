@@ -16,7 +16,7 @@ if (state != PLAYER_STATES.LADDER &&
 	state != PLAYER_STATES.CRUSHED_STAND &&
 	state != PLAYER_STATES.CRUSHED_FORWARD) {
 	if (state != PLAYER_STATES.LAND || image_index > 0) {
-		_cape_x += ((is_left) ? 8 : -8);
+		_cape_x += ((is_left) ? 8 : -8) * ((state == PLAYER_STATES.TURN) ? -1 : 1);
 	}
 }
 

@@ -140,16 +140,16 @@ get_ground_objects = function() {
     });
 }
 
-get_left_wall_objects = function() {
+get_left_wall_objects = function(_ignored_objects = []) {
 	return get_relative_solid_objects(-8, 0, function(_inst) {
         return _inst.is_solid_from_right;
-    });
+    }, _ignored_objects);
 }
 
-get_right_wall_objects = function() {
+get_right_wall_objects = function(_ignored_objects = []) {
 	return get_relative_solid_objects(8, 0, function(_inst) {
         return _inst.is_solid_from_left;
-    });
+    }, _ignored_objects);
 }
 
 get_ceiling_objects = function() {
@@ -203,14 +203,14 @@ is_under_ceiling = function() {
 	return (array_length(get_ceiling_objects()) > 0);
 }
 
-is_blocked_on_left = function() {
-	return (array_length(get_left_wall_objects()) > 0 || x <= ((global.controller.original_controls) ? 8 : 0));
+is_blocked_on_left = function(_ignored_objects = []) {
+	return (array_length(get_left_wall_objects(_ignored_objects)) > 0 || x <= ((global.controller.original_controls) ? 8 : 0));
 }
 
-is_blocked_on_right = function() {
+is_blocked_on_right = function(_ignored_objects = []) {
 	var _max_x = (room_width - sprite_get_width(sprite_index));
 	if (global.controller.original_controls) { _max_x -= 8; }
-	return (array_length(get_right_wall_objects()) > 0 || x >= _max_x);
+	return (array_length(get_right_wall_objects(_ignored_objects)) > 0 || x >= _max_x);
 }
 
 fully_covered_by = function(_object_index) {
