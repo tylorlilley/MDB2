@@ -2,7 +2,7 @@
 event_inherited();
 
 depth = -1;
-main_palette = global.PALETTE_YELLOW;
+main_palette = PALETTES.YELLOW;
 destroyed_sound = snd_key;
 
 shine_timer = 60 + irandom(8);

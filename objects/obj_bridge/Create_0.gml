@@ -9,6 +9,7 @@ is_solid_from_right = false;
 is_solid_from_below = false;
 
 hits = 1;
+main_palette = PALETTES.BROWN;
 main_sprite = spr_bridge;
 outline_sprite = noone;
 walk_particles = 1;

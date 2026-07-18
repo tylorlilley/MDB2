@@ -1,5 +1,18 @@
 #macro FLOAT_OFFSET_PERIOD_FRAMES 32
 
+get_switch_offset = function() {
+	if (!is_grounded_state()) { return 0; }
+	
+	var _y_offset = 0, _potential_objects = get_relative_objects(0, 0,  function(_inst) { return is_a(_inst, obj_switch); });
+	for (var _i = 0; _i < array_length(_potential_objects); _i++) {
+		var _inst = _potential_objects[_i];
+		var _image_index_offset = (_inst.image_index == 0) ? -6 : -4;
+		if (_inst.image_index == 2) { _image_index_offset = -2; }
+		_y_offset = min(_y_offset, _image_index_offset);
+	}
+	return _y_offset;
+}
+
 get_float_offset = function() {
 	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES, _swim_bob = round(_amplitude * sin(swim_timer*(2 * pi / _period)));
 	var _y_offset = (is_floating_state()) ? _swim_bob : 0;
@@ -114,7 +127,7 @@ grid_move_horizontal = function(_speed) {
 get_carried_objects = function(_sort_x_by_negative = true) {
 	// Get All Dynamic Objects Above Current Position
 	var _actual_carried_objects = []
-	var _possible_carried_objects = get_relative_solid_objects(0, -8, function(_inst) {
+	var _possible_carried_objects = get_relative_objects(0, -8, function(_inst) {
         return is_a(_inst, obj_dynamic_object) && _inst.has_gravity;
     });
 	
@@ -135,61 +148,61 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 }
 
 get_ground_objects = function() {
-	return get_relative_solid_objects(0, 8, function(_inst) {
+	return get_relative_objects(0, 8, function(_inst) {
         return _inst.is_solid_from_above;
     });
 }
 
 get_left_wall_objects = function(_ignored_objects = []) {
-	return get_relative_solid_objects(-8, 0, function(_inst) {
+	return get_relative_objects(-8, 0, function(_inst) {
         return _inst.is_solid_from_right;
     }, _ignored_objects);
 }
 
 get_right_wall_objects = function(_ignored_objects = []) {
-	return get_relative_solid_objects(8, 0, function(_inst) {
+	return get_relative_objects(8, 0, function(_inst) {
         return _inst.is_solid_from_left;
     }, _ignored_objects);
 }
 
 get_ceiling_objects = function() {
-	return get_relative_solid_objects(0, -8, function(_inst) {
+	return get_relative_objects(0, -8, function(_inst) {
         return _inst.is_solid_from_below;
     });
 }
 
 get_left_ground_objects = function() {
-	return get_relative_solid_objects(-8, 8, function(_inst) {
+	return get_relative_objects(-8, 8, function(_inst) {
         return _inst.is_solid_from_above;
     });
 }
 
 get_right_ground_objects = function() {
-	return get_relative_solid_objects(8, 8, function(_inst) {
+	return get_relative_objects(8, 8, function(_inst) {
         return _inst.is_solid_from_above;
     });
 }
 
 get_left_pushable_objects = function() {
-	return get_relative_solid_objects(-8, 0, function(_inst) {
+	return get_relative_objects(-8, 0, function(_inst) {
         return _inst.can_be_pushed_left();
     });
 }
 
 get_right_pushable_objects = function() {
-	return get_relative_solid_objects(8, 0, function(_inst) {
+	return get_relative_objects(8, 0, function(_inst) {
         return _inst.can_be_pushed_right();
     });
 }
 
 get_left_climbable_objects = function(_ignored_objects = []) {
-	return get_relative_solid_objects(-8, 0, function(_inst, _ignored) {
+	return get_relative_objects(-8, 0, function(_inst, _ignored) {
         return _inst.can_be_climbed_from_right(_ignored);
     }, _ignored_objects);
 }
 
 get_right_climbable_objects = function(_ignored_objects = []) {
-	return get_relative_solid_objects(8, 0, function(_inst, _ignored) {
+	return get_relative_objects(8, 0, function(_inst, _ignored) {
         return _inst.can_be_climbed_from_left(_ignored);
     }, _ignored_objects);
 }

@@ -1,2 +1,2 @@
 event_inherited();
-main_palette = global.PALETTE_BLUE;
+main_palette = PALETTES.BLUE;

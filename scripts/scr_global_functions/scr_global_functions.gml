@@ -65,11 +65,11 @@ function draw_sprite_silhoutte(_sprite_index, _image_index, _x, _y, _image_xscal
 }
 
 function use_palette_shader() {
-	if (main_palette != global.PALETTE_GRAYSCALE || shine_timer == 0) {
+	if (main_palette != PALETTES.GRAY || shine_timer == 0) {
 		shader_set(shd_palettizer);
-		var _palette_to_use = ((shine_timer == 0) ? global.PALETTE_ALL_WHITE : main_palette);
-		shader_set_uniform_f_array(global.controller.u_base_colors, palette_uniform_values(global.PALETTE_GRAYSCALE));
-		shader_set_uniform_f_array(global.controller.u_replacement_colors, palette_uniform_values(_palette_to_use));
+		var _palette_to_use = ((shine_timer == 0) ? PALETTES.ALL_WHITE : main_palette);
+		shader_set_uniform_f_array(global.controller.u_base_colors, get_uniform_values_for_palette(PALETTES.GRAY));
+		shader_set_uniform_f_array(global.controller.u_replacement_colors, get_uniform_values_for_palette(_palette_to_use));
 	}
 }
 

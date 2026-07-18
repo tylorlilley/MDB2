@@ -1,5 +1,6 @@
 var _drawn_x_scale = (is_left) ? -1 : 1;
 var _y_offset = (state == PLAYER_STATES.CLIMB) ? climbed_inst.get_float_offset() : get_float_offset();
+_y_offset += get_switch_offset();
 var _x_offset = (is_left) ? sprite_get_width(sprite_index) : 0;
 var _cape_x = virtual_x, _cape_y = virtual_y;
 if (state != PLAYER_STATES.LADDER &&

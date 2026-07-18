@@ -6,7 +6,7 @@ enum STATES {
 	FLOAT
 }
 
-main_palette = global.PALETTE_GRAYSCALE;
+main_palette = PALETTES.GRAY;
 particle_palette = noone;
 
 has_gravity = false;

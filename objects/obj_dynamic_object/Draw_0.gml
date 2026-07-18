@@ -1,4 +1,5 @@
 var _y_offset = get_float_offset();
+_y_offset += get_switch_offset();
 var _drawn_x_scale = (is_left) ? -1 : 1;
 var _x_offset = (_drawn_x_scale == -1) ? sprite_get_width(sprite_index) : 0;
 

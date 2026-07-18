@@ -39,7 +39,6 @@ grid_remove = function() {
 
 // State Querying Functions
 get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects = []) {
-	//_ignored_objects = array_concat(_ignored_objects, instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_game_object));
 	var _potential_objects = instances_at_grid_position(_x_pos, _y_pos, _width, _height), _static_objects = [];
 
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
@@ -51,24 +50,41 @@ get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objec
 	return _static_objects;
 }
 
-get_relative_solid_objects = function(_x_offset, _y_offset, _pred, _ignored_objects) {
-	return get_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _ignored_objects);
+// TODO: Clean this up?
+is_fully_on_ground = function() {
+	var _on_ground = true;
+	for (_x = x; _x < x+16; _x += 8) {
+		var _ground_objects = get_objects_at(_x, y+8, 8, 8, function(_inst) { return _inst.is_solid_from_above; });
+		if (array_length(_ground_objects) == 0) { _on_ground = false; }
+	}
+	return _on_ground;
+}
+
+get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = []) {
+	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
+	var _x = x + _x_offset, _y = y + _y_offset, _width = _sprite_width, _height = _sprite_height;
+	if (_x_offset > 0) { _x += _sprite_width; }
+	if (_y_offset > 0) { _y += _sprite_height; }
+	if (_x_offset != 0) { _width = 8; }
+	if (_y_offset != 0) { _height = 8; }
+	
+	return get_objects_at(_x, _y, _width, _height, _pred, _ignored_objects);
 }
 
 get_left_ceiling_objects = function(_ignored_objects = []) {
-	return get_relative_solid_objects(-8, -8, function(_inst) {
+	return get_relative_objects(-8, -8, function(_inst) {
         return _inst.is_solid_from_below;
     }, _ignored_objects);
 }
 
 get_right_ceiling_objects = function(_ignored_objects = []) {
-	return get_relative_solid_objects(8, -8, function(_inst) {
+	return get_relative_objects(8, -8, function(_inst) {
         return _inst.is_solid_from_below;
     }, _ignored_objects);
 }
 
 get_inside_solids = function(_ignored_objects = []) {
-	return get_relative_solid_objects(0, 0, function(_inst) {
+	return get_relative_objects(0, 0, function(_inst) {
         return _inst.is_solid_from_all_sides();
     }, _ignored_objects);
 }
@@ -111,7 +127,7 @@ is_solid_from_all_sides = function() {
 get_float_offset = function() { return 0; }
 
 create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
-	if (_palette == noone) { _palette = darken_palette(main_palette); }
+	if (_palette == noone) { _palette = get_darker_palette(main_palette); }
 	
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {
@@ -120,7 +136,7 @@ create_particles = function(_total_particles, _palette = noone, _particle_sprite
 		with (_p) {
 			main_palette = _palette;
 			sprite_index = _particle_sprite;
-			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO make this a param
+			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO: make this a param
 			depth = -9999;
 			image_alpha = other.image_alpha;
 			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
@@ -141,7 +157,7 @@ create_particles = function(_total_particles, _palette = noone, _particle_sprite
 }
 
 create_sparkles = function(_max_amount) {
-	create_particles(_max_amount, global.PALETTE_GRAYSCALE, spr_sparkle, true);
+	create_particles(_max_amount, PALETTES.GRAY, spr_sparkle, true);
 }
 
 shine_periodically = function() {

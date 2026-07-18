@@ -2,6 +2,6 @@
 event_inherited();
 
 depth = 5;
-main_palette = global.PALETTE_BROWN;
+main_palette = PALETTES.BROWN;
 
 shine_timer = 60 + irandom(8);

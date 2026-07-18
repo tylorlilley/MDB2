@@ -2,7 +2,7 @@ event_inherited();
 
 depth = 2;
 sprite_index = spr_crate;
-main_palette = global.PALETTE_BROWN;
+main_palette = PALETTES.BROWN;
 
 is_pushable = true;
 shine_timer = 60 + irandom(8);

@@ -390,7 +390,7 @@ update_player_state = function() {
 				if (visible && (key_up || key_jump)) {
 					visible = false;
 					play_sound(snd_explosion);
-					with (obj_door) { image_index = 2; create_particles(8 + irandom(8), global.PALETTE_YELLOW); }
+					with (obj_door) { image_index = 2; create_particles(8 + irandom(8), PALETTES.YELLOW); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
 					global.controller.last_player_x = x;
@@ -742,6 +742,7 @@ update_player_state = function() {
 							if (key_left || key_right) { is_left = key_left; }
 							state = PLAYER_STATES.LAND;
 							transition_timer = 8;
+							play_sound(snd_soft_thud);
 							audio_stop_sound(snd_player_tumble);
 						}
 					}
@@ -1219,7 +1220,7 @@ update_player_collisions_at_position = function() {
 		if (!instance_exists(_inst)) { continue; }
 		
 		if (is_a(_inst, obj_door)) {
-			if (can_be_controlled && _inst.image_index > 0 && (is_grounded_state() || is_fall_state())) {
+			if (can_be_controlled && _inst.image_index > 0 && _inst.is_fully_on_ground() && state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
 				start_winning();
 				stop_music();
 				play_sound(snd_level_clear);

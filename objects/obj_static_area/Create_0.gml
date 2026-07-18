@@ -118,7 +118,6 @@ draw_static_area_tile = function() {
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8), _main_width = 8, _main_height = 8, _main_x = x, _main_y = y;
 	var _has_outline = outline_sprite != noone && (_x_offset >= 0 ||_y_offset >= 0);
 	
-	if (object_index == obj_cloud) { show_debug_message($"palette={main_palette} shine={shine_timer} has_outline={_has_outline}"); }
 	if (_has_outline) {
 		// Draw Main Image
 		use_palette_shader();

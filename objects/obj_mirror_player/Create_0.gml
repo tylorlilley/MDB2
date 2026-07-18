@@ -3,8 +3,8 @@ event_inherited();
 
 is_left = false;
 sprite_index = spr_player_idle;
-original_palette = global.PALETTE_GRAYSCALE;
-powered_palette = global.PALETTE_RED;
+original_palette = PALETTES.GRAY;
+powered_palette = PALETTES.RED;
 main_palette = original_palette;
 
 update_controls = function() {

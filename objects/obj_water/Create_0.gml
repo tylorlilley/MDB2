@@ -6,4 +6,4 @@ depth = -20;
 anim_timer = 0;
 is_connected = true;
 
-main_palette = global.PALETTE_BLUE;
+main_palette = PALETTES.BLUE;

@@ -1,7 +1,4 @@
 // Set Palettes
-with (obj_dynamic_object) {
-	if (is_carrying_key()) { original_palette = global.PALETTE_YELLOW; main_palette = global.PALETTE_YELLOW; }
-}
 with (obj_switch) { main_palette = get_switch_palette(switch_color); }
 with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);
@@ -23,4 +20,9 @@ with (obj_dynamic_object) {
 		contents.grid_remove();
 		instance_deactivate_object(contents);
 	}
+}
+
+// Set Dynamic Instance Palette Based on Spawned Instances
+with (obj_dynamic_object) {
+	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }
 }

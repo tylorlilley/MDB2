@@ -4,7 +4,7 @@ image_blend = global.C_RED;
 depth = -20;
 
 anim_timer = 0;
-main_palette = global.PALETTE_RED;
+main_palette = PALETTES.RED;
 
 is_climbable = false;
 is_connected = true;

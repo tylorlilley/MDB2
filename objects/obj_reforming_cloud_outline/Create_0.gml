@@ -4,7 +4,7 @@ event_inherited();
 solid_obj = noone;
 reform_timer = 0;
 
-main_palette = darken_palette(global.PALETTE_GRAYSCALE);
+main_palette = PALETTES.GRAY_DARK;
 sprite_index = spr_reforming_cloud;
 main_sprite = noone;
 outline_sprite = noone;

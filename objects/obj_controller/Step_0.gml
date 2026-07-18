@@ -48,12 +48,9 @@ with (obj_lava) {
 	anim_timer++;
 	anim_timer = anim_timer % (8 * 8);
 }
+// Update Switch Logic
 with (obj_switch) {
-	var _on_ground = true;
-	for (_x = x; _x < x+16; _x += 8) {
-		var _ground_objects = get_objects_at(_x, y+8, 8, 8, function(_inst) { return _inst.is_solid_from_above; });
-		if (array_length(_ground_objects) == 0) { _on_ground = false; }
-	}
+	var _on_ground = is_fully_on_ground();
 	if (!_on_ground) { instance_destroy(); }
 	else {
 		var _pressed_on = array_length(get_pressing_objects()) > 0
@@ -61,11 +58,10 @@ with (obj_switch) {
 		if (_pressed_on && !pressed) {
 			var _toggle_blocks = true;
 			with (obj_switch) {
-				if (id != other.id && switch_color == other.switch_color && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; }
+				if (id != other.id && switch_color == other.switch_color && pressed != other.pressed && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; }
 			}
 	
 			if (_toggle_blocks) {
-				play_sound(snd_switch);
 				with (obj_switch_block_outline) { 
 					if (switch_color == other.switch_color) { toggle_solid(true); }
 				}
@@ -75,9 +71,14 @@ with (obj_switch) {
 				with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
 			}
 		}
-
-		image_index = (pressed || _pressed_on) ? 1 : 0;
 	}
+}
+// Update Switch Graphics and Sound
+with (obj_switch) {
+	var _pressed_on = array_length(get_pressing_objects()) > 0;
+	if (pressed) { if (image_index != 2) { play_sound(snd_switch); } image_index = 2; }
+	else if (_pressed_on) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
+	else if (image_index != 0) { play_sound(snd_soft_thud); image_index = 0; }
 }
 with (obj_key) {
 	shine_periodically();

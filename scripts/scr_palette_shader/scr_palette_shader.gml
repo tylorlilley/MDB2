@@ -18,10 +18,11 @@ global.C_SAND_DARK = make_color_rgb(197, 167, 31); // C_YELLOW
 global.C_YELLOW_LIGHT = make_color_rgb(247, 231, 151); // make_color_rgb(247, 231, 151);
 global.C_YELLOW = make_color_rgb(240, 188, 60); // make_color_rgb(207, 167, 0);
 global.C_YELLOW_DARK = make_color_rgb(136, 112, 0); // make_color_rgb(135, 103, 0);
+global.C_YELLOW_DARKEST = make_color_rgb(64, 44, 0); // make_color_rgb(135, 103, 0);
 
 global.C_BROWN_LIGHT = global.C_YELLOW;
 global.C_BROWN = global.C_YELLOW_DARK;
-global.C_BROWN_DARK = make_color_rgb(64, 44, 0); // make_color_rgb(71, 63, 0);
+global.C_BROWN_DARK = global.C_YELLOW_DARKEST; // make_color_rgb(71, 63, 0);
 
 global.C_BLUE_DARKEST = make_color_rgb(15, 0, 191);
 global.C_BLUE_DARK = make_color_rgb(0, 87, 247);
@@ -32,44 +33,104 @@ global.C_RED_DARK = make_color_rgb(143, 6, 0);
 global.C_RED = make_color_rgb(223, 23, 0);
 global.C_RED_LIGHT = make_color_rgb(255, 199, 207);
 
-global.PALETTE_ALL_WHITE = [global.C_WHITE, global.C_WHITE, global.C_WHITE, global.C_WHITE];
-global.PALETTE_GRAYSCALE = [global.C_WHITE, global.C_GRAY_LIGHT, global.C_GRAY, global.C_BLACK];
-global.PALETTE_SAND = [global.C_SAND_LIGHT, global.C_SAND, global.C_SAND_DARK, global.C_BLACK];
-global.PALETTE_YELLOW = [global.C_YELLOW_LIGHT, global.C_YELLOW, global.C_YELLOW_DARK, global.C_BLACK];
-global.PALETTE_BROWN = [global.C_BROWN_LIGHT, global.C_BROWN, global.C_BROWN_DARK, global.C_BLACK];
-global.PALETTE_BLUE = [global.C_BLUE_LIGHT, global.C_BLUE, global.C_BLUE_DARK, global.C_BLACK];
-global.PALETTE_PLAYER = [global.C_WHITE, global.C_BLUE, global.C_BLUE_DARKEST, global.C_BLACK];
-global.PALETTE_RED = [global.C_RED_LIGHT, global.C_RED, global.C_RED_DARK, global.C_BLACK];
-
-function darken_palette(_palette) {
-	return [_palette[1], _palette[2], _palette[3], global.C_BLACK]; 
+enum PALETTES {
+	ALL_WHITE,
+	GRAY,
+	GRAY_DARK,
+	ALL_BLACK,
+	YELLOW,
+	YELLOW_DARK,
+	YELLOW_DARKER,
+	BLUE,
+	BLUE_DARK,
+	BLUE_DARKER,
+	RED,
+	RED_DARK,
+	SAND,
+	SAND_DARK,
+	BROWN,
+	BROWN_DARK,
+	PLAYER,
 }
 
-function color_uniform_values(_color) {
+global.palette_values = [
+	[global.C_WHITE, global.C_WHITE, global.C_WHITE, global.C_WHITE],
+	[global.C_WHITE, global.C_GRAY_LIGHT, global.C_GRAY, global.C_BLACK],
+	[global.C_GRAY_LIGHT, global.C_GRAY, global.C_GRAY_DARK, global.C_BLACK],
+	[global.C_GRAY, global.C_GRAY_DARK, global.C_BLACK, global.C_BLACK],
+	[global.C_YELLOW_LIGHT, global.C_YELLOW, global.C_YELLOW_DARK, global.C_BLACK],
+	[global.C_YELLOW, global.C_YELLOW_DARK, global.C_BROWN_DARK, global.C_BLACK],
+	[global.C_YELLOW_DARK, global.C_BROWN_DARK, global.C_BLACK, global.C_BLACK],
+	[global.C_BLUE_LIGHT, global.C_BLUE, global.C_BLUE_DARK, global.C_BLACK],
+	[global.C_BLUE, global.C_BLUE_DARK, global.C_BLUE_DARKEST, global.C_BLACK],
+	[global.C_BLUE_DARK, global.C_BLUE_DARKEST, global.C_BLACK, global.C_BLACK],
+	[global.C_RED_LIGHT, global.C_RED, global.C_RED_DARK, global.C_BLACK],
+	[global.C_RED, global.C_RED_DARK, global.C_BLACK, global.C_BLACK],
+	[global.C_SAND_LIGHT, global.C_SAND, global.C_SAND_DARK, global.C_BLACK],
+	[global.C_SAND, global.C_SAND_DARK, global.C_BLACK, global.C_BLACK],
+	[global.C_BROWN_LIGHT, global.C_BROWN, global.C_BROWN_DARK, global.C_BLACK],
+	[global.C_BROWN, global.C_BROWN_DARK, global.C_BLACK, global.C_BLACK],
+	[global.C_WHITE, global.C_BLUE, global.C_BLUE_DARKEST, global.C_BLACK]
+];
+
+global.palette_uniform_values = [
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.ALL_WHITE]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.GRAY]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.GRAY_DARK]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.ALL_BLACK]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.YELLOW]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.YELLOW_DARK]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.YELLOW_DARKER]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.BLUE]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.BLUE_DARK]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.BLUE_DARKER]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.RED]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.RED_DARK]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.SAND]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.SAND_DARK]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.BROWN]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.BROWN_DARK]),
+	translate_palette_to_uniform_values(global.palette_values[PALETTES.PLAYER])
+];
+
+function translate_color_to_uniform_values(_color) {
 	return [color_get_red(_color)/255, color_get_green(_color)/255, color_get_blue(_color)/255, 1];
 }
 
-function palette_uniform_values(_palette) {
+function translate_palette_to_uniform_values(_palette) {
 	return array_concat(
-		color_uniform_values(_palette[0]),
-		color_uniform_values(_palette[1]),
-		color_uniform_values(_palette[2]),
-		color_uniform_values(_palette[3])
+		translate_color_to_uniform_values(_palette[0]),
+		translate_color_to_uniform_values(_palette[1]),
+		translate_color_to_uniform_values(_palette[2]),
+		translate_color_to_uniform_values(_palette[3])
 	);
+}
+
+function get_uniform_values_for_palette(_palette_index) {
+	return global.palette_uniform_values[_palette_index];
 }
 
 function get_switch_palette(_switch_color) {
 	switch (_switch_color) {
-		case SWITCH_COLORS.RED: { return global.PALETTE_RED; }
-		case SWITCH_COLORS.BLUE: { return global.PALETTE_BLUE; }
-		case SWITCH_COLORS.YELLOW: { return global.PALETTE_YELLOW; }
+		case SWITCH_COLORS.RED: { return PALETTES.RED; }
+		case SWITCH_COLORS.BLUE: { return PALETTES.BLUE; }
+		case SWITCH_COLORS.YELLOW: { return PALETTES.YELLOW; }
 	}
 }
 
-function get_switch_color(_switch_color) {
-	switch (_switch_color) {
-		case SWITCH_COLORS.RED: { return global.C_RED; }
-		case SWITCH_COLORS.BLUE: { return global.C_BLUE; }
-		case SWITCH_COLORS.YELLOW: { return global.C_YELLOW; }
+function get_darker_palette(_palette_index) {
+	switch (_palette_index) {
+		case PALETTES.ALL_WHITE: { return PALETTES.GRAY; }
+		case PALETTES.GRAY: { return PALETTES.GRAY_DARK; }
+		case PALETTES.GRAY_DARK: { return PALETTES.ALL_BLACK; }
+		case PALETTES.YELLOW: { return PALETTES.YELLOW_DARK; }
+		case PALETTES.YELLOW_DARK: { return PALETTES.YELLOW_DARKER; }
+		case PALETTES.PLAYER:
+		case PALETTES.BLUE: { return PALETTES.BLUE_DARK; }
+		case PALETTES.BLUE_DARK: { return PALETTES.BLUE_DARKER; }
+		case PALETTES.RED: { return PALETTES.RED_DARK; }
+		case PALETTES.SAND: { return PALETTES.SAND_DARK; }
+		case PALETTES.BROWN: { return PALETTES.BROWN_DARK; }
+		default: { return PALETTES.ALL_BLACK; }
 	}
 }
