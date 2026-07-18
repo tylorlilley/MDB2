@@ -55,25 +55,25 @@ get_relative_solid_objects = function(_x_offset, _y_offset, _pred, _ignored_obje
 	return get_objects_at(x + _x_offset, y + _y_offset, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _pred, _ignored_objects);
 }
 
-get_left_ceiling_objects = function(_ignored_objects) {
+get_left_ceiling_objects = function(_ignored_objects = []) {
 	return get_relative_solid_objects(-8, -8, function(_inst) {
         return _inst.is_solid_from_below;
     }, _ignored_objects);
 }
 
-get_right_ceiling_objects = function(_ignored_objects) {
+get_right_ceiling_objects = function(_ignored_objects = []) {
 	return get_relative_solid_objects(8, -8, function(_inst) {
         return _inst.is_solid_from_below;
     }, _ignored_objects);
 }
 
-get_inside_solids = function(_ignored_objects) {
+get_inside_solids = function(_ignored_objects = []) {
 	return get_relative_solid_objects(0, 0, function(_inst) {
         return _inst.is_solid_from_all_sides();
     }, _ignored_objects);
 }
 
-is_inside_solid = function(_ignored_objects) {
+is_inside_solid = function(_ignored_objects = []) {
 	return array_length(get_inside_solids(_ignored_objects)) > 0;
 }
 
@@ -89,14 +89,14 @@ can_be_pushed_right = function() {
 	return array_length(get_right_wall_objects()) == 0;
 }
 
-can_be_climbed_from_left = function(_ignored_objects) {
+can_be_climbed_from_left = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
 	if (array_length(get_left_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x-8, y, 8, 8, object_index));
 }
 
-can_be_climbed_from_right = function(_ignored_objects) {
+can_be_climbed_from_right = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
 	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	

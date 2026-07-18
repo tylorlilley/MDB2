@@ -182,13 +182,13 @@ get_right_pushable_objects = function() {
     });
 }
 
-get_left_climbable_objects = function(_ignored_objects) {
+get_left_climbable_objects = function(_ignored_objects = []) {
 	return get_relative_solid_objects(-8, 0, function(_inst, _ignored) {
         return _inst.can_be_climbed_from_right(_ignored);
     }, _ignored_objects);
 }
 
-get_right_climbable_objects = function(_ignored_objects) {
+get_right_climbable_objects = function(_ignored_objects = []) {
 	return get_relative_solid_objects(8, 0, function(_inst, _ignored) {
         return _inst.can_be_climbed_from_left(_ignored);
     }, _ignored_objects);
