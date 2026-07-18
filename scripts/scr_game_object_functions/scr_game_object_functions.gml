@@ -73,8 +73,8 @@ get_inside_solids = function(_ignored_objects) {
     }, _ignored_objects);
 }
 
-is_inside_solid = function() {
-	return array_length(get_inside_solids()) > 0;
+is_inside_solid = function(_ignored_objects) {
+	return array_length(get_inside_solids(_ignored_objects)) > 0;
 }
 
 can_be_pushed_left = function() {

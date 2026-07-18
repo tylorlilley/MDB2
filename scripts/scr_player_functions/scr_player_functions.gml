@@ -760,7 +760,7 @@ update_player_state = function() {
 				// Decide New State
 				if (start_laddering()) { }
 				else if (is_on_ground()) { start_standing(); }
-				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); fall_timer = -8; }
+				else if (is_under_ceiling() || recoil_timer >= 2) { start_falling(); fall_timer = -8; }
 				else {
 					// Keep Recoiling
 					grid_move_up(4);

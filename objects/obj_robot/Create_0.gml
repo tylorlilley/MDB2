@@ -27,7 +27,7 @@ get_list_of_controllable_players = function() {
 	return _ignored_objects;
 }
 
-is_inside_solid() = function() {
+is_inside_solid = function() {
 	return parent_is_inside_solid(get_list_of_controllable_players());
 }
 
@@ -39,11 +39,11 @@ is_blocked_on_right = function() {
 	return parent_is_blocked_on_right(get_list_of_controllable_players());
 }
 
-get_carried_objects = function() {
-	var _carried_objects = parent_get_carried_objects(), _modified_carried_objects = []
+get_carried_objects = function(_sort_x_by_negative = true) {
+	var _carried_objects = parent_get_carried_objects(_sort_x_by_negative), _modified_carried_objects = []
 	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
 		var _inst = _carried_objects[_i];
-		if (!is_a(_inst, obj_robot)) || _inst.is_left == is_left) { array_push(_modified_carried_objects, _inst); }
+		if (!is_a(_inst, obj_robot) || _inst.is_left == is_left) { array_push(_modified_carried_objects, _inst); }
 	}
 	return _modified_carried_objects;
 }
