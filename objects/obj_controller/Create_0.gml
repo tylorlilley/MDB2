@@ -14,7 +14,6 @@ room_seed = random_get_seed();
 main_palette = PALETTES.YELLOW;
 shine_timer = 1;
 
-u_base_colors = shader_get_uniform(shd_palettizer, "u_base_colors");
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 
 frame_sounds = [];

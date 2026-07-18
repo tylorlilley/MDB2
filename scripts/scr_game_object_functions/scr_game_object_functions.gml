@@ -50,21 +50,19 @@ get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objec
 	return _static_objects;
 }
 
-// TODO: Clean this up?
 is_fully_on_ground = function() {
-	var _on_ground = true;
-	for (_x = x; _x < x+16; _x += 8) {
-		var _ground_objects = get_objects_at(_x, y+8, 8, 8, function(_inst) { return _inst.is_solid_from_above; });
-		if (array_length(_ground_objects) == 0) { _on_ground = false; }
+	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
+	for (var _x = x; _x < x + _sprite_width; _x += 8) {
+		if (array_length(get_objects_at(_x, y + _sprite_height, 8, 8, function(_inst) { return _inst.is_solid_from_above; })) == 0) { return false; }
 	}
-	return _on_ground;
+	return true;
 }
 
 get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = []) {
 	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
 	var _x = x + _x_offset, _y = y + _y_offset, _width = _sprite_width, _height = _sprite_height;
-	if (_x_offset > 0) { _x += _sprite_width; }
-	if (_y_offset > 0) { _y += _sprite_height; }
+	if (_x_offset > 0) { _x += _sprite_width - 8; }
+	if (_y_offset > 0) { _y += _sprite_height - 8; }
 	if (_x_offset != 0) { _width = 8; }
 	if (_y_offset != 0) { _height = 8; }
 	

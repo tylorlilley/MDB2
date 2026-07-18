@@ -10,7 +10,7 @@ get_pressing_objects = function() {
 	for (var _i = 0; _i < array_length(_possible_instances); _i++)
 	{
 		var _inst = _possible_instances[_i];
-		if (_inst.has_gravity && _inst.is_grounded_state()) { array_push(_pressing_instances, _inst); }
+		if (_inst.has_gravity && _inst.is_grounded_state() && _inst.x == x) { array_push(_pressing_instances, _inst); }
 	}
 	return _pressing_instances;
 }

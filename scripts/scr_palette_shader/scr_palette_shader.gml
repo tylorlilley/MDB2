@@ -73,25 +73,10 @@ global.palette_values = [
 	[global.C_WHITE, global.C_BLUE, global.C_BLUE_DARKEST, global.C_BLACK]
 ];
 
-global.palette_uniform_values = [
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.ALL_WHITE]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.GRAY]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.GRAY_DARK]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.ALL_BLACK]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.YELLOW]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.YELLOW_DARK]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.YELLOW_DARKER]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.BLUE]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.BLUE_DARK]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.BLUE_DARKER]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.RED]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.RED_DARK]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.SAND]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.SAND_DARK]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.BROWN]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.BROWN_DARK]),
-	translate_palette_to_uniform_values(global.palette_values[PALETTES.PLAYER])
-];
+global.palette_uniform_values = array_create(array_length(global.palette_values));
+for (var _i = 0; _i < array_length(global.palette_values); _i++) {
+    global.palette_uniform_values[_i] = translate_palette_to_uniform_values(global.palette_values[_i]);
+}
 
 function translate_color_to_uniform_values(_color) {
 	return [color_get_red(_color)/255, color_get_green(_color)/255, color_get_blue(_color)/255, 1];
@@ -104,10 +89,6 @@ function translate_palette_to_uniform_values(_palette) {
 		translate_color_to_uniform_values(_palette[2]),
 		translate_color_to_uniform_values(_palette[3])
 	);
-}
-
-function get_uniform_values_for_palette(_palette_index) {
-	return global.palette_uniform_values[_palette_index];
 }
 
 function get_switch_palette(_switch_color) {
