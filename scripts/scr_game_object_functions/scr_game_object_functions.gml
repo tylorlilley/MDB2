@@ -67,10 +67,10 @@ get_right_ceiling_objects = function(_ignored_objects) {
     }, _ignored_objects);
 }
 
-get_inside_solids = function() {
+get_inside_solids = function(_ignored_objects) {
 	return get_relative_solid_objects(0, 0, function(_inst) {
         return _inst.is_solid_from_all_sides();
-    });
+    }, _ignored_objects);
 }
 
 is_inside_solid = function() {
