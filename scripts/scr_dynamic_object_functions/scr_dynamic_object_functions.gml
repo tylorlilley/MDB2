@@ -3,11 +3,14 @@
 get_switch_offset = function() {
 	if (!is_grounded_state()) { return 0; }
 	
-	var _y_offset = 0, _potential_objects = get_relative_objects(0, 0,  function(_inst) { return is_a(_inst, obj_switch); });
+	var _y_offset = 0, _potential_objects = get_relative_objects(0, 0,  function(_inst) { return (_inst.x == x && is_a(_inst, obj_switch)); });
 	for (var _i = 0; _i < array_length(_potential_objects); _i++) {
-		var _inst = _potential_objects[_i];
-		var _image_index_offset = (_inst.image_index == 0) ? -6 : -4;
-		if (_inst.image_index == 2) { _image_index_offset = -2; }
+		var _inst = _potential_objects[_i], _image_index_offset;
+		switch (_inst.image_index) {
+			case 0: { _image_index_offset = -4; break; }
+			case 1: { _image_index_offset = -3; break; }
+			case 2: { _image_index_offset = -2; break; }
+		}
 		_y_offset = min(_y_offset, _image_index_offset);
 	}
 	return _y_offset;
