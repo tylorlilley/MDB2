@@ -20,6 +20,5 @@ deactivate_portal = function() {
 		state = PORTAL_STATES.OFF;
 		play_sound(snd_warp);
 		create_sparkles(2+irandom(4));
-		other_portal.deactivate_portal();
 	}
 }

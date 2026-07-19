@@ -119,7 +119,7 @@ with (obj_reforming_cloud_outline) {
 with (obj_portal) {
 	// Determine Portal State
 	if (!instance_exists(other_portal)) { state = PORTAL_STATES.OFF; }
-	else if (activation_timer > 0) { state = PORTAL_STATES.OFF;  animation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
+	else if (activation_timer > 0) { state = PORTAL_STATES.OFF;  activation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
 	else if (array_length(get_inside_objects(obj_player)) > 0) { state = PORTAL_STATES.FAST; }
 	else { state = PORTAL_STATES.SLOW; }
 	

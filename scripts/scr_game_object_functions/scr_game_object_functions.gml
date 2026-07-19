@@ -81,7 +81,7 @@ get_right_ceiling_objects = function(_ignored_objects = []) {
     }, _ignored_objects);
 }
 
-get_inside_objects = function(_ignored_objects = [], _object_index = obj_game_object) {
+get_inside_objects = function(_object_index = obj_game_object, _ignored_objects = []) {
 	return get_relative_objects(0, 0, always_true, _ignored_objects, _object_index);
 }
 

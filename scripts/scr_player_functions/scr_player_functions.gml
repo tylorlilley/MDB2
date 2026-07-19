@@ -1240,6 +1240,7 @@ update_player_collisions_at_position = function() {
 		}
 		if (is_a(_inst, obj_portal) && _inst.state != PORTAL_STATES.OFF) {
 			_inst.deactivate_portal();
+			_inst.other_portal.deactivate_portal();
 			grid_move_to(_inst.other_portal.x, _inst.other_portal.y);
 			virtual_x = x;
 			virtual_y = y;
