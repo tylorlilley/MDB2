@@ -185,6 +185,7 @@ start_falling = function(_is_dazed = false) {
 	fall_timer = 0;
 	recoil_timer = 0;
 	grid_move_down(2);
+	play_sound(snd_player_fall);
 }
 	
 start_winning = function() {
@@ -389,7 +390,7 @@ update_player_state = function() {
 			case PLAYER_STATES.WIN: {
 				if (visible && (key_up || key_jump)) {
 					visible = false;
-					play_sound(snd_explosion);
+					play_sound(snd_soft_thud);
 					with (obj_door) { image_index = 2; create_particles(8 + irandom(8), PALETTES.YELLOW); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
@@ -659,7 +660,8 @@ update_player_state = function() {
 					else {
 						// Keep Flying
 						grid_move_up(2);
-						if (fly_timer >= 16 && state != PLAYER_STATES.POWERFLY) { state = PLAYER_STATES.POWERFLY; play_sound(snd_player_powerup); }
+						if (fly_timer >= 16 && state != PLAYER_STATES.POWERFLY) { state = PLAYER_STATES.POWERFLY; }
+						if (state == PLAYER_STATES.POWERFLY) { play_sound(snd_player_powerfall); }
 					}
 				}
 				break;
@@ -743,15 +745,16 @@ update_player_state = function() {
 							state = PLAYER_STATES.LAND;
 							transition_timer = 8;
 							play_sound(snd_soft_thud);
-							audio_stop_sound(snd_player_tumble);
+							audio_stop_sound(snd_player_fall);
 						}
 					}
 					else {
 						// Keep Falling
 						if (can_power_up) {
 							if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
-							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; play_sound(snd_player_takeoff); }
+							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; }
 						}
+						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); }
 						grid_move_down(2);
 					}
 				}
@@ -1187,7 +1190,8 @@ update_player_collisions_at_position = function() {
 	
 	// Get Destroyed From Solids
 	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
-								
+	
+	// Hanlde Water
 	if (is_fully_submerged()) {
 		switch (state) {
 			case PLAYER_STATES.LADDER:
@@ -1233,6 +1237,12 @@ update_player_collisions_at_position = function() {
 					create_sparkles(8 + irandom(8));
 				}
 			}
+		}
+		if (is_a(_inst, obj_portal) && _inst.state != PORTAL_STATES.OFF) {
+			_inst.deactivate_portal();
+			grid_move_to(_inst.other_portal.x, _inst.other_portal.y);
+			virtual_x = x;
+			virtual_y = y;
 		}
 	}
 }

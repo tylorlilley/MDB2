@@ -75,3 +75,5 @@ function use_palette_shader() {
 function is_a(_inst, _object_index) {
 	return (_inst.object_index == _object_index || object_is_ancestor(_inst.object_index, _object_index));
 }
+
+function always_true() { return true; }

@@ -38,13 +38,13 @@ grid_remove = function() {
 }
 
 // State Querying Functions
-get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects = []) {
+get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects = [], _object_index = obj_game_object) {
 	var _potential_objects = instances_at_grid_position(_x_pos, _y_pos, _width, _height), _static_objects = [];
 
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
 	{
 		var _inst = _potential_objects[_i];
-		if (!array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
+		if (is_a(_inst, _object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst)) { array_push(_static_objects, _inst); }
 	}
 	
 	return _static_objects;
@@ -58,7 +58,7 @@ is_fully_on_ground = function() {
 	return true;
 }
 
-get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = []) {
+get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = [], _object_index = obj_game_object) {
 	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
 	var _x = x + _x_offset, _y = y + _y_offset, _width = _sprite_width, _height = _sprite_height;
 	if (_x_offset > 0) { _x += _sprite_width - 8; }
@@ -66,7 +66,7 @@ get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = 
 	if (_x_offset != 0) { _width = 8; }
 	if (_y_offset != 0) { _height = 8; }
 	
-	return get_objects_at(_x, _y, _width, _height, _pred, _ignored_objects);
+	return get_objects_at(_x, _y, _width, _height, _pred, _ignored_objects, _object_index);
 }
 
 get_left_ceiling_objects = function(_ignored_objects = []) {
@@ -79,6 +79,10 @@ get_right_ceiling_objects = function(_ignored_objects = []) {
 	return get_relative_objects(8, -8, function(_inst) {
         return _inst.is_solid_from_below;
     }, _ignored_objects);
+}
+
+get_inside_objects = function(_ignored_objects = [], _object_index = obj_game_object) {
+	return get_relative_objects(0, 0, always_true, _ignored_objects, _object_index);
 }
 
 get_inside_solids = function(_ignored_objects = []) {

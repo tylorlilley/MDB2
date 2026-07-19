@@ -1,6 +1,5 @@
 // Inherit the parent event
 event_inherited();
-image_blend = global.C_RED;
 depth = -20;
 
 anim_timer = 0;

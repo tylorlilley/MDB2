@@ -91,8 +91,7 @@ with (obj_door) {
 			create_particles(8 + irandom(8));
 			create_sparkles(8 + irandom(8));
 			image_index = 1;
-			play_sound(snd_door_open);
-			play_sound(snd_explosion);
+			play_sound(snd_door_unlock);
 		}
 	}
 }
@@ -116,6 +115,23 @@ with (obj_reforming_cloud_outline) {
 	if (reform_timer <= 30 && reform_timer > 15) { image_index = 4;}
 	if (reform_timer <= 15 && reform_timer > 0) { image_index = 5;}
 	if (reform_timer == 0) { image_index = 0;}
+}
+with (obj_portal) {
+	// Determine Portal State
+	if (!instance_exists(other_portal)) { state = PORTAL_STATES.OFF; }
+	else if (activation_timer > 0) { state = PORTAL_STATES.OFF;  animation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
+	else if (array_length(get_inside_objects(obj_player)) > 0) { state = PORTAL_STATES.FAST; }
+	else { state = PORTAL_STATES.SLOW; }
+	
+	// Set Palette and Animation Speed
+	main_palette = (state == PORTAL_STATES.OFF) ? PALETTES.GRAY : PALETTES.PORTAL;
+	anim_speed = (state == PORTAL_STATES.FAST) ? 2 : 4;
+	image_alpha = (state == PORTAL_STATES.OFF) ? 0.5 : 1;
+	
+	// Animate Portal
+	anim_timer++;
+	anim_timer = anim_timer % anim_speed;
+	if (anim_timer == 0) { image_index++; image_index = image_index % image_number; }
 }
 
 // Game Object End Step
