@@ -1,1 +1,0 @@
-other_portal = instance_find(obj_portal, 2);
