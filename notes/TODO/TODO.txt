@@ -1,22 +1,21 @@
 // NEXT:
 
-Two Color Switch Deadlock?
+special end graphics for logs/trees
 Refactor Climbing logic in three places
 Go to Next Room Errors
-Portals
 Background Sand Cave Tiles
 Sort tiebreak?
 Test Robots Work Like Originals?
 Recolor player cape to use grayscale colors
 
-// PAST OBJECTS TO RECREATE
-- Tree
-- Gear Blocks
+Box starts falling when pushing it off the ledge before it is fully off the ledge
+combine dynamic object states and player states
 
-Climb when only 8 px are available instead of limiting to 16 px?
-Make Particles Color an argument
-Tumble sound effect replaced with longer sound effect that plays for entire fall
-Fix visible cloud edges
+// PAST OBJECTS TO RECREATE
+- Gear Blocks
+- Brick Sprites
+
+Initaite a Climb when only 8 px are available on the x axis instead of limiting to 16 px?
 Make Combined Up and Jump a global variable to switch on and off
 keep crushed walk in grid until movement finishes so crates dont fall until after movement completes?
 Push sounds when pushing a block and it stops moving due to running into something? Same for player?

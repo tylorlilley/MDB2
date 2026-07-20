@@ -1244,7 +1244,9 @@ update_player_collisions_at_position = function() {
 			grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 			virtual_x = x;
 			virtual_y = y;
-			start_falling();
+			start_standing();
 		}
+		
+		// TODO: Move switch overlap toggle here
 	}
 }

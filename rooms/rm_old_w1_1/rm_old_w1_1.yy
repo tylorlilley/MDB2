@@ -605,8 +605,8 @@
   ],
   "name":"rm_old_w1_1",
   "parent":{
-    "name":"Imported",
-    "path":"folders/Rooms/Imported.yy",
+    "name":"Rooms",
+    "path":"folders/Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

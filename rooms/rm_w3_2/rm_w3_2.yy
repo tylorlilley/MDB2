@@ -425,7 +425,7 @@
         {"$GMRInstance":"v4","%Name":"inst_C0000081","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C0000081","objectId":{"name":"obj_door","path":"objects/obj_door/obj_door.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":184.0,"y":200.0,},
         {"$GMRInstance":"v4","%Name":"inst_C0000082","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C0000082","objectId":{"name":"obj_switch_red_up","path":"objects/obj_switch_red_up/obj_switch_red_up.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":120.0,"y":32.0,},
         {"$GMRInstance":"v4","%Name":"inst_C0000083","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C0000083","objectId":{"name":"obj_switch_red_up","path":"objects/obj_switch_red_up/obj_switch_red_up.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":56.0,"y":160.0,},
-        {"$GMRInstance":"v4","%Name":"inst_C0000084","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C0000084","objectId":{"name":"obj_switch_red_up","path":"objects/obj_switch_red_up/obj_switch_red_up.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":56.0,"y":112.0,},
+        {"$GMRInstance":"v4","%Name":"inst_C0000084","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C0000084","objectId":{"name":"obj_switch_red_down","path":"objects/obj_switch_red_down/obj_switch_red_down.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":56.0,"y":112.0,},
         {"$GMRInstance":"v4","%Name":"inst_C0000085","colour":4286119800,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C0000085","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"properties":[
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"propertyId":{"name":"linked_portal","path":"objects/obj_portal/obj_portal.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"inst_C000008C",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":24.0,"y":104.0,},
@@ -607,8 +607,8 @@
   ],
   "name":"rm_w3_2",
   "parent":{
-    "name":"Imported",
-    "path":"folders/Rooms/Imported.yy",
+    "name":"Rooms",
+    "path":"folders/Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

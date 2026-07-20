@@ -246,10 +246,10 @@ get_connected_instances = function(_connected_instances) {
 			
 		var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8, object_index);
 		for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
-			var _inst_id =  _instances_to_check[_i].id
-			if (!array_contains(_connected_instances, _inst_id)) {
-				array_push(_connected_instances, _inst_id);
-				_inst_id.get_connected_instances(_connected_instances);
+			var _inst =  _instances_to_check[_i]
+			if (_inst.creator == creator && !array_contains(_connected_instances, _inst)) {
+				array_push(_connected_instances, _inst);
+				_inst.get_connected_instances(_connected_instances);
 			}
 		}
 	}

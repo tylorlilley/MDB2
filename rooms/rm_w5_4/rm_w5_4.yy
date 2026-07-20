@@ -641,8 +641,8 @@
   ],
   "name":"rm_w5_4",
   "parent":{
-    "name":"Imported",
-    "path":"folders/Rooms/Imported.yy",
+    "name":"Rooms",
+    "path":"folders/Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

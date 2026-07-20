@@ -869,8 +869,8 @@
   ],
   "name":"rm_tt2",
   "parent":{
-    "name":"Imported",
-    "path":"folders/Rooms/Imported.yy",
+    "name":"Rooms",
+    "path":"folders/Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

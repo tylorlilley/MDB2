@@ -39,6 +39,15 @@ get_connections_for_graphics = function() {
 	is_connected_top_left = grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index));
 	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index));
 	is_connected_bottom_left = grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index));
+	
+	is_connected_above = (instance_exists(is_connected_above) && creator == is_connected_above.creator);
+	is_connected_below = (instance_exists(is_connected_below) && creator == is_connected_below.creator);
+	is_connected_on_left = (instance_exists(is_connected_on_left) && creator == is_connected_on_left.creator);
+	is_connected_on_right = (instance_exists(is_connected_on_right) && creator == is_connected_on_right.creator);
+	is_connected_top_right = (instance_exists(is_connected_top_right) && creator == is_connected_top_right.creator);
+	is_connected_top_left = (instance_exists(is_connected_top_left) && creator == is_connected_top_left.creator);
+	is_connected_bottom_right = (instance_exists(is_connected_bottom_right) && creator == is_connected_bottom_right.creator);
+	is_connected_bottom_left = (instance_exists(is_connected_bottom_left) && creator == is_connected_bottom_left.creator);
 }
 
 update_connected_graphics = function() {
