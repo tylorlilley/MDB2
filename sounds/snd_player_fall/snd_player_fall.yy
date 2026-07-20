@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":2.4,
+  "duration":4.8,
   "exportDir":"",
   "name":"snd_player_fall",
   "parent":{

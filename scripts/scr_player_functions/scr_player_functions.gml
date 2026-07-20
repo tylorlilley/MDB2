@@ -185,7 +185,7 @@ start_falling = function(_is_dazed = false) {
 	fall_timer = 0;
 	recoil_timer = 0;
 	grid_move_down(2);
-	play_sound(snd_player_fall);
+	fall_sound = audio_play_sound(snd_player_fall, 1, false);
 }
 	
 start_winning = function() {
@@ -311,7 +311,7 @@ update_player_state = function() {
 
 	// Reset various player state timers
 	if (!is_ladder_state()) { is_up = false; }
-	if (!is_fall_state()) { audio_stop_sound(snd_player_fall); }
+	if (!is_fall_state() && fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
 	if (state != PLAYER_STATES.STAND) { idle_timer = 0; }
 	if (state != PLAYER_STATES.CROUCH && state != PLAYER_STATES.POWERCROUCH) { crouch_timer = 0; }
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
@@ -746,7 +746,6 @@ update_player_state = function() {
 							state = PLAYER_STATES.LAND;
 							transition_timer = 8;
 							play_sound(snd_soft_thud);
-							audio_stop_sound(snd_player_fall);
 						}
 					}
 					else {
@@ -755,7 +754,7 @@ update_player_state = function() {
 							if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; }
 						}
-						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); audio_stop_sound(snd_player_fall); }
+						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); if (fall_sound != noone) { audio_stop_sound(fall_sound); } }
 						grid_move_down(2);
 					}
 				}
@@ -1245,6 +1244,7 @@ update_player_collisions_at_position = function() {
 			grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 			virtual_x = x;
 			virtual_y = y;
+			start_falling();
 		}
 	}
 }

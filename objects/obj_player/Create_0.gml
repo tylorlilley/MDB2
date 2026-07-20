@@ -16,6 +16,7 @@ cape_timer = 0;
 step_index = 1;
 air_walk = false;
 climbed_inst = noone;
+fall_sound = noone;
 	
 // Player Specific Variables
 prev_state = PLAYER_STATES.STAND;
