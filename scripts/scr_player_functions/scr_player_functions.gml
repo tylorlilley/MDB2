@@ -311,6 +311,7 @@ update_player_state = function() {
 
 	// Reset various player state timers
 	if (!is_ladder_state()) { is_up = false; }
+	if (!is_fall_state()) { audio_stop_sound(snd_player_fall); }
 	if (state != PLAYER_STATES.STAND) { idle_timer = 0; }
 	if (state != PLAYER_STATES.CROUCH && state != PLAYER_STATES.POWERCROUCH) { crouch_timer = 0; }
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
@@ -754,7 +755,7 @@ update_player_state = function() {
 							if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; }
 						}
-						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); }
+						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); audio_stop_sound(snd_player_fall); }
 						grid_move_down(2);
 					}
 				}
@@ -1230,7 +1231,7 @@ update_player_collisions_at_position = function() {
 				play_sound(snd_level_clear);
 			}
 		}
-		if (is_a(_inst, obj_key)) {
+		else if (is_a(_inst, obj_key)) {
 			if (can_be_controlled) {
 				with (_inst) {
 					instance_destroy();
@@ -1238,7 +1239,7 @@ update_player_collisions_at_position = function() {
 				}
 			}
 		}
-		if (is_a(_inst, obj_portal) && _inst.state != PORTAL_STATES.OFF) {
+		else if (is_a(_inst, obj_portal) && _inst.state != PORTAL_STATES.OFF) {
 			_inst.deactivate_portal();
 			_inst.other_portal.deactivate_portal();
 			grid_move_to(_inst.other_portal.x, _inst.other_portal.y);
