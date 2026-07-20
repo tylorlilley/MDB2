@@ -3,6 +3,7 @@ event_inherited();
 depth = 2;
 sprite_index = spr_crate;
 main_palette = PALETTES.BROWN;
+particle_palette = PALETTES.BROWN_DARK;
 
 is_pushable = true;
 shine_timer = 60 + irandom(8);

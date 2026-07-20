@@ -6,6 +6,7 @@ sprite_index = spr_player_idle;
 original_palette = PALETTES.GRAY;
 powered_palette = PALETTES.RED;
 main_palette = original_palette;
+particle_palette = original_palette;
 
 update_controls = function() {
 	key_left = key_left || keyboard_check(vk_right);

@@ -1,1 +1,1 @@
-instance_destroy();
+get_damaged();

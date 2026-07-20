@@ -392,7 +392,7 @@ update_player_state = function() {
 				if (visible && (key_up || key_jump)) {
 					visible = false;
 					play_sound(snd_soft_thud);
-					with (obj_door) { image_index = 2; create_particles(8 + irandom(8), PALETTES.YELLOW); }
+					with (obj_door) { image_index = 2; create_particles(8 + irandom(8)); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
 					global.controller.last_player_x = x;
@@ -1239,10 +1239,10 @@ update_player_collisions_at_position = function() {
 				}
 			}
 		}
-		else if (is_a(_inst, obj_portal) && _inst.state != PORTAL_STATES.OFF) {
+		else if (is_a(_inst, obj_portal) && _inst.activated) {
 			_inst.deactivate_portal();
-			_inst.other_portal.deactivate_portal();
-			grid_move_to(_inst.other_portal.x, _inst.other_portal.y);
+			_inst.linked_portal.deactivate_portal();
+			grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 			virtual_x = x;
 			virtual_y = y;
 		}

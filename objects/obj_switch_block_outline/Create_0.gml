@@ -1,7 +1,7 @@
 event_inherited();
 
 // Create Solid Metal Area
-solid_obj = obj_reforming_cloud;
+solid_obj = obj_switch_block;
 begin_off = false;
 
 // Solid Area Variables

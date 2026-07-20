@@ -88,7 +88,7 @@ with (obj_door) {
 		shine_periodically();
 
 		if (global.controller.room_keys == 0) {
-			create_particles(8 + irandom(8));
+			create_particles(8 + irandom(8), PALETTES.YELLOW_DARK);
 			create_sparkles(8 + irandom(8));
 			image_index = 1;
 			play_sound(snd_door_unlock);
@@ -98,7 +98,7 @@ with (obj_door) {
 with (obj_spawner) {
 	timer--;
 	if timer <= 0 {
-		var _inst = instance_create_depth(x, y, depth, spawned_obj);
+		var _inst = instance_create(x, y, spawned_obj);
 		_inst.is_left = is_left;
 	    timer = frequency;
 	}
@@ -117,20 +117,23 @@ with (obj_reforming_cloud_outline) {
 	if (reform_timer == 0) { image_index = 0;}
 }
 with (obj_portal) {
-	// Determine Portal State
-	if (!instance_exists(other_portal)) { state = PORTAL_STATES.OFF; }
-	else if (activation_timer > 0) { state = PORTAL_STATES.OFF;  activation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
-	else if (array_length(get_inside_objects(obj_player)) > 0) { state = PORTAL_STATES.FAST; }
-	else { state = PORTAL_STATES.SLOW; }
+	// Determine Activated State
+	if (!instance_exists(linked_portal)) { activated = false; }
+	else if (activation_timer > 0) { activated = false;  activation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
+	else if (is_blocked() || linked_portal.is_blocked()) { activated = false; }
+	else { activated = true; }
+	
+	// Determine Visual Speed
+	var _portal_speed = 4;
+	if (is_overlapped() || (instance_exists(linked_portal) && linked_portal.is_overlapped())) { _portal_speed = 2; }
 	
 	// Set Palette and Animation Speed
-	main_palette = (state == PORTAL_STATES.OFF) ? PALETTES.GRAY : PALETTES.PORTAL;
-	anim_speed = (state == PORTAL_STATES.FAST) ? 2 : 4;
-	image_alpha = (state == PORTAL_STATES.OFF) ? 0.5 : 1;
+	main_palette = (activated) ? PALETTES.PORTAL : PALETTES.GRAY;
+	image_alpha = (activated) ? 0.8 : 0.5;
 	
 	// Animate Portal
 	anim_timer++;
-	anim_timer = anim_timer % anim_speed;
+	anim_timer = anim_timer % _portal_speed;
 	if (anim_timer == 0) { image_index++; image_index = image_index % image_number; }
 }
 

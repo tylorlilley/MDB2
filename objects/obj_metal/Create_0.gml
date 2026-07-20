@@ -1,6 +1,7 @@
 event_inherited();
 
 step_sound = snd_step_metal;
+damaged_sound = snd_solid_invulnerable;
 switch_color = noone;
 hits = 0;
 main_palette = PALETTES.GRAY_DARK;

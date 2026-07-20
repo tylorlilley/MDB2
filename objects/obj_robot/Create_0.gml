@@ -14,6 +14,7 @@ walk_timer = 0;
 sprite_index = spr_robot_walk;
 death_sprite = spr_robot_dying_particle;
 original_palette = PALETTES.GRAY;
+particle_palette = original_palette;
 main_palette = original_palette;
 
 parent_is_blocked_on_left = is_blocked_on_left;

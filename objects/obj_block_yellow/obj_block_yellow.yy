@@ -12,8 +12,8 @@
     "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
-    "name":"obj_block",
-    "path":"objects/obj_block/obj_block.yy",
+    "name":"obj_switch_block",
+    "path":"objects/obj_switch_block/obj_switch_block.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

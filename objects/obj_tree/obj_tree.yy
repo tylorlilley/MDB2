@@ -1,7 +1,9 @@
 {
   "$GMObject":"",
   "%Name":"obj_tree",
-  "eventList":[],
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
   "name":"obj_tree",
   "overriddenProperties":[],
@@ -28,8 +30,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_box_16x16",
-    "path":"sprites/spr_box_16x16/spr_box_16x16.yy",
+    "name":"spr_editor_tree",
+    "path":"sprites/spr_editor_tree/spr_editor_tree.yy",
   },
   "spriteMaskId":null,
   "visible":true,

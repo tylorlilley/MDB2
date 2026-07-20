@@ -44,7 +44,7 @@ get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objec
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
 	{
 		var _inst = _potential_objects[_i];
-		if (is_a(_inst, _object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst)) { array_push(_static_objects, _inst); }
+		if (is_a(_inst, _object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
 	}
 	
 	return _static_objects;
@@ -83,6 +83,10 @@ get_right_ceiling_objects = function(_ignored_objects = []) {
 
 get_inside_objects = function(_object_index = obj_game_object, _ignored_objects = []) {
 	return get_relative_objects(0, 0, always_true, _ignored_objects, _object_index);
+}
+
+is_inside_object = function(_object_index = obj_game_object, _ignored_objects = []) {
+	return array_length(get_inside_objects(_object_index, _ignored_objects)) > 0;
 }
 
 get_inside_solids = function(_ignored_objects = []) {
@@ -128,12 +132,14 @@ is_solid_from_all_sides = function() {
 // Visual Effect Functions
 get_float_offset = function() { return 0; }
 
+part_destroyed = function() { }
+
 create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
 	if (_palette == noone) { _palette = get_darker_palette(main_palette); }
 	
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {
-		var _p = instance_create_depth(x+sprite_get_width(sprite_index)/2, y+sprite_get_height(sprite_index)/2, -5, obj_particle);
+		var _p = instance_create(x+sprite_get_width(sprite_index)/2, y+sprite_get_height(sprite_index)/2, obj_particle);
 		array_push(_particles, _p);
 		with (_p) {
 			main_palette = _palette;
@@ -158,8 +164,8 @@ create_particles = function(_total_particles, _palette = noone, _particle_sprite
 	return _particles;
 }
 
-create_sparkles = function(_max_amount) {
-	create_particles(_max_amount, PALETTES.GRAY, spr_sparkle, true);
+create_sparkles = function(_max_amount, _palette = PALETTES.GRAY) {
+	create_particles(_max_amount, _palette, spr_sparkle, true);
 }
 
 shine_periodically = function() {
@@ -183,6 +189,8 @@ draw_liquid = function() {
 get_damaged = function() {
 	hits--;
 	if (hits == 0) { instance_destroy(); }
+	else { play_sound(damaged_sound); }
+	global.controller.should_rebuild_static_area = true;
 }
 
 fall_on = function(_fall_dist) {

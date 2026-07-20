@@ -60,6 +60,7 @@ enum PALETTES {
 	BROWN_DARK,
 	PLAYER,
 	PORTAL,
+	PORTAL_DARK
 }
 
 global.palette_values = [
@@ -82,7 +83,8 @@ global.palette_values = [
 	[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
 	[C_BROWN, C_BROWN_DARK, C_BLACK, C_BLACK],
 	[C_WHITE, C_BLUE, C_BLUE_DARKEST, C_BLACK],
-	[C_BLUE_DARKEST, C_PINK, C_BLUE, C_BLACK]
+	[C_PINK, C_BLUE, C_BLUE_DARKEST, C_BLACK],
+	[C_BLUE, C_BLUE_DARKEST, C_BLACK, C_BLACK]
 ];
 
 global.palette_uniform_values = array_create(array_length(palette_values));
@@ -112,18 +114,6 @@ function get_switch_palette(_switch_color) {
 }
 
 function get_darker_palette(_palette_index) {
-	switch (_palette_index) {
-		case PALETTES.ALL_WHITE: { return PALETTES.GRAY; }
-		case PALETTES.GRAY: { return PALETTES.GRAY_DARK; }
-		case PALETTES.GRAY_DARK: { return PALETTES.ALL_BLACK; }
-		case PALETTES.YELLOW: { return PALETTES.YELLOW_DARK; }
-		case PALETTES.YELLOW_DARK: { return PALETTES.YELLOW_DARKER; }
-		case PALETTES.PLAYER:
-		case PALETTES.BLUE: { return PALETTES.BLUE_DARK; }
-		case PALETTES.BLUE_DARK: { return PALETTES.BLUE_DARKER; }
-		case PALETTES.RED: { return PALETTES.RED_DARK; }
-		case PALETTES.SAND: { return PALETTES.SAND_DARK; }
-		case PALETTES.BROWN: { return PALETTES.BROWN_DARK; }
-		default: { return PALETTES.ALL_BLACK; }
-	}
+	if (_palette_index = PALETTES.PLAYER) { return PALETTES.BLUE_DARKER; }
+	return _palette_index+1;
 }

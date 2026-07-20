@@ -7,6 +7,7 @@ destroyed_sound = snd_pop;
 
 hits = 1;
 main_palette = PALETTES.GRAY;
+particle_palette = PALETTES.GRAY;
 main_sprite = spr_cloud_area;
 outline_sprite = spr_cloud_outline;
 walk_particles = 4;

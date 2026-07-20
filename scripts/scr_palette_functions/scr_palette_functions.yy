@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_palette_shader",
+  "%Name":"scr_palette_functions",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_palette_shader",
+  "name":"scr_palette_functions",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",
