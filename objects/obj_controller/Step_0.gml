@@ -136,7 +136,7 @@ with (obj_portal) {
 
 // Game Object End Step
 with (obj_player) {
-	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (y >= room_height) || (y + sprite_get_height(sprite_index) <= 0)) { 
+	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (y >= room_height) || (y + sprite_get_height(sprite_index) <= 0 && !is_a(obj_robot))) { 
 		ring_out_timer++;
 	}
 	else { ring_out_timer = 0; }

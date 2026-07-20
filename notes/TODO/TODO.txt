@@ -7,13 +7,11 @@ Portals
 Background Sand Cave Tiles
 Sort tiebreak?
 Test Robots Work Like Originals?
+Recolor player cape to use grayscale colors
 
 // PAST OBJECTS TO RECREATE
-- Switch and Switch Blocks
 - Tree
-- Portals (12 of each)
 - Gear Blocks
-- Reforming Clouds
 
 Climb when only 8 px are available instead of limiting to 16 px?
 Make Particles Color an argument

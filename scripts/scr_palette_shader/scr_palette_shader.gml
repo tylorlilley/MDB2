@@ -33,6 +33,10 @@ C_RED_DARK = make_color_rgb(143, 6, 0);
 C_RED = make_color_rgb(223, 23, 0);
 C_RED_LIGHT = make_color_rgb(255, 199, 207);
 
+C_GREEN_DARK = make_color_rgb(0, 71, 0);
+C_GREEN = make_color_rgb(23, 135, 0);
+C_GREEN_LIGHT = make_color_rgb(175, 255, 151);
+
 C_PINK = make_color_rgb(175, 7, 207);
 
 enum PALETTES {
@@ -48,6 +52,8 @@ enum PALETTES {
 	BLUE_DARKER,
 	RED,
 	RED_DARK,
+	GREEN,
+	GREEN_DARK,
 	SAND,
 	SAND_DARK,
 	BROWN,
@@ -69,6 +75,8 @@ global.palette_values = [
 	[C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK, C_BLACK],
 	[C_RED_LIGHT, C_RED, C_RED_DARK, C_BLACK],
 	[C_RED, C_RED_DARK, C_BLACK, C_BLACK],
+	[C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_BLACK],
+	[C_GREEN, C_GREEN_DARK, C_BLACK, C_BLACK],
 	[C_SAND_LIGHT, C_SAND, C_SAND_DARK, C_BLACK],
 	[C_SAND, C_SAND_DARK, C_BLACK, C_BLACK],
 	[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],

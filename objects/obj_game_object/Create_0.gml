@@ -7,7 +7,7 @@ enum STATES {
 }
 
 main_palette = PALETTES.GRAY;
-particle_palette = noone;
+image_blend = c_white;
 
 has_gravity = false;
 
