@@ -35,13 +35,13 @@ for (var _dir = 0; _dir < 4; _dir++) {
 // Create Trunk
 var _trunk_y_top = y + 32, _trunk_y_bottom = _trunk_y_top + 80;
 for (var _trunk_x = x + _visual_x_offset; _trunk_x < x + _visual_x_offset + 16; _trunk_x += 8) {
-	for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_top; _trunk_y += 8) {
+	for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_bottom; _trunk_y += 8) {
 		var _trunk = instance_create(_trunk_x, _trunk_y, obj_wood);
 		array_push(trunk, _trunk);
 		with (_trunk) {
 			creator = other.id;
-			visual_origin_x = x;
-			visual_origin_y = y;
+			visual_origin_x = other.x + _trunk_x;
+			visual_origin_y = other.y + _trunk_y;
 			if (y == _trunk_y_top) { 
 				main_sprite = spr_wood_tree_top;
 				fuzzing_sprite = noone;
