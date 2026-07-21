@@ -134,6 +134,8 @@ get_float_offset = function() { return 0; }
 
 part_destroyed = function() { }
 
+part_damaged = function() { }
+
 create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
 	if (_palette == noone) { _palette = get_darker_palette(main_palette); }
 	
@@ -188,6 +190,7 @@ draw_liquid = function() {
 
 // Game Action Functions
 get_damaged = function() {
+	if (instance_exists(creator)) { creator.part_damaged(id); }
 	hits--;
 	if (hits == 0) { instance_destroy(); }
 	else { play_sound(damaged_sound); }
