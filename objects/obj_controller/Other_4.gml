@@ -46,30 +46,42 @@ with (obj_wood) {
 	}
 	
 	var  _area_width = _max_area_x - _min_area_x, _area_height = _max_area_y - _min_area_y;
-	var _random_direction_sprite = (irandom(1) == 0) ? spr_wood : spr_wood_horizontal;
+	var _random_direction_sprite = (irandom(1) == 0) ? spr_wood_vertical : spr_wood_horizontal;
 	for (var _i = 0; _i < array_length(_connected_area); _i++) {
 		var _inst = _connected_area[_i];
 		if (_area_width == 8 && _area_height > 0) {
-			 if (_inst.is_connected_above) { _inst.main_sprite = spr_wood; }
-			else {
-				_inst.main_sprite = spr_wood_end;
+			 if (_inst.is_connected_above && _inst.is_connected_below) { _inst.main_sprite = spr_wood_vertical; }
+			 else if (_inst.is_connected_above) {
+				_inst.main_sprite = spr_wood_vertical_bottom;
+				_inst.main_left = (_inst.is_connected_on_left) ? 8 : 0;
+				_inst.main_top = 0;
+				_inst.fuzzing_image_index = noone;
+			 }
+			else if (_inst.is_connected_below) {
+				_inst.main_sprite = spr_wood_vertical_top;
 				_inst.main_left = (_inst.is_connected_on_left) ? 8 : 0;
 				_inst.main_top = 0;
 				_inst.fuzzing_image_index = noone;
 			}
 		}
 		else if (_area_height == 8 && _area_width > 0) {
-			 if (_inst.is_connected_on_left) { _inst.main_sprite = spr_wood_horizontal; }
-			else {
-				_inst.main_sprite = spr_wood_horizontal_end;
+			 if (_inst.is_connected_on_left && _inst.is_connected_on_right) { _inst.main_sprite = spr_wood_horizontal; }
+			 else if (_inst.is_connected_on_right) {
+				_inst.main_sprite = spr_wood_horizontal_left;
+				_inst.main_left = 0;
+				_inst.main_top = (_inst.is_connected_above) ? 8 : 0;
+				_inst.fuzzing_image_index = noone;
+			}
+			else if (_inst.is_connected_on_left) {
+				_inst.main_sprite = spr_wood_horizontal_right;
 				_inst.main_left = 0;
 				_inst.main_top = (_inst.is_connected_above) ? 8 : 0;
 				_inst.fuzzing_image_index = noone;
 			}
 		}
 		else if ( _area_width > _area_height) { _inst.main_sprite = spr_wood_horizontal; }
-		else if ( _area_height > _area_width) { _inst.main_sprite = spr_wood; }
+		else if ( _area_height > _area_width) { _inst.main_sprite = spr_wood_vertical; }
 		else { _inst.main_sprite = _random_direction_sprite; }
 	}
-	other.should_rebuild_static_area = true;
+	global.controller.should_rebuild_static_area = true;
 }

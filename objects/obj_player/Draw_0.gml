@@ -21,7 +21,7 @@ if (state != PLAYER_STATES.LADDER &&
 	}
 }
 
-use_palette_shader();
+set_shader_palette();
 if (!has_cape) { draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+_y_offset, _drawn_x_scale, 1, 0, image_blend, 1); }
 else if (cape_depth <= depth) {
 	draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
@@ -32,4 +32,3 @@ else {
 	draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
 }
 
-shader_reset();

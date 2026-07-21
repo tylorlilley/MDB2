@@ -64,9 +64,8 @@ function draw_sprite_silhoutte(_sprite_index, _image_index, _x, _y, _image_xscal
 	gpu_set_fog(false, _silhoutte_color, 0, 0);
 }
 
-function use_palette_shader() {
+function set_shader_palette() {
 	if (main_palette != PALETTES.GRAY || shine_timer == 0) {
-		shader_set(shd_palettizer);
 		var _palette_to_use = ((shine_timer == 0) ? PALETTES.ALL_WHITE : main_palette);
 		shader_set_uniform_f_array(global.controller.u_replacement_colors, global.palette_uniform_values[_palette_to_use]);
 	}

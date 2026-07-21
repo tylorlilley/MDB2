@@ -1,3 +1,2 @@
-use_palette_shader();
+set_shader_palette();
 draw_self();
-shader_reset();

@@ -10,8 +10,8 @@ for (var _i = 0; _i < array_length(_keys_at_position); _i++) {
 // Draw Full Set of Keys Once
 if (_key_position == 0) {
 	visible = true;
-	use_palette_shader();
 	
+	set_shader_palette();
 	if (_total_keys == 1) { draw_self(); }
 	else if (_total_keys == 2) {
 		draw_sprite(sprite_index, 0, x+2, y+2);
@@ -39,4 +39,3 @@ if (_key_position == 0) {
 }
 else { visible = false; }
 
-shader_reset();

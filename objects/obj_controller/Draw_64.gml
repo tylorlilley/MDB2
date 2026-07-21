@@ -132,9 +132,9 @@ var _text_y_pos = -1, _text_x_pos = 256-20;
 if (room_keys > 10) { _text_x_pos -= 8; }
 draw_text(4, _text_y_pos, _room_name);
 draw_text(_text_x_pos, _text_y_pos, "x" + string(room_keys));
-use_palette_shader()
+
 draw_sprite(spr_key_icon, 0, _text_x_pos-16, _text_y_pos+1);
-shader_reset();
+
 
 // Draw Transition
 if (transition_timer > transition_delay) {

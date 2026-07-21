@@ -176,7 +176,8 @@ shine_periodically = function() {
 draw_liquid = function() {
 	var _area_above = at_grid_position(x, y-8, 8, 8, object_index), _y_offset = (_area_above) ? 0 : 4;
 
-	use_palette_shader();
+	set_shader_palette();
+	
 	draw_sprite_part_ext(spr_box_8x8, 0, 0, _y_offset, 8, 8-_y_offset, x, y+_y_offset, 1, 1, image_blend, image_alpha);
 	if (!_area_above) {
 		var _x_offset = (anim_timer div 8 % 8);

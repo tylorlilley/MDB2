@@ -1,4 +1,4 @@
-window_set_size(256*1, 240*1);
+window_set_size(256*3, 240*3);
 game_set_speed(30, gamespeed_fps);
 depth = 10;
 global.controller = id;

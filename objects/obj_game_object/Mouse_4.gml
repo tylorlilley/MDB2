@@ -1,1 +1,1 @@
-get_damaged();
+powerfall_on();
