@@ -256,7 +256,7 @@ start_hopping = function(_should_move_horizontally = false) {
 }
 	
 start_laddering = function() {
-	var _can_ladder = can_start_laddering(), _should_ladder = (_can_ladder && (key_up || key_down));
+	var _can_ladder = can_start_laddering(), _should_ladder = (_can_ladder && ((key_up || key_down) || (global.controller.original_controls && is_falling_state())));
 	if (_should_ladder) {
 		state = PLAYER_STATES.LADDER;
 		transition_timer = 4;

@@ -4,40 +4,40 @@ enum SWITCH_COLORS {
 	YELLOW
 }
 
-C_WHITE = make_color_rgb(239, 239, 239);
-C_GRAY_LIGHT = make_color_rgb(175, 175, 175);
-C_GRAY = make_color_rgb(95, 95, 95);
-C_GRAY_DARK = make_color_rgb(71, 71, 71);
-C_NEAR_BLACK = make_color_rgb(23, 23, 23);
-C_BLACK = make_color_rgb(0, 0, 0);
+#macro C_WHITE          $EFEFEF
+#macro C_GRAY_LIGHT     $AFAFAF
+#macro C_GRAY           $5F5F5F
+#macro C_GRAY_DARK      $474747
+#macro C_NEAR_BLACK     $171717
+#macro C_BLACK          $000000
 
-C_SAND_LIGHT = make_color_rgb(241, 226, 175); // make_color_rgb(247, 231, 151);
-C_SAND = make_color_rgb(222, 202, 131); // C_YELLOW_LIGHT
-C_SAND_DARK = make_color_rgb(197, 167, 31); // C_YELLOW
+#macro C_SAND_LIGHT     $AFE2F1
+#macro C_SAND           $83CADE
+#macro C_SAND_DARK      $1FA7C5
 
-C_YELLOW_LIGHT = make_color_rgb(247, 231, 151); // make_color_rgb(247, 231, 151);
-C_YELLOW = make_color_rgb(240, 188, 60); // make_color_rgb(207, 167, 0);
-C_YELLOW_DARK = make_color_rgb(136, 112, 0); // make_color_rgb(135, 103, 0);
-C_YELLOW_DARKEST = make_color_rgb(64, 44, 0); // make_color_rgb(135, 103, 0);
+#macro C_YELLOW_LIGHT   $97E7F7
+#macro C_YELLOW         $3CBCF0
+#macro C_YELLOW_DARK    $007088
+#macro C_YELLOW_DARKEST $002C40
 
-C_BROWN_LIGHT = C_YELLOW;
-C_BROWN = C_YELLOW_DARK;
-C_BROWN_DARK = C_YELLOW_DARKEST; // make_color_rgb(71, 63, 0);
+#macro C_BROWN_LIGHT    C_YELLOW
+#macro C_BROWN          C_YELLOW_DARK
+#macro C_BROWN_DARK     C_YELLOW_DARKEST
 
-C_BLUE_DARKEST = make_color_rgb(15, 0, 191);
-C_BLUE_DARK = make_color_rgb(0, 87, 247);
-C_BLUE = make_color_rgb(39, 159, 255);
-C_BLUE_LIGHT = make_color_rgb(175, 207, 255);
+#macro C_BLUE_DARKEST   $BF000F
+#macro C_BLUE_DARK      $F75700
+#macro C_BLUE           $FF9F27
+#macro C_BLUE_LIGHT     $FFCFAF
 
-C_RED_DARK = make_color_rgb(143, 6, 0);
-C_RED = make_color_rgb(223, 23, 0);
-C_RED_LIGHT = make_color_rgb(255, 199, 207);
+#macro C_RED_DARK       $00068F
+#macro C_RED            $0017DF
+#macro C_RED_LIGHT      $CFC7FF
 
-C_GREEN_DARK = make_color_rgb(0, 71, 0);
-C_GREEN = make_color_rgb(23, 135, 0);
-C_GREEN_LIGHT = make_color_rgb(175, 255, 151);
-
-C_PINK = make_color_rgb(175, 7, 207);
+#macro C_GREEN_DARKEST  $004700
+#macro C_GREEN_DARK     $008717
+#macro C_GREEN          $2FCF1F
+#macro C_GREEN_LIGHT    $97FFAF
+#macro C_PINK           $CF07AF
 
 enum PALETTES {
 	ALL_WHITE,
@@ -77,7 +77,7 @@ global.palette_values = [
 	[C_RED_LIGHT, C_RED, C_RED_DARK, C_BLACK],
 	[C_RED, C_RED_DARK, C_BLACK, C_BLACK],
 	[C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_BLACK],
-	[C_GREEN, C_GREEN_DARK, C_BLACK, C_BLACK],
+	[C_GREEN, C_GREEN_DARK, C_GREEN_DARKEST, C_BLACK],
 	[C_SAND_LIGHT, C_SAND, C_SAND_DARK, C_BLACK],
 	[C_SAND, C_SAND_DARK, C_BLACK, C_BLACK],
 	[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
@@ -86,11 +86,6 @@ global.palette_values = [
 	[C_PINK, C_BLUE, C_BLUE_DARKEST, C_BLACK],
 	[C_BLUE, C_BLUE_DARKEST, C_BLACK, C_BLACK]
 ];
-
-global.palette_uniform_values = array_create(array_length(palette_values));
-for (var _i = 0; _i < array_length(palette_values); _i++) {
-    palette_uniform_values[_i] = translate_palette_to_uniform_values(palette_values[_i]);
-}
 
 function translate_color_to_uniform_values(_color) {
 	return [color_get_red(_color)/255, color_get_green(_color)/255, color_get_blue(_color)/255, 1];
@@ -114,6 +109,11 @@ function get_switch_palette(_switch_color) {
 }
 
 function get_darker_palette(_palette_index) {
-	if (_palette_index = PALETTES.PLAYER) { return PALETTES.BLUE_DARKER; }
+	if (_palette_index == PALETTES.PLAYER) { return PALETTES.BLUE_DARKER; }
 	return _palette_index+1;
+}
+
+global.palette_uniform_values = array_create(array_length(palette_values));
+for (var _i = 0; _i < array_length(palette_values); _i++) {
+   global.palette_uniform_values[_i] = translate_palette_to_uniform_values(palette_values[_i]);
 }
