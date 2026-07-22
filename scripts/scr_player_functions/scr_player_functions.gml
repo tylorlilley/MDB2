@@ -726,7 +726,7 @@ update_player_state = function() {
 											}
 										}
 									}
-									_inst.powerfall_on(); 
+									_inst.powerfall_on(); // Add Switching Switches you Fall on here?
 								}
 							}
 							if (_play_sound) { play_sound(snd_impact); }

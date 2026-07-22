@@ -4,40 +4,41 @@ enum SWITCH_COLORS {
 	YELLOW
 }
 
-#macro C_WHITE          $EFEFEF
-#macro C_GRAY_LIGHT     $AFAFAF
-#macro C_GRAY           $5F5F5F
-#macro C_GRAY_DARK      $474747
-#macro C_NEAR_BLACK     $171717
-#macro C_BLACK          $000000
+#macro C_WHITE          make_color_rgb(239, 239, 239)
+#macro C_GRAY_LIGHT     make_color_rgb(175, 175, 175)
+#macro C_GRAY           make_color_rgb(95, 95, 95)
+#macro C_GRAY_DARK      make_color_rgb(71, 71, 71)
+#macro C_NEAR_BLACK     make_color_rgb(23, 23, 23)
+#macro C_BLACK          make_color_rgb(0, 0, 0)
 
-#macro C_SAND_LIGHT     $AFE2F1
-#macro C_SAND           $83CADE
-#macro C_SAND_DARK      $1FA7C5
+#macro C_SAND_LIGHT     make_color_rgb(241, 226, 175)
+#macro C_SAND           make_color_rgb(222, 202, 131)
+#macro C_SAND_DARK      make_color_rgb(197, 167, 31)
 
-#macro C_YELLOW_LIGHT   $97E7F7
-#macro C_YELLOW         $3CBCF0
-#macro C_YELLOW_DARK    $007088
-#macro C_YELLOW_DARKEST $002C40
+#macro C_YELLOW_LIGHT   make_color_rgb(247, 231, 151)
+#macro C_YELLOW         make_color_rgb(240, 188, 60)
+#macro C_YELLOW_DARK    make_color_rgb(136, 112, 0)
+#macro C_YELLOW_DARKEST make_color_rgb(64, 44, 0)
 
 #macro C_BROWN_LIGHT    C_YELLOW
 #macro C_BROWN          C_YELLOW_DARK
 #macro C_BROWN_DARK     C_YELLOW_DARKEST
 
-#macro C_BLUE_DARKEST   $BF000F
-#macro C_BLUE_DARK      $F75700
-#macro C_BLUE           $FF9F27
-#macro C_BLUE_LIGHT     $FFCFAF
+#macro C_BLUE_DARKEST   make_color_rgb(15, 0, 191)
+#macro C_BLUE_DARK      make_color_rgb(0, 87, 247)
+#macro C_BLUE           make_color_rgb(39, 159, 255)
+#macro C_BLUE_LIGHT     make_color_rgb(175, 207, 255)
 
-#macro C_RED_DARK       $00068F
-#macro C_RED            $0017DF
-#macro C_RED_LIGHT      $CFC7FF
+#macro C_RED_DARK       make_color_rgb(143, 6, 0)
+#macro C_RED            make_color_rgb(223, 23, 0)
+#macro C_RED_LIGHT      make_color_rgb(255, 199, 207)
 
-#macro C_GREEN_DARKEST  $004700
-#macro C_GREEN_DARK     $008717
-#macro C_GREEN          $2FCF1F
-#macro C_GREEN_LIGHT    $97FFAF
-#macro C_PINK           $CF07AF
+#macro C_GREEN_DARKEST  make_color_rgb(0, 71, 0)
+#macro C_GREEN_DARK     make_color_rgb(23, 135, 0)
+#macro C_GREEN          make_color_rgb(31, 207, 47)
+#macro C_GREEN_LIGHT    make_color_rgb(175, 255, 151)
+
+#macro C_PINK           make_color_rgb(175, 7, 207)
 
 enum PALETTES {
 	ALL_WHITE,
