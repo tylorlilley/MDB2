@@ -12,6 +12,7 @@ step_sound = noone;
 
 depth = 10;
 visible = false;
+should_draw = true;
 
 main_sprite = spr_box_16x16;
 outline_sprite = noone;
@@ -60,7 +61,9 @@ update_connected_graphics = function() {
 	with (obj_ladder) { get_connections_for_graphics(); }
 }
 
-draw_static_area_tile = function() {
+draw_static_area_tile = function() {	
+	if (!should_draw) { return; }
+	
 	// Determine Offset
 	var _x_offset = -32, _y_offset = -32;
 	if (!is_connected_above && !is_connected_on_left && is_connected_below && is_connected_on_right) { // Top Left Corner
@@ -133,28 +136,28 @@ draw_static_area_tile = function() {
 		// Draw Main Image
 		set_shader_palette();
 		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (fuzzing_sprite != noone) { draw_sprite_part(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y); }
+		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		gpu_set_blendmode(bm_normal);
 		
 		// Additionally Draw Inner Corners	
-		if (!is_connected_top_right && is_connected_above && is_connected_on_right) { draw_sprite_part(outline_sprite, 0, 32, 0, 8, 8, x, y); }
-		if (!is_connected_top_left && is_connected_above && is_connected_on_left) { draw_sprite_part(outline_sprite, 0, 24, 0, 8, 8, x, y); }
-		if (!is_connected_bottom_right && is_connected_below && is_connected_on_right) { draw_sprite_part(outline_sprite, 0, 32, 8, 8, 8, x, y); }
-		if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part(outline_sprite, 0, 24, 8, 8, 8, x, y); }
+		if (!is_connected_top_right && is_connected_above && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, 0, 32, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		if (!is_connected_top_left && is_connected_above && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, 0, 24, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		if (!is_connected_bottom_right && is_connected_below && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, 0, 32, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, 0, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		
 		// Use Outline as Mask to Draw
 		gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
-		draw_sprite_part(outline_sprite, 1, _x_offset, _y_offset, 8, 8, x, y);
+		draw_sprite_part_ext(outline_sprite, 1, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
 		gpu_set_blendmode(bm_normal);
 	
 		// Draw Outline
-		 { draw_sprite_part(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y); }
+		 { draw_sprite_part_ext(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 	}
 	else {
 		// Draw Without Considering Outline
 		set_shader_palette();
 		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (fuzzing_sprite != noone) { draw_sprite_part(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y); }
+		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 	}
 
 	gpu_set_blendmode(bm_normal);

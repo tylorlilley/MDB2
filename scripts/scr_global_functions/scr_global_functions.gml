@@ -21,6 +21,7 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 	return _returned_instances;
 }
 
+// Checks if a single instance is at every position - doesn't count as an overlap of two instances with the same object index, like two ladders.
 function instances_at_grid_position_exact(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object) {
 	var _initial_instances = instances_at_grid_position(_x, _y, 8, 8, _object_index);
 	var _instances_at_grid_position = [];

@@ -294,7 +294,7 @@ can_ladder_down = function(_closest_ladder) {
 }
 
 can_start_laddering = function() {
-	return at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
+	return at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
 }
 
 left_value = function() {
