@@ -1047,7 +1047,7 @@
   "name":"rm_w3_1",
   "parent":{
     "name":"Translated Rooms",
-    "path":"folders/Translated Rooms.yy",
+    "path":"folders/Rooms/Translated Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

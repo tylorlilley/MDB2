@@ -17,7 +17,6 @@
     {"$GMFolder":"","%Name":"Static Areas","folderPath":"folders/Objects/Static Areas.yy","name":"Static Areas","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Switch Blocks","folderPath":"folders/Objects/Static Areas/Switch Blocks.yy","name":"Switch Blocks","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Imported","folderPath":"folders/Rooms/Imported.yy","name":"Imported","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sounds","folderPath":"folders/Sounds.yy","name":"Sounds","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -38,7 +37,7 @@
     {"$GMFolder":"","%Name":"Switch Block","folderPath":"folders/Sprites/Solids/Switch Block.yy","name":"Switch Block","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Tile","folderPath":"folders/Sprites/Solids/Tile.yy","name":"Tile","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Wood","folderPath":"folders/Sprites/Solids/Wood.yy","name":"Wood","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Translated Rooms","folderPath":"folders/Translated Rooms.yy","name":"Translated Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Translated Rooms","folderPath":"folders/Rooms/Translated Rooms.yy","name":"Translated Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[
     {"link":"io.gamemaker.sdfshaders-1.0.0","name":"io.gamemaker.sdfshaders-1.0.0","path":"io.gamemaker.sdfshaders-1.0.0.yyp",},
