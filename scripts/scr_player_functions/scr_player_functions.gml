@@ -524,7 +524,8 @@ update_player_state = function() {
 						
 					// Switch to New State Based on Player Input
 					if (transition_timer == 0) {
-						if (key_left || key_right) {
+						if (start_laddering()) { }
+						else if (key_left || key_right) {
 							var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
 							var _more_ceiling_objects = (key_left) ? get_left_ceiling_objects() : get_right_ceiling_objects(), _under_more_ceiling = array_length(_more_ceiling_objects) != 0;
 							var _climbable_objects = (is_left) ? get_left_climbable_objects([id]) : get_right_climbable_objects([id]);

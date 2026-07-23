@@ -37,8 +37,8 @@ initialize_tree = function() {
 
 	// Create Trunk
 	var _trunk_y_top = y + 32, _trunk_y_bottom = _trunk_y_top + 80, _max_trunk_y = _trunk_y_top;
-	for (var _trunk_x = x + _visual_x_offset; _trunk_x < x + _visual_x_offset + 16; _trunk_x += 8) {
-		for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_bottom; _trunk_y += 8) {
+	for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_bottom; _trunk_y += 8) {
+		for (var _trunk_x = x + _visual_x_offset; _trunk_x < x + _visual_x_offset + 16; _trunk_x += 8) {
 			if (at_grid_position(_trunk_x, _trunk_y, 8, 8, obj_static_area)) { continue; }
 			if (_trunk_y >= room_height) { break; }
 			

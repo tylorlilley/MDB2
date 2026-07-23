@@ -58,7 +58,7 @@ with (obj_switch) {
 	if (!_on_ground) { instance_destroy(); }
 	else {
 		_pressed_on = array_length(get_pressing_objects()) > 0;
-		// if (_pressed_on && !pressed) { press_switch(); }
+		if (_pressed_on && !pressed) { press_switch(); }
 	}
 }
 // Update Switch Graphics and Sound

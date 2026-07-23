@@ -191,6 +191,7 @@ draw_liquid = function() {
 // Game Action Functions
 get_damaged = function() {
 	if (instance_exists(creator)) { creator.part_damaged(id); }
+	if (hits >= 1) { global.controller.screen_shake(); }
 	hits--;
 	if (hits == 0) { instance_destroy(); }
 	else { play_sound(damaged_sound); }
@@ -230,7 +231,6 @@ powerfall_on = function() {
 
 powerfly_into = function() {
 	get_damaged();
-	global.controller.screen_shake();
 	if (is_connected) {
 		var _connected_instances = get_connected_instances([id]);
 		for (var _i = 0; _i < array_length(_connected_instances); _i++) {
