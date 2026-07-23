@@ -1,19 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_switch_block_blue_off",
+  "%Name":"obj_switch_block_outline_yellow_off",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_switch_block_blue_off",
+  "name":"obj_switch_block_outline_yellow_off",
   "overriddenProperties":[],
   "parent":{
     "name":"Switch Blocks",
     "path":"folders/Objects/Static Areas/Switch Blocks.yy",
   },
   "parentObjectId":{
-    "name":"obj_switch_block_blue_on",
-    "path":"objects/obj_switch_block_blue_on/obj_switch_block_blue_on.yy",
+    "name":"obj_switch_block_outline_yellow_on",
+    "path":"objects/obj_switch_block_outline_yellow_on/obj_switch_block_outline_yellow_on.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_editor_switch_block_off_blue",
-    "path":"sprites/spr_editor_switch_block_off_blue/spr_editor_switch_block_off_blue.yy",
+    "name":"spr_editor_switch_block_off_yellow",
+    "path":"sprites/spr_editor_switch_block_off_yellow/spr_editor_switch_block_off_yellow.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_8x8",

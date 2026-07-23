@@ -15,3 +15,20 @@ get_pressing_objects = function() {
 	}
 	return _pressing_instances;
 }
+
+press_switch = function() {
+	var _toggle_blocks = true;
+	with (obj_switch) {
+		if (id != other.id && switch_color == other.switch_color && pressed != other.pressed && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; global.controller.blocked_switch_colors[switch_color] = true; }
+	}
+	
+	if (_toggle_blocks) {
+		with (obj_switch_block_outline) { 
+			if (switch_color == other.switch_color) { toggle_solid(true); }
+		}
+		with (obj_switch_block_outline) {
+			if (switch_color == other.switch_color) { solid_obj.get_connections_for_graphics(); }
+		}
+		with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
+	}
+}

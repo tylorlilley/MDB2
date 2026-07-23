@@ -181,11 +181,13 @@ update_controls = function() {
 	
 // State Updating Functions
 start_falling = function(_is_dazed = false) {
-	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
-	fall_timer = 0;
-	recoil_timer = 0;
-	grid_move_down(2);
-	fall_sound = audio_play_sound(snd_player_fall, 1, false);
+	if (!start_laddering()) {
+		state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
+		fall_timer = 0;
+		recoil_timer = 0;
+		grid_move_down(2);
+		fall_sound = audio_play_sound(snd_player_fall, 1, false);
+	}
 }
 	
 start_winning = function() {
@@ -256,7 +258,7 @@ start_hopping = function(_should_move_horizontally = false) {
 }
 	
 start_laddering = function() {
-	var _can_ladder = can_start_laddering(), _should_ladder = (_can_ladder && ((key_up || key_down) || (global.controller.original_controls && is_falling_state())));
+	var _can_ladder = can_start_laddering(), _should_ladder = (_can_ladder && ((key_up || key_down || global.controller.original_controls)));
 	if (_should_ladder) {
 		state = PLAYER_STATES.LADDER;
 		transition_timer = 4;
@@ -294,7 +296,7 @@ can_ladder_down = function(_closest_ladder) {
 }
 
 can_start_laddering = function() {
-	return at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
+	return (!is_crushed_state() && at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder));
 }
 
 left_value = function() {
@@ -365,8 +367,7 @@ update_player_state = function() {
 			case PLAYER_STATES.SWIM_FORWARD: {
 				swim_timer++;
 
-				if (start_laddering()) { }
-				else if (is_on_ground()) { start_standing(); }
+				if (is_on_ground()) { start_standing(); }
 				// else if (fully_submerged()) { start_surfacing(); }
 				else if (!is_partially_submerged()) { start_falling(); }
 				else {
@@ -416,7 +417,7 @@ update_player_state = function() {
 				grid_move_to(_prev_x, _prev_y);
 
 				// Determine New State
-				if (start_laddering()) { } // Just do the Ladder Stuff
+				if (!global.controller.original_controls && start_laddering()) { } // Just do the Ladder Stuff
 				else if (is_on_ground()) { start_standing(); }
 				else if (_on_hop_height_ground && _can_walk && _horizontal_input) {
 					air_walk = true;
@@ -453,10 +454,7 @@ update_player_state = function() {
 			case PLAYER_STATES.TURN:
 			case PLAYER_STATES.POWERCROUCH: {
 				// Update New State
-				if (state != PLAYER_STATES.CRUSHED_STAND && state != PLAYER_STATES.CRUSHED_FORWARD && start_laddering()) { }
-				else if (!is_on_ground()) {
-					start_falling();
-				}
+				if (!is_on_ground()) { start_falling(); }
 				else {
 					// Update Whether Crushed By Objects
 					var _ceiling_objects = get_ceiling_objects(), _crushed_by_object = false;
@@ -762,8 +760,7 @@ update_player_state = function() {
 			}
 			case PLAYER_STATES.RECOIL: {
 				// Decide New State
-				if (start_laddering()) { }
-				else if (is_on_ground()) { start_standing(); }
+				if (is_on_ground()) { start_standing(); }
 				else if (is_under_ceiling() || recoil_timer >= 2) { start_falling(); fall_timer = -8; }
 				else {
 					// Keep Recoiling
@@ -1246,7 +1243,12 @@ update_player_collisions_at_position = function() {
 			virtual_y = y;
 			start_standing();
 		}
-		
-		// TODO: Move switch overlap toggle here
+	}
+	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y+8, sprite_get_width(sprite_index), 8);
+	for (var _i = 0; _i < array_length(_fully_overlapping_switches); _i++) {
+		var _inst = _fully_overlapping_switches[_i];
+		if (is_a(_inst, obj_switch) && !_inst.pressed) {
+			_inst.press_switch();
+		}
 	}
 }

@@ -58,4 +58,4 @@ rebuild_static_area_surface = function() {
 	should_rebuild_static_area = false;
 }
 
-transition_room(rm_w2_1);
+transition_room(rm_forest_background);

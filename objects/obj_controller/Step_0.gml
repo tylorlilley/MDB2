@@ -49,40 +49,23 @@ with (obj_lava) {
 	anim_timer = anim_timer % (8 * 8);
 }
 // Update Switch Logic
-var _blocked_color = [false, false, false];
+blocked_switch_colors = [false, false, false, false];
 with (obj_switch) {
 	prev_pressed = pressed;
 	var _on_ground = is_fully_on_ground();
 	if (!_on_ground) { instance_destroy(); }
 	else {
 		_pressed_on = array_length(get_pressing_objects()) > 0;
-		if (_pressed_on && !pressed) {
-			var _toggle_blocks = true;
-			with (obj_switch) {
-				if (id != other.id && switch_color == other.switch_color && pressed != other.pressed && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; _blocked_color[switch_color] = true; }
-			}
-	
-			if (_toggle_blocks) {
-				with (obj_switch_block_outline) { 
-					if (switch_color == other.switch_color) { toggle_solid(true); }
-				}
-				with (obj_switch_block_outline) {
-					if (switch_color == other.switch_color) { solid_obj.get_connections_for_graphics(); }
-				}
-				with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
-			}
-		}
+		// if (_pressed_on && !pressed) { press_switch(); }
 	}
 }
 // Update Switch Graphics and Sound
 with (obj_switch) {
-	if (_blocked_color[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
+	if (global.controller.blocked_switch_colors[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
 	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
 	else if (!prev_pressed && image_index != 0) { play_sound(snd_soft_thud); image_index = 0; }
 }
-with (obj_key) {
-	shine_periodically();
-}
+with (obj_key) { shine_periodically(); }
 with (obj_door) {
 	if (image_index == 0) {
 		shine_periodically();
