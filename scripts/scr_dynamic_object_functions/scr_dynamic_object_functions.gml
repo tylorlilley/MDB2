@@ -36,6 +36,12 @@ get_float_offset = function() {
 	return _y_offset;
 }
 
+update_virtual_y_offset = function() {
+	if (!is_grounded_state()) { return virtual_y_offset; }
+	
+	virtual_y_offset = get_switch_offset() + get_float_offset();
+}
+
 spawn_contents = function() {
 	if (contents != noone) {
 		instance_activate_object(contents);

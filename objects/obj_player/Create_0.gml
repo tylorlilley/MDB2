@@ -26,6 +26,7 @@ depth = -2;
 cape_depth = 1;
 sprite_index = spr_player_idle;
 original_palette = PALETTES.PLAYER;
+main_palette = original_palette;
 particle_palette = PALETTES.BLUE;
 powered_palette = PALETTES.RED;
 death_sprite = spr_player_dying_particle;

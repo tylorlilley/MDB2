@@ -19,6 +19,8 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
 		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff / x_transition_timer);
 		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff / y_transition_timer);
+		if (y_transition_speed >= 0) { _y_speed = y_transition_speed; }
+		if (x_transition_speed >= 0) { _x_speed = x_transition_speed; }
 		if (abs(_x_speed) > 0 && abs(_x_speed) < 1) { _x_speed = (x_transition_timer % 2 == 0) ? sign(_x_speed) : 0; }
 		if (abs(_y_speed) > 0 && abs(_y_speed) < 1) { _y_speed = (y_transition_timer % 2 == 0) ?  sign(_y_speed) : 0; }
 		virtual_x += _x_speed;
@@ -130,6 +132,8 @@ with (obj_player) {
 	if (ring_out_timer == 8) { if (can_be_controlled) { play_sound(snd_player_offscreen); } }
 	else if (ring_out_timer == 40) { instance_destroy(); }
 }
+
+with (obj_dynamic_object) { update_virtual_y_offset(); }
 
 // Handle Transition Code
 var _controllable_player_exists = false;

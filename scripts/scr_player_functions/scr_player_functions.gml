@@ -251,6 +251,7 @@ start_walking = function(_is_crushed = false) {
 }
 	
 start_hopping = function(_should_move_horizontally = false) {
+	virtual_y_offset = get_switch_offset();
 	play_sound(snd_player_jump);
 	state = (_should_move_horizontally) ? PLAYER_STATES.HOP_UP_FORWARD: PLAYER_STATES.HOP_UP
 	if (_should_move_horizontally) { grid_move_horizontal(left_value()); }
@@ -323,6 +324,21 @@ update_player_state = function() {
 	
 	// While Transitioning
 	if (transition_timer > 0) {
+		// Update transition speeds
+		y_transition_speed = -1;
+		x_transition_speed = -1;
+		if (is_hop_up_state()) {
+			if (transition_timer <= 1) { y_transition_speed = 0; }
+			else if (transition_timer >= 6) { y_transition_speed = -2; }
+			else { y_transition_speed = -1; }
+		}
+		else if (is_hop_down_state()) {
+			if (transition_timer <= 1) { y_transition_speed = 2; }
+			else if (transition_timer >= 6) { y_transition_speed = 0; }
+			else { y_transition_speed = 1; }
+		}
+		
+		// Do things during a state transition (other than moving virtual visuals)
 		switch (state) {
 			case PLAYER_STATES.SWIM_FORWARD: { swim_timer ++; break; }
 			case PLAYER_STATES.POWERFLY: { fly_timer++; break; }

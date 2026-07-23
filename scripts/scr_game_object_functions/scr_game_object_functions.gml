@@ -137,7 +137,7 @@ part_destroyed = function() { }
 part_damaged = function() { }
 
 create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
-	if (_palette == noone) { _palette = get_darker_palette(main_palette); }
+	if (_palette == noone) { _palette = (particle_palette == noone) ? get_darker_palette(main_palette) : particle_palette; }
 	
 	var  _move_left = irandom(1), _particles = [];
 	for (var _i = 0; _i < _total_particles; _i++) {

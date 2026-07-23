@@ -4,67 +4,73 @@ trunk = [];
 main_palette = PALETTES.BROWN;
 shine_timer = 1;
 
-depth = 9;
+depth = 30;
 sprite_index = spr_wood_tree_extra_bottom;
 image_speed = 0;
 image_index = 0;
 
-// Create Leaves
-var _visual_x_offset = 32, _visual_y_offset = 64;
-var _grid_x = x + _visual_x_offset, _grid_y = y + _visual_y_offset;
-for (var _dir = 0; _dir < 4; _dir++) {
-	if (_dir == 0 || _dir == 2) { _grid_x = x + _visual_x_offset + 8; }
-	else { _grid_x = x + _visual_x_offset; }
-	if (_dir == 2 || _dir == 3) { _grid_y = y + _visual_y_offset + 8; }
-	else { _grid_y = y + _visual_y_offset; }
+initialize_tree = function() {
+	// Create Leaves
+	var _visual_x_offset = 32, _visual_y_offset = 64;
+	var _grid_x = x + _visual_x_offset, _grid_y = y + _visual_y_offset;
+	for (var _dir = 0; _dir < 4; _dir++) {
+		if (_dir == 0 || _dir == 2) { _grid_x = x + _visual_x_offset + 8; }
+		else { _grid_x = x + _visual_x_offset; }
+		if (_dir == 2 || _dir == 3) { _grid_y = y + _visual_y_offset + 8; }
+		else { _grid_y = y + _visual_y_offset; }
 	
-	array_push(leaves, instance_create(_grid_x + 16, _grid_y + 16, obj_leaf));
-	array_push(leaves, instance_create(_grid_x - 16, _grid_y, obj_leaf));
-	array_push(leaves, instance_create(_grid_x + 16, _grid_y - 32, obj_leaf));
-	array_push(leaves, instance_create(_grid_x - 16, _grid_y - 32, obj_leaf));
-	array_push(leaves, instance_create(_grid_x, _grid_y - 48, obj_leaf));
-	array_push(leaves, instance_create(_grid_x + 16, _grid_y - 48, obj_leaf));
-	array_push(leaves, instance_create(_grid_x - 16, _grid_y - 48, obj_leaf));
-	array_push(leaves, instance_create(_grid_x + 32, _grid_y - 48, obj_leaf));
-	array_push(leaves, instance_create(_grid_x - 32, _grid_y - 48, obj_leaf));
-	array_push(leaves, instance_create(_grid_x, _grid_y - 64, obj_leaf));
-	array_push(leaves, instance_create(_grid_x + 16, _grid_y - 64, obj_leaf));
-	array_push(leaves, instance_create(_grid_x - 16, _grid_y - 64, obj_leaf));
-}
+		array_push(leaves, instance_create(_grid_x + 16, _grid_y + 16, obj_leaf));
+		array_push(leaves, instance_create(_grid_x - 16, _grid_y, obj_leaf));
+		array_push(leaves, instance_create(_grid_x + 16, _grid_y - 32, obj_leaf));
+		array_push(leaves, instance_create(_grid_x - 16, _grid_y - 32, obj_leaf));
+		array_push(leaves, instance_create(_grid_x, _grid_y - 48, obj_leaf));
+		array_push(leaves, instance_create(_grid_x + 16, _grid_y - 48, obj_leaf));
+		array_push(leaves, instance_create(_grid_x - 16, _grid_y - 48, obj_leaf));
+		array_push(leaves, instance_create(_grid_x + 32, _grid_y - 48, obj_leaf));
+		array_push(leaves, instance_create(_grid_x - 32, _grid_y - 48, obj_leaf));
+		array_push(leaves, instance_create(_grid_x, _grid_y - 64, obj_leaf));
+		array_push(leaves, instance_create(_grid_x + 16, _grid_y - 64, obj_leaf));
+		array_push(leaves, instance_create(_grid_x - 16, _grid_y - 64, obj_leaf));
+	}
 
-// Create Trunk
-var _trunk_y_top = y + 32, _trunk_y_bottom = _trunk_y_top + 80;
-for (var _trunk_x = x + _visual_x_offset; _trunk_x < x + _visual_x_offset + 16; _trunk_x += 8) {
-	for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_bottom; _trunk_y += 8) {
-		var _trunk = instance_create(_trunk_x, _trunk_y, obj_wood);
-		array_push(trunk, _trunk);
-		with (_trunk) {
-			creator = other.id;
-			visual_origin_x = other.x + _trunk_x;
-			visual_origin_y = other.y + _trunk_y;
-			if (y == _trunk_y_top) { 
-				main_sprite = spr_wood_tree_top;
-				fuzzing_sprite = noone;
-				outline_sprite = noone;
+	// Create Trunk
+	var _trunk_y_top = y + 32, _trunk_y_bottom = _trunk_y_top + 80, _max_trunk_y = _trunk_y_top;
+	for (var _trunk_x = x + _visual_x_offset; _trunk_x < x + _visual_x_offset + 16; _trunk_x += 8) {
+		for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_bottom; _trunk_y += 8) {
+			if (instances_at_grid_position(_trunk_x, _trunk_y, 8, 8, obj_static_area) > 0) { continue; }
+			
+			_max_trunk_y = _trunk_y;
+			var _trunk = instance_create(_trunk_x, _trunk_y, obj_wood);
+			array_push(trunk, _trunk);
+			with (_trunk) {
+				creator = other.id;
+				visual_origin_x = other.x + _trunk_x;
+				visual_origin_y = other.y + _trunk_y;
+				if (y == _trunk_y_top) { 
+					main_sprite = spr_wood_tree_top;
+					fuzzing_sprite = noone;
+					outline_sprite = noone;
+				}
+				else if (y == _trunk_y_bottom-8) {
+					main_sprite = spr_wood_tree_bottom;
+					fuzzing_sprite = noone;
+					outline_sprite = noone;
+				}
+				else { main_sprite = spr_wood_vertical; }
 			}
-			else if (y == _trunk_y_bottom-8) {
-				main_sprite = spr_wood_tree_bottom;
-				fuzzing_sprite = noone;
-				outline_sprite = noone;
-			}
-			else { main_sprite = spr_wood_vertical; }
 		}
 	}
-}
+	y = _max_trunk_y - sprite_get_height(sprite_index);
 
 
-// Initialize Leaves
-for (var _i = 0; _i < array_length(leaves); _i++) {
-	var _leaf = leaves[_i];
-	with (_leaf) {
-		main_palette = PALETTES.YELLOW;
-		particle_palette = PALETTES.YELLOW;
-		creator = other.id;
+	// Initialize Leaves
+	for (var _i = 0; _i < array_length(leaves); _i++) {
+		var _leaf = leaves[_i];
+		with (_leaf) {
+			main_palette = PALETTES.YELLOW;
+			particle_palette = PALETTES.YELLOW;
+			creator = other.id;
+		}
 	}
 }
 

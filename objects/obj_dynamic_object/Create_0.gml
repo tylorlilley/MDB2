@@ -5,9 +5,12 @@ state = STATES.FALLING;
 
 virtual_x = x;
 virtual_y = y;
+virtual_y_offset = 0;
+transition_timer = 0;
 x_transition_timer = 0;
 y_transition_timer = 0;
-transition_timer = 0;
+x_transition_speed = -1;
+y_transition_speed = -1;
 
 fall_timer = 0;
 swim_timer = 0;

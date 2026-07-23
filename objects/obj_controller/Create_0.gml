@@ -11,7 +11,6 @@ transition_duration = 24;
 transition_hold = 12;
 transition_delay = 40;
 room_seed = random_get_seed();
-main_palette = PALETTES.YELLOW;
 shine_timer = 1;
 
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
@@ -53,8 +52,12 @@ rebuild_static_area_surface = function() {
 	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); }
 	static_area_surface = surface_create(room_width, room_height);
 	surface_set_target(static_area_surface);
+	shader_set(shd_palettizer);
 	draw_clear_alpha(0, 0);
+	
 	with (obj_static_area) { draw_static_area_tile(); }
+	
+	shader_reset();
 	surface_reset_target();
 	should_rebuild_static_area = false;
 }
