@@ -230,6 +230,7 @@ powerfall_on = function() {
 
 powerfly_into = function() {
 	get_damaged();
+	global.controller.screen_shake();
 	if (is_connected) {
 		var _connected_instances = get_connected_instances([id]);
 		for (var _i = 0; _i < array_length(_connected_instances); _i++) {

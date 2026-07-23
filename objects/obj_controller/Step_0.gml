@@ -77,6 +77,7 @@ with (obj_door) {
 			create_sparkles(8 + irandom(8));
 			image_index = 1;
 			play_sound(snd_door_unlock);
+			global.controller.screen_shake();
 		}
 	}
 }

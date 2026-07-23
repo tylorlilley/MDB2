@@ -12,6 +12,7 @@ transition_hold = 12;
 transition_delay = 40;
 room_seed = random_get_seed();
 shine_timer = 1;
+screen_timer = 0;
 
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 
@@ -56,10 +57,13 @@ rebuild_static_area_surface = function() {
 	draw_clear_alpha(0, 0);
 	
 	with (obj_static_area) { draw_static_area_tile(); }
-	
-	shader_reset();
+
 	surface_reset_target();
 	should_rebuild_static_area = false;
+}
+
+screen_shake = function() {
+	screen_timer = 8;
 }
 
 transition_room(rm_forest_background);

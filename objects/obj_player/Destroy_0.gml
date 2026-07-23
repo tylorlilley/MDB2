@@ -14,6 +14,7 @@ if (x > 0 && y > 0 && x < room_width && y < room_height) {
 }
 
 // Other Player Death Stuff
+if (can_be_controlled) { global.controller.screen_shake(); }
 play_sound(snd_player_death);
 audio_stop_sound(fall_sound);
 if (last_x != -999 && last_y != -999) {
