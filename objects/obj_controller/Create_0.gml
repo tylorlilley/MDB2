@@ -46,6 +46,10 @@ transition_room = function(_new_room, _new_room_seed = noone) {
 	random_set_seed(room_seed);	
 	should_rebuild_static_area = true;
 	initialize_room(_new_room);
+	if (room != _new_room) {
+		// TODO: Play Music Here
+		build_background(WORLDS.FOREST);
+	}
 	room_goto(_new_room);
 }
 
@@ -66,4 +70,4 @@ screen_shake = function() {
 	screen_timer = 8;
 }
 
-transition_room(rm_forest_background);
+transition_room(rm_w2_1);
