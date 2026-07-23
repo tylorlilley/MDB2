@@ -7,6 +7,6 @@ function play_sound(_snd_index) {
 }
 
 function stop_music() {
-	audio_stop_sound(snd_bgm_w1);
+	audio_stop_sound(bgm_w1);
 	audio_stop_sound(snd_player_takeoff);
 }

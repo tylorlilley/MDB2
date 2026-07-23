@@ -1,9 +1,9 @@
 event_inherited();
 
-step_sound = snd_step_bubble;
+step_sound = snd_step_rock;
 
-hits = 0;
-main_sprite = spr_tile;
-main_palette = PALETTES.RED;
-outline_sprite = spr_tile_outline;
+hits = 3;
+main_palette = PALETTES.GRAY;
+outline_sprite = spr_brick_outline;
+main_sprite = spr_brick;
 walk_particles = 0;

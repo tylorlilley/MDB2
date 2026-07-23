@@ -226,11 +226,11 @@ is_under_ceiling = function() {
 }
 
 is_blocked_on_left = function(_ignored_objects = []) {
-	return (array_length(get_left_wall_objects(_ignored_objects)) > 0 || x <= ((global.controller.original_controls) ? 8 : 0));
+	return (array_length(get_left_wall_objects(_ignored_objects)) > 0 || x <= ((global.controller.original_controls) ? 16 : 0));
 }
 
 is_blocked_on_right = function(_ignored_objects = []) {
-	var _max_x = (room_width - sprite_get_width(sprite_index));
+	var _max_x = (room_width - 8 - sprite_get_width(sprite_index));
 	if (global.controller.original_controls) { _max_x -= 8; }
 	return (array_length(get_right_wall_objects(_ignored_objects)) > 0 || x >= _max_x);
 }

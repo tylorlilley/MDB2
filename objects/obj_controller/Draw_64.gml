@@ -4,6 +4,8 @@ switch(room) {
 	case rm_new_1_1: { _room_name = "Back Below the Pier"; break; }
 	case rm_new_1_2: { _room_name = "One Way Up"; break; }
 	case rm_new_1_3: { _room_name = "Many Ways Down"; break; }
+	
+	case rm_w2_1: { _room_name = "The Great Gate"; break; }
 	/*
 	// Original Game
 	case rm_old_1_1: { _room_name = "Island Shore"; break; }

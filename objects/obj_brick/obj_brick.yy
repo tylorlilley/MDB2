@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_editor_tile",
-    "path":"sprites/spr_editor_tile/spr_editor_tile.yy",
+    "name":"spr_editor_brick",
+    "path":"sprites/spr_editor_brick/spr_editor_brick.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_8x8",

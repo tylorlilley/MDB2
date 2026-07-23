@@ -1,3 +1,7 @@
+// Set Background
+build_background(WORLDS.FOREST);
+play_music(WORLDS.BEACH);
+	
 // Set Palettes
 with (obj_switch) { main_palette = get_switch_palette(switch_color); }
 with (obj_switch_block_outline) {

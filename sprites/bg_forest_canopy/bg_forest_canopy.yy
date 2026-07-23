@@ -2,7 +2,7 @@
   "$GMSprite":"v2",
   "%Name":"bg_forest_canopy",
   "bboxMode":0,
-  "bbox_bottom":95,
+  "bbox_bottom":103,
   "bbox_left":0,
   "bbox_right":0,
   "bbox_top":0,
@@ -16,7 +16,7 @@
   ],
   "gridX":0,
   "gridY":0,
-  "height":96,
+  "height":104,
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"6e0ecd5c-b7cf-4b88-a68a-58f87b61b27d","blendMode":0,"displayName":"default","isLocked":false,"name":"6e0ecd5c-b7cf-4b88-a68a-58f87b61b27d","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
