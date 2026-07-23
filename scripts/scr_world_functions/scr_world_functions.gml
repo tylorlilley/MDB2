@@ -8,6 +8,18 @@ enum WORLDS {
 
 function build_background(_world) {
 	switch(_world) {
+		case WORLDS.BEACH: {
+			// BG Sky Layer
+			var _sky_layer = layer_create(100, "Beach_Sky");
+			var _sky_bg = layer_background_create(_sky_layer, bg_sky);
+			layer_background_htiled(_sky_layer, true);
+			layer_background_vtiled(_sky_layer, true);
+			layer_hspeed(_forest_canopy_bg, 0.125);
+			layer_vspeed(_forest_canopy_bg, 0.038);
+			layer_set_visible(_sky_layer, visible);
+			
+			break;
+		}
 		case WORLDS.FOREST: {
 			// Background Leaves Layer
 			var _forest_leaves_layer = layer_create(100, "Forest_Leaves");
