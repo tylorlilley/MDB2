@@ -17,6 +17,7 @@ shine_timer = 1;
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 
 frame_sounds = [];
+palettes_init();
 
 initialize_room = function(_new_room) {
 	room_keys = 0;

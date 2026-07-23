@@ -64,29 +64,37 @@ enum PALETTES {
 	PORTAL_DARK
 }
 
-global.palette_values = [
-	[C_WHITE, C_WHITE, C_WHITE, C_WHITE],
-	[C_WHITE, C_GRAY_LIGHT, C_GRAY, C_BLACK],
-	[C_GRAY_LIGHT, C_GRAY, C_GRAY_DARK, C_BLACK],
-	[C_GRAY, C_GRAY_DARK, C_NEAR_BLACK, C_BLACK],
-	[C_YELLOW_LIGHT, C_YELLOW, C_YELLOW_DARK, C_BLACK],
-	[C_YELLOW, C_YELLOW_DARK, C_BROWN_DARK, C_BLACK],
-	[C_YELLOW_DARK, C_BROWN_DARK, C_BLACK, C_BLACK],
-	[C_BLUE_LIGHT, C_BLUE, C_BLUE_DARK, C_BLACK],
-	[C_BLUE, C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK],
-	[C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK, C_BLACK],
-	[C_RED_LIGHT, C_RED, C_RED_DARK, C_BLACK],
-	[C_RED, C_RED_DARK, C_BLACK, C_BLACK],
-	[C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_BLACK],
-	[C_GREEN, C_GREEN_DARK, C_GREEN_DARKEST, C_BLACK],
-	[C_SAND_LIGHT, C_SAND, C_SAND_DARK, C_BLACK],
-	[C_SAND, C_SAND_DARK, C_BLACK, C_BLACK],
-	[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
-	[C_BROWN, C_BROWN_DARK, C_BLACK, C_BLACK],
-	[C_WHITE, C_BLUE, C_BLUE_DARKEST, C_BLACK],
-	[C_PINK, C_BLUE, C_BLUE_DARKEST, C_BLACK],
-	[C_BLUE, C_BLUE_DARKEST, C_BLACK, C_BLACK]
-];
+function palettes_init() {
+	global.palette_values = [
+		[C_WHITE, C_WHITE, C_WHITE, C_WHITE],
+		[C_WHITE, C_GRAY_LIGHT, C_GRAY, C_BLACK],
+		[C_GRAY_LIGHT, C_GRAY, C_GRAY_DARK, C_BLACK],
+		[C_GRAY, C_GRAY_DARK, C_NEAR_BLACK, C_BLACK],
+		[C_YELLOW_LIGHT, C_YELLOW, C_YELLOW_DARK, C_BLACK],
+		[C_YELLOW, C_YELLOW_DARK, C_BROWN_DARK, C_BLACK],
+		[C_YELLOW_DARK, C_BROWN_DARK, C_BLACK, C_BLACK],
+		[C_BLUE_LIGHT, C_BLUE, C_BLUE_DARK, C_BLACK],
+		[C_BLUE, C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK],
+		[C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK, C_BLACK],
+		[C_RED_LIGHT, C_RED, C_RED_DARK, C_BLACK],
+		[C_RED, C_RED_DARK, C_BLACK, C_BLACK],
+		[C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_BLACK],
+		[C_GREEN, C_GREEN_DARK, C_GREEN_DARKEST, C_BLACK],
+		[C_SAND_LIGHT, C_SAND, C_SAND_DARK, C_BLACK],
+		[C_SAND, C_SAND_DARK, C_BLACK, C_BLACK],
+		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
+		[C_BROWN, C_BROWN_DARK, C_BLACK, C_BLACK],
+		[C_WHITE, C_BLUE, C_BLUE_DARKEST, C_BLACK],
+		[C_PINK, C_BLUE, C_BLUE_DARKEST, C_BLACK],
+		[C_BLUE, C_BLUE_DARKEST, C_BLACK, C_BLACK]
+	];
+
+	global.palette_uniform_values = array_create(array_length(global.palette_values));
+	for (var _i = 0; _i < array_length(global.palette_values); _i++) {
+	   global.palette_uniform_values[_i] = translate_palette_to_uniform_values(global.palette_values[_i]);
+	}
+}
+
 
 function translate_color_to_uniform_values(_color) {
 	return [color_get_red(_color)/255, color_get_green(_color)/255, color_get_blue(_color)/255, 1];
@@ -114,7 +122,3 @@ function get_darker_palette(_palette_index) {
 	return _palette_index+1;
 }
 
-global.palette_uniform_values = array_create(array_length(palette_values));
-for (var _i = 0; _i < array_length(palette_values); _i++) {
-   global.palette_uniform_values[_i] = translate_palette_to_uniform_values(palette_values[_i]);
-}
