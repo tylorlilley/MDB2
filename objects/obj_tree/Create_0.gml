@@ -4,40 +4,43 @@ trunk = [];
 main_palette = PALETTES.BROWN;
 shine_timer = 1;
 
-depth = 30;
+depth = 11;
 sprite_index = spr_wood_tree_extra_bottom;
 image_speed = 0;
-image_index = 0;
+image_index = 1;
 
 initialize_tree = function() {
 	// Create Leaves
 	var _visual_x_offset = 32, _visual_y_offset = 64;
-	var _grid_x = x + _visual_x_offset, _grid_y = y + _visual_y_offset;
-	for (var _dir = 0; _dir < 4; _dir++) {
-		if (_dir == 0 || _dir == 2) { _grid_x = x + _visual_x_offset + 8; }
-		else { _grid_x = x + _visual_x_offset; }
-		if (_dir == 2 || _dir == 3) { _grid_y = y + _visual_y_offset + 8; }
-		else { _grid_y = y + _visual_y_offset; }
-	
-		array_push(leaves, instance_create(_grid_x + 16, _grid_y + 16, obj_leaf));
-		array_push(leaves, instance_create(_grid_x - 16, _grid_y, obj_leaf));
-		array_push(leaves, instance_create(_grid_x + 16, _grid_y - 32, obj_leaf));
-		array_push(leaves, instance_create(_grid_x - 16, _grid_y - 32, obj_leaf));
-		array_push(leaves, instance_create(_grid_x, _grid_y - 48, obj_leaf));
-		array_push(leaves, instance_create(_grid_x + 16, _grid_y - 48, obj_leaf));
-		array_push(leaves, instance_create(_grid_x - 16, _grid_y - 48, obj_leaf));
-		array_push(leaves, instance_create(_grid_x + 32, _grid_y - 48, obj_leaf));
-		array_push(leaves, instance_create(_grid_x - 32, _grid_y - 48, obj_leaf));
-		array_push(leaves, instance_create(_grid_x, _grid_y - 64, obj_leaf));
-		array_push(leaves, instance_create(_grid_x + 16, _grid_y - 64, obj_leaf));
-		array_push(leaves, instance_create(_grid_x - 16, _grid_y - 64, obj_leaf));
+	for (var _row = 0; _row < 12; _row++) {
+		var _pair = _row div 2;
+		for (var _col = 0; _col < 10; _col++) {
+			var _place = false;
+			switch (_pair) {
+				case 0: _place = (_col >= 2 && _col <= 7); break;              // Upper Canopy
+				case 1: _place = true; break;                                  // Full Bush
+				case 2: _place = (_col == 2 || _col == 3 || _col == 6 || _col == 7); break; // Two Clumps
+				case 3: _place = false; break;                                 // Gap
+				case 4: _place = (_col == 2 || _col == 3); break;              // Left Branch
+				case 5: _place = (_col == 6 || _col == 7); break;              // Right Branch
+			}
+			if (!_place || at_grid_position(x + _col * 8,  y + _row * 8, 8, 8, obj_static_area)) { continue; }
+
+			var _leaf = instance_create(x + _col * 8, y + _row * 8, obj_leaf);
+			_leaf.main_palette = PALETTES.YELLOW;
+			_leaf.particle_palette = PALETTES.YELLOW;
+			_leaf.creator = id;
+			_leaf.depth = 12;
+			array_push(leaves, _leaf);
+		}
 	}
 
 	// Create Trunk
 	var _trunk_y_top = y + 32, _trunk_y_bottom = _trunk_y_top + 80, _max_trunk_y = _trunk_y_top;
 	for (var _trunk_x = x + _visual_x_offset; _trunk_x < x + _visual_x_offset + 16; _trunk_x += 8) {
 		for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_bottom; _trunk_y += 8) {
-			if (instances_at_grid_position(_trunk_x, _trunk_y, 8, 8, obj_static_area) > 0) { continue; }
+			if (at_grid_position(_trunk_x, _trunk_y, 8, 8, obj_static_area)) { continue; }
+			if (_trunk_y >= room_height) { break; }
 			
 			_max_trunk_y = _trunk_y;
 			var _trunk = instance_create(_trunk_x, _trunk_y, obj_wood);
@@ -46,13 +49,9 @@ initialize_tree = function() {
 				creator = other.id;
 				visual_origin_x = other.x + _trunk_x;
 				visual_origin_y = other.y + _trunk_y;
+				_trunk.depth = 12;
 				if (y == _trunk_y_top) { 
 					main_sprite = spr_wood_tree_top;
-					fuzzing_sprite = noone;
-					outline_sprite = noone;
-				}
-				else if (y == _trunk_y_bottom-8) {
-					main_sprite = spr_wood_tree_bottom;
 					fuzzing_sprite = noone;
 					outline_sprite = noone;
 				}
@@ -60,7 +59,13 @@ initialize_tree = function() {
 			}
 		}
 	}
-	y = _max_trunk_y - sprite_get_height(sprite_index);
+	for (var _i = array_length(trunk) - 2; _i < array_length(trunk); _i++) {
+		var _inst = trunk[_i];
+		_inst.main_sprite = spr_wood_tree_bottom;
+		_inst.fuzzing_sprite = noone;
+		_inst.outline_sprite = noone;
+		y = _inst.y + 8 - sprite_get_height(sprite_index);
+	}
 
 
 	// Initialize Leaves
@@ -75,7 +80,7 @@ initialize_tree = function() {
 }
 
 part_damaged = function(_inst) {
-	if (_inst.object_index == obj_wood) { image_index = 1; }
+	if (_inst.object_index == obj_wood) { image_index = 0; }
 }
 
 part_destroyed = function(_inst) {
