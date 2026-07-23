@@ -38,6 +38,7 @@
     {"$GMFolder":"","%Name":"Switch Block","folderPath":"folders/Sprites/Solids/Switch Block.yy","name":"Switch Block","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Tile","folderPath":"folders/Sprites/Solids/Tile.yy","name":"Tile","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Wood","folderPath":"folders/Sprites/Solids/Wood.yy","name":"Wood","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Translated Rooms","folderPath":"folders/Translated Rooms.yy","name":"Translated Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[
     {"link":"io.gamemaker.sdfshaders-1.0.0","name":"io.gamemaker.sdfshaders-1.0.0","path":"io.gamemaker.sdfshaders-1.0.0.yyp",},
