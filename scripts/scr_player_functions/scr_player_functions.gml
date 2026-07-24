@@ -196,13 +196,10 @@ start_winning = function() {
 	image_index = 0;
 }
 	
-start_climbing = function() {
-	var _climbed_inst = get_climbed_object();
-	if (!instance_exists(_climbed_inst)) { return false; }
-	
+start_climbing = function() {	
 	state = PLAYER_STATES.CLIMB;
 	transition_timer = 24;
-	climbed_inst = _climbed_inst;
+	climbed_inst = get_climbed_object();
 	return true;
 }
 
@@ -408,14 +405,14 @@ update_player_state = function() {
 			case PLAYER_STATES.SWIM_FORWARD: {
 				if (is_on_ground()) { start_standing(); }
 				// else if (fully_submerged()) { start_surfacing(); }
-				else if (!is_partially_submerged()) { start_falling(); }
+				else if (!is_partially_submerged()) { start_fallback_state(); }
 				else {
 					if (key_left || key_right) { is_left = key_left; }
 					
 					var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
 					var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
 					
-					if (_horizontal_input && start_climbing()) { }
+					if (_horizontal_input && instance_exists(get_climbed_object())) { start_climbing(); }
 					else if (_horizontal_input && _can_walk && grid_move_horizontal(left_value())) {
 						transition_timer = 8;
 						state = PLAYER_STATES.SWIM_FORWARD;
@@ -455,7 +452,7 @@ update_player_state = function() {
 				if (should_start_laddering()) { start_laddering() }
 				else if (is_on_ground()) { start_standing(); }
 				else if (_on_hop_height_ground && _can_walk && _horizontal_input) { air_walk = true; start_walking(); }
-				else if (state == PLAYER_STATES.HOP_UP && (_horizontal_input || global.controller.original_controls) && start_climbing()) { }
+				else if (state == PLAYER_STATES.HOP_UP && (_horizontal_input || global.controller.original_controls) && instance_exists(get_climbed_object())) { start_climbing(); }
 				else {
 					// Continue with Hop Down
 					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(left_value())) {
@@ -481,7 +478,7 @@ update_player_state = function() {
 			case PLAYER_STATES.TURN:
 			case PLAYER_STATES.POWERCROUCH: {
 				// Update New State
-				if (!is_on_ground()) { start_falling(); }
+				if (!is_on_ground()) { start_fallback_state(); }
 				else {
 					// Update Whether Crushed By Objects
 					var _ceiling_objects = get_ceiling_objects(), _crushed_by_object = false;
@@ -808,7 +805,11 @@ update_player_state = function() {
 						state = PLAYER_STATES.LADDER_DOWN;
 						play_sound(snd_player_ladder_step);
 					}
-					else if ((key_left || key_right) && (is_on_ground() && !is_inside_solid())) { is_left = key_left; start_walking(); }
+					else if ((key_left || key_right) && (is_on_ground() && !is_inside_solid())) {
+						is_left = key_left;
+						if ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right()) { start_walking(); }
+						else { state = PLAYER_STATES.LADDER; }
+					}
 					else { state = PLAYER_STATES.LADDER; }
 				}
 				else { start_fallback_state(); }
