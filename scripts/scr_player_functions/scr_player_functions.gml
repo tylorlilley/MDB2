@@ -184,7 +184,6 @@ start_falling = function(_is_dazed = false) {
 	if (!start_laddering()) {
 		state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 		fall_timer = 0;
-		recoil_timer = 0;
 		grid_move_down(2);
 		fall_sound = audio_play_sound(snd_player_fall, 1, false);
 	}
@@ -318,7 +317,6 @@ update_player_state = function() {
 	if (state != PLAYER_STATES.STAND) { idle_timer = 0; }
 	if (state != PLAYER_STATES.CROUCH && state != PLAYER_STATES.POWERCROUCH) { crouch_timer = 0; }
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
-	if (state != PLAYER_STATES.RECOIL) { recoil_timer = 0; }
 	if (state != PLAYER_STATES.FLY && state != PLAYER_STATES.POWERFLY) { fly_timer = 0; }
 	if (state != PLAYER_STATES.SWIM && state != PLAYER_STATES.SWIM_FORWARD) { swim_timer = 0; }
 	
@@ -326,7 +324,6 @@ update_player_state = function() {
 	switch (state) {
 		case PLAYER_STATES.SWIM_FORWARD: { swim_timer ++; break; }
 		case PLAYER_STATES.FLY: { fly_timer++; break; }
-		case PLAYER_STATES.RECOIL: { recoil_timer++; break; }
 		case PLAYER_STATES.TUMBLE:
 		case PLAYER_STATES.FALL:
 		case PLAYER_STATES.DAZED_FALL:
@@ -335,22 +332,15 @@ update_player_state = function() {
 	
 	// While Transitioning
 	if (transition_timer > 0) {
-		// Update transition speeds
-		y_transition_speed = -1;
-		x_transition_speed = -1;
-		if (is_hop_up_state()) {
-			if (transition_timer <= 1) { y_transition_speed = 0; }
-			else if (transition_timer >= 6) { y_transition_speed = -2; }
-			else { y_transition_speed = -1; }
-		}
-		else if (is_hop_down_state()) {
-			if (transition_timer <= 1) { y_transition_speed = 2; }
-			else if (transition_timer >= 6) { y_transition_speed = 0; }
-			else { y_transition_speed = 1; }
-		}
-		
 		// Do things during a state transition (other than moving virtual visuals)
 		switch (state) {
+			case PLAYER_STATES.RECOIL: {
+				if (transition_timer == 6) {
+					if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
+				}
+				
+				break;
+			}
 			case PLAYER_STATES.CLIMB: {
 				if (transition_timer == 20) {
 					grid_move_up(1);
@@ -750,7 +740,8 @@ update_player_state = function() {
 						
 							// Player reaction to landing
 							state = PLAYER_STATES.RECOIL;
-							if (!grid_move_up(4)) { play_sound(snd_soft_thud); }
+							if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
+							transition_timer = 8;
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay
@@ -780,11 +771,8 @@ update_player_state = function() {
 			case PLAYER_STATES.RECOIL: {
 				// Decide New State
 				if (is_on_ground()) { start_standing(); }
-				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); fall_timer = -8; }
-				else {
-					// Keep Recoiling
-					grid_move_up(4);
-				}
+				else { start_falling(); fall_timer = -8; }
+				
 				break;
 			}
 			case PLAYER_STATES.LADDER:
@@ -826,6 +814,25 @@ update_player_state = function() {
 				break;
 			}
 		}
+	}
+
+	// Update transition speeds
+	y_transition_speed = -999;
+	x_transition_speed = -999;
+	if (is_hop_up_state()) {
+		if (transition_timer <= 2) { y_transition_speed = 0; }
+		else if (transition_timer <= 6) { y_transition_speed = -1; }
+		else { y_transition_speed = -2; }
+	}
+	else if (is_hop_down_state()) {
+		if (transition_timer <= 2) { y_transition_speed = 2; }
+		else if (transition_timer <= 6) { y_transition_speed = 1; }
+		else { y_transition_speed = 0; }
+	}
+	else if (state == PLAYER_STATES.RECOIL) {
+		if (transition_timer <= 2) { y_transition_speed = 0; }
+		else if (transition_timer <= 6) { y_transition_speed = -2; }
+		else { y_transition_speed = -4; }
 	}
 }
 
@@ -955,7 +962,8 @@ update_cape_graphics = function() {
 			break;
 		}
 		case PLAYER_STATES.RECOIL: {
-			if (image_index < 2) { cape_depth = depth - 1; }
+			if (transition_timer <= 4) { cape_depth = depth + 1; }
+			else if (image_index < 2) { cape_depth = depth - 1; }
 			else { cape_depth = depth + 1; }
 			break;
 		}
@@ -1112,6 +1120,8 @@ update_player_graphics = function() {
 		}
 	}
 	else {
+		if (state == PLAYER_STATES.RECOIL && transition_timer <= 4) { sprite_index = spr_player_fall; }
+		
 		// Update Current Animations
 		animation_timer++;
 		animation_timer = animation_timer % 96;

@@ -9,7 +9,6 @@ switch (state) {
 	case PLAYER_STATES.POWERFLY: { player_timer_string = string(fly_timer); break; }
 	case PLAYER_STATES.FALL: { player_timer_string = string(fall_timer); break; }
 	case PLAYER_STATES.POWERFALL: { player_timer_string = string(fall_timer); break; }
-	case PLAYER_STATES.RECOIL: { player_timer_string = string(recoil_timer); break; }
 	case PLAYER_STATES.SWIM: { player_timer_string = string(swim_timer); break; }
 	case PLAYER_STATES.SWIM_FORWARD: { player_timer_string = string(swim_timer); break; }
 }
@@ -18,7 +17,7 @@ draw_set_font(ft_teko);
 draw_set_color(c_white);
 draw_text(4, room_height-44, "Cape State: " + cape_state_string + " " + string(cape_timer));
 draw_text(4, room_height-32, "Player State: " + player_state_string + " " + player_timer_string);
-draw_text(4, room_height-20, "Tranistion: " + string(transition_timer));
+draw_text(4, room_height-20, "Transition: " + string(transition_timer));
 
 draw_text(
 	room_width-56,

@@ -124,6 +124,8 @@ part_destroyed = function() { }
 
 part_damaged = function() { }
 
+update_virtual_y_offset = function() { }
+
 create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
 	if (_palette == noone) { _palette = (particle_palette == noone) ? get_darker_palette(main_palette) : particle_palette; }
 	

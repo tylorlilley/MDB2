@@ -9,8 +9,8 @@ virtual_y_offset = 0;
 transition_timer = 0;
 x_transition_timer = 0;
 y_transition_timer = 0;
-x_transition_speed = -1;
-y_transition_speed = -1;
+x_transition_speed = -999;
+y_transition_speed = -999;
 
 fall_timer = 0;
 swim_timer = 0;

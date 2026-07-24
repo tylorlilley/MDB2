@@ -122,7 +122,7 @@ if (draw_game_object_grid) {
 				var _inst = _instances[_i]
 			
 				with (_inst) {
-					draw_sprite_ext(spr_box_16x16, 0, _grid_x * 8, _grid_y * 8, 0.5, 0.5, 1, c_teal, 0.5);
+					draw_sprite_ext(spr_box_16x16, 0, -8 + _grid_x * 8, -8 + _grid_y * 8, 0.5, 0.5, 1, c_teal, 0.5);
 				}
 			}
 		}
