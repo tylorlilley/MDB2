@@ -4,6 +4,17 @@ enum SWITCH_COLORS {
 	YELLOW
 }
 
+portal_colors = [
+	make_color_rgb(255, 255, 255),
+	C_WHITE,
+	C_BLACK,
+	C_BLUE,
+	C_GREEN,
+	C_RED,
+	C_YELLOW,
+	C_PINK,
+]
+
 #macro C_WHITE          make_color_rgb(239, 239, 239)
 #macro C_GRAY_LIGHT     make_color_rgb(175, 175, 175)
 #macro C_GRAY           make_color_rgb(95, 95, 95)

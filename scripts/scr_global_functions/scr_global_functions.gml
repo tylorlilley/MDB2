@@ -55,6 +55,19 @@ function at_grid_position_exact(_x, _y, _w = 8, _h = 8, _object_index = obj_game
 	return array_length(instances_at_grid_position_exact(_x, _y, _w, _h, _object_index)) > 0;
 }
 
+function get_objects_at(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects = [], _object_index = obj_game_object) {
+	var _potential_objects = instances_at_grid_position(_x_pos, _y_pos, _width, _height), _static_objects = [];
+
+	for (var _i = 0; _i < array_length(_potential_objects); _i++)
+	{
+		var _inst = _potential_objects[_i];
+		if (is_a(_inst, _object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
+	}
+	
+	return _static_objects;
+}
+
+// Misc
 function grid_array_first(_array) {
 	return (array_length(_array) > 0) ? _array[0] : noone;
 }

@@ -1,0 +1,1 @@
+original_image_blend = C_BLUE;

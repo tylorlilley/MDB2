@@ -38,18 +38,6 @@ grid_remove = function() {
 }
 
 // State Querying Functions
-get_objects_at = function(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects = [], _object_index = obj_game_object) {
-	var _potential_objects = instances_at_grid_position(_x_pos, _y_pos, _width, _height), _static_objects = [];
-
-	for (var _i = 0; _i < array_length(_potential_objects); _i++)
-	{
-		var _inst = _potential_objects[_i];
-		if (is_a(_inst, _object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
-	}
-	
-	return _static_objects;
-}
-
 is_fully_on_ground = function() {
 	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
 	for (var _x = x; _x < x + _sprite_width; _x += 8) {
@@ -172,7 +160,7 @@ create_sparkles = function(_max_amount, _palette = PALETTES.GRAY) {
 
 shine_periodically = function() {
 	shine_timer--;
-	if (shine_timer < 0) { shine_timer = 120 + irandom(16); if (visible) { create_sparkles(irandom(4)); } }
+	if (shine_timer < 0) { shine_timer = 120 + irandom(16); } //  if (visible) { create_sparkles(irandom(4)); }
 }
 
 draw_liquid = function() {

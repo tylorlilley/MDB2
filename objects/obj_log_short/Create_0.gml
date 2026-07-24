@@ -9,8 +9,8 @@ for (var _trunk_x = _trunk_x_left; _trunk_x < _trunk_x_right; _trunk_x += 8) {
 		array_push(trunk, _trunk);
 		with (_trunk) {
 			creator = other.id;
-			visual_origin_x = other.x + _trunk_x;
-			visual_origin_y = other.y + _trunk_y;
+			visual_origin_x = _trunk_x;
+			visual_origin_y = _trunk_y;
 			if (x == _trunk_x_left) {
 				main_sprite = spr_wood_log_left;
 				fuzzing_sprite = noone;

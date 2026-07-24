@@ -24,7 +24,9 @@ initialize_tree = function() {
 				case 4: _place = (_col == 2 || _col == 3); break;              // Left Branch
 				case 5: _place = (_col == 6 || _col == 7); break;              // Right Branch
 			}
-			if (!_place || at_grid_position(x + _col * 8,  y + _row * 8, 8, 8, obj_static_area)) { continue; }
+			if (!_place) { continue; }
+			var _solid_objects_at_position = get_objects_at(x + _col * 8,  y + _row * 8, 8, 8, function(_inst) { return _inst.is_solid_from_below; });
+			if (array_length(_solid_objects_at_position) > 0) { continue; }
 
 			var _leaf = instance_create(x + _col * 8, y + _row * 8, obj_leaf);
 			_leaf.main_palette = PALETTES.YELLOW;
@@ -39,16 +41,17 @@ initialize_tree = function() {
 	var _trunk_y_top = y + 32, _trunk_y_bottom = _trunk_y_top + 80, _max_trunk_y = _trunk_y_top;
 	for (var _trunk_y = _trunk_y_top; _trunk_y < _trunk_y_bottom; _trunk_y += 8) {
 		for (var _trunk_x = x + _visual_x_offset; _trunk_x < x + _visual_x_offset + 16; _trunk_x += 8) {
-			if (at_grid_position(_trunk_x, _trunk_y, 8, 8, obj_static_area)) { continue; }
 			if (_trunk_y >= room_height) { break; }
+			var _solid_objects_at_position = get_objects_at(_trunk_x, _trunk_y, 8, 8, function(_inst) { return _inst.is_solid_from_below; });
+			if (array_length(_solid_objects_at_position) > 0) { continue; }
 			
 			_max_trunk_y = _trunk_y;
 			var _trunk = instance_create(_trunk_x, _trunk_y, obj_wood);
 			array_push(trunk, _trunk);
 			with (_trunk) {
 				creator = other.id;
-				visual_origin_x = other.x + _trunk_x;
-				visual_origin_y = other.y + _trunk_y;
+				visual_origin_x = _trunk_x;
+				visual_origin_y = _trunk_y;
 				_trunk.depth = 12;
 				if (y == _trunk_y_top) { 
 					main_sprite = spr_wood_tree_top;
@@ -60,13 +63,14 @@ initialize_tree = function() {
 		}
 	}
 	for (var _i = array_length(trunk) - 2; _i < array_length(trunk); _i++) {
-		var _inst = trunk[_i];
-		_inst.main_sprite = spr_wood_tree_bottom;
-		_inst.fuzzing_sprite = noone;
-		_inst.outline_sprite = noone;
-		y = _inst.y + 8 - sprite_get_height(sprite_index);
+		var _trunk = trunk[_i];
+		with (_trunk) {
+			main_sprite = spr_wood_tree_bottom;
+			fuzzing_sprite = noone;
+			outline_sprite = noone;
+		}
+		y = _trunk.y + 8 - sprite_get_height(sprite_index);
 	}
-
 
 	// Initialize Leaves
 	for (var _i = 0; _i < array_length(leaves); _i++) {

@@ -34,7 +34,7 @@ function build_background(_world) {
 			layer_background_htiled(_forest_canopy_bg, true);
 			layer_background_speed(_forest_canopy_bg, 2);
 			layer_y(_forest_canopy_layer, 104);
-			//layer_hspeed(_forest_canopy_layer, 1);
+			//layer_hspeed(_forest_canopy_layer, 0.125);
 			layer_set_visible(_forest_canopy_layer, true);
 			
 			// Background Tree Layer
@@ -44,7 +44,7 @@ function build_background(_world) {
 			layer_background_vtiled(_forest_tresss_bg, true);
 			layer_background_speed(_forest_tresss_bg, 0);
 			layer_y(_forest_tress_layer, 104);
-			layer_hspeed(_forest_tress_layer, 0.125);
+			layer_hspeed(_forest_tress_layer, -0.38);
 			layer_set_visible(_forest_tress_layer, true);
 			
 			break;
@@ -56,6 +56,10 @@ function play_music(_world) {
 	var _sound_to_play = noone;
 	switch (_world) {
 		case WORLDS.BEACH: { _sound_to_play = bgm_w1; break; }
+		case WORLDS.FOREST: { _sound_to_play = bgm_w2; break; }
+		case WORLDS.FACTORY: { _sound_to_play = bgm_w3; break; }
+		case WORLDS.CASTLE: { _sound_to_play = bgm_w4; break; }
+		case WORLDS.SKY: { _sound_to_play = bgm_w5; break; }
 	}
 	if (_sound_to_play != noone && !audio_is_playing(_sound_to_play)) { audio_play_sound(_sound_to_play, 100, true); }
 }

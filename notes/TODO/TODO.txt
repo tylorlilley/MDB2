@@ -7,6 +7,7 @@ Background Sand Cave Tiles
 Sort tiebreak?
 Test Robots Work Like Originals?
 Recolor player cape to use grayscale colors
+Entering a portal while flying causes you to start falling; if the portal is over ground the cape is fucked up
 
 Box starts falling when pushing it off the ledge before it is fully off the ledge
 combine dynamic object states and player states

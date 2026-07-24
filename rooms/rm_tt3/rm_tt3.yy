@@ -625,7 +625,7 @@
   "name":"rm_tt3",
   "parent":{
     "name":"Translated Rooms",
-    "path":"folders/Translated Rooms.yy",
+    "path":"folders/Rooms/Translated Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

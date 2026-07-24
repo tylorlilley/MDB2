@@ -102,12 +102,14 @@ with (obj_reforming_cloud_outline) {
 	if (reform_timer <= 15 && reform_timer > 0) { image_index = 5;}
 	if (reform_timer == 0) { image_index = 0;}
 }
+portal_timer++;
+portal_timer = portal_timer % 24;
 with (obj_portal) {
 	// Determine Activated State
 	if (!instance_exists(linked_portal)) { activated = false; }
 	else if (activation_timer > 0) { activated = false;  activation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
 	else if (is_blocked() || linked_portal.is_blocked()) { activated = false; }
-	else { activated = true; }
+	else { activated = true; image_blend = original_image_blend; }
 	
 	// Determine Visual Speed
 	var _portal_speed = 4;
@@ -118,9 +120,7 @@ with (obj_portal) {
 	image_alpha = (activated) ? 0.8 : 0.5;
 	
 	// Animate Portal
-	anim_timer++;
-	anim_timer = anim_timer % _portal_speed;
-	if (anim_timer == 0) { image_index++; image_index = image_index % image_number; }
+	image_index = other.portal_timer / _portal_speed;
 }
 
 // Game Object End Step

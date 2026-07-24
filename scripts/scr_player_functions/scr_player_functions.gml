@@ -312,7 +312,7 @@ update_player_state = function() {
 	if (state != PLAYER_STATES.WIN) { reset_controls(); }
 	update_controls();
 
-	// Reset various player state timers
+	// Reset Timers
 	if (!is_ladder_state()) { is_up = false; }
 	if (!is_fall_state() && fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
 	if (state != PLAYER_STATES.STAND) { idle_timer = 0; }
@@ -321,6 +321,17 @@ update_player_state = function() {
 	if (state != PLAYER_STATES.RECOIL) { recoil_timer = 0; }
 	if (state != PLAYER_STATES.FLY && state != PLAYER_STATES.POWERFLY) { fly_timer = 0; }
 	if (state != PLAYER_STATES.SWIM && state != PLAYER_STATES.SWIM_FORWARD) { swim_timer = 0; }
+	
+	// Update Timers
+	switch (state) {
+		case PLAYER_STATES.SWIM_FORWARD: { swim_timer ++; break; }
+		case PLAYER_STATES.FLY: { fly_timer++; break; }
+		case PLAYER_STATES.RECOIL: { recoil_timer++; break; }
+		case PLAYER_STATES.TUMBLE:
+		case PLAYER_STATES.FALL:
+		case PLAYER_STATES.DAZED_FALL:
+		case PLAYER_STATES.POWERFALL: { fall_timer++; break; }
+	}
 	
 	// While Transitioning
 	if (transition_timer > 0) {
@@ -340,13 +351,6 @@ update_player_state = function() {
 		
 		// Do things during a state transition (other than moving virtual visuals)
 		switch (state) {
-			case PLAYER_STATES.SWIM_FORWARD: { swim_timer ++; break; }
-			case PLAYER_STATES.POWERFLY: { fly_timer++; break; }
-			case PLAYER_STATES.RECOIL: { recoil_timer++; break; }
-			case PLAYER_STATES.TUMBLE:
-			case PLAYER_STATES.FALL:
-			case PLAYER_STATES.DAZED_FALL:
-			case PLAYER_STATES.POWERFALL: { fall_timer++; break; }
 			case PLAYER_STATES.CLIMB: {
 				if (transition_timer == 20) {
 					grid_move_up(1);
@@ -381,8 +385,6 @@ update_player_state = function() {
 		switch (state) {
 			case PLAYER_STATES.SWIM:
 			case PLAYER_STATES.SWIM_FORWARD: {
-				swim_timer++;
-
 				if (is_on_ground()) { start_standing(); }
 				// else if (fully_submerged()) { start_surfacing(); }
 				else if (!is_partially_submerged()) { start_falling(); }
@@ -778,7 +780,7 @@ update_player_state = function() {
 			case PLAYER_STATES.RECOIL: {
 				// Decide New State
 				if (is_on_ground()) { start_standing(); }
-				else if (is_under_ceiling() || recoil_timer >= 2) { start_falling(); fall_timer = -8; }
+				else if (is_under_ceiling() || recoil_timer >= 4) { start_falling(); fall_timer = -8; }
 				else {
 					// Keep Recoiling
 					grid_move_up(4);
@@ -816,7 +818,7 @@ update_player_state = function() {
 					transition_timer = 4;
 					state = PLAYER_STATES.CROUCH;
 				}
-				else { start_standing(); }
+				else { start_falling(); }
 				break;
 			}
 			default: {

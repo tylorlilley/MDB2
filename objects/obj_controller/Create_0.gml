@@ -11,10 +11,12 @@ transition_duration = 24;
 transition_hold = 12;
 transition_delay = 40;
 room_seed = random_get_seed();
+portal_timer = 0;
 shine_timer = 1;
 screen_timer = 0;
 
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
+u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
 
 frame_sounds = [];
 palettes_init();
@@ -50,14 +52,23 @@ transition_room = function(_new_room, _new_room_seed = noone) {
 }
 
 rebuild_static_area_surface = function() {
+	// Set up Surface to Draw
 	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); }
 	static_area_surface = surface_create(room_width, room_height);
 	surface_set_target(static_area_surface);
 	shader_set(shd_palettizer);
 	draw_clear_alpha(0, 0);
 	
-	with (obj_static_area) { draw_static_area_tile(); }
-
+	// Draw Tiles in Depth Order
+	var _instances_to_draw = []
+	with (obj_static_area) { array_push(_instances_to_draw, id); }
+	array_sort(_instances_to_draw, function(_a, _b) { return _b.depth - _a.depth; });
+	for (var _i = 0; _i < array_length(_instances_to_draw); _i++) {
+		_instances_to_draw[_i].draw_static_area_tile();
+	}
+	
+	// Reset Surface
+	shader_reset();
 	surface_reset_target();
 	should_rebuild_static_area = false;
 }
@@ -66,4 +77,4 @@ screen_shake = function() {
 	screen_timer = 8;
 }
 
-transition_room(rm_w2_4);
+transition_room(rm_w2_6);

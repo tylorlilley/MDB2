@@ -2,7 +2,8 @@ event_inherited();
 
 activated = false;
 activation_timer = 0;
-
+original_image_blend = c_white;
+image_blend = original_image_blend;
 depth = 0;
 main_palette = PALETTES.PORTAL;
 particle_palette = PALETTES.PORTAL;
@@ -11,6 +12,7 @@ anim_speed = 8;
 
 deactivate_portal = function() {
 	if (activated) {
+		image_blend = c_white;
 		activation_timer = 80;
 		activated = false;
 		play_sound(snd_warp);
