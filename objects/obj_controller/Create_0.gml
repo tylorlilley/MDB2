@@ -78,4 +78,4 @@ screen_shake = function() {
 	screen_timer = 8;
 }
 
-transition_room(rm_w2_1);
+transition_room(rm_old_w5_4);

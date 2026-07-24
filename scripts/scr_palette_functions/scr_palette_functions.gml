@@ -4,16 +4,20 @@ enum SWITCH_COLORS {
 	YELLOW
 }
 
-portal_colors = [
-	make_color_rgb(255, 255, 255),
-	C_WHITE,
-	C_BLACK,
-	C_BLUE,
-	C_GREEN,
-	C_RED,
-	C_YELLOW,
-	C_PINK,
-]
+enum PORTAL_COLORS {
+	ONE,
+	TWO,
+	THREE,
+	FOUR,
+	FIVE,
+	SIX,
+	SEVEN,
+	EIGHT,
+	NINE,
+	TEN,
+	ELEVEN,
+	TWELVE
+}
 
 #macro C_WHITE          make_color_rgb(239, 239, 239)
 #macro C_GRAY_LIGHT     make_color_rgb(175, 175, 175)
@@ -131,5 +135,22 @@ function get_switch_palette(_switch_color) {
 function get_darker_palette(_palette_index) {
 	if (_palette_index == PALETTES.PLAYER) { return PALETTES.BLUE_DARKER; }
 	return _palette_index+1;
+}
+
+function get_portal_color(_portal_color) {
+	switch (_portal_color) {
+		case PORTAL_COLORS.ONE: { return #2f4f4f; }
+		case PORTAL_COLORS.TWO: { return #ffdab9; }
+		case PORTAL_COLORS.THREE: { return #7f0000; }
+		case PORTAL_COLORS.FOUR: { return #008000; }
+		case PORTAL_COLORS.FIVE: { return #00008b; }
+		case PORTAL_COLORS.SIX: { return #ff8c00; }
+		case PORTAL_COLORS.SEVEN: { return #00ff00; }
+		case PORTAL_COLORS.EIGHT: { return #00ffff; }
+		case PORTAL_COLORS.NINE: { return #ff00ff; }
+		case PORTAL_COLORS.TEN: { return #1e90ff; }
+		case PORTAL_COLORS.ELEVEN: { return #ffff54; }
+		case PORTAL_COLORS.TWELVE: { return #ff69b4; }
+	}
 }
 
