@@ -250,9 +250,8 @@ is_partially_submerged = function() {
 
 start_being_pushed = function(_pushed_left) {
 	// Start Being Pushed
-	if (_pushed_left) { grid_move_left(1); }
-	else { grid_move_right(1); }
-	state = STATES.PUSHED;
+	if (_pushed_left) { return grid_move_left(1); }
+	else { return grid_move_right(1); }
 }
 
 is_carrying_key = function() {
