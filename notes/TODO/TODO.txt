@@ -11,6 +11,7 @@ Entering a portal while flying causes you to start falling; if the portal is ove
 
 Box starts falling when pushing it off the ledge before it is fully off the ledge
 combine dynamic object states and player states
+Fix OLD 5_4 - two three portal groups?
 
 // PAST OBJECTS TO RECREATE
 - Gear Blocks
