@@ -166,7 +166,7 @@ update_controls = function() {
 	key_right = key_right || keyboard_check(vk_right);
 	key_up = key_up || keyboard_check(vk_up);
 	key_down = key_down || keyboard_check(vk_down);
-	key_jump = key_jump || keyboard_check(ord("Z"));
+	key_jump = (global.controller.original_controls) ? false : (key_jump || keyboard_check(ord("Z")));
 		
 	// Cancel out opposite inputs
 	if (key_left && key_right) {
@@ -254,11 +254,12 @@ start_hopping = function(_should_move_horizontally = false) {
 	play_sound(snd_player_jump);
 	state = (_should_move_horizontally) ? PLAYER_STATES.HOP_UP_FORWARD: PLAYER_STATES.HOP_UP
 	if (_should_move_horizontally) { grid_move_horizontal(left_value()); }
-	grid_move_up(1);
+	if (grid_move_up(1)) { transition_timer = 8; }
 }
 	
 start_laddering = function() {
-	var _can_ladder = can_start_laddering(), _should_ladder = (_can_ladder && ((key_up || key_down || global.controller.original_controls)));
+	var _auto_grab = global.controller.original_controls && is_fall_state();
+	var _should_ladder = ((key_up || key_down || _auto_grab) && can_start_laddering());
 	if (_should_ladder) {
 		state = PLAYER_STATES.LADDER;
 		transition_timer = 4;
@@ -425,7 +426,7 @@ update_player_state = function() {
 				grid_move_to(_prev_x, _prev_y);
 
 				// Determine New State
-				if (!global.controller.original_controls && start_laddering()) { } // Just do the Ladder Stuff
+				if (start_laddering()) { } // Just do the Ladder Stuff
 				else if (is_on_ground()) { start_standing(); }
 				else if (_on_hop_height_ground && _can_walk && _horizontal_input) {
 					air_walk = true;
@@ -441,10 +442,10 @@ update_player_state = function() {
 					else {
 						if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD) {
 							state = PLAYER_STATES.HOP_DOWN_FORWARD
-							grid_move_horizontal(left_value());
+							if (grid_move_horizontal(left_value())) { transition_timer = 8; }
 						}
 						else { state = PLAYER_STATES.HOP_DOWN; }
-						grid_move_down(1);
+						if (grid_move_down(1)) { transition_timer = 8; }
 					}
 				}
 				break;
@@ -740,8 +741,8 @@ update_player_state = function() {
 						
 							// Player reaction to landing
 							state = PLAYER_STATES.RECOIL;
-							if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
 							transition_timer = 8;
+							if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay

@@ -63,3 +63,8 @@ function play_music(_world) {
 	}
 	if (_sound_to_play != noone && !audio_is_playing(_sound_to_play)) { audio_play_sound(_sound_to_play, 100, true); }
 }
+
+function get_room_for_world(_room) {
+	switch (_room) {
+	}
+}
