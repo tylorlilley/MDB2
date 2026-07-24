@@ -1,6 +1,10 @@
-// Set Background
-build_background(WORLDS.FOREST);
-play_music(WORLDS.BEACH);
+// Load Room Data
+var _data = room_data();
+room_world = _data.world;
+room_title = _data.title;
+
+build_background(room_world);
+play_music(room_world);
 	
 // Set Palettes
 with (obj_switch) { main_palette = get_switch_palette(switch_color); }
