@@ -3,6 +3,7 @@ game_set_speed(30, gamespeed_fps);
 depth = 10;
 global.controller = id;
 original_controls = false;
+combine_up_and_jump_controls = true;
 draw_game_object_grid = false;
 transition_surface = noone;
 static_area_surface = noone;

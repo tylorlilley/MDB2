@@ -12,6 +12,7 @@ enum PLAYER_STATES
 	CROUCH,
 	POWERCROUCH,
 	WIN,
+	SURFACE,
 	SWIM,
 	SWIM_FORWARD,
 	LAND,
@@ -166,6 +167,7 @@ update_controls = function() {
 	key_right = key_right || keyboard_check(vk_right);
 	key_up = key_up || keyboard_check(vk_up);
 	key_down = key_down || keyboard_check(vk_down);
+	if (global.controller.combine_up_and_jump_controls) { key_jump = key_jump || keyboard_check(vk_up); }
 	key_jump = (global.controller.original_controls) ? false : (key_jump || keyboard_check(ord("Z")));
 		
 	// Cancel out opposite inputs
@@ -186,17 +188,6 @@ start_pushing = function(_pushed_obj) {
 	// Push Self
 	return grid_move_horizontal(left_value());
 }
-
-start_falling = function(_is_dazed = false) {
-	if (!start_laddering()) {
-		if (grid_move_down(2)) {
-			state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
-			fall_timer = 0;
-			fall_sound = audio_play_sound(snd_player_fall, 1, false);
-		}
-		else { start_standing(); }
-	}
-}
 	
 start_winning = function() {
 	state = PLAYER_STATES.WIN;
@@ -206,16 +197,12 @@ start_winning = function() {
 }
 	
 start_climbing = function() {
-	var _prev_y = y, _climbed_obj = get_climbed_object();
-	grid_move_to(x, y - 8);
-	var _can_climb = instance_exists(get_climbed_object())
-	grid_move_to(x, _prev_y);
-					
-	if (!can_climb) { return false; }
+	var _climbed_inst = get_climbed_object();
+	if (!instance_exists(_climbed_inst)) { return false; }
 	
 	state = PLAYER_STATES.CLIMB;
 	transition_timer = 24;
-	climbed_inst = get_climbed_object();
+	climbed_inst = _climbed_inst;
 	return true;
 }
 	
@@ -231,6 +218,28 @@ start_standing = function(_is_crushed = false) {
 	}
 	else { start_falling(); }
 }
+
+start_falling = function(_is_dazed = false) {
+	if (!start_laddering(true)) {
+		grid_move_down(2); // If this fails, we still proceed with setting the fall state as the ultimate state fallback
+		transition_timer = 0;
+		state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
+		fall_timer = 0;
+		fall_sound = audio_play_sound(snd_player_fall, 1, false);
+	}
+}
+
+start_laddering = function(_called_from_start_falling = false) {
+	var _auto_grab = global.controller.original_controls && (_called_from_start_falling || is_fall_state());
+	var _should_ladder = ((key_up || key_down || _auto_grab) && can_start_laddering());
+	if (_should_ladder) {
+		state = PLAYER_STATES.LADDER;
+		transition_timer = 4;
+		play_sound(snd_player_ladder_step);
+	}
+	return _should_ladder;
+}
+
 
 start_turning = function() {
 	state = PLAYER_STATES.TURN;
@@ -263,30 +272,19 @@ start_walking = function(_is_crushed = false) {
 			transition_timer = (_is_crushed) ? 4 : 0;
 			state = (_is_crushed) ? PLAYER_STATES.CRUSHED_FORWARD : PLAYER_STATES.WALK_FORWARD;
 		}
-		else { start_standing(); }
 	}
 	else { start_falling(); }
 }
 	
 start_hopping = function(_should_move_horizontally = false) {
+	virtual_y_offset = get_switch_offset(); // This gets reset elsewhere if we remain grounded before being used in the Draw
+	
 	if (_should_move_horizontally && grid_move_horizontal(left_value())) { state = PLAYER_STATES.HOP_UP_FORWARD; }
 	else { state = PLAYER_STATES.HOP_UP; }
 	
-	virtual_y_offset = get_switch_offset();
 	play_sound(snd_player_jump);
 	if (grid_move_up(1)) { transition_timer = 8; }
 	else { start_standing(); }
-}
-	
-start_laddering = function() {
-	var _auto_grab = global.controller.original_controls && is_fall_state();
-	var _should_ladder = ((key_up || key_down || _auto_grab) && can_start_laddering());
-	if (_should_ladder) {
-		state = PLAYER_STATES.LADDER;
-		transition_timer = 4;
-		play_sound(snd_player_ladder_step);
-	}
-	return _should_ladder;
 }
 	
 // Positional Functions
@@ -303,11 +301,13 @@ get_closest_ladder = function() {
 
 get_climbed_object = function() {
 	if (is_under_ceiling() || (!key_jump && !key_up && !global.controller.original_controls)) { return noone; }
-
+	var _diagonal_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects();
+	if (array_length(_diagonal_ceiling_objects) > 0) { return noone; }
+	
 	var _climbable_objects = (is_left) ? get_left_climbable_objects([id]) : get_right_climbable_objects([id]);
 	var _climbed_obj = grid_array_first(_climbable_objects);
 
-	return (instance_exists(_climbed_obj) && y < _climbed_obj.y) ? _climbed_obj : noone;
+	return (instance_exists(_climbed_obj) && y == _climbed_obj.y) ? _climbed_obj : noone;
 }
 
 can_ladder_up = function(_closest_ladder) {
@@ -467,6 +467,7 @@ update_player_state = function() {
 					else { state = PLAYER_STATES.HOP_DOWN; }
 					
 					if (grid_move_down(1)) { transition_timer = 8; }
+					else { start_standing(); }
 				}
 				break;
 			}
@@ -492,7 +493,7 @@ update_player_state = function() {
 							var _inst = _ceiling_objects[_i];
 							if (instance_exists(_inst) && _inst.has_gravity && _inst.is_on_ground()) {
 								is_solid_from_above = false;
-								if (!_inst.is_on_ground() && _inst.state != STATES.FALLING) { _crushed_by_object = true; }
+								if (!_inst.is_on_ground() && _inst.state != PLAYER_STATES.FALL) { _crushed_by_object = true; }
 								is_solid_from_above = true;
 							}
 						}
@@ -539,15 +540,18 @@ update_player_state = function() {
 					if (transition_timer == 0) {
 						if (start_laddering()) { }
 						else if (key_left || key_right) {
-							var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
-							var _more_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects(), _under_more_ceiling = array_length(_more_ceiling_objects) != 0;
-							var _climbable_objects = (is_left) ? get_left_climbable_objects([id]) : get_right_climbable_objects([id]);
-							var _climbed_obj = grid_array_first(_climbable_objects);
-							var _can_climb =  instance_exists(_climbed_obj) && y <= _climbed_obj.y && !_under_more_ceiling;
-								
-							var _can_hop = (key_up || key_jump || (_can_climb && global.controller.original_controls)) && !is_under_ceiling();
+							var _diagonal_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects(), _under_diagonal_ceiling = (array_length(_diagonal_ceiling_objects) > 0);
 							
-							var _can_hop_up = _can_hop, _can_hop_forward = _can_walk && _can_hop && !_under_more_ceiling && !global.controller.original_controls;
+							// Determine if Can Climb
+							var _prev_y = y;
+							grid_move_to(x, y - 8);
+							var _can_climb = !_under_diagonal_ceiling && instance_exists(get_climbed_object())
+							grid_move_to(x, _prev_y);
+							
+							// Determine if Can Hop
+							var _can_walk = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();
+							var _can_hop_up = !is_under_ceiling() && (key_jump || (_can_climb && global.controller.original_controls));
+							var _can_hop_forward = _can_walk && _can_hop_up && !_under_diagonal_ceiling && !global.controller.original_controls;
 							
 							if (_can_hop_forward) {
 								start_hopping(_can_hop_forward);
@@ -556,7 +560,7 @@ update_player_state = function() {
 								start_walking();
 							}
 							else if (_can_hop_up) {
-								start_hopping(_can_hop_forward);
+								start_hopping(false);
 							}
 							else {
 								// Push Wall
@@ -797,16 +801,15 @@ update_player_state = function() {
 				var _closest_ladder = get_closest_ladder();
 				if (instance_exists(_closest_ladder)) {
 					if (key_up || key_down) { is_up = key_up; }
+					var _ladder_speed = (global.controller.original_controls) ? 2 : 1;
 
-					if (key_up && can_ladder_up(_closest_ladder)) {
+					if (key_up && can_ladder_up(_closest_ladder) && grid_move_up_direct(_ladder_speed)) {
 						state = PLAYER_STATES.LADDER_UP;
 						play_sound(snd_player_ladder_step);
-						grid_move_up_direct(1);
 					}
-					else if (key_down && can_ladder_down(_closest_ladder)) {
+					else if (key_down && can_ladder_down(_closest_ladder) && grid_move_down_direct(_ladder_speed)) {
 						state = PLAYER_STATES.LADDER_DOWN;
 						play_sound(snd_player_ladder_step);
-						grid_move_down_direct(1);
 					}
 					else if ((key_left || key_right) && (is_on_ground() && !is_inside_solid())) { is_left = key_left; start_walking(); }
 					else { state = PLAYER_STATES.LADDER; }
@@ -1149,9 +1152,9 @@ update_player_graphics = function() {
 			case PLAYER_STATES.PUSH_STAND:
 			case PLAYER_STATES.PUSH_FORWARD: 
 			case PLAYER_STATES.LADDER_UP:
+			case PLAYER_STATES.LADDER_DOWN: 
 			case PLAYER_STATES.SWIM:
-			case PLAYER_STATES.SWIM_FORWARD:
-			case PLAYER_STATES.LADDER_DOWN: { animation_speed = 8; break; }
+			case PLAYER_STATES.SWIM_FORWARD:{ animation_speed = 8; break; }
 			case PLAYER_STATES.LAND:
 			case PLAYER_STATES.CRUSHED_FORWARD:
 			case PLAYER_STATES.WALK_FORWARD: { animation_speed = 4; break; }
@@ -1166,6 +1169,7 @@ update_player_graphics = function() {
 			case PLAYER_STATES.TUMBLE: { animation_speed = 1; break; }
 			default: { animation_speed = 0; }
 		}
+		if (global.controller.original_controls && is_ladder_state()) { animation_speed /= 2; }
 		
 		// Update Images in Animations
 		if (animation_speed > 0) {

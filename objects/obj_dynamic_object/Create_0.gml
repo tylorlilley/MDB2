@@ -1,7 +1,7 @@
 // Inherit the parent event
 event_inherited();
 
-state = STATES.FALLING;
+state = PLAYER_STATES.FALL;
 
 virtual_x = x;
 virtual_y = y;

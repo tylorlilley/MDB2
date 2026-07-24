@@ -1,11 +1,3 @@
-enum STATES {
-	STILL,
-	FALLING,
-	PUSHED,
-	SURFACE,
-	FLOAT
-}
-
 creator = noone;
 main_palette = PALETTES.GRAY;
 particle_palette = noone;

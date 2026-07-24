@@ -65,6 +65,5 @@ function play_music(_world) {
 }
 
 function get_room_for_world(_room) {
-	switch (_room) {
-	}
+
 }

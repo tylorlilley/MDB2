@@ -14,13 +14,13 @@ parent_can_be_pushed_left = can_be_pushed_left;
 parent_can_be_pushed_right = can_be_pushed_right;
 
 can_be_pushed_left = function() {
-	if (state != STATES.STILL) { return false; }
+	if (state != PLAYER_STATES.STAND) { return false; }
 
 	return parent_can_be_pushed_left();
 }
 
 can_be_pushed_right = function() {
-	if (state != STATES.STILL) { return false; }
+	if (state != PLAYER_STATES.STAND) { return false; }
 
 	return parent_can_be_pushed_right();
 }

@@ -3,19 +3,65 @@
 get_switch_offset = function() {
 	if (!is_grounded_state()) { return 0; }
 	
-	var _y_offset = 0, _potential_objects = get_relative_objects(0, 0,  function(_inst) { return (_inst.x == x && is_a(_inst, obj_switch)); });
-	for (var _i = 0; _i < array_length(_potential_objects); _i++) {
-		var _inst = _potential_objects[_i], _image_index_offset;
-		switch (_inst.image_index) {
-			case 0: { _image_index_offset = -4; break; }
-			case 1: { _image_index_offset = -3; break; }
-			case 2: { _image_index_offset = -2; break; }
+	// Get Offset From Ground Objects
+	var _ground_objects = get_ground_objects(), _y_offset = 999;
+	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+		var _inst = _ground_objects[_i];
+		if (instance_exists(_inst) && is_a(_inst, obj_dynamic_object)) {
+			with (_inst) {
+				_y_offset = min(_y_offset, get_switch_offset());
+			}
 		}
-		_y_offset = min(_y_offset, _image_index_offset);
 	}
+		
+	// Calculate Base Offset Yourself
+	if (_y_offset == 999) {
+		_y_offset = 0;
+		var _potential_objects = get_relative_objects(0, 0,  function(_inst) { return (_inst.x == x && is_a(_inst, obj_switch)); });
+		for (var _i = 0; _i < array_length(_potential_objects); _i++) {
+			var _inst = _potential_objects[_i], _image_index_offset;
+			switch (_inst.image_index) {
+				case 0: { _image_index_offset = -4; break; }
+				case 1: { _image_index_offset = -3; break; }
+				case 2: { _image_index_offset = -2; break; }
+			}
+			_y_offset = min(_y_offset, _image_index_offset);
+		}
+	}
+	
 	return _y_offset;
 }
 
+
+get_float_offset = function() {
+	if (!is_grounded_state() && !is_floating_state()) { return 0; }
+	
+	// Get Offset From Ground Objects
+	var _y_offset = 999;
+	if (is_grounded_state()) {
+		_ground_objects = get_ground_objects();
+		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+			var _inst = _ground_objects[_i];
+			if (instance_exists(_inst) && is_a(_inst, obj_dynamic_object)) {
+				with (_inst) {
+					_y_offset = min(_y_offset, get_float_offset());
+				}
+			}
+		}
+	}
+	// Calculate Base Offset Yourself
+	else if (is_floating_state()) {
+		var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES;
+		_y_offset = round(_amplitude * sin(swim_timer*(2 * pi / _period)));
+	}
+	
+	if (_y_offset == 999) { _y_offset = 0; }
+	
+	return _y_offset;
+}
+
+
+/*
 get_float_offset = function() {
 	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES, _swim_bob = round(_amplitude * sin(swim_timer*(2 * pi / _period)));
 	var _y_offset = (is_floating_state()) ? _swim_bob : 0;
@@ -35,6 +81,7 @@ get_float_offset = function() {
 	
 	return _y_offset;
 }
+*/
 
 update_virtual_y_offset = function() {
 	if (!is_grounded_state()) { return virtual_y_offset; }
@@ -51,11 +98,11 @@ spawn_contents = function() {
 
 // State References
 is_grounded_state = function() {
-	return (state == STATES.PUSHED || state == STATES.STILL);
+	return (state == PLAYER_STATES.STAND);
 }
 
 is_floating_state = function() {
-	return state == STATES.FLOAT;
+	return state == PLAYER_STATES.SWIM;
 }
 
 // Movement Functions
@@ -116,20 +163,26 @@ grid_move_right = function(_speed) {
 }
 
 grid_move_up_direct = function(_speed) {
+	if (_speed == 0) { return false; }
+	
 	grid_move_to(x, y - 8);
 	y_transition_timer += abs(8 / _speed);
+	return true;
 }
 
 grid_move_down_direct = function(_speed) {
+	if (_speed == 0) { return false; }
+	
 	grid_move_to(x, y + 8);
 	y_transition_timer += abs(8 / _speed);
+	return true;
 }
 
 grid_move_horizontal = function(_speed) {
-	if (_speed < 0 && !grid_move_left(_speed)) { return false; }
-	else if (_speed > 0 && !grid_move_right(_speed)) { return false; }
+	if (_speed < 0) { return grid_move_left(_speed); } 
+	else if (_speed > 0) { return grid_move_right(_speed); }
 	
-	return true;
+	return false;
 }
 
 // Get List of Specified Objects
@@ -262,41 +315,40 @@ is_carrying_key = function() {
 game_object_step = function() {
 	if (has_gravity) {
 		if (transition_timer == 0) {
-			if (state != STATES.FALLING && state != STATES.SURFACE) { fall_timer = 0; }
-			if ( state != STATES.FLOAT) { swim_timer = 0; }
+			if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.SURFACE) { fall_timer = 0; }
+			if ( state != PLAYER_STATES.SWIM) { swim_timer = 0; }
 		
 			switch (state) {
-				case STATES.STILL:
-				case STATES.PUSHED: {
+				case PLAYER_STATES.STAND: {
 					if (is_fully_submerged()) {
 						// Start Surfacing
 						if (!is_under_ceiling()) { grid_move_up(1); }
-						state = STATES.SURFACE;
+						state = PLAYER_STATES.SURFACE;
 						fall_timer = 0;
 					}
 					else if (!is_on_ground()) {
 						// Start Falling
 						grid_move_down(2);
-						state = STATES.FALLING;
+						state = PLAYER_STATES.FALL;
 					}
-					else { state = STATES.STILL; }
+					else { state = PLAYER_STATES.STAND; }
 				
 					break;
 				}
-				case STATES.SURFACE: {
+				case PLAYER_STATES.SURFACE: {
 					if (is_fully_submerged()) {
 						// Keep Surfacing
 						if (!is_under_ceiling()) { grid_move_up((fall_timer < 8) ? 1 : 2); fall_timer += 4; }
 					}
 					else {
 						// Start Floating
-						state = STATES.FLOAT;
+						state = PLAYER_STATES.SWIM;
 						swim_timer++;
 					}
 					break;
 				}
-				case STATES.FALLING: {
-					if (is_on_ground()) { state = STATES.STILL; }
+				case PLAYER_STATES.FALL: {
+					if (is_on_ground()) { state = PLAYER_STATES.STAND; }
 					else {
 						if (is_fully_submerged()) {
 							if (array_length(get_carried_objects(is_left)) == 0) {
@@ -310,7 +362,7 @@ game_object_step = function() {
 								if (fall_timer == 0) {
 									// Start Surfacing
 									transition_timer = 8;
-									state = STATES.SURFACE;
+									state = PLAYER_STATES.SURFACE;
 									fall_timer = 0;
 								}
 								else {
@@ -336,7 +388,7 @@ game_object_step = function() {
 					
 					break;
 				}
-				case STATES.FLOAT: { swim_timer++; break; }
+				case PLAYER_STATES.SWIM: { swim_timer++; break; }
 			}
 		}
 	}

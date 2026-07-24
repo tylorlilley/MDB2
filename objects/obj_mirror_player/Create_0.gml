@@ -13,7 +13,8 @@ update_controls = function() {
 	key_right = key_right || keyboard_check(vk_left);
 	key_up = key_up || keyboard_check(vk_up);
 	key_down = key_down || keyboard_check(vk_down);
-	key_jump = key_jump || keyboard_check(ord("Z"));
+	if (global.controller.combine_up_and_jump_controls) { key_jump = key_jump || keyboard_check(vk_up); }
+	key_jump = (global.controller.original_controls) ? false : (key_jump || keyboard_check(ord("Z")));
 		
 	// Cancel out opposite inputs
 	if (key_left && key_right) {
