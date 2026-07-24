@@ -67,13 +67,11 @@ game_object_step = function() {
 }
 
 update_virtual_y_offset = function() {
-	if (!is_grounded_state()) { return virtual_y_offset; }
-	
 	if (state == PLAYER_STATES.CLIMB) {
 		climbed_inst.update_virtual_y_offset();
 		virtual_y_offset = climbed_inst.virtual_y_offset;
 	}
-	else {
+	else if (is_grounded_state()) {
 		virtual_y_offset = get_switch_offset() + get_float_offset();
 	}
 }
