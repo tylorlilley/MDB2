@@ -234,7 +234,7 @@ start_laddering = function() {
 }
 
 should_start_laddering = function() {
-	var _auto_grab = global.controller.original_controls && is_fall_state();
+	var _auto_grab = global.controller.original_controls && (is_grounded_state() || is_fall_state()) && !is_on_ground();
 	var _should_ladder = ((key_up || key_down || _auto_grab) && can_start_laddering());
 	
 	return _should_ladder;
