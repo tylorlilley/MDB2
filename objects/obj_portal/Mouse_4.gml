@@ -1,8 +1,8 @@
-if (original_image_blend == c_white) { original_image_blend = C_WHITE; }
-else if (original_image_blend == C_WHITE) { original_image_blend = C_BLACK; }
-else if (original_image_blend == C_BLACK) { original_image_blend = C_BLUE; }
-else if (original_image_blend == C_BLUE) { original_image_blend = C_GREEN; }
-else if (original_image_blend == C_GREEN) { original_image_blend = C_RED; }
-else if (original_image_blend == C_RED) { original_image_blend = C_YELLOW; }
-else if (original_image_blend == C_YELLOW) { original_image_blend = C_PINK; }
-else if (original_image_blend == C_PINK) { original_image_blend = c_white; }
+if (portal_color == c_white) { portal_color = C_WHITE; }
+else if (portal_color == C_WHITE) { portal_color = C_BLACK; }
+else if (portal_color == C_BLACK) { portal_color = C_BLUE; }
+else if (portal_color == C_BLUE) { portal_color = C_GREEN; }
+else if (portal_color == C_GREEN) { portal_color = C_RED; }
+else if (portal_color == C_RED) { portal_color = C_YELLOW; }
+else if (portal_color == C_YELLOW) { portal_color = C_PINK; }
+else if (portal_color == C_PINK) { portal_color = c_white; }

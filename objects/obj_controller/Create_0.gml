@@ -77,4 +77,4 @@ screen_shake = function() {
 	screen_timer = 8;
 }
 
-transition_room(rm_w2_6);
+transition_room(rm_w2_1);

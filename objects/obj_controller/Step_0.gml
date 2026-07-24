@@ -109,7 +109,7 @@ with (obj_portal) {
 	if (!instance_exists(linked_portal)) { activated = false; }
 	else if (activation_timer > 0) { activated = false;  activation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
 	else if (is_blocked() || linked_portal.is_blocked()) { activated = false; }
-	else { activated = true; image_blend = original_image_blend; }
+	else { activated = true; image_blend = portal_color; }
 	
 	// Determine Visual Speed
 	var _portal_speed = 4;
