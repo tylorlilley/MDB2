@@ -5,8 +5,8 @@ activation_timer = 0;
 original_image_blend = c_white;
 image_blend = original_image_blend;
 depth = 0;
-main_palette = PALETTES.PORTAL;
-particle_palette = PALETTES.PORTAL;
+main_palette = PALETTES.BLUE;
+particle_palette = PALETTES.BLUE;
 anim_timer = 0;
 anim_speed = 8;
 

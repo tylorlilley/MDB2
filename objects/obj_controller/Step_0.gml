@@ -116,7 +116,7 @@ with (obj_portal) {
 	if (is_overlapped() || (instance_exists(linked_portal) && linked_portal.is_overlapped())) { _portal_speed = 2; }
 	
 	// Set Palette and Animation Speed
-	main_palette = (activated) ? PALETTES.PORTAL : PALETTES.GRAY;
+	main_palette = (activated) ? PALETTES.BLUE : PALETTES.GRAY;
 	image_alpha = (activated) ? 0.8 : 0.5;
 	
 	// Animate Portal
