@@ -3,4 +3,4 @@ if (!surface_exists(static_area_surface) || should_rebuild_static_area) { rebuil
 shader_reset();
 draw_surface(static_area_surface, 0, 0);
 shader_set(shd_palettizer);
-shader_set_uniform_f(u_tint_amount, 0.45);
+shader_set_uniform_f(u_tint_amount, 0.65);

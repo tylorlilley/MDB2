@@ -10,8 +10,8 @@
     "path":"folders/Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_log_short",
-    "path":"objects/obj_log_short/obj_log_short.yy",
+    "name":"obj_log",
+    "path":"objects/obj_log/obj_log.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

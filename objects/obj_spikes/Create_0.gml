@@ -7,7 +7,7 @@ is_connected = true;
 is_player_lethal = true;
 
 hits = 0;
-main_palette = PALETTES.GRAY;
+main_palette = PALETTES.GRAY_LIGHT;
 main_sprite = spr_spikes;
 outline_sprite = noone;
 walk_particles = 0;

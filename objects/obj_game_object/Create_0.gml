@@ -1,3 +1,5 @@
+event_inherited();
+
 creator = noone;
 main_palette = PALETTES.GRAY;
 particle_palette = noone;

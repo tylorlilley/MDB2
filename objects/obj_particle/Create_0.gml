@@ -1,4 +1,10 @@
-image_speed = 0.25;
-image_rotation = 0;
+event_inherited();
+
+// Visual Object Overrides
 main_palette = PALETTES.GRAY;
-shine_timer = 1;
+
+// Game Maker Variable Overrides
+image_speed = 0.25;
+
+// New Variables
+image_rotation = 0;

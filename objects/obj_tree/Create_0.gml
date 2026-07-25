@@ -1,15 +1,19 @@
-leaves = [];
-trunk = [];
+event_inherited();
 
+// Visual Object Overrides
 main_palette = PALETTES.BROWN;
-shine_timer = 1;
 
+// GameMaker Variable Overrides
 depth = 11;
 sprite_index = spr_wood_tree_extra_bottom;
 image_speed = 0;
 image_index = 1;
 
-initialize_tree = function() {
+// New Variables
+leaves = [];
+trunk = [];
+
+initialize_solids = function() {
 	// Create Leaves
 	var _visual_x_offset = 32, _visual_y_offset = 64;
 	for (var _row = 0; _row < 12; _row++) {
@@ -17,22 +21,24 @@ initialize_tree = function() {
 		for (var _col = 0; _col < 10; _col++) {
 			var _place = false;
 			switch (_pair) {
-				case 0: _place = (_col >= 2 && _col <= 7); break;              // Upper Canopy
-				case 1: _place = true; break;                                  // Full Bush
-				case 2: _place = (_col == 2 || _col == 3 || _col == 6 || _col == 7); break; // Two Clumps
-				case 3: _place = false; break;                                 // Gap
-				case 4: _place = (_col == 2 || _col == 3); break;              // Left Branch
-				case 5: _place = (_col == 6 || _col == 7); break;              // Right Branch
+				case 0: { _place = (_col >= 2 && _col <= 7); break; }							 // Upper Canopy
+				case 1: { _place = true; break; }												 // Full Bush
+				case 2: { _place = (_col == 2 || _col == 3 || _col == 6 || _col == 7); break; }  // Two Clumps
+				case 3: { _place = false; break; }												 // Gap
+				case 4: { _place = (_col == 2 || _col == 3); break; }							 // Left Branch
+				case 5: { _place = (_col == 6 || _col == 7); break; }				             // Right Branch
 			}
 			if (!_place) { continue; }
 			var _solid_objects_at_position = get_objects_at(x + _col * 8,  y + _row * 8, 8, 8, function(_inst) { return _inst.is_solid_from_below; });
 			if (array_length(_solid_objects_at_position) > 0) { continue; }
 
 			var _leaf = instance_create(x + _col * 8, y + _row * 8, obj_leaf);
-			_leaf.main_palette = PALETTES.YELLOW;
-			_leaf.particle_palette = PALETTES.YELLOW;
-			_leaf.creator = id;
-			_leaf.depth = 12;
+			with (_leaf) {
+				main_palette = PALETTES.YELLOW;
+				particle_palette = PALETTES.YELLOW;
+				creator = other.id;
+				depth = other.depth + 1;
+			}
 			array_push(leaves, _leaf);
 		}
 	}
@@ -52,7 +58,7 @@ initialize_tree = function() {
 				creator = other.id;
 				visual_origin_x =  other.x + _trunk_x;
 				visual_origin_y =  other.y + _trunk_y;
-				_trunk.depth = 12;
+				depth = other.depth + 1;
 				if (y == _trunk_y_top) { 
 					main_sprite = spr_wood_tree_top;
 					fuzzing_sprite = noone;
@@ -70,16 +76,6 @@ initialize_tree = function() {
 			outline_sprite = noone;
 		}
 		y = _trunk.y + 8 - sprite_get_height(sprite_index);
-	}
-
-	// Initialize Leaves
-	for (var _i = 0; _i < array_length(leaves); _i++) {
-		var _leaf = leaves[_i];
-		with (_leaf) {
-			main_palette = PALETTES.YELLOW;
-			particle_palette = PALETTES.YELLOW;
-			creator = other.id;
-		}
 	}
 }
 
