@@ -15,6 +15,7 @@ room_seed = random_get_seed();
 portal_timer = 0;
 shine_timer = 1;
 screen_timer = 0;
+world_tint = c_white;
 
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");

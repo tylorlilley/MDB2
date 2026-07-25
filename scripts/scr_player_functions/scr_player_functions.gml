@@ -224,6 +224,7 @@ start_falling = function(_is_dazed = false) {
 	transition_timer = 0;
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 	fall_timer = 0;
+	audio_stop_sound(fall_sound);
 	fall_sound = audio_play_sound(snd_player_fall, 1, false);
 }
 

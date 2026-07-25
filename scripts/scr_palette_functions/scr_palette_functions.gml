@@ -53,7 +53,17 @@ enum PORTAL_COLORS {
 #macro C_GREEN          make_color_rgb(31, 207, 47)
 #macro C_GREEN_LIGHT    make_color_rgb(175, 255, 151)
 
-#macro C_PINK           make_color_rgb(175, 7, 207)
+#macro C_PINK_DARK       make_color_rgb(143, 0, 39)
+#macro C_PINK           make_color_rgb(215, 0, 87) //make_color_rgb(175, 7, 207)
+#macro C_PINK_LIGHT      make_color_rgb(255, 87, 159)
+
+#macro C_PURPLE_DARK       make_color_rgb(127, 0, 199)
+#macro C_PURPLE            make_color_rgb(175, 7, 207)
+#macro C_PURPLE_LIGHT      make_color_rgb(199, 95, 255)
+
+#macro C_INDIGO_DARK       make_color_rgb(67, 0, 167)
+#macro C_INDIGO          make_color_rgb(103, 31, 247)
+#macro C_INDIGO_LIGHT      make_color_rgb(135, 111, 255)
 
 enum PALETTES {
 	ALL_WHITE,
@@ -63,6 +73,7 @@ enum PALETTES {
 	YELLOW,
 	YELLOW_DARK,
 	YELLOW_DARKER,
+	BLUE_LIGHT,
 	BLUE,
 	BLUE_DARK,
 	BLUE_DARKER,
@@ -70,6 +81,9 @@ enum PALETTES {
 	RED_DARK,
 	GREEN,
 	GREEN_DARK,
+	PURPLE,
+	INDIGO,
+	PINK,
 	SAND,
 	SAND_DARK,
 	BROWN,
@@ -87,7 +101,8 @@ function palettes_init() {
 		[C_GRAY, C_GRAY_DARK, C_NEAR_BLACK, C_BLACK],
 		[C_YELLOW_LIGHT, C_YELLOW, C_YELLOW_DARK, C_BLACK],
 		[C_YELLOW, C_YELLOW_DARK, C_BROWN_DARK, C_BLACK],
-		[C_YELLOW_DARK, C_BROWN_DARK, C_BLACK, C_BLACK],
+		[C_YELLOW_DARK, C_YELLOW_DARKEST, C_BLACK, C_BLACK],
+		[C_WHITE, C_BLUE_LIGHT, C_BLUE, C_BLACK],
 		[C_BLUE_LIGHT, C_BLUE, C_BLUE_DARK, C_BLACK],
 		[C_BLUE, C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK],
 		[C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK, C_BLACK],
@@ -95,6 +110,9 @@ function palettes_init() {
 		[C_RED, C_RED_DARK, C_BLACK, C_BLACK],
 		[C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_BLACK],
 		[C_GREEN, C_GREEN_DARK, C_GREEN_DARKEST, C_BLACK],
+		[C_PURPLE_LIGHT, C_PURPLE, C_PURPLE_DARK, C_BLACK],
+		[C_PINK_LIGHT, C_PINK, C_PINK_DARK, C_BLACK],
+		[C_INDIGO_LIGHT, C_INDIGO, C_INDIGO_DARK, C_BLACK],
 		[C_SAND_LIGHT, C_SAND, C_SAND_DARK, C_BLACK],
 		[C_SAND, C_SAND_DARK, C_BLACK, C_BLACK],
 		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
@@ -129,6 +147,23 @@ function get_switch_palette(_switch_color) {
 		case SWITCH_COLORS.RED: { return PALETTES.RED; }
 		case SWITCH_COLORS.BLUE: { return PALETTES.BLUE; }
 		case SWITCH_COLORS.YELLOW: { return PALETTES.YELLOW; }
+	}
+}
+
+function get_portal_palette(_portal_color) {
+	switch (_portal_color) {
+		case PORTAL_COLORS.ONE: { return PALETTES.BLUE; }
+		case PORTAL_COLORS.TWO: { return PALETTES.INDIGO; }
+		case PORTAL_COLORS.THREE: { return PALETTES.BLUE_LIGHT; }
+		case PORTAL_COLORS.FOUR: { return PALETTES.PURPLE; }
+		case PORTAL_COLORS.FIVE: { return PALETTES.BLUE_DARK; }
+		case PORTAL_COLORS.SIX: { return PALETTES.PINK; }
+		case PORTAL_COLORS.SEVEN: { return PALETTES.SAND; }
+		case PORTAL_COLORS.EIGHT: { return PALETTES.GREEN_DARK; }
+		case PORTAL_COLORS.NINE: { return PALETTES.YELLOW_DARK; }
+		case PORTAL_COLORS.TEN: { return PALETTES.GRAY; }
+		case PORTAL_COLORS.ELEVEN: { return PALETTES.YELLOW; }
+		case PORTAL_COLORS.TWELVE: { return PALETTES.RED; }
 	}
 }
 

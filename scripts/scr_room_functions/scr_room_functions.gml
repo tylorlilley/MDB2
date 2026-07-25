@@ -3,12 +3,27 @@ enum WORLDS {
 	FOREST,
 	FACTORY,
 	CASTLE,
-	SKY
+	SKY,
+	SKY_2,
+	SKY_3,
+	SKY_4,
+	NIGHT
 }
 
 function build_background(_world) {
 	switch(_world) {
-		case WORLDS.BEACH: {
+		case WORLDS.BEACH:
+		case WORLDS.SKY:
+		case WORLDS.SKY_2:
+		case WORLDS.SKY_3:
+		case WORLDS.SKY_4:
+		case WORLDS.NIGHT: {
+			// Choose Sky Sprite
+			var _sprite = (_world == WORLDS.NIGHT) ? bg_stars : bg_sky;
+			if (_world == WORLDS.SKY_2) { _sprite = bg_sky_2; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
+			if (_world == WORLDS.SKY_3) { _sprite = bg_sky_3; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
+			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_4; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
+			
 			// BG Sky Layer
 			var _sky_layer = layer_create(100, "Beach_Sky");
 			var _sky_bg = layer_background_create(_sky_layer, bg_sky);
@@ -55,11 +70,15 @@ function build_background(_world) {
 function play_music(_world) {
 	var _sound_to_play = noone;
 	switch (_world) {
-		case WORLDS.BEACH: { _sound_to_play = bgm_w1; break; }
+		case WORLDS.BEACH:{ _sound_to_play = bgm_w1; break; }
 		case WORLDS.FOREST: { _sound_to_play = bgm_w2; break; }
 		case WORLDS.FACTORY: { _sound_to_play = bgm_w3; break; }
 		case WORLDS.CASTLE: { _sound_to_play = bgm_w4; break; }
-		case WORLDS.SKY: { _sound_to_play = bgm_w5; break; }
+		case WORLDS.SKY:
+		case WORLDS.SKY_2:
+		case WORLDS.SKY_3:
+		case WORLDS.SKY_4:
+		case WORLDS.NIGHT: { _sound_to_play = bgm_w5; break; }
 	}
 	if (_sound_to_play != noone && !audio_is_playing(_sound_to_play)) { audio_play_sound(_sound_to_play, 100, true); }
 }
@@ -80,6 +99,8 @@ function room_data(_room = room) {
 			{ rm: rm_old2_1_2, world: WORLDS.BEACH,  title: "Rock Bottom" },
 			{ rm: rm_old2_1_3, world: WORLDS.BEACH,  title: "Quicksand" },
 			{ rm: rm_old2_1_4, world: WORLDS.BEACH,  title: "Dropping In" },
+			
+			{ rm: rm_old_w5_4, world: WORLDS.SKY_4,  title: "Dusk Bowl" },
 			
 				/*
 	// Original Game

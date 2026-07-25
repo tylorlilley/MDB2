@@ -109,14 +109,14 @@ with (obj_portal) {
 	if (!instance_exists(linked_portal)) { activated = false; }
 	else if (activation_timer > 0) { activated = false;  activation_timer--; } // TODO: Turn off when one portal is inside a solid like crate?
 	else if (is_blocked() || linked_portal.is_blocked()) { activated = false; }
-	else { activated = true; image_blend = get_portal_color(portal_color); }
+	else { activated = true; } // image_blend = get_portal_color(portal_color);
 	
 	// Determine Visual Speed
 	var _portal_speed = 4;
 	if (is_overlapped() || (instance_exists(linked_portal) && linked_portal.is_overlapped())) { _portal_speed = 2; }
 	
 	// Set Palette and Animation Speed
-	main_palette = (activated) ? PALETTES.BLUE : PALETTES.GRAY;
+	main_palette = (activated) ? original_palette : PALETTES.GRAY;
 	image_alpha = (activated) ? 0.8 : 0.5;
 	
 	// Animate Portal

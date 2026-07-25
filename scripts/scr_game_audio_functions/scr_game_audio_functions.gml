@@ -8,5 +8,9 @@ function play_sound(_snd_index) {
 
 function stop_music() {
 	audio_stop_sound(bgm_w1);
+	audio_stop_sound(bgm_w2);
+	audio_stop_sound(bgm_w3);
+	audio_stop_sound(bgm_w4);
+	audio_stop_sound(bgm_w5);
 	audio_stop_sound(snd_player_takeoff);
 }
