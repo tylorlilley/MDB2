@@ -11,7 +11,6 @@ particle_palette  = original_palette;
 
 deactivate_portal = function() {
 	if (activated) {
-		image_blend = c_white;
 		activation_timer = 80;
 		activated = false;
 		play_sound(snd_warp);

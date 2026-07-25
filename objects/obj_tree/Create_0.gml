@@ -34,8 +34,8 @@ initialize_solids = function() {
 
 			var _leaf = instance_create(x + _col * 8, y + _row * 8, obj_leaf);
 			with (_leaf) {
-				main_palette = PALETTES.YELLOW;
-				particle_palette = PALETTES.YELLOW;
+				main_palette = other.leaf_palette;
+				particle_palette = other.leaf_palette;
 				creator = other.id;
 				depth = other.depth + 1;
 			}

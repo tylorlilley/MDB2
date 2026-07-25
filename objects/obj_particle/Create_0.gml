@@ -1,7 +1,7 @@
 event_inherited();
 
 // Visual Object Overrides
-main_palette = PALETTES.GRAY;
+main_palette = PALETTES.GRAY_LIGHT;
 
 // Game Maker Variable Overrides
 image_speed = 0.25;

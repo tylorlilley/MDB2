@@ -7,7 +7,7 @@ varying vec4 v_vColour;
 uniform vec4 u_replacement_colors[4];
 uniform float u_tint_amount;
 
-// Base palette (PALETTES.GRAY): 239, 175, 95, 0 — must match scr_palette_shader
+// Base palette (PALETTES.GRAY_LIGHT): 239, 175, 95, 0 — must match scr_palette_shader
 const vec4 BASE_0 = vec4(239.0/255.0, 239.0/255.0, 239.0/255.0, 1.0);
 const vec4 BASE_1 = vec4(175.0/255.0, 175.0/255.0, 175.0/255.0, 1.0);
 const vec4 BASE_2 = vec4( 95.0/255.0,  95.0/255.0,  95.0/255.0, 1.0);

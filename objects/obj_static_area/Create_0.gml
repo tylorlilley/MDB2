@@ -19,6 +19,7 @@ outline_sprite = noone;
 fuzzing_sprite = noone;
 visual_origin_x = x;
 visual_origin_y = y;
+animated = false;
 
 is_connected_above = noone;
 is_connected_below = noone;
@@ -39,14 +40,14 @@ get_connections_for_graphics = function() {
 	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index));
 	is_connected_bottom_left = grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index));
 	
-	is_connected_above = (instance_exists(is_connected_above) && creator == is_connected_above.creator) ? is_connected_above : noone;
-	is_connected_below = (instance_exists(is_connected_below) && creator == is_connected_below.creator) ? is_connected_below : noone;
-	is_connected_on_left = (instance_exists(is_connected_on_left) && creator == is_connected_on_left.creator) ? is_connected_on_left : noone;
-	is_connected_on_right = (instance_exists(is_connected_on_right) && creator == is_connected_on_right.creator) ? is_connected_on_right : noone;
-	is_connected_top_right = (instance_exists(is_connected_top_right) && creator == is_connected_top_right.creator) ? is_connected_top_right : noone;
-	is_connected_top_left = (instance_exists(is_connected_top_left) && creator == is_connected_top_left.creator) ? is_connected_top_left : noone;
-	is_connected_bottom_right = (instance_exists(is_connected_bottom_right) && creator == is_connected_bottom_right.creator) ? is_connected_bottom_right : noone;
-	is_connected_bottom_left = (instance_exists(is_connected_bottom_left) && creator == is_connected_bottom_left.creator) ? is_connected_bottom_left : noone;
+	is_connected_above = (instance_exists(is_connected_above) && creator == is_connected_above.creator && object_index == is_connected_above.object_index) ? is_connected_above : noone;
+	is_connected_below = (instance_exists(is_connected_below) && creator == is_connected_below.creator && object_index == is_connected_below.object_index) ? is_connected_below : noone;
+	is_connected_on_left = (instance_exists(is_connected_on_left) && creator == is_connected_on_left.creator && object_index == is_connected_on_left.object_index) ? is_connected_on_left : noone;
+	is_connected_on_right = (instance_exists(is_connected_on_right) && creator == is_connected_on_right.creator && object_index == is_connected_on_right.object_index) ? is_connected_on_right : noone;
+	is_connected_top_right = (instance_exists(is_connected_top_right) && creator == is_connected_top_right.creator && object_index == is_connected_top_right.object_index) ? is_connected_top_right : noone;
+	is_connected_top_left = (instance_exists(is_connected_top_left) && creator == is_connected_top_left.creator && object_index == is_connected_top_left.object_index) ? is_connected_top_left : noone;
+	is_connected_bottom_right = (instance_exists(is_connected_bottom_right) && creator == is_connected_bottom_right.creator && object_index == is_connected_bottom_right.object_index) ? is_connected_bottom_right : noone;
+	is_connected_bottom_left = (instance_exists(is_connected_bottom_left) && creator == is_connected_bottom_left.creator && object_index == is_connected_bottom_left.object_index) ? is_connected_bottom_left : noone;
 }
 
 update_connected_graphics = function() {
@@ -131,6 +132,7 @@ draw_static_area_tile = function() {
 	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0), _main_sprite_image_index = (hits-1 <= 0) ? 0 : hits-1;
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8);
 	var _has_outline = outline_sprite != noone && (_x_offset >= 0 || _y_offset >= 0);
+	if (animated) { _main_sprite_image_index = anim_timer; _main_sprite_image_index = _main_sprite_image_index % sprite_get_number(main_sprite); }
 	
 	if (_has_outline) {
 		// Draw Main Image
@@ -149,9 +151,10 @@ draw_static_area_tile = function() {
 		gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
 		draw_sprite_part_ext(outline_sprite, 1, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
 		gpu_set_blendmode(bm_normal);
+		
+		 draw_sprite_part_ext(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
 	
-		// Draw Outline
-		 { draw_sprite_part_ext(outline_sprite, 0, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+
 	}
 	else {
 		// Draw Without Considering Outline

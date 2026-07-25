@@ -49,6 +49,7 @@ with (obj_water) {
 with (obj_lava) {
 	anim_timer++;
 	anim_timer = anim_timer % (8 * 8);
+	other.should_rebuild_static_area = true;
 }
 // Update Switch Logic
 blocked_switch_colors = [false, false, false, false];

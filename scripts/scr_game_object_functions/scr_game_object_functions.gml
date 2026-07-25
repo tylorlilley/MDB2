@@ -137,6 +137,7 @@ create_particles = function(_total_particles, _palette = noone, _particle_sprite
 			main_palette = _palette;
 			sprite_index = _particle_sprite;
 			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO: make this a param
+			image_blend = global.controller.world_tint;
 			depth = -9999;
 			image_alpha = other.image_alpha;
 			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
@@ -156,7 +157,7 @@ create_particles = function(_total_particles, _palette = noone, _particle_sprite
 	return _particles;
 }
 
-create_sparkles = function(_max_amount, _palette = PALETTES.GRAY) {
+create_sparkles = function(_max_amount, _palette = PALETTES.GRAY_LIGHT) {
 	create_particles(_max_amount, _palette, spr_sparkle, true);
 }
 

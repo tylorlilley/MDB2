@@ -560,8 +560,8 @@
   ],
   "name":"rm_old_w2_8",
   "parent":{
-    "name":"Translated Rooms",
-    "path":"folders/Rooms/Translated Rooms.yy",
+    "name":"Classic",
+    "path":"folders/Rooms/Translated Rooms/Classic.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

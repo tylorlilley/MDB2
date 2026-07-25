@@ -1,8 +1,9 @@
-window_set_size(256*3, 240*3);
+//window_set_size(256*4, 240*4);
+window_set_fullscreen(true);
 game_set_speed(30, gamespeed_fps);
 depth = 10;
 global.controller = id;
-original_controls = false;
+original_controls = true;
 combine_up_and_jump_controls = true;
 draw_game_object_grid = false;
 transition_surface = noone;
@@ -79,4 +80,4 @@ screen_shake = function() {
 	screen_timer = 8;
 }
 
-transition_room(rm_wood_test);
+transition_room(rm_mdb_5_2);

@@ -11,6 +11,7 @@ enum WORLDS {
 }
 
 function build_background(_world) {
+	global.controller.world_tint = c_white;
 	switch(_world) {
 		case WORLDS.BEACH:
 		case WORLDS.SKY:
@@ -18,20 +19,51 @@ function build_background(_world) {
 		case WORLDS.SKY_3:
 		case WORLDS.SKY_4:
 		case WORLDS.NIGHT: {
-			// Choose Sky Sprite
+			// Choose Sky Sprite and World Tint
 			var _sprite = (_world == WORLDS.NIGHT) ? bg_stars : bg_sky;
-			if (_world == WORLDS.SKY_2) { _sprite = bg_sky_2; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
-			if (_world == WORLDS.SKY_3) { _sprite = bg_sky_3; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
-			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_4; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
+			if (_world == WORLDS.SKY_2) { _sprite = bg_sky_2; }
+			if (_world == WORLDS.SKY_3) { _sprite = bg_sky_3; global.controller.world_tint = make_colour_rgb(255, 169, 128); }
+			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_3; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
+			if (_world == WORLDS.NIGHT) { _sprite = bg_stars; global.controller.world_tint = C_PURPLE_DARK; }
 			
 			// BG Sky Layer
 			var _sky_layer = layer_create(100, "Beach_Sky");
 			var _sky_bg = layer_background_create(_sky_layer, _sprite);
 			layer_background_htiled(_sky_bg, true);
 			layer_background_vtiled(_sky_bg, true);
+			layer_background_speed(_sky_bg, (_sprite == bg_stars) ? 15 : 0);
 			layer_hspeed(_sky_layer, 0.125);
 			layer_vspeed(_sky_layer, 0.038);
 			layer_set_visible(_sky_layer, true);
+			
+			break;
+		}
+		case WORLDS.CASTLE: {
+			global.controller.world_tint = C_RED_DARK;
+			
+			// BG Castle Layer
+			var _castle_layer = layer_create(100, "Castle_Background");
+			var _castle_bg = layer_background_create(_castle_layer, bg_castle);
+			layer_background_htiled(_castle_bg, true);
+			layer_background_vtiled(_castle_bg, true);
+			layer_hspeed(_castle_layer, -0.0625);
+			layer_vspeed(_castle_layer, -0.0625);
+			layer_set_visible(_castle_layer, true);
+			
+			break;
+		}
+		case WORLDS.FACTORY: {
+			global.controller.world_tint = C_GRAY_DARK;
+			
+			// BG Castle Layer
+			var _gears_layer = layer_create(100, "Factory_Gears");
+			var _gear_bg = layer_background_create(_gears_layer, bg_factory);
+			layer_background_htiled(_gear_bg, true);
+			layer_background_vtiled(_gear_bg, true);
+			layer_background_speed(_gear_bg, 10);
+			//layer_hspeed(_gears_layer, -0.125);
+			//layer_vspeed(_gears_layer, -0.25);
+			layer_set_visible(_gears_layer, true);
 			
 			break;
 		}
@@ -93,102 +125,102 @@ function room_data(_room = room) {
 			{ rm: rm_new_1_1,  world: WORLDS.BEACH,  title: "Back Below the Pier" },
 			{ rm: rm_new_1_2,  world: WORLDS.BEACH,  title: "One Way Up" },
 			{ rm: rm_new_1_3,  world: WORLDS.BEACH,  title: "Many Ways Down" },
-			{ rm: rm_w2_1,     world: WORLDS.FOREST, title: "The Great Gate" },
-
-			{ rm: rm_old2_1_1, world: WORLDS.BEACH,  title: "Under the Pier" },
-			{ rm: rm_old2_1_2, world: WORLDS.BEACH,  title: "Rock Bottom" },
-			{ rm: rm_old2_1_3, world: WORLDS.BEACH,  title: "Quicksand" },
-			{ rm: rm_old2_1_4, world: WORLDS.BEACH,  title: "Dropping In" },
 			
+			// MDB World 1
+			{ rm: rm_mdb_1_1, world: WORLDS.BEACH,  title: "Under the Pier" },
+			{ rm: rm_mdb_1_2, world: WORLDS.BEACH,  title: "Rock Bottom" },
+			{ rm: rm_mdb_1_3, world: WORLDS.BEACH,  title: "Quicksand" },
+			{ rm: rm_mdb_1_4, world: WORLDS.BEACH,  title: "Dropping In" },
+			{ rm: rm_mdb_1_5, world: WORLDS.BEACH,  title: "Sandy Sinkholes" },
+			{ rm: rm_mdb_1_6, world: WORLDS.BEACH,  title: "Digging for Gold" },
+			{ rm: rm_mdb_1_7, world: WORLDS.BEACH,  title: "Ancient Ruins" },
+			{ rm: rm_mdb_1_8, world: WORLDS.BEACH,  title: "Thieves' Hideout" },
+			
+			// MDB World 2
+			{ rm: rm_mdb_2_1, world: WORLDS.FOREST,  title: "Wooden Gate" },
+			{ rm: rm_mdb_2_2, world: WORLDS.FOREST,  title: "The Elder Tree" },
+			{ rm: rm_mdb_2_3, world: WORLDS.FOREST,  title: "Tree Fort" },
+			{ rm: rm_mdb_2_4, world: WORLDS.FOREST,  title: "The Forest Mystery" },
+			{ rm: rm_mdb_2_5, world: WORLDS.FOREST,  title: "Volcanic Interlude" },
+			{ rm: rm_mdb_2_6, world: WORLDS.FOREST,  title: "Controlled Burn" },
+			{ rm: rm_mdb_2_7, world: WORLDS.FOREST,  title: "Bamboo Rhapsody" },
+			{ rm: rm_mdb_2_8, world: WORLDS.FOREST,  title: "Firewood" },
+			
+			// MDB World 3
+			{ rm: rm_mdb_3_1, world: WORLDS.FACTORY,  title: "Seeing Red" },
+			{ rm: rm_mdb_3_2, world: WORLDS.FACTORY,  title: "Circular Logic" },
+			{ rm: rm_mdb_3_3, world: WORLDS.FACTORY,  title: "Trash Compactor" },
+			{ rm: rm_mdb_3_4, world: WORLDS.FACTORY,  title: "Grinding Gears" },
+			{ rm: rm_mdb_3_5, world: WORLDS.FACTORY,  title: "Mounting Tension" },
+			{ rm: rm_mdb_3_6, world: WORLDS.FACTORY,  title: "Factory Worker" },
+			{ rm: rm_mdb_3_7, world: WORLDS.FACTORY,  title: "Primary Colors" },
+			{ rm: rm_mdb_3_8, world: WORLDS.FACTORY,  title: "Switch Switching" },
+			
+			// MDB World 4
+			{ rm: rm_mdb_4_1, world: WORLDS.CASTLE,  title: "Rank and File" },
+			{ rm: rm_mdb_4_2, world: WORLDS.CASTLE,  title: "Extra Lives" },
+			{ rm: rm_mdb_4_3, world: WORLDS.CASTLE,  title: "Key Creations" },
+			{ rm: rm_mdb_4_4, world: WORLDS.CASTLE,  title: "Lava Tubes" },
+			{ rm: rm_mdb_4_5, world: WORLDS.CASTLE,  title: "The Dying Tree" },
+			{ rm: rm_mdb_4_6, world: WORLDS.CASTLE,  title: "Follow the Leader" },
+			{ rm: rm_mdb_4_7, world: WORLDS.CASTLE,  title: "Chutes and Ladders" },
+			{ rm: rm_mdb_4_8, world: WORLDS.CASTLE,  title: "Mission Control" },
+			
+			// MDB World 5
+			{ rm: rm_mdb_5_1, world: WORLDS.SKY,  title: "Head in the Clouds" },
+			{ rm: rm_mdb_5_2, world: WORLDS.SKY,  title: "Flying Too Close" },
+			{ rm: rm_mdb_5_3, world: WORLDS.SKY_3,  title: "Setting Sun" },
+			{ rm: rm_mdb_5_4, world: WORLDS.SKY_3,  title: "Stairway to Heaven" },
+			{ rm: rm_mdb_5_5, world: WORLDS.SKY_3,  title: "The Storm Rolls In" },
+			{ rm: rm_mdb_5_6, world: WORLDS.NIGHT,  title: "Darkness Falls" },
+			{ rm: rm_mdb_5_7, world: WORLDS.NIGHT,  title: "Torrential Downpour" },
+			{ rm: rm_mdb_5_8, world: WORLDS.NIGHT,  title: "Hot Pursuit" },
+			
+			// Classic World 1
+			{ rm: rm_old_w1_1, world: WORLDS.BEACH,  title: "Island Shore" },
+			{ rm: rm_old_w1_2, world: WORLDS.BEACH,  title: "Rock Bottom" },
+			{ rm: rm_old_w1_3, world: WORLDS.BEACH,  title: "Quicksand" },
+			{ rm: rm_old_w1_4, world: WORLDS.BEACH,  title: "Castle Crasher" },
+			{ rm: rm_old_w1_5, world: WORLDS.BEACH,  title: "Sandy Sinkholes" }, // OG: "Sandy Sink Holes"
+			{ rm: rm_old_w1_6, world: WORLDS.BEACH,  title: "Dig, Dig, Dig" },
+			{ rm: rm_old_w1_7, world: WORLDS.BEACH,  title: "Ancient Ruins" },
+			{ rm: rm_old_w1_8, world: WORLDS.BEACH,  title: "Far Fortress" },
+			
+			// Classic World 2
+			{ rm: rm_old_w2_1, world: WORLDS.FOREST,  title: "Forest Shrine" },
+			{ rm: rm_old_w2_2, world: WORLDS.FOREST,  title: "Forest Floor" },
+			{ rm: rm_old_w2_3, world: WORLDS.FOREST,  title: "The Great Elder Tree" },
+			{ rm: rm_old_w2_4, world: WORLDS.FOREST,  title: "Firewood" },
+			{ rm: rm_old_w2_5, world: WORLDS.FOREST,  title: "Wooden Gate" },
+			{ rm: rm_old_w2_6, world: WORLDS.FOREST,  title: "The Forest Mystery" },
+			{ rm: rm_old_w2_7, world: WORLDS.FOREST,  title: "Bamboo Leaf Rhapsody" },
+			{ rm: rm_old_w2_8, world: WORLDS.FOREST,  title: "Sacred Forest Orchard" },
+			
+			// Classic World 3
+			{ rm: rm_old_w3_1, world: WORLDS.FACTORY,  title: "Spike Factory" },
+			{ rm: rm_old_w3_2, world: WORLDS.FACTORY,  title: "Switching Switches" },
+			{ rm: rm_old_w3_3, world: WORLDS.FACTORY,  title: "Circular Logic" },
+			{ rm: rm_old_w3_4, world: WORLDS.FACTORY,  title: "Breaking Stuff" },
+			{ rm: rm_old_w3_5, world: WORLDS.FACTORY,  title: "Clickety Clack" }, // OG: "Clickity Clack"
+			{ rm: rm_old_w3_6, world: WORLDS.FACTORY,  title: "Factory Worker" },
+			{ rm: rm_old_w3_7, world: WORLDS.FACTORY,  title: "Sacred Golden Switch" },
+			{ rm: rm_old_w3_8, world: WORLDS.FACTORY,  title: "Primary Colors" },
+			
+			// Classic World 4
+			{ rm: rm_old_w4_1, world: WORLDS.CASTLE,  title: "Patroling the Labyrinth" },
+			{ rm: rm_old_w4_2, world: WORLDS.CASTLE,  title: "Living Key Soldiers" },
+			{ rm: rm_old_w4_3, world: WORLDS.CASTLE,  title: "The Barracks" },
+			{ rm: rm_old_w4_4, world: WORLDS.CASTLE,  title: "Follow the Leader" },
+			{ rm: rm_old_w4_5, world: WORLDS.CASTLE,  title: "The Dying Magic Tree" },
+			{ rm: rm_old_w4_6, world: WORLDS.CASTLE,  title: "Frozen Magma Fortress" },
+			{ rm: rm_old_w4_7, world: WORLDS.CASTLE,  title: "Life Preservers" },
+			{ rm: rm_old_w4_8, world: WORLDS.CASTLE,  title: "Sidekick Soldier Assistant" },
+			
+			// Classic World 5
+			{ rm: rm_old_w5_1, world: WORLDS.SKY,  title: "Nimbus Cubs" },
+			{ rm: rm_old_w5_2, world: WORLDS.SKY_2,  title: "Warp Whiplash" },
+			{ rm: rm_old_w5_3, world: WORLDS.SKY_3,  title: "Tangerine Dreams" },
 			{ rm: rm_old_w5_4, world: WORLDS.SKY_4,  title: "Dusk Bowl" },
-			
-				/*
-	// Original Game
-	case rm_old_1_1: { _room_name = "Island Shore"; break; }
-	//case rm_old_1_2: { _room_name = "Rock Bottom"; break; }
-	//case rm_old_1_3: { _room_name = "Quicksand"; break; }
-	case rm_old_1_4: { _room_name = "Castle Crasher"; break; }
-	case rm_old_1_5: { _room_name = "Sandy Sinkholes"; break; } // Dusty Dune
-	case rm_old_1_6: { _room_name = "Dig, Dig, Dig"; break; } // Digging for Gold
-	case rm_old_1_7: { _room_name = "Ancient Ruins"; break; } // Spelunking
-	case rm_old_1_8: { _room_name = "Far Fortress"; break; }
-		
-	case rm_old_2_1: { _room_name = "Forest Shrine"; break; } // Sacred Shrine
-	case rm_old_2_2: { _room_name = "Forest Floor"; break; }
-	//case rm_old_2_3: { _room_name = "The Great Elder Tree"; break; } // The Elder Tree
-	//case rm_old_2_4: { _room_name = "Firewood"; break; }
-	//case rm_old_2_5: { _room_name = "Wooden Gate"; break; }
-	//case rm_old_2_6: { _room_name = "The Forest Mystery"; break; }
-	//case rm_old_2_7: { _room_name = "Bamboo Leaf Rhapsody"; break; } // Bamboo Rhapsody
-	case rm_old_2_8: { _room_name = "Sacred Forest Orchard"; break; } // The Spirit Orchard
-	
-	case rm_old_3_1: { _room_name = "Spike Factory"; break; }
-	case rm_old_3_2: { _room_name = "Switching Switches"; break; }
-	//case rm_old_3_3: { _room_name = "Circular Logic"; break; }
-	//case rm_old_3_4: { _room_name = "Breaking Stuff"; break; } // Trash Compactor
-	case rm_old_3_5: { _room_name = "Clickety Clack"; break; }
-	//case rm_old_3_6: { _room_name = "Factory Worker"; break; }
-	//case rm_old_3_7: { _room_name = "Sacred Golden Switch"; break; }
-	case rm_old_3_8: { _room_name = "Primary Colors"; break; }
-	
-	case rm_old_4_1: { _room_name = "Patrolling the Labyrinth"; break; } // Patrol the Labyrinth
-	case rm_old_4_2: { _room_name = "Living Key Soldiers"; break; }
-	case rm_old_4_3: { _room_name = "The Barracks"; break; }
-	// case rm_old_4_4: { _room_name = "Follow the Leader"; break; }
-	//case rm_old_4_5: { _room_name = "The Dying Magic Tree"; break; } // The Dying Tree
-	case rm_old_4_6: { _room_name = "Frozen Magma Fortress"; break; } // Frozen Fortress
-	//case rm_old_4_7: { _room_name = "Life Preservers"; break; } // Extra Lives
-	//case rm_old_4_8: { _room_name = "Sidekick Soldier Assistant"; break; } // Mission Control
-	
-	//case rm_old_5_1: { _room_name = "Nimbus Cubs"; break; } // Head in the Clouds
-	case rm_old_5_2: { _room_name = "Warp Whiplash"; break; }
-	case rm_old_5_3: { _room_name = "Tangerine Dreams"; break; }
-	case rm_old_5_4: { _room_name = "Dusk Bowl"; break; }
-	*/
-
-	/*
-	case rm_old2_1_5: { _room_name = "Dusty Dune"; break; }
-	case rm_old2_1_6: { _room_name = "Digging for Gold"; break; }
-	case rm_old2_1_7: { _room_name = "Spelunking"; break; }
-	case rm_old2_1_8: { _room_name = "Thieves' Hideout"; break; }
-	
-	case rm_old2_2_1: { _room_name = "Wooden Gate"; break; }
-	case rm_old2_2_2: { _room_name = "The Elder Tree"; break; }
-	case rm_old2_2_3: { _room_name = "Tree Fort"; break; }
-	case rm_old2_2_4: { _room_name = "The Forest Mystery"; break; }
-	case rm_old2_2_5: { _room_name = "Volcanic Interlude"; break; }
-	case rm_old2_2_6: { _room_name = "Controlled Burn"; break; }
-	case rm_old2_2_7: { _room_name = "Bamboo Rhapsody"; break; }
-	case rm_old2_2_8: { _room_name = "Firewood"; break; }
-	
-	case rm_old2_3_1: { _room_name = "Seeing Red"; break; }
-	case rm_old2_3_2: { _room_name = "Circular Logic"; break; }
-	case rm_old2_3_3: { _room_name = "Trash Compactor"; break; }
-	case rm_old2_3_4: { _room_name = "Grinding Gears"; break; }
-	case rm_old2_3_5: { _room_name = "Mounting Tension"; break; }
-	case rm_old2_3_6: { _room_name = "Factory Worker"; break; }
-	case rm_old2_3_7: { _room_name = "Primary Colors"; break; }
-	case rm_old2_3_8: { _room_name = "Switch Switching"; break; }
-	
-	case rm_old2_4_1: { _room_name = "Rank and File"; break; }
-	case rm_old2_4_2: { _room_name = "Extra Lives"; break; }
-	case rm_old2_4_3: { _room_name = "Key Creations"; break; }
-	case rm_old2_4_4: { _room_name = "Lava Tubes"; break; }
-	case rm_old2_4_5: { _room_name = "The Dying Tree"; break; }
-	case rm_old2_4_6: { _room_name = "Follow the Leader"; break; }
-	case rm_old2_4_7: { _room_name = "Chutes and Ladders"; break; }
-	case rm_old2_4_8: { _room_name = "Mission Control"; break; }
-	
-	case rm_old2_5_1: { _room_name = "Head in the Clouds"; break; }
-	case rm_old2_5_2: { _room_name = "Flying Too Close"; break; }
-	case rm_old2_5_3: { _room_name = "Setting Sun"; break; }
-	case rm_old2_5_4: { _room_name = "Stairway to Heaven"; break; }
-	case rm_old2_5_5: { _room_name = "The Storm Rolls In"; break; }
-	case rm_old2_5_6: { _room_name = "Darkness Falls"; break; }
-	case rm_old2_5_7: { _room_name = "Torrential Downpour"; break; }
-	case rm_old2_5_8: { _room_name = "Hot Pursuit"; break; }
-	
-	*/
 		];
 
 		_index = {};

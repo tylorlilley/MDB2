@@ -1,9 +1,9 @@
 event_inherited();
 
 creator = noone;
-main_palette = PALETTES.GRAY;
+main_palette = PALETTES.GRAY_LIGHT;
 particle_palette = noone;
-image_blend = c_white;
+image_blend = global.controller.world_tint;
 
 has_gravity = false;
 

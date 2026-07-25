@@ -152,16 +152,16 @@ function get_portal_palette(_portal_color) {
 	switch (_portal_color) {
 		case PORTAL_COLORS.ONE: { return PALETTES.BLUE; }
 		case PORTAL_COLORS.TWO: { return PALETTES.INDIGO; }
-		case PORTAL_COLORS.THREE: { return PALETTES.BLUE_LIGHT; }
-		case PORTAL_COLORS.FOUR: { return PALETTES.PURPLE; }
-		case PORTAL_COLORS.FIVE: { return PALETTES.BLUE_DARK; }
-		case PORTAL_COLORS.SIX: { return PALETTES.PINK; }
+		case PORTAL_COLORS.THREE: { return PALETTES.PURPLE; }
+		case PORTAL_COLORS.FOUR: { return PALETTES.BLUE_DARK; }
+		case PORTAL_COLORS.FIVE: { return PALETTES.PINK; }
+		case PORTAL_COLORS.SIX: { return PALETTES.BLUE_LIGHT; }
 		case PORTAL_COLORS.SEVEN: { return PALETTES.SAND; }
 		case PORTAL_COLORS.EIGHT: { return PALETTES.GREEN_DARK; }
 		case PORTAL_COLORS.NINE: { return PALETTES.YELLOW_DARK; }
-		case PORTAL_COLORS.TEN: { return PALETTES.GRAY; }
+		case PORTAL_COLORS.TEN: { return PALETTES.RED; }
 		case PORTAL_COLORS.ELEVEN: { return PALETTES.YELLOW; }
-		case PORTAL_COLORS.TWELVE: { return PALETTES.RED; }
+		case PORTAL_COLORS.TWELVE: { return PALETTES.GRAY_LIGHT; }
 	}
 }
 
