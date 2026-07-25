@@ -13,7 +13,7 @@ walk_timer = 0;
 
 sprite_index = spr_robot_walk;
 death_sprite = spr_robot_dying_particle;
-original_palette = PALETTES.GRAY;
+original_palette = PALETTES.GRAY_LIGHT;
 particle_palette = original_palette;
 main_palette = original_palette;
 

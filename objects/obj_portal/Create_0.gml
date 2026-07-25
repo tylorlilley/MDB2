@@ -6,6 +6,9 @@ depth = 0;
 anim_timer = 0;
 anim_speed = 8;
 
+original_palette  = get_portal_palette(portal_color);
+particle_palette  = original_palette;
+
 deactivate_portal = function() {
 	if (activated) {
 		image_blend = c_white;
@@ -13,7 +16,7 @@ deactivate_portal = function() {
 		activated = false;
 		play_sound(snd_warp);
 		create_sparkles(2+irandom(4), particle_palette);
-		create_sparkles(2+irandom(4), get_darker_palette(particle_palette));
+		create_sparkles(2+irandom(4), PALETTES.GRAY_LIGHT);
 	}
 }
 

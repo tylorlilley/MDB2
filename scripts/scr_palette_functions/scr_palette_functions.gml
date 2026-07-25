@@ -67,64 +67,62 @@ enum PORTAL_COLORS {
 
 enum PALETTES {
 	ALL_WHITE,
+	ALL_BLACK,
+	GRAY_LIGHT,
 	GRAY,
 	GRAY_DARK,
-	ALL_BLACK,
+	YELLOW_LIGHT,
 	YELLOW,
 	YELLOW_DARK,
-	YELLOW_DARKER,
 	BLUE_LIGHT,
 	BLUE,
 	BLUE_DARK,
-	BLUE_DARKER,
-	RED,
-	RED_DARK,
+	BLUE_DARKEST,
+	GREEN_LIGHT,
 	GREEN,
 	GREEN_DARK,
+	RED_LIGHT,
+	RED,
+	// No Red Dark
+	PURPLE_LIGHT,
 	PURPLE,
+	INDIGO_LIGHT,
 	INDIGO,
+	PINK_LIGHT,
 	PINK,
+	SAND_LIGHT,
 	SAND,
-	SAND_DARK,
+	// No Brown Light
 	BROWN,
 	BROWN_DARK,
 	PLAYER,
-	PORTAL,
-	PORTAL_DARK
 }
 
 function palettes_init() {
-	global.palette_values = [
-		[C_WHITE, C_WHITE, C_WHITE, C_WHITE],
-		[C_WHITE, C_GRAY_LIGHT, C_GRAY, C_BLACK],
-		[C_GRAY_LIGHT, C_GRAY, C_GRAY_DARK, C_BLACK],
-		[C_GRAY, C_GRAY_DARK, C_NEAR_BLACK, C_BLACK],
-		[C_YELLOW_LIGHT, C_YELLOW, C_YELLOW_DARK, C_BLACK],
-		[C_YELLOW, C_YELLOW_DARK, C_BROWN_DARK, C_BLACK],
-		[C_YELLOW_DARK, C_YELLOW_DARKEST, C_BLACK, C_BLACK],
-		[C_WHITE, C_BLUE_LIGHT, C_BLUE, C_BLACK],
-		[C_BLUE_LIGHT, C_BLUE, C_BLUE_DARK, C_BLACK],
-		[C_BLUE, C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK],
-		[C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK, C_BLACK],
-		[C_RED_LIGHT, C_RED, C_RED_DARK, C_BLACK],
-		[C_RED, C_RED_DARK, C_BLACK, C_BLACK],
-		[C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_BLACK],
-		[C_GREEN, C_GREEN_DARK, C_GREEN_DARKEST, C_BLACK],
-		[C_PURPLE_LIGHT, C_PURPLE, C_PURPLE_DARK, C_BLACK],
-		[C_PINK_LIGHT, C_PINK, C_PINK_DARK, C_BLACK],
-		[C_INDIGO_LIGHT, C_INDIGO, C_INDIGO_DARK, C_BLACK],
-		[C_SAND_LIGHT, C_SAND, C_SAND_DARK, C_BLACK],
-		[C_SAND, C_SAND_DARK, C_BLACK, C_BLACK],
+	var _full_palettes = [
+		[C_WHITE, C_WHITE, C_WHITE],
+		[C_BLACK, C_BLACK, C_BLACK],
+		[C_WHITE, C_GRAY_LIGHT, C_GRAY, C_GRAY_DARK, C_NEAR_BLACK],
+		[C_WHITE, C_YELLOW_LIGHT, C_YELLOW, C_YELLOW_DARK, C_YELLOW_DARKEST],
+		[C_WHITE, C_BLUE_LIGHT, C_BLUE, C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK],
+		[C_WHITE, C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_GREEN_DARKEST],
+		[C_WHITE, C_RED_LIGHT, C_RED, C_RED_DARK],
+		[C_WHITE, C_PURPLE_LIGHT, C_PURPLE, C_PURPLE_DARK],
+		[C_WHITE, C_INDIGO_LIGHT, C_INDIGO, C_INDIGO_DARK],
+		[C_WHITE, C_PINK_LIGHT, C_PINK, C_PINK_DARK],
+		[C_WHITE, C_SAND_LIGHT, C_SAND, C_SAND_DARK],
 		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
-		[C_BROWN, C_BROWN_DARK, C_BLACK, C_BLACK],
-		[C_WHITE, C_BLUE, C_BLUE_DARKEST, C_BLACK],
-		[C_PINK, C_BLUE, C_BLUE_DARKEST, C_BLACK],
-		[C_BLUE, C_BLUE_DARKEST, C_BLACK, C_BLACK]
+		[C_WHITE, C_BLUE, C_BLUE_DARKEST],
 	];
-
-	global.palette_uniform_values = array_create(array_length(global.palette_values));
-	for (var _i = 0; _i < array_length(global.palette_values); _i++) {
-	   global.palette_uniform_values[_i] = translate_palette_to_uniform_values(global.palette_values[_i]);
+	
+	global.palette_uniform_values = [];
+	for (var _palette_number = 0; _palette_number < array_length(_full_palettes); _palette_number++) {
+		var _full_palette_to_transform = _full_palettes[_palette_number];
+		for (var _start_color_pos = 0; _start_color_pos < array_length(_full_palette_to_transform)-2; _start_color_pos++) {
+			var _color_array = [C_BLACK, C_BLACK, C_BLACK, ((_palette_number == 0) ? C_WHITE : C_BLACK)];
+			array_copy(_color_array, 0, _full_palette_to_transform, _start_color_pos, 3);
+			array_push(global.palette_uniform_values, translate_palette_to_uniform_values(_color_array));
+		}
 	}
 }
 
@@ -168,24 +166,11 @@ function get_portal_palette(_portal_color) {
 }
 
 function get_darker_palette(_palette_index) {
-	if (_palette_index == PALETTES.PLAYER) { return PALETTES.BLUE_DARKER; }
+	if (_palette_index >= PALETTES.PLAYER) { return PALETTES.BLUE_DARKEST; }
 	return _palette_index+1;
 }
 
-function get_portal_color(_portal_color) {
-	switch (_portal_color) {
-		case PORTAL_COLORS.ONE: { return #2f4f4f; }
-		case PORTAL_COLORS.TWO: { return #ffdab9; }
-		case PORTAL_COLORS.THREE: { return #7f0000; }
-		case PORTAL_COLORS.FOUR: { return #008000; }
-		case PORTAL_COLORS.FIVE: { return #00008b; }
-		case PORTAL_COLORS.SIX: { return #ff8c00; }
-		case PORTAL_COLORS.SEVEN: { return #00ff00; }
-		case PORTAL_COLORS.EIGHT: { return #00ffff; }
-		case PORTAL_COLORS.NINE: { return #ff00ff; }
-		case PORTAL_COLORS.TEN: { return #1e90ff; }
-		case PORTAL_COLORS.ELEVEN: { return #ffff54; }
-		case PORTAL_COLORS.TWELVE: { return #ff69b4; }
-	}
+function get_lighter_palette(_palette_index) {
+	if (_palette_index <= 0) { return 0; }
+	return _palette_index-1;
 }
-

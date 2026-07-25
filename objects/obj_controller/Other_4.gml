@@ -7,8 +7,7 @@ build_background(room_world);
 play_music(room_world);
 	
 // Set Palettes
-with (obj_game_object) { image_blend = other.world_tint; }
-with(obj_portal) { original_palette = get_portal_palette(portal_color); }
+with (obj_visual_object) { image_blend = other.world_tint; }
 with (obj_switch) { main_palette = get_switch_palette(switch_color); }
 with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);

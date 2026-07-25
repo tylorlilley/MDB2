@@ -79,4 +79,4 @@ screen_shake = function() {
 	screen_timer = 8;
 }
 
-transition_room(rm_old_w5_4);
+transition_room(rm_robot_test);

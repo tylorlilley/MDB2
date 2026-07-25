@@ -26,7 +26,7 @@ function build_background(_world) {
 			
 			// BG Sky Layer
 			var _sky_layer = layer_create(100, "Beach_Sky");
-			var _sky_bg = layer_background_create(_sky_layer, bg_sky);
+			var _sky_bg = layer_background_create(_sky_layer, _sprite);
 			layer_background_htiled(_sky_bg, true);
 			layer_background_vtiled(_sky_bg, true);
 			layer_hspeed(_sky_layer, 0.125);
