@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.43941042,
+  "duration":0.4902041,
   "exportDir":"",
   "name":"snd_key",
   "parent":{

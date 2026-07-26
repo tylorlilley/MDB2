@@ -56,6 +56,7 @@
   "resources":[
     {"id":{"name":"ft_teko","path":"fonts/ft_teko/ft_teko.yy",},},
     {"id":{"name":"TODO","path":"notes/TODO/TODO.yy",},},
+    {"id":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},},
     {"id":{"name":"obj_block_blue","path":"objects/obj_block_blue/obj_block_blue.yy",},},
     {"id":{"name":"obj_block_red","path":"objects/obj_block_red/obj_block_red.yy",},},
     {"id":{"name":"obj_block_yellow","path":"objects/obj_block_yellow/obj_block_yellow.yy",},},

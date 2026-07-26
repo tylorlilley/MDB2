@@ -37,7 +37,7 @@ start_reform_timer = function() {
 	drawn_y_scale = (irandom(1)) == 0 ? -1 : 1;
 }
 
-part_destroyed = funnction(_inst) {
+part_destroyed = function(_inst) {
 	solid_obj = noone;
 	start_reform_timer();
 }

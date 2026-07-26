@@ -220,8 +220,10 @@ start_standing = function(_is_crushed = false) {
 }
 
 start_falling = function(_is_dazed = false) {
-	grid_move_down(2); // If this fails, we still proceed with setting the fall state as the ultimate state fallback
 	transition_timer = 0;
+	y_transition_timer = 0;
+	x_transition_timer = 0;
+	grid_move_down(2); // If this fails, we still proceed with setting the fall state as the ultimate state fallback
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 	fall_timer = 0;
 	audio_stop_sound(fall_sound);
@@ -243,6 +245,7 @@ should_start_laddering = function() {
 
 
 start_turning = function() {
+	if (state == PLAYER_STATES.TURN) { prev_state = PLAYER_STATES.STAND; }
 	state = PLAYER_STATES.TURN;
 	transition_timer = 4;
 	walk_on_ground_objects();
@@ -379,6 +382,15 @@ update_player_state = function() {
 					else { start_fallback_state(); }
 				}
 				else if (transition_timer < 6) { transition_timer = 0; }
+				
+				break;
+			}
+			case PLAYER_STATES.HOP_UP:
+			case PLAYER_STATES.HOP_UP_FORWARD: {
+				if (global.controller.original_controls && transition_timer <= 2) {
+					transition_timer = 0;
+					y_transition_timer = 0;
+				}
 				
 				break;
 			}
@@ -837,19 +849,28 @@ update_player_state = function() {
 	y_transition_speed = -999;
 	x_transition_speed = -999;
 	if (is_hop_up_state()) {
-		if (transition_timer <= 2) { y_transition_speed = 0; }
-		else if (transition_timer <= 6) { y_transition_speed = -1; }
-		else { y_transition_speed = -2; }
+		var _speed = [0, 0, -1, -1, -1, -1, -2, -2];
+		y_transition_speed = _speed[transition_timer-1];
 	}
 	else if (is_hop_down_state()) {
-		if (transition_timer <= 2) { y_transition_speed = 2; }
-		else if (transition_timer <= 6) { y_transition_speed = 1; }
-		else { y_transition_speed = 0; }
+		var _speed = [2, 2, 1, 1, 1, 1, 0, 0];
+		y_transition_speed = _speed[transition_timer-1];
 	}
 	else if (state == PLAYER_STATES.RECOIL) {
-		if (transition_timer <= 2) { y_transition_speed = 0; }
-		else if (transition_timer <= 6) { y_transition_speed = -2; }
-		else { y_transition_speed = -4; }
+		var _speed = [0, 0, -2, -2, -2, -2, -4, -4];
+		y_transition_speed = _speed[transition_timer-1];
+	}
+	else if (state == PLAYER_STATES.CLIMB) {
+		y_transition_speed = 0;
+		x_transition_speed = 0;
+		var _y_speed = [0, 0, 0, 0, 0, 0, 0, 0,
+					   0, 0, 0, -2, 0, -2, 0, 0,
+					   0, 0, 0, 0, -1, -1, -1, -1];
+		var _x_speed = [0, 0, 0, 0, 0, 0, 0, 0,
+					   1, 1, 1, 1, 0, 0, 0, 2,
+					   0, 2, 0, 0, 0, 0, 0, 0];
+		y_transition_speed = _y_speed[transition_timer-1];
+		x_transition_speed = _x_speed[transition_timer-1] * left_value();
 	}
 }
 
@@ -1284,7 +1305,7 @@ update_player_collisions_at_position = function() {
 		}
 		else if (is_a(_inst, obj_portal) && _inst.activated) {
 			_inst.deactivate_portal();
-			_inst.linked_portal.deactivate_portal();
+			if (instance_exists(_inst.linked_portal)) { _inst.linked_portal.deactivate_portal(); }
 			grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 			virtual_x = x;
 			virtual_y = y;

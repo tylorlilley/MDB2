@@ -19,14 +19,24 @@ if (state != PLAYER_STATES.LADDER &&
 	}
 }
 
+var _prev_main_palette = main_palette;
 set_shader_palette();
 if (!has_cape) { draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1); }
 else if (cape_depth <= depth) {
+	main_palette = _prev_main_palette;
+	set_shader_palette();
 	draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
+	main_palette = PALETTES.GRAY_LIGHT;
+	set_shader_palette();
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
 }
 else {
+	main_palette = PALETTES.GRAY_LIGHT;
+	set_shader_palette();
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
+	main_palette = _prev_main_palette;
+	set_shader_palette();
 	draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
 }
+main_palette = _prev_main_palette;
 

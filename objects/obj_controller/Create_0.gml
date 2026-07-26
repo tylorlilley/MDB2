@@ -1,5 +1,5 @@
-//window_set_size(256*4, 240*4);
-window_set_fullscreen(true);
+window_set_size(256*4, 240*4);
+window_set_fullscreen(false);
 game_set_speed(30, gamespeed_fps);
 depth = 10;
 global.controller = id;
@@ -80,4 +80,4 @@ screen_shake = function() {
 	screen_timer = 8;
 }
 
-transition_room(rm_mdb_5_2);
+transition_room(rm_mdb_1_1);

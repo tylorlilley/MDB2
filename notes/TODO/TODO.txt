@@ -4,6 +4,10 @@ BG Dirt Tiles
 Downblock
 Factory BG
 Lava Graphics
+Reforming Clouds
+
+No pause at hop height for old mode
+
 
 
 // NEXT:

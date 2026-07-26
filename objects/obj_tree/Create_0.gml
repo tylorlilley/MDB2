@@ -68,14 +68,16 @@ initialize_solids = function() {
 			}
 		}
 	}
-	for (var _i = array_length(trunk) - 2; _i < array_length(trunk); _i++) {
-		var _trunk = trunk[_i];
-		with (_trunk) {
-			main_sprite = spr_wood_tree_bottom;
-			fuzzing_sprite = noone;
-			outline_sprite = noone;
+	if (array_length(trunk) >= 2) {
+		for (var _i = array_length(trunk) - 2; _i < array_length(trunk); _i++) {
+			var _trunk = trunk[_i];
+			with (_trunk) {
+				main_sprite = spr_wood_tree_bottom;
+				fuzzing_sprite = noone;
+				outline_sprite = noone;
+			}
+			y = _trunk.y + 8 - sprite_get_height(sprite_index);
 		}
-		y = _trunk.y + 8 - sprite_get_height(sprite_index);
 	}
 }
 
