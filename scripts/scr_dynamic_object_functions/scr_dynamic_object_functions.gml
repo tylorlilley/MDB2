@@ -279,7 +279,7 @@ is_under_ceiling = function() {
 }
 
 is_blocked_on_left = function(_ignored_objects = []) {
-	return (array_length(get_left_wall_objects(_ignored_objects)) > 0 || x <= ((global.controller.original_controls) ? 16 : 0));
+	return (array_length(get_left_wall_objects(_ignored_objects)) > 0 || x <= ((global.controller.original_controls) ? 16 : 8));
 }
 
 is_blocked_on_right = function(_ignored_objects = []) {

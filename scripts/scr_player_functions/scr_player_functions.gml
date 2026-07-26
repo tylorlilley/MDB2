@@ -201,9 +201,9 @@ start_pushing = function(_pushed_obj) {
 }
 	
 start_winning = function() {
+	start_cape_win();
 	state = PLAYER_STATES.WIN;
 	transition_timer = 52;
-	cape_timer = 52;
 	image_index = 0;
 }
 	
@@ -417,7 +417,7 @@ update_player_state = function() {
 					if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
 					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_sparkles(4 + irandom(6)); }
 				}
-				if (transition_timer == 1) { image_index = 0; cape_image_index = 0; cape_timer = 52; }
+				if (transition_timer == 1) { image_index = 0; start_cape_win(); }
 				break;
 			}
 		}
@@ -449,7 +449,7 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.WIN: {
-				if (visible && (key_up || key_jump)) {
+				if (visible && (key_up || key_jump) && prev_state == PLAYER_STATES.WIN) {
 					visible = false;
 					play_sound(snd_soft_thud);
 					with (obj_door) { image_index = 2; create_particles(8 + irandom(8)); }
@@ -894,7 +894,6 @@ set_cape_state = function(_state, _sprite, _image, _timer) {
 	cape_sprite_index = _sprite;
 	cape_image_index = _image;
 	cape_timer = _timer;
-
 }
 
 start_cape_flutter = function() { set_cape_state(CAPE_STATES.FLUTTER, spr_cape_flutter, 0, 8); }
@@ -950,7 +949,6 @@ update_cape_graphics = function() {
 				else if (is_crouch_state()) { start_cape_crouch(); }
 				else if (is_ladder_state()) { start_cape_ladder(); }
 				else if (is_fall_state()) { start_cape_fall_begin(); }
-				else if (state == PLAYER_STATES.WIN) { start_cape_crushed(); }
 				break;
 			}
 			case CAPE_STATES.FLY: {
@@ -987,7 +985,8 @@ update_cape_graphics = function() {
 	
 	// Interrupt Previous Cape State to Set New One
 	if (state != prev_state) {
-		if ((cape_state == CAPE_STATES.FALL_START || cape_state == CAPE_STATES.FALL) && is_grounded_state()) { start_cape_flutter_end(); }
+		if (state == PLAYER_STATES.WIN) { start_cape_win(); }
+		else if ((cape_state == CAPE_STATES.FALL_START || cape_state == CAPE_STATES.FALL) && is_grounded_state()) { start_cape_flutter_end(); }
 		else if (state == PLAYER_STATES.HOP_UP || state == PLAYER_STATES.HOP_UP_FORWARD) { start_cape_flutter_end(); }
 		else if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) { start_cape_flutter(); }
 		else if (state == PLAYER_STATES.TURN) { start_cape_turn(); }
