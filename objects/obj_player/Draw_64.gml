@@ -1,30 +1,32 @@
-player_state_string = player_state_to_string(state);
-player_timer_string = "";
-cape_state_string = cape_state_to_string(cape_state);
+if (global.controller.show_debug_gui) {
+	player_state_string = player_state_to_string(state);
+	player_timer_string = "";
+	cape_state_string = cape_state_to_string(cape_state);
 
-switch (state) {
-	case PLAYER_STATES.CROUCH: { player_timer_string = string(crouch_timer); break; }
-	case PLAYER_STATES.POWERCROUCH: { player_timer_string = string(crouch_timer); break; }
-	case PLAYER_STATES.FLY: { player_timer_string = string(fly_timer); break; }
-	case PLAYER_STATES.POWERFLY: { player_timer_string = string(fly_timer); break; }
-	case PLAYER_STATES.FALL: { player_timer_string = string(fall_timer); break; }
-	case PLAYER_STATES.POWERFALL: { player_timer_string = string(fall_timer); break; }
-	case PLAYER_STATES.SWIM: { player_timer_string = string(swim_timer); break; }
-	case PLAYER_STATES.SWIM_FORWARD: { player_timer_string = string(swim_timer); break; }
+	switch (state) {
+		case PLAYER_STATES.CROUCH: { player_timer_string = string(crouch_timer); break; }
+		case PLAYER_STATES.POWERCROUCH: { player_timer_string = string(crouch_timer); break; }
+		case PLAYER_STATES.FLY: { player_timer_string = string(fly_timer); break; }
+		case PLAYER_STATES.POWERFLY: { player_timer_string = string(fly_timer); break; }
+		case PLAYER_STATES.FALL: { player_timer_string = string(fall_timer); break; }
+		case PLAYER_STATES.POWERFALL: { player_timer_string = string(fall_timer); break; }
+		case PLAYER_STATES.SWIM: { player_timer_string = string(swim_timer); break; }
+		case PLAYER_STATES.SWIM_FORWARD: { player_timer_string = string(swim_timer); break; }
+	}
+
+	draw_set_font(ft_teko);
+	draw_set_color(c_white);
+	draw_text(4, room_height-44, "Cape State: " + cape_state_string + " " + string(cape_timer));
+	draw_text(4, room_height-32, "Player State: " + player_state_string + " " + player_timer_string);
+	draw_text(4, room_height-20, "Transition: " + string(transition_timer));
+
+	draw_text(
+		room_width-56,
+		room_height-20,
+		((key_up) ? "U" : "_") +
+		((key_right) ? "R" : "_") +
+		((key_down) ? "D" : "_") +
+		((key_left) ? "L" : "_") +
+		((key_jump) ? "J" : "_")
+	);
 }
-
-draw_set_font(ft_teko);
-draw_set_color(c_white);
-draw_text(4, room_height-44, "Cape State: " + cape_state_string + " " + string(cape_timer));
-draw_text(4, room_height-32, "Player State: " + player_state_string + " " + player_timer_string);
-draw_text(4, room_height-20, "Transition: " + string(transition_timer));
-
-draw_text(
-	room_width-56,
-	room_height-20,
-	((key_up) ? "U" : "_") +
-	((key_right) ? "R" : "_") +
-	((key_down) ? "D" : "_") +
-	((key_left) ? "L" : "_") +
-	((key_jump) ? "J" : "_")
-);

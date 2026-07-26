@@ -1,8 +1,10 @@
 window_set_size(256*4, 240*4);
-window_set_fullscreen(false);
+window_set_fullscreen(true);
 game_set_speed(30, gamespeed_fps);
 depth = 10;
 global.controller = id;
+global.gamepad = noone;
+
 original_controls = true;
 combine_up_and_jump_controls = true;
 draw_game_object_grid = false;
@@ -17,6 +19,9 @@ portal_timer = 0;
 shine_timer = 1;
 screen_timer = 0;
 world_tint = c_white;
+show_debug_gui = false;
+
+determine_gamepad();
 
 u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");

@@ -30,8 +30,9 @@ if (draw_game_object_grid) {
 
 // Draw Level Text and Key Amounts
 var _text_y_pos = -1 + (original_controls ? 4 : 0), _text_x_pos = 256-20;
+if (original_controls) { _text_x_pos -= 8; }
 if (room_keys >= 10) { _text_x_pos -= 8; }
-draw_text(4, _text_y_pos, room_title);
+draw_text(((original_controls) ? 12 : 4), _text_y_pos, room_title);
 draw_text(_text_x_pos, _text_y_pos, "x" + string(room_keys));
 
 main_palette = PALETTES.YELLOW;

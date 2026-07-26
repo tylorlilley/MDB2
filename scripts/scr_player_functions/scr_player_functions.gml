@@ -160,15 +160,26 @@ reset_controls = function() {
 	key_up = false;
 	key_down = false;
 	key_jump = false;
+	key_restart = false;
+}
+
+function determine_gamepad() {
+	var gp_num = gamepad_get_device_count();
+	global.gamepad = noone;
+	for (var i = 0; i < gp_num; i++;) {
+	    if (gamepad_is_connected(i)) { global.gamepad = i; break; }
+	}
+	return global.gamepad;
 }
 	
 update_controls = function() {
-	key_left = key_left || keyboard_check(vk_left);
-	key_right = key_right || keyboard_check(vk_right);
-	key_up = key_up || keyboard_check(vk_up);
-	key_down = key_down || keyboard_check(vk_down);
+	key_left = key_left || keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5;
+	key_right = key_right || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
+	key_up = key_up || keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5;
+	key_down = key_down || keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5;
 	if (global.controller.combine_up_and_jump_controls) { key_jump = key_jump || keyboard_check(vk_up); }
-	key_jump = (global.controller.original_controls) ? false : (key_jump || keyboard_check(ord("Z")));
+	key_jump = (global.controller.original_controls) ? false : (key_jump || keyboard_check(ord("Z")) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3));
+	key_restart = key_restart || keyboard_check(ord("R")) || gamepad_button_check(global.gamepad, gp_start) || gamepad_button_check(global.gamepad, gp_select);
 		
 	// Cancel out opposite inputs
 	if (key_left && key_right) {
@@ -342,6 +353,9 @@ update_player_state = function() {
 	// Check Controls
 	if (state != PLAYER_STATES.WIN) { reset_controls(); }
 	update_controls();
+	
+	// Restart Room
+	if (key_restart) { instance_destroy(); }
 
 	// Reset Timers
 	if (!is_ladder_state()) { is_up = false; }
