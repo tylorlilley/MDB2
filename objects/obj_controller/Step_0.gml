@@ -55,8 +55,7 @@ with (obj_lava) {
 blocked_switch_colors = [false, false, false, false];
 with (obj_switch) {
 	prev_pressed = pressed;
-	var _on_ground = is_fully_on_ground();
-	if (!_on_ground) { instance_destroy(); }
+	if (!is_fully_on_ground()) { instance_destroy(); }
 	else {
 		_pressed_on = array_length(get_pressing_objects()) > 0;
 		if (_pressed_on && !pressed) { press_switch(); }
@@ -72,6 +71,8 @@ with (obj_key) { shine_periodically(); }
 with (obj_door) {
 	if (image_index == 0) {
 		shine_periodically();
+		
+		if (!is_fully_on_ground()) { instance_destroy(); }
 
 		if (global.controller.room_keys == 0) {
 			create_particles(8 + irandom(8), PALETTES.YELLOW_DARK);

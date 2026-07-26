@@ -6,9 +6,9 @@ Factory BG
 Lava Graphics
 Reforming Clouds
 
-No pause at hop height for old mode
-
-
+Strange Event when walking onto ladder from left of ladder
+Press down to get off ladder;
+Climb from pressing left/right while on ladder
 
 // NEXT:
 

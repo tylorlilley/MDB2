@@ -174,7 +174,7 @@ function determine_gamepad() {
 	
 update_controls = function() {
 	key_left = key_left || keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5;
-	key_right = key_right || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
+	key_right = key_right || keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
 	key_up = key_up || keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5;
 	key_down = key_down || keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5;
 	if (global.controller.combine_up_and_jump_controls) { key_jump = key_jump || keyboard_check(vk_up); }
@@ -395,7 +395,7 @@ update_player_state = function() {
 					if (grid_move_horizontal(left_value())) { walk_on_ground_objects(); }
 					else { start_fallback_state(); }
 				}
-				else if (transition_timer < 6) { transition_timer = 0; }
+				else if (transition_timer < 8) { transition_timer = 0; }
 				
 				break;
 			}
@@ -832,6 +832,7 @@ update_player_state = function() {
 						state = PLAYER_STATES.LADDER_DOWN;
 						play_sound(snd_player_ladder_step);
 					}
+					//else if (key_down && !can_ladder_down(_closest_ladder)) { start_standing(); }
 					else if ((key_left || key_right) && (is_on_ground() && !is_inside_solid())) {
 						is_left = key_left;
 						if ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right()) { start_walking(); }

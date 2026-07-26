@@ -11,6 +11,7 @@ if (x > 0 && y > 0 && x < room_width && y < room_height) {
 	_player_particle.image_angle = 15 * _player_particle.image_rotation;
 	_player_particle.vspeed--;
 	_player_particle.hspeed /= 2;
+	_player_particle.depth -= 1;
 }
 
 // Other Player Death Stuff

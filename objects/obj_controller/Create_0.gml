@@ -1,5 +1,5 @@
 window_set_size(256*4, 240*4);
-window_set_fullscreen(true);
+window_set_fullscreen(false);
 game_set_speed(30, gamespeed_fps);
 depth = 10;
 global.controller = id;
