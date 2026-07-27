@@ -41,8 +41,6 @@ has_cape = true;
 last_x = undefined;
 last_y = undefined;
 
-
-shine_timer = 60 + irandom(8);
 transition_timer = 0;
 animation_timer = 0;
 ring_out_timer = 0;

@@ -161,7 +161,7 @@ grid_move_right = function(_speed) {
 grid_move_up_direct = function(_speed) {
 	if (_speed == 0) { return false; }
 	
-	grid_move_to(x, y + GRID_SIZE);
+	grid_move_to(x, y - GRID_SIZE);
 	y_transition_timer += abs(GRID_SIZE / _speed);
 	return true;
 }

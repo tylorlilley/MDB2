@@ -741,7 +741,7 @@ update_player_state = function() {
 							for (var _dir = 0; _dir < 2; _dir++) {
 								var _x_offset = (_dir == 1) ? GRID_SIZE : 0, _y_offset = GRID_SIZE * 2;
 							
-								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, GRID_SIZE, GRID_SIZEv);
+								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, GRID_SIZE, GRID_SIZE);
 								for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
 									var _inst =  _instances_to_check[_i]
 									if (_inst.is_solid_from_above && _inst.id != id && !array_contains(_damaged_instances, _inst.id)) {
@@ -1271,7 +1271,7 @@ draw_cape_graphics = function() {
 		state != PLAYER_STATES.CRUSHED_STAND &&
 		state != PLAYER_STATES.CRUSHED_FORWARD) {
 		if (state != PLAYER_STATES.LAND || image_index > 0) {
-			_cape_x += get_left_value() * GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
+			_cape_x += get_left_value() * -GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
 		}
 	}
 	
