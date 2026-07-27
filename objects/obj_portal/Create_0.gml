@@ -1,15 +1,15 @@
 event_inherited();
 
+// New Variables
+portal_color = PORTAL_COLORS.TWO;
+activation_timer = 0;
+activated = false;
+
 // Visual Object Overides
 depth = PORTAL_DEPTH;
 original_palette  = get_portal_palette(portal_color);
 main_palette = original_palette;
 particle_palette  = original_palette;
-
-// New Variables
-portal_color = PORTAL_COLORS.TWO;
-activation_timer = 0;
-activated = false;
 
 // Functions
 deactivate_portal = function() {

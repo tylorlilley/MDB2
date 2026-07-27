@@ -8,7 +8,7 @@ play_music(room_world);
 	
 // Set Palettes
 with (obj_visual_object) { image_blend = global.world_tint; }
-with (obj_switch) { main_palette = get_switch_palette(switch_color); }
+with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
 with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);
 	solid_obj = instance_create(x, y, solid_obj);
