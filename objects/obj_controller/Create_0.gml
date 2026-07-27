@@ -1,3 +1,5 @@
+#macro GRID_SIZE 8
+
 #macro TRANSITION_DURATION 24
 #macro TRANSITION_DELAY 40
 #macro TRANSITION_HOLD 12
@@ -9,11 +11,12 @@
 #macro DYNAMIC_OBJECT_DEPTH 2
 #macro KEY_DEPTH 3
 #macro SWITCH_DEPTH 4
-#macro LADDER_DEPTH 5
-#macro PORTAL_DEPTH 6
-#macro STATIC_OBJECT_DEPTH 7
-#macro STATIC_AREA_DEPTH 8
-#macro VISUAL_OBJECT_DEPTH 9 // Tree
+#macro CRATE_DEPTH 5
+#macro LADDER_DEPTH 6
+#macro PORTAL_DEPTH 7
+#macro STATIC_OBJECT_DEPTH 8
+#macro STATIC_AREA_DEPTH 9
+#macro VISUAL_OBJECT_DEPTH 10 // Tree
 
 // Set Up Game Window
 window_set_size(256*4, 240*4);
@@ -58,9 +61,10 @@ initialize_room = function(_new_room) {
 	start_room_transition();
 	global.last_player_x = undefined;
 	global.last_player_y = undefined;
+	global.room_keys = 0;
 	
 	// Create an Empty Game Object Grid that matches the Room Size
-	var _cols = room_get_info(_new_room).width div 8, _rows = room_get_info(_new_room).height div 8;
+	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;
 	game_object_grid = array_create(_cols);
 	for (var _x = 0; _x < _cols; _x++) {
 		game_object_grid[_x] = array_create(_rows);
@@ -74,7 +78,7 @@ reset_room = function() {
 	transition_room(room, false);
 }
 
-transition_room = function(_new_room, _randomize_room_seed) {
+transition_room = function(_new_room, _randomize_room_seed = false) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed);	
 	global.should_rebuild_static_area = true;

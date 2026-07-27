@@ -1,1 +1,1 @@
-if (visible) { draw_dynamic_object(); }
+draw_dynamic_object();

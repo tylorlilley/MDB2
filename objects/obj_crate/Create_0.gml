@@ -1,6 +1,7 @@
 event_inherited();
 
 sprite_index = spr_crate;
+depth = CRATE_DEPTH;
 main_palette = PALETTES.BROWN;
 particle_palette = PALETTES.BROWN_DARK;
 

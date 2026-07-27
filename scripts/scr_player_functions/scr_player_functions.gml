@@ -192,10 +192,10 @@ update_controls = function() {
 	}
 	
 	// Cancel out released inputs
-	if (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) >= -0.5))) { key_left = false; }
-	if (keyboard_check_released(vk_right)) { key_right = false; }
-	if (keyboard_check_released(vk_up)) { key_up = false; }
-	if (keyboard_check_released(vk_right)) { key_down = false; }
+	if (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) >= -0.99))) { key_left = false; }
+	if (keyboard_check_released(vk_right) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) <= 0.99))) { key_right = false; }
+	if (keyboard_check_released(vk_up) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) >= -0.99))) { key_up = false; }
+	if (keyboard_check_released(vk_down) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) <= 0.99))) { key_down = false; }
 	if (keyboard_check_released(ord("Z"))) { key_jump = false; }
 	if (keyboard_check_released(ord("R"))) { key_restart = false; }
 }
@@ -284,7 +284,7 @@ walk_on_ground_objects = function() {
 start_walking = function(_is_crushed = false) {
 	// First, walk on next object
 	var _prev_x = x, _prev_y = y;
-	grid_move_to((is_left) ? x-8 : x+8, y);
+	grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y);
 	walk_on_ground_objects();
 	grid_move_to(_prev_x, _prev_y);
 		
@@ -474,7 +474,7 @@ update_player_state = function() {
 				var _can_walk = ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
 				var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
 				var _on_hop_height_ground = false, _prev_x = x, _prev_y = y;
-				grid_move_to((is_left) ? x-8 : x+8, y);
+				grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y);
 				_on_hop_height_ground = is_on_ground();
 				grid_move_to(_prev_x, _prev_y);
 
@@ -568,7 +568,7 @@ update_player_state = function() {
 							
 							// Determine if Can Climb
 							var _prev_y = y;
-							grid_move_to(x, y - 8);
+							grid_move_to(x, y - GRID_SIZE);
 							var _can_climb = instance_exists(get_climbed_object())
 							grid_move_to(x, _prev_y);
 							
@@ -621,6 +621,7 @@ update_player_state = function() {
 								play_sound(snd_player_takeoff);
 							}
 							else if (!global.original_controls) { start_hopping(); }
+							else { start_fallback_state(); }
 						}
 						else if (key_down && !global.original_controls) {
 							if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
@@ -660,9 +661,9 @@ update_player_state = function() {
 							// Get Targets to Damage
 							var _damaged_instances = []
 							for (var _dir = 0; _dir < 2; _dir++) {
-								var _x_offset = (_dir == 1) ? 8 : 0, _y_offset = -8;
+								var _x_offset = (_dir == 1) ? GRID_SIZE : 0, _y_offset = -GRID_SIZE;
 							
-								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8);
+								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, GRID_SIZE, GRID_SIZE);
 								for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
 									var _inst =  _instances_to_check[_i]
 									if (_inst.is_solid_from_below && _inst.id != id && !array_contains(_damaged_instances, _inst.id)) {
@@ -687,9 +688,9 @@ update_player_state = function() {
 											if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
 										}
 									}
-									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= 8) {
+									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= GRID_SIZE) {
 										// Damage deeper for connected areas
-										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y-8, 8, 8);
+										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y - GRID_SIZE, GRID_SIZE, GRID_SIZE);
 										for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
 											var _new_inst =  _instances_to_check[_i]
 											if (_new_inst.object_index == _inst.object_index && _new_inst.is_solid_from_below && _new_inst.id != id && !array_contains(_damaged_instances, _new_inst.id)) {
@@ -738,9 +739,9 @@ update_player_state = function() {
 							// Get Targets to Damage
 							var _damaged_instances = [];
 							for (var _dir = 0; _dir < 2; _dir++) {
-								var _x_offset = (_dir == 1) ? 8 : 0, _y_offset = 16;
+								var _x_offset = (_dir == 1) ? GRID_SIZE : 0, _y_offset = GRID_SIZE * 2;
 							
-								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8);
+								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, GRID_SIZE, GRID_SIZEv);
 								for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
 									var _inst =  _instances_to_check[_i]
 									if (_inst.is_solid_from_above && _inst.id != id && !array_contains(_damaged_instances, _inst.id)) {
@@ -765,9 +766,9 @@ update_player_state = function() {
 											if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
 										}
 									}
-									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= 16) {
+									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= GRID_SIZE * 2) {
 										// Damage deeper for connected areas
-										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y+8, 8, 8);
+										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y + GRID_SIZE, GRID_SIZE, GRID_SIZE);
 										for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
 											var _new_inst =  _instances_to_check[_i]
 											if (_new_inst.object_index == _inst.object_index && _new_inst.is_solid_from_above && _new_inst.id != id && !array_contains(_damaged_instances, _new_inst.id)) {
@@ -814,7 +815,7 @@ update_player_state = function() {
 			case PLAYER_STATES.RECOIL: {
 				// Decide New State
 				start_fallback_state();
-				if (is_fall_state()) { fall_timer = -8; }
+				if (is_fall_state()) { fall_timer = -GRID_SIZE; }
 				
 				break;
 			}
@@ -861,10 +862,13 @@ update_player_state = function() {
 				break;
 			}
 		}
+		
+		// Reset Controls
+		show_debug_message(string("{0}: {1} -> {2} | tt={3} xtt={4} L={5} R={6} U={7}",
+			    current_time, player_state_to_string(prev_state), player_state_to_string(state),
+				transition_timer, x_transition_timer, key_left, key_right, key_up));
+		reset_controls();
 	}
-
-	// Reset Controls
-	reset_controls();
 
 	// Update transition speeds
 	y_transition_speed = undefined;
@@ -1041,10 +1045,6 @@ update_cape_graphics = function() {
 
 update_player_graphics = function() {
 	if (prev_state != state) {
-		show_debug_message(string("{0}: {1} -> {2} | tt={3} xtt={4} L={5} R={6} U={7}",
-	    current_time, player_state_to_string(prev_state), player_state_to_string(state),
-	    transition_timer, x_transition_timer, key_left, key_right, key_up));
-		
 		animation_timer = 0;
 		image_index = 0;
 		
@@ -1271,7 +1271,7 @@ draw_cape_graphics = function() {
 		state != PLAYER_STATES.CRUSHED_STAND &&
 		state != PLAYER_STATES.CRUSHED_FORWARD) {
 		if (state != PLAYER_STATES.LAND || image_index > 0) {
-			_cape_x += ((is_left) ? 8 : -8) * ((state == PLAYER_STATES.TURN) ? -1 : 1);
+			_cape_x += get_left_value() * GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
 		}
 	}
 	
@@ -1362,7 +1362,7 @@ update_player_collisions_at_position = function() {
 			start_fallback_state();
 		}
 	}
-	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y+8, sprite_get_width(sprite_index), 8);
+	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y + GRID_SIZE, sprite_get_width(sprite_index), GRID_SIZE);
 	for (var _i = 0; _i < array_length(_fully_overlapping_switches); _i++) {
 		var _inst = _fully_overlapping_switches[_i];
 		if (is_a(_inst, obj_switch) && !_inst.pressed) {

@@ -25,7 +25,6 @@ hits = 1;
 image_speed = 0;
 destroyed_sound = snd_explosion;
 damaged_sound = snd_solid_crack;
-shine_timer = 60 + irandom(8);
 virtual_y_offset = 0;
 
 scr_game_object_functions();

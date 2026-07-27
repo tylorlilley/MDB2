@@ -7,12 +7,12 @@ grid_move_to = function(_new_x, _new_y) {
 }
 
 grid_add = function() {
-	var _grid_width = sprite_get_width(sprite_index) div 8, _grid_height = sprite_get_height(sprite_index) div  8;
-	var _max_x = room_width div 8, _max_y = room_height div 8;
+	var _grid_width = sprite_get_width(sprite_index) div GRID_SIZE, _grid_height = sprite_get_height(sprite_index) div  GRID_SIZE;
+	var _max_x = room_width div GRID_SIZE, _max_y = room_height div GRID_SIZE;
 	
 	for (var _grid_x = 0; _grid_x < _grid_width; _grid_x++) {
 		for (var _grid_y = 0; _grid_y < _grid_height; _grid_y++) {
-			var _checked_x = x div 8 + _grid_x, _checked_y = y div 8 + _grid_y;
+			var _checked_x = x div GRID_SIZE + _grid_x, _checked_y = y div GRID_SIZE + _grid_y;
 			
 			if (_checked_x < 0 || _checked_x >= _max_x || _checked_y < 0 || _checked_y >= _max_y) { continue; }
 			array_push(global.controller.game_object_grid[_checked_x][_checked_y], id);
@@ -21,12 +21,12 @@ grid_add = function() {
 }
 
 grid_remove = function() {
-	var _grid_width = sprite_get_width(sprite_index) div 8, _grid_height = sprite_get_height(sprite_index) div  8;
-	var _max_x = room_width div 8, _max_y = room_height div 8;
+	var _grid_width = sprite_get_width(sprite_index) div GRID_SIZE, _grid_height = sprite_get_height(sprite_index) div  GRID_SIZE;
+	var _max_x = room_width div GRID_SIZE, _max_y = room_height div GRID_SIZE;
 	
 	for (var _grid_x = 0; _grid_x < _grid_width; _grid_x++) {
 		for (var _grid_y = 0; _grid_y < _grid_height; _grid_y++) {
-			var _checked_x = x div 8 + _grid_x, _checked_y = y div 8 + _grid_y;
+			var _checked_x = x div GRID_SIZE + _grid_x, _checked_y = y div GRID_SIZE + _grid_y;
 			
 			if (_checked_x < 0 || _checked_x >= _max_x || _checked_y < 0 || _checked_y >= _max_y) { continue; }
 			
@@ -40,8 +40,8 @@ grid_remove = function() {
 // State Querying Functions
 is_fully_on_ground = function() {
 	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
-	for (var _x = x; _x < x + _sprite_width; _x += 8) {
-		if (array_length(get_objects_at(_x, y + _sprite_height, 8, 8, function(_inst) { return _inst.is_solid_from_above; })) == 0) { return false; }
+	for (var _x = x; _x < x + _sprite_width; _x += GRID_SIZE) {
+		if (array_length(get_objects_at(_x, y + _sprite_height, GRID_SIZE, GRID_SIZE, function(_inst) { return _inst.is_solid_from_above; })) == 0) { return false; }
 	}
 	return true;
 }
@@ -49,22 +49,22 @@ is_fully_on_ground = function() {
 get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = [], _object_index = obj_game_object) {
 	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
 	var _x = x + _x_offset, _y = y + _y_offset, _width = _sprite_width, _height = _sprite_height;
-	if (_x_offset > 0) { _x += _sprite_width - 8; }
-	if (_y_offset > 0) { _y += _sprite_height - 8; }
-	if (_x_offset != 0) { _width = 8; }
-	if (_y_offset != 0) { _height = 8; }
+	if (_x_offset > 0) { _x += _sprite_width - GRID_SIZE; }
+	if (_y_offset > 0) { _y += _sprite_height - GRID_SIZE; }
+	if (_x_offset != 0) { _width = GRID_SIZE; }
+	if (_y_offset != 0) { _height = GRID_SIZE; }
 	
 	return get_objects_at(_x, _y, _width, _height, _pred, _ignored_objects, _object_index);
 }
 
 get_left_ceiling_objects = function(_ignored_objects = []) {
-	return get_relative_objects(-8, -8, function(_inst) {
+	return get_relative_objects(-GRID_SIZE, -GRID_SIZE, function(_inst) {
         return _inst.is_solid_from_below;
     }, _ignored_objects);
 }
 
 get_right_ceiling_objects = function(_ignored_objects = []) {
-	return get_relative_objects(8, -8, function(_inst) {
+	return get_relative_objects(GRID_SIZE, -GRID_SIZE, function(_inst) {
         return _inst.is_solid_from_below;
     }, _ignored_objects);
 }
@@ -103,14 +103,14 @@ can_be_climbed_from_left = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
 	if (array_length(get_left_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
-	return (!is_connected || !at_grid_position(x-8, y, 8, 8, object_index));
+	return (!is_connected || !at_grid_position(x-GRID_SIZE, y, GRID_SIZE, GRID_SIZE, object_index));
 }
 
 can_be_climbed_from_right = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
 	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
-	return (!is_connected || !at_grid_position(x+8, y, 8, 8, object_index));
+	return (!is_connected || !at_grid_position(x+GRID_SIZE, y, GRID_SIZE, GRID_SIZE, object_index));
 }
 
 is_solid_from_all_sides = function() {
@@ -167,15 +167,15 @@ shine_periodically = function() {
 }
 
 draw_liquid = function() {
-	var _area_above = at_grid_position(x, y-8, 8, 8, object_index), _y_offset = (_area_above) ? 0 : 4;
+	var _area_above = at_grid_position(x, y-GRID_SIZE, GRID_SIZE, GRID_SIZE, object_index), _y_offset = (_area_above) ? 0 : 4;
 
 	set_shader_palette();
 	
-	draw_sprite_part_ext(spr_box_8x8, 0, 0, _y_offset, 8, 8-_y_offset, x, y+_y_offset, 1, 1, image_blend, image_alpha);
+	draw_sprite_part_ext(spr_box_8x8, 0, 0, _y_offset, GRID_SIZE, GRID_SIZE-_y_offset, x, y+_y_offset, 1, 1, image_blend, image_alpha);
 	if (!_area_above) {
 		var _x_offset = (anim_timer div 8 % 8);
-		draw_sprite_part_ext(spr_water_outline, 0, _x_offset, 0, 8-_x_offset, _y_offset, x, y, 1, 1, image_blend, image_alpha);
-		draw_sprite_part_ext(spr_water_outline, 0, 0, 0, _x_offset, _y_offset, x+(8-_x_offset), y, 1, 1, image_blend, image_alpha);
+		draw_sprite_part_ext(spr_water_outline, 0, _x_offset, 0, GRID_SIZE-_x_offset, _y_offset, x, y, 1, 1, image_blend, image_alpha);
+		draw_sprite_part_ext(spr_water_outline, 0, 0, 0, _x_offset, _y_offset, x+(GRID_SIZE-_x_offset), y, 1, 1, image_blend, image_alpha);
 	}
 }
 
@@ -235,10 +235,10 @@ powerfly_into = function() {
 get_connected_instances = function(_connected_instances) {
 	for (var _dir = 0; _dir < 4; _dir++) {
 		var _x_offset = 0, _y_offset = 0;
-		if (_dir == 0) { _x_offset = 8; }
-		if (_dir == 1) { _x_offset = -8; }
-		if (_dir == 2) { _y_offset = 8; }
-		if (_dir == 3) { _y_offset = -8; }
+		if (_dir == 0) { _x_offset = GRID_SIZE; }
+		if (_dir == 1) { _x_offset = -GRID_SIZE; }
+		if (_dir == 2) { _y_offset = GRID_SIZE; }
+		if (_dir == 3) { _y_offset = -GRID_SIZE; }
 			
 		var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8, object_index);
 		for (var _i = 0; _i < array_length(_instances_to_check); _i++) {

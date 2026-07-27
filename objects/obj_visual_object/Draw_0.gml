@@ -1,4 +1,2 @@
-if (visible) {
-	set_shader_palette(main_palette);
-	draw_self();
-}
+set_shader_palette(main_palette);
+draw_self();
