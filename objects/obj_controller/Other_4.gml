@@ -2,12 +2,12 @@
 var _data = room_data();
 room_world = _data.world;
 room_title = _data.title;
-world_tint = c_white;
+global.world_tint = c_white;
 build_background(room_world);
 play_music(room_world);
 	
 // Set Palettes
-with (obj_visual_object) { image_blend = other.world_tint; }
+with (obj_visual_object) { image_blend = global.world_tint; }
 with (obj_switch) { main_palette = get_switch_palette(switch_color); }
 with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);

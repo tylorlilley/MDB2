@@ -136,48 +136,60 @@ enum PARTICLE_TYPES {
 	SPARK
 }
 
-create_particles = function(_total_particles, _particle_type = PARTICLE_TYPES.DEBRIS, _particle_palette = undefined) {
+create_particles = function(_total_particles, _particle_type = undefined, _particle_palette = undefined) {
 	if (_total_particles <= 0) { exit; }
 	
-	if (is_undefined(_particle_type)) { _particle_type = (is_undefined(particle_type)) ? PARTICLE_TYPES.DEBRIS : particle_type; }
-	if (is_undefined(_particle_palette)) { _particle_palette = (is_undefined(particle_palette)) ? get_darker_palette(main_palette) : particle_palette; }
+	_particle_type ??= particle_type;
+	_particle_palette ??= particle_palette ?? get_darker_palette(main_palette);
 	var _particle_sprite = spr_particle_debris;
+	if (_particle_type == PARTICLE_TYPES.LEAF) { _particle_sprite = spr_particle_leaf; }
 	if (_particle_type == PARTICLE_TYPES.SPARKLE) { _particle_sprite = spr_particle_sparkle; }
 	if (_particle_type == PARTICLE_TYPES.CORPSE) { _particle_sprite = death_sprite; }
 	
 	var _x_pos = x+sprite_get_width(sprite_index)/2, _y_pos = y+sprite_get_height(sprite_index)/2;
 	var  _horizontal_direction = (irandom(1) == 0) ? 1 : -1;
-	var _randomize_image = (_particle_type == PARTICLE_TYPES.DEBRIS || _particle_type == PARTICLE_TYPES.SPARKLE);
 	for (var _i = 0; _i < _total_particles; _i++) {
 		with (instance_create(_x_pos, _y_pos, obj_particle)) {
 			main_palette = _particle_palette;
 			sprite_index = _particle_sprite;
 			depth = PARTICLE_DEPTH;
-			if (_particle_type == PARTICLE_TYPES.CORPSE) { depth -= 1; }
-			image_speed = (_particle_type == PARTICLE_TYPES.DEBRIS) ? 0 : 1;
-			image_rotation = (_particle_type == PARTICLE_TYPES.CORPSE) ? -_horizontal_direction : 0;
 			image_angle = 15 * image_rotation;
+			image_speed = 0;
 			//image_alpha = other.image_alpha;
 			
+			// Randomize Physics Variables
+			hspeed = (random(3) / 2) * _horizontal_direction;
+			vspeed = (random(4) / -2) - 2;
+			gravity = 0.45;
+			terminal_velocity = 8;
+			
+			// Modify basics by type
 			if (_particle_type == PARTICLE_TYPES.DEBRIS || _particle_type == PARTICLE_TYPES.SPARKLE) {
 				// Randomize Visuals
 				if (irandom(3) == 0) { image_index = 1; }
 				image_angle = irandom(3) * 90;
 				image_xscale = (irandom(1) == 0) ? -1 : 1;
 				image_yscale = (irandom(1) == 0) ? -1 : 1;
+				image_speed = (_particle_type == PARTICLE_TYPES.SPARKLE) ? 1 : 0;
 			}
 			else if (_particle_type == PARTICLE_TYPES.LEAF) {
-				image_speed = 0.25;
+				image_speed = 0.125;
 				image_xscale = _horizontal_direction;
+				
+				vspeed += 0.25;
+				hspeed += 0.25 * _horizontal_direction;
+				gravity = 0.35;
+				terminal_velocity = 4;
 			}
-			
-			// Randomize Physics Variables
-			var _base_vspeed = (_particle_type == PARTICLE_TYPES.CORPSE) ? -3 : -2;
-			hspeed = random(4) / (2 * _horizontal_direction);
-			vspeed = (random(6) / -2) - _base_vspeed;
-			gravity = (_particle_type == PARTICLE_TYPES.LEAF) ? 0.35 : 0.5;
-			terminal_velocity = (_particle_type == PARTICLE_TYPES.LEAF) ? 4 : 8;
-			if (_particle_type == PARTICLE_TYPES.CORPSE) { hspeed /= 2; }
+			else if (_particle_type == PARTICLE_TYPES.CORPSE) {
+				depth -= 1;
+				image_speed = 1;
+				image_rotation =  -_horizontal_direction;
+				
+				hspeed += _horizontal_direction;
+				hspeed /= 2;
+				vspeed -= 1;
+			}
 			
 			// Switch Direction for Next Particle Created
 			_horizontal_direction *= -1;
@@ -206,15 +218,16 @@ draw_liquid = function() {
 
 // Game Action Functions
 walk_on = function() {
-	if (particle_frequency > 0) { create_walk_particles(); }
 	if (audio_exists(step_sound)) { play_sound(step_sound); }
+	
+	create_walk_particles();
 }
 
 fall_on = function(_fall_dist) {
 	if (is_fragile) { get_damaged(); }
-	else if (particle_frequency > 0) {create_walk_particles(_fall_dist/4); }
+	else if (audio_exists(step_sound)) { play_sound(step_sound); }
 	
-	if (audio_exists(step_sound)) { play_sound(step_sound); }
+	create_walk_particles(_fall_dist/4);
 }
 
 fly_into = function(_fall_dist) {
@@ -242,7 +255,7 @@ powerfall_on = function() {
 }
 
 powerfly_into = function() {
-	powerfly_into();
+	powerfall_on();
 }
 
 get_damaged = function() {
@@ -250,7 +263,7 @@ get_damaged = function() {
 	hits--;
 	if (hits == 0) { instance_destroy(); }
 	else {
-		create_particles(2);
+		if (hits > 0) { create_particles(2); }
 		play_sound(damaged_sound);
 	}
 	if (hits < 0) { hits = 0; }

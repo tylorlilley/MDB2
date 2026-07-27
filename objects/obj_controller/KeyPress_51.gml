@@ -1,1 +1,1 @@
-original_controls = !original_controls;
+global.original_controls = !global.original_controls;

@@ -256,7 +256,7 @@ start_laddering = function() {
 }
 
 should_start_laddering = function() {
-	var _auto_grab = global.original_controls && (is_grounded_state() || is_fall_state()) && !is_on_ground();
+	var _auto_grab = global.original_controls && ((is_grounded_state() && !is_on_ground()) || is_fall_state());
 	var _should_ladder = ((key_up || key_down || _auto_grab) && can_start_laddering());
 	
 	return _should_ladder;
@@ -412,15 +412,17 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.WIN: {
-				if (visible) {
+				if ((key_up || key_jump) && prev_state == PLAYER_STATES.WIN) { transition_timer = 0; }
+				else if (visible) {
 					if (transition_timer == 51) { image_index = 0; cape_image_index = 0; }
-					if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
-					if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
-					if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
-					if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
-					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT); }
+					else if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
+					else if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
+					else if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
+					else if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
+					else if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT); }
+					else if (transition_timer < 14) { image_index = 2 + (transition_timer % 2); }
+					else if (transition_timer == 1) { image_index = 0; start_cape_win(); }
 				}
-				if (transition_timer == 1) { image_index = 0; start_cape_win(); }
 				break;
 			}
 		}
@@ -454,7 +456,7 @@ update_player_state = function() {
 			case PLAYER_STATES.WIN: {
 				if (visible && (key_up || key_jump) && prev_state == PLAYER_STATES.WIN) {
 					visible = false;
-					play_sound(snd_soft_thud);
+					play_sound(snd_impact);
 					with (obj_door) { image_index = 2; create_particles(8 + irandom(8)); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
@@ -651,7 +653,7 @@ update_player_state = function() {
 						var _ceiling_objects = get_ceiling_objects();
 						for (var _i = 0; _i < array_length(_ceiling_objects); _i++) {
 							var _inst = _ceiling_objects[_i];
-							_inst.fly_into();
+							_inst.fly_into(fly_timer);
 						}
 					}
 				
@@ -1347,10 +1349,7 @@ update_player_collisions_at_position = function() {
 		}
 		else if (_inst.is_a(obj_key)) {
 			if (can_be_controlled) {
-				with (_inst) {
-					instance_destroy();
-					create_particles(4 + irandom(8), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
-				}
+				with (_inst) { instance_destroy(); }
 			}
 		}
 		else if (_inst.is_a(obj_portal) && _inst.activated) {

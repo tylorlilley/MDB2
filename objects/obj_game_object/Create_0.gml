@@ -2,8 +2,9 @@ event_inherited();
 
 creator = noone;
 main_palette = PALETTES.GRAY_LIGHT;
-particle_palette = noone;
+particle_palette = undefined;
 particle_type = PARTICLE_TYPES.DEBRIS;
+particle_frequency = 0;
 image_blend = global.world_tint;
 
 has_gravity = false;

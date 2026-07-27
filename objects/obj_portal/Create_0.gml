@@ -15,7 +15,7 @@ deactivate_portal = function() {
 		activation_timer = 80;
 		activated = false;
 		play_sound(snd_warp);
-		create_particles(2+irandom(4), PARTICLE_TYPES.SPARKLE, particle_palette, );
+		create_particles(2+irandom(4), PARTICLE_TYPES.SPARKLE, particle_palette);
 		create_particles(2+irandom(4), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
 	}
 }

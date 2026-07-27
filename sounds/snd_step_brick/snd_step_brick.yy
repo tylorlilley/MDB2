@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_player_ladder_step",
+  "%Name":"snd_step_brick",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.077913836,
+  "duration":0.08877551,
   "exportDir":"",
-  "name":"snd_player_ladder_step",
+  "name":"snd_step_brick",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_player_ladder_step.wav",
-  "volume":0.1,
+  "soundFile":"snd_step_brick.wav",
+  "volume":0.15,
 }

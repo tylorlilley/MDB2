@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.077913836,
+  "duration":0.05015873,
   "exportDir":"",
   "name":"snd_step_cloud",
   "parent":{

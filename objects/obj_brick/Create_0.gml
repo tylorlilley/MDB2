@@ -1,6 +1,6 @@
 event_inherited();
 
-step_sound = snd_step_rock;
+step_sound = snd_step_brick;
 
 hits = 3;
 main_palette = PALETTES.GRAY_LIGHT;

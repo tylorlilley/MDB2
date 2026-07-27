@@ -10,7 +10,6 @@ is_solid_from_left = true;
 
 is_climbable = true;
 
-particle_frequency = 0;
 step_sound = noone;
 should_draw = true;
 
