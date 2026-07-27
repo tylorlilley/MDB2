@@ -174,8 +174,8 @@ function determine_gamepad() {
 	
 update_controls = function(_inverted) {
 	// Accumulate Inputs
-	var _new_left_value = ((_inverted) ? key_left : key_right) || keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5;
-	var _new_right_value = ((_inverted) ? key_right : key_left) || keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
+	var _new_left_value = ((_inverted) ? key_right : key_left) || keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5;
+	var _new_right_value = ((_inverted) ? key_left : key_right) || keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
 	var _new_up_value = key_up || keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5;
 	var _new_down_value = key_down || keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5;
 	var _new_jump_value = key_jump || ((global.original_controls) ? false : (keyboard_check(ord("Z")) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3) || gamepad_button_check(global.gamepad, gp_face4)));
@@ -203,7 +203,7 @@ update_controls = function(_inverted) {
 	key_right = (_inverted) ? _new_left_value : _new_right_value;
 	key_up = _new_up_value;
 	key_down = _new_down_value;
-	key_jump = _new_jump_value || ((global.combine_up_and_jump_controls) ? _new_up_value : false);
+	key_jump = (global.original_controls) ? false : (_new_jump_value || ((global.combine_up_and_jump_controls) ? _new_up_value : false));
 	key_restart = _new_restart_value;
 }
 	

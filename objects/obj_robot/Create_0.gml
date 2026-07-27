@@ -12,15 +12,15 @@ has_cape = false;
 // Game Object Overrides
 is_player_lethal = true;
 
-// New Variables
-walk_timer = 0;
-
 // Visual Object Overrides
 sprite_index = spr_robot_walk;
 death_sprite = spr_particle_robot_dying;
 original_palette = PALETTES.GRAY_LIGHT;
 particle_palette = original_palette;
 main_palette = original_palette;
+
+// New Variables
+walk_timer = 0;
 
 // Function Overrides
 parent_is_blocked_on_left = is_blocked_on_left;

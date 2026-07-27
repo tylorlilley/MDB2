@@ -18,13 +18,6 @@
 #macro STATIC_AREA_DEPTH 9
 #macro VISUAL_OBJECT_DEPTH 10 // Tree
 
-// Set Up Game Window
-window_set_size(256*4, 240*4);
-window_set_fullscreen(false);
-game_set_speed(30, gamespeed_fps);
-determine_gamepad(); // Poll This Constantly on Title Screen
-palettes_init();
-
 // Global Variables
 global.controller = id;
 global.gamepad = noone;
@@ -37,8 +30,15 @@ global.room_keys = 0;
 global.world_tint = c_white;
 
 // Debug Variables
-show_debug_gui = true;
+show_debug_gui = false;
 draw_game_object_grid = false;
+
+// Set Up Game Window
+window_set_size(256*4, 240*4);
+window_set_fullscreen(!show_debug_gui);
+game_set_speed(30, gamespeed_fps);
+determine_gamepad(); // Poll This Constantly on Title Screen
+palettes_init();
 
 // Graphic Variables
 transition_surface = noone;

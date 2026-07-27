@@ -1,5 +1,6 @@
 event_inherited();
 
+// Visual Object Override
 depth = LADDER_DEPTH;
 main_palette = PALETTES.GRAY_LIGHT;
 
