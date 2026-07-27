@@ -418,7 +418,7 @@ update_player_state = function() {
 					if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
 					if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
 					if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
-					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_sparkles(4 + irandom(6)); }
+					if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT); }
 				}
 				if (transition_timer == 1) { image_index = 0; start_cape_win(); }
 				break;
@@ -1338,22 +1338,22 @@ update_player_collisions_at_position = function() {
 		var _inst = _fully_overlapping_instances[_i];
 		if (!instance_exists(_inst)) { continue; }
 		
-		if (is_a(_inst, obj_door)) {
+		if (_inst.is_a(obj_door)) {
 			if (can_be_controlled && _inst.image_index > 0 && _inst.is_fully_on_ground() && state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
 				start_winning();
 				stop_music();
 				play_sound(snd_level_clear);
 			}
 		}
-		else if (is_a(_inst, obj_key)) {
+		else if (_inst.is_a(obj_key)) {
 			if (can_be_controlled) {
 				with (_inst) {
 					instance_destroy();
-					create_sparkles(8 + irandom(8));
+					create_particles(4 + irandom(8), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
 				}
 			}
 		}
-		else if (is_a(_inst, obj_portal) && _inst.activated) {
+		else if (_inst.is_a(obj_portal) && _inst.activated) {
 			_inst.deactivate_portal();
 			if (instance_exists(_inst.linked_portal)) { _inst.linked_portal.deactivate_portal(); }
 			grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
@@ -1365,7 +1365,8 @@ update_player_collisions_at_position = function() {
 	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y + GRID_SIZE, sprite_get_width(sprite_index), GRID_SIZE);
 	for (var _i = 0; _i < array_length(_fully_overlapping_switches); _i++) {
 		var _inst = _fully_overlapping_switches[_i];
-		if (is_a(_inst, obj_switch) && !_inst.pressed) {
+		
+		if (_inst.is_a(obj_switch) && !_inst.pressed) {
 			_inst.press_switch();
 		}
 	}

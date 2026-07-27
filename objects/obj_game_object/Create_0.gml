@@ -3,7 +3,8 @@ event_inherited();
 creator = noone;
 main_palette = PALETTES.GRAY_LIGHT;
 particle_palette = noone;
-image_blend = global.controller.world_tint;
+particle_type = PARTICLE_TYPES.DEBRIS;
+image_blend = global.world_tint;
 
 has_gravity = false;
 

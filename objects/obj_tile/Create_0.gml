@@ -6,4 +6,4 @@ hits = 3;
 main_sprite = spr_tile;
 main_palette = PALETTES.RED;
 outline_sprite = spr_tile_outline;
-walk_particles = 0;
+particle_frequency = 0;

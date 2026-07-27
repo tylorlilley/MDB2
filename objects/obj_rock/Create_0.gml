@@ -6,4 +6,4 @@ hits = 2;
 main_sprite = spr_rock;
 outline_sprite = spr_rock_outline;
 main_palette = PALETTES.BROWN;
-walk_particles = 2;
+particle_frequency = 2;

@@ -11,4 +11,4 @@ fuzzing_sprite = spr_sand_fuzzing;
 fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);
 
 step_sound = snd_step_sand;
-walk_particles = 2;
+particle_frequency = 4;

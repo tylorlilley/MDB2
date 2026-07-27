@@ -6,4 +6,4 @@ switch_color = noone;
 hits = 0;
 main_sprite = spr_switch_block;
 outline_sprite = spr_switch_block_on_outline;
-walk_particles = 0;
+particle_frequency = 0;

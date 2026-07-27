@@ -6,5 +6,6 @@ main_palette = PALETTES.GRAY_LIGHT;
 // Game Maker Variable Overrides
 image_speed = 0.25;
 
-// New Variables
+// Physics Variables
 image_rotation = 0;
+terminal_velocity = 8;

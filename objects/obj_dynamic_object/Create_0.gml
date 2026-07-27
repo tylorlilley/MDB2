@@ -24,7 +24,7 @@ is_climbable = true;
 has_gravity = true;
 contents = noone;
 
-walk_particles = 0;
+particle_frequency = 0;
 step_sound = noone;
 
 depth = DYNAMIC_OBJECT_DEPTH;

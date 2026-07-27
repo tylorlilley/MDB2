@@ -29,7 +29,7 @@ original_palette = PALETTES.PLAYER;
 main_palette = original_palette;
 particle_palette = PALETTES.BLUE;
 powered_palette = PALETTES.RED;
-death_sprite = spr_player_dying_particle;
+death_sprite = spr_particle_player_dying;
 idle_timer = 0;
 idle_cycle = 0;
 

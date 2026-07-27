@@ -126,40 +126,65 @@ part_damaged = function() { }
 
 update_virtual_y_offset = function() { }
 
-create_particles = function(_total_particles, _palette = noone, _particle_sprite = spr_particle, _randomize = true) {
-	if (_palette == noone) { _palette = (particle_palette == noone) ? get_darker_palette(main_palette) : particle_palette; }
+// Partcile Effect Functions
+enum PARTICLE_TYPES {
+	DEBRIS,
+	SPARKLE,
+	CORPSE,
+	LEAF,
+	PUFF,
+	SPARK
+}
+
+create_particles = function(_total_particles, _particle_type = PARTICLE_TYPES.DEBRIS, _particle_palette = undefined) {
+	if (_total_particles <= 0) { exit; }
 	
-	var  _move_left = irandom(1), _particles = [];
+	if (is_undefined(_particle_type)) { _particle_type = (is_undefined(particle_type)) ? PARTICLE_TYPES.DEBRIS : particle_type; }
+	if (is_undefined(_particle_palette)) { _particle_palette = (is_undefined(particle_palette)) ? get_darker_palette(main_palette) : particle_palette; }
+	var _particle_sprite = spr_particle_debris;
+	if (_particle_type == PARTICLE_TYPES.SPARKLE) { _particle_sprite = spr_particle_sparkle; }
+	if (_particle_type == PARTICLE_TYPES.CORPSE) { _particle_sprite = death_sprite; }
+	
+	var _x_pos = x+sprite_get_width(sprite_index)/2, _y_pos = y+sprite_get_height(sprite_index)/2;
+	var  _horizontal_direction = (irandom(1) == 0) ? 1 : -1;
+	var _randomize_image = (_particle_type == PARTICLE_TYPES.DEBRIS || _particle_type == PARTICLE_TYPES.SPARKLE);
 	for (var _i = 0; _i < _total_particles; _i++) {
-		var _p = instance_create(x+sprite_get_width(sprite_index)/2, y+sprite_get_height(sprite_index)/2, obj_particle);
-		array_push(_particles, _p);
-		with (_p) {
-			main_palette = _palette;
+		with (instance_create(_x_pos, _y_pos, obj_particle)) {
+			main_palette = _particle_palette;
 			sprite_index = _particle_sprite;
-			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO: make this a param
-			image_blend = global.controller.world_tint;
 			depth = PARTICLE_DEPTH;
-			image_alpha = other.image_alpha;
-			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
-			vspeed = (random(6) / 2 * -1) - 2;
-			gravity = 0.5;
+			if (_particle_type == PARTICLE_TYPES.CORPSE) { depth -= 1; }
+			image_speed = (_particle_type == PARTICLE_TYPES.DEBRIS) ? 0 : 1;
+			image_rotation = (_particle_type == PARTICLE_TYPES.CORPSE) ? -_horizontal_direction : 0;
+			image_angle = 15 * image_rotation;
+			//image_alpha = other.image_alpha;
 			
-			if (_randomize) {
+			if (_particle_type == PARTICLE_TYPES.DEBRIS || _particle_type == PARTICLE_TYPES.SPARKLE) {
+				// Randomize Visuals
 				if (irandom(3) == 0) { image_index = 1; }
 				image_angle = irandom(3) * 90;
 				image_xscale = (irandom(1) == 0) ? -1 : 1;
 				image_yscale = (irandom(1) == 0) ? -1 : 1;
 			}
+			else if (_particle_type == PARTICLE_TYPES.LEAF) {
+				image_speed = 0.25;
+				image_xscale = _horizontal_direction;
+			}
 			
-			_move_left = !_move_left;
+			// Randomize Physics Variables
+			var _base_vspeed = (_particle_type == PARTICLE_TYPES.CORPSE) ? -3 : -2;
+			hspeed = random(4) / (2 * _horizontal_direction);
+			vspeed = (random(6) / -2) - _base_vspeed;
+			gravity = (_particle_type == PARTICLE_TYPES.LEAF) ? 0.35 : 0.5;
+			terminal_velocity = (_particle_type == PARTICLE_TYPES.LEAF) ? 4 : 8;
+			if (_particle_type == PARTICLE_TYPES.CORPSE) { hspeed /= 2; }
+			
+			// Switch Direction for Next Particle Created
+			_horizontal_direction *= -1;
 		}
 	}
-	return _particles;
 }
 
-create_sparkles = function(_max_amount, _palette = PALETTES.GRAY_LIGHT) {
-	create_particles(_max_amount, _palette, spr_sparkle, true);
-}
 
 shine_periodically = function() {
 	shine_timer--;
@@ -180,48 +205,32 @@ draw_liquid = function() {
 }
 
 // Game Action Functions
-get_damaged = function() {
-	if (instance_exists(creator)) { creator.part_damaged(id); }
-	if (hits >= 1) { global.controller.start_screen_shake(); }
-	hits--;
-	if (hits == 0) { instance_destroy(); }
-	else { play_sound(damaged_sound); }
-	global.should_rebuild_static_area = true;
+walk_on = function() {
+	if (particle_frequency > 0) { create_walk_particles(); }
+	if (audio_exists(step_sound)) { play_sound(step_sound); }
 }
 
 fall_on = function(_fall_dist) {
 	if (is_fragile) { get_damaged(); }
-	else if (walk_particles > 0) {
-		for (var _i = 0; _i < (_fall_dist % 4)+2; _i++) { create_walk_particles(); }
-	}
+	else if (particle_frequency > 0) {create_walk_particles(_fall_dist/4); }
+	
 	if (audio_exists(step_sound)) { play_sound(step_sound); }
 }
 
-walk_on = function() {
-	if (walk_particles > 0) { create_walk_particles(); }
-	if (audio_exists(step_sound)) { play_sound(step_sound); }
+fly_into = function(_fall_dist) {
+	fall_on(_fall_dist);
 }
 
 create_walk_particles = function() {
-	if (walk_particles <= 0) { return; }
-	
-	var _rand = irandom(8);
-	if (_rand % (8/walk_particles) == 0) {
-		create_particles(1);
-	}
-}
+	if (particle_frequency <= 0) { return; }
 
-fly_into = function() {
-	if (is_fragile) { get_damaged(); }
-	else { create_particles(irandom(1)); }
+	var _particle_frequency = sqr(particle_frequency) / 32.0;
+	if (random(1) < _particle_frequency) { create_particles(1); }
 }
 
 powerfall_on = function() {
-	powerfly_into();
-}
-
-powerfly_into = function() {
 	get_damaged();
+	global.controller.start_screen_shake();
 	if (is_connected) {
 		var _connected_instances = get_connected_instances([id]);
 		for (var _i = 0; _i < array_length(_connected_instances); _i++) {
@@ -231,6 +240,24 @@ powerfly_into = function() {
 		}
 	}
 }
+
+powerfly_into = function() {
+	powerfly_into();
+}
+
+get_damaged = function() {
+	if (instance_exists(creator)) { creator.part_damaged(id); }
+	hits--;
+	if (hits == 0) { instance_destroy(); }
+	else {
+		create_particles(2);
+		play_sound(damaged_sound);
+	}
+	if (hits < 0) { hits = 0; }
+	
+	if (is_a(obj_static_area)) { global.should_rebuild_static_area = true; }
+}
+
 
 get_connected_instances = function(_connected_instances) {
 	for (var _dir = 0; _dir < 4; _dir++) {
@@ -251,4 +278,8 @@ get_connected_instances = function(_connected_instances) {
 	}
 
 	return _connected_instances;
+}
+
+is_a = function(_object_index) {
+	return (object_index == _object_index || object_is_ancestor(object_index, _object_index));
 }

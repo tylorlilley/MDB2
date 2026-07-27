@@ -12,7 +12,7 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 			var _instances_at_grid_position = global.controller.game_object_grid[_checked_x][_checked_y];
 			for (var _i = 0; _i < array_length(_instances_at_grid_position); _i++) {
 				var _inst = _instances_at_grid_position[_i];
-				if (instance_exists(_inst) && id != _inst.id && is_a(_inst, _object_index) && !array_contains(_returned_instances, _inst.id)) {
+				if (instance_exists(_inst) && id != _inst.id && _inst.is_a(_object_index) && !array_contains(_returned_instances, _inst.id)) {
 					array_push(_returned_instances, _inst.id);
 				}
 			}
@@ -61,7 +61,7 @@ function get_objects_at(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
 	{
 		var _inst = _potential_objects[_i];
-		if (is_a(_inst, _object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
+		if (_inst.is_a(_object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
 	}
 	
 	return _static_objects;
@@ -81,10 +81,6 @@ function draw_sprite_silhoutte(_sprite_index, _image_index, _x, _y, _image_xscal
 function set_shader_palette(_palette_to_use = undefined) {
 	if (is_undefined(_palette_to_use)) { _palette_to_use = main_palette; }
 	shader_set_uniform_f_array(global.u_replacement_colors, global.palette_uniform_values[_palette_to_use]);
-}
-
-function is_a(_inst, _object_index) {
-	return (_inst.object_index == _object_index || object_is_ancestor(_inst.object_index, _object_index));
 }
 
 function always_true() { return true; }

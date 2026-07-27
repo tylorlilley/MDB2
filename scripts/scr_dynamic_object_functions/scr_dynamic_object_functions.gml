@@ -7,7 +7,7 @@ get_switch_offset = function() {
 	var _ground_objects = get_ground_objects(), _y_offset = 999;
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 		var _inst = _ground_objects[_i];
-		if (instance_exists(_inst) && is_a(_inst, obj_dynamic_object)) {
+		if (instance_exists(_inst) && _inst.is_a(obj_dynamic_object)) {
 			with (_inst) {
 				_y_offset = min(_y_offset, get_switch_offset());
 			}
@@ -17,7 +17,7 @@ get_switch_offset = function() {
 	// Calculate Base Offset Yourself
 	if (_y_offset == 999) {
 		_y_offset = 0;
-		var _potential_objects = get_relative_objects(0, 0,  function(_inst) { return (_inst.x == x && is_a(_inst, obj_switch)); });
+		var _potential_objects = get_relative_objects(0, 0,  function(_inst) { return (_inst.x == x && _inst.is_a(obj_switch)); });
 		for (var _i = 0; _i < array_length(_potential_objects); _i++) {
 			var _inst = _potential_objects[_i], _image_index_offset;
 			switch (_inst.image_index) {
@@ -42,7 +42,7 @@ get_float_offset = function() {
 		_ground_objects = get_ground_objects();
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
-			if (instance_exists(_inst) && is_a(_inst, obj_dynamic_object)) {
+			if (instance_exists(_inst) && _inst.is_a(obj_dynamic_object)) {
 				with (_inst) {
 					_y_offset = min(_y_offset, get_float_offset());
 				}
@@ -70,7 +70,7 @@ get_float_offset = function() {
 		var _ground_objects = get_ground_objects();
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
-			if (instance_exists(_inst) && is_a(_inst, obj_dynamic_object) && (_inst.is_floating_state() || _inst.is_grounded_state())) {
+			if (instance_exists(_inst) && is_a(_inst.obj_dynamic_object) && (_inst.is_floating_state() || _inst.is_grounded_state())) {
 				with (_inst) {
 					_y_offset = min(_y_offset, get_float_offset());
 				}
@@ -186,7 +186,7 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 	// Get All Dynamic Objects Above Current Position
 	var _actual_carried_objects = []
 	var _possible_carried_objects = get_relative_objects(0, -GRID_SIZE, function(_inst) {
-        return is_a(_inst, obj_dynamic_object) && _inst.has_gravity;
+        return _inst.is_a(obj_dynamic_object) && _inst.has_gravity;
     });
 	
 	// Weed Out Any Objects Also Resting on Something Else

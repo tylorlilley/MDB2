@@ -11,7 +11,7 @@ enum WORLDS {
 }
 
 function build_background(_world) {
-	global.controller.world_tint = c_white;
+	global.world_tint = c_white;
 	switch(_world) {
 		case WORLDS.BEACH:
 		case WORLDS.SKY:
@@ -22,9 +22,9 @@ function build_background(_world) {
 			// Choose Sky Sprite and World Tint
 			var _sprite = (_world == WORLDS.NIGHT) ? bg_stars : bg_sky;
 			if (_world == WORLDS.SKY_2) { _sprite = bg_sky_2; }
-			if (_world == WORLDS.SKY_3) { _sprite = bg_sky_3; global.controller.world_tint = make_colour_rgb(255, 169, 128); }
-			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_3; global.controller.world_tint = make_colour_rgb(148, 54, 44); }
-			if (_world == WORLDS.NIGHT) { _sprite = bg_stars; global.controller.world_tint = C_PURPLE_DARK; }
+			if (_world == WORLDS.SKY_3) { _sprite = bg_sky_3; global.world_tint = make_colour_rgb(255, 169, 128); }
+			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_3; global.world_tint = make_colour_rgb(148, 54, 44); }
+			if (_world == WORLDS.NIGHT) { _sprite = bg_stars; global.world_tint = C_PURPLE_DARK; }
 			
 			// BG Sky Layer
 			var _sky_layer = layer_create(100, "Beach_Sky");
@@ -39,7 +39,7 @@ function build_background(_world) {
 			break;
 		}
 		case WORLDS.CASTLE: {
-			global.controller.world_tint = C_RED_DARK;
+			global.world_tint = C_RED_DARK;
 			
 			// BG Castle Layer
 			var _castle_layer = layer_create(100, "Castle_Background");
@@ -53,7 +53,7 @@ function build_background(_world) {
 			break;
 		}
 		case WORLDS.FACTORY: {
-			global.controller.world_tint = C_GRAY_DARK;
+			global.world_tint = C_GRAY_DARK;
 			
 			// BG Castle Layer
 			var _gears_layer = layer_create(100, "Factory_Gears");
@@ -100,7 +100,7 @@ function build_background(_world) {
 }
 
 function play_music(_world) {
-	if (global.controller.show_debug_gui) { return false; }
+	if (global.controller.show_debug_gui) { exit; }
 
 	var _sound_to_play = noone;
 	switch (_world) {

@@ -17,4 +17,4 @@ damaged_sound = snd_solid_invulnerable;
 main_palette = PALETTES.RED;
 main_sprite = spr_lava_old;
 outline_sprite = spr_lava_outline;
-walk_particles = 8;
+particle_frequency = 8;

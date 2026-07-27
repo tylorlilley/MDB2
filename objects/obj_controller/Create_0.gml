@@ -34,6 +34,7 @@ global.should_rebuild_static_area = true;
 global.u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 global.u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
 global.room_keys = 0;
+global.world_tint = c_white;
 
 // Debug Variables
 show_debug_gui = true;
@@ -43,7 +44,6 @@ draw_game_object_grid = false;
 transition_surface = noone;
 static_area_surface = noone;
 screen_shake_timer = 0;
-world_tint = c_white;
 depth = STATIC_AREA_DEPTH;
 
 // Timers
@@ -112,4 +112,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_1_1, true);
+transition_room(rm_test_terrain, true);

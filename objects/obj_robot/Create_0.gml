@@ -12,7 +12,7 @@ has_cape = false;
 walk_timer = 0;
 
 sprite_index = spr_robot_walk;
-death_sprite = spr_robot_dying_particle;
+death_sprite = spr_particle_robot_dying;
 original_palette = PALETTES.GRAY_LIGHT;
 particle_palette = original_palette;
 main_palette = original_palette;
@@ -44,7 +44,7 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 	var _carried_objects = parent_get_carried_objects(_sort_x_by_negative), _modified_carried_objects = []
 	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
 		var _inst = _carried_objects[_i];
-		if (!is_a(_inst, obj_robot) || _inst.is_left == is_left) { array_push(_modified_carried_objects, _inst); }
+		if (!_inst.is_a(obj_robot) || _inst.is_left == is_left) { array_push(_modified_carried_objects, _inst); }
 	}
 	return _modified_carried_objects;
 }
@@ -65,7 +65,7 @@ update_controls = function() {
 		var _freeze_on_top_of_robot = false, _ground_objects = get_ground_objects();
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
-			if (is_a(_inst, obj_robot) && _inst.is_left == is_left) { _freeze_on_top_of_robot = true;  break; }
+			if (_inst.is_a(obj_robot) && _inst.is_left == is_left) { _freeze_on_top_of_robot = true;  break; }
 		}
 
 		if (!_freeze_on_top_of_robot && !_turned_around) {

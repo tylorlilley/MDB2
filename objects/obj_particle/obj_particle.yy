@@ -34,8 +34,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_particle",
-    "path":"sprites/spr_particle/spr_particle.yy",
+    "name":"spr_particle_debris",
+    "path":"sprites/spr_particle_debris/spr_particle_debris.yy",
   },
   "spriteMaskId":null,
   "visible":true,

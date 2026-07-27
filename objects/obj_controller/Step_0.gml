@@ -75,8 +75,8 @@ with (obj_door) {
 		if (!is_fully_on_ground()) { instance_destroy(); }
 
 		if (global.room_keys == 0) {
-			create_particles(8 + irandom(8), PALETTES.YELLOW_DARK);
-			create_sparkles(8 + irandom(8));
+			create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
+			create_particles(8 + irandom(8), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
 			image_index = 1;
 			play_sound(snd_door_unlock);
 			global.controller.start_screen_shake();
@@ -127,7 +127,7 @@ with (obj_portal) {
 
 // Game Object End Step
 with (obj_player) {
-	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (y >= room_height) || (y + sprite_get_height(sprite_index) <= 0 && !is_a(self, obj_robot))) { 
+	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (y >= room_height) || (y + sprite_get_height(sprite_index) <= 0 && !is_a(obj_robot))) { 
 		ring_out_timer++;
 	}
 	else { ring_out_timer = 0; }

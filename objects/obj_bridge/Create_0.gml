@@ -12,4 +12,4 @@ hits = 1;
 main_palette = PALETTES.BROWN;
 main_sprite = spr_bridge;
 outline_sprite = noone;
-walk_particles = 1;
+particle_frequency = 1;
