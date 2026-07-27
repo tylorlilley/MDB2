@@ -1,10 +1,15 @@
 event_inherited();
 
-depth = SWITCH_DEPTH;
+// New Variables
 pressed = false;
+
+// Game Maker Variable Overrides
+main_palette = get_switch_palette(switch_color);
+depth = SWITCH_DEPTH;
 sprite_index = spr_switch;
 image_index = 2;
 
+// Functions
 get_pressing_objects = function() {
 	var _possible_instances = instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_dynamic_object);
 	var _pressing_instances = [];

@@ -6,6 +6,7 @@ visible = false;
 // New Variables
 trunk = [];
 
+// Functions
 initialize_solids = function() {
 	var _trunk_x_left = x, _trunk_x_right = x + sprite_get_width(sprite_index);
 	for (var _trunk_x = _trunk_x_left; _trunk_x < _trunk_x_right; _trunk_x += 8) {

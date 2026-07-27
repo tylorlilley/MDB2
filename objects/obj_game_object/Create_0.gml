@@ -16,6 +16,7 @@ is_solid_from_below = false;
 is_solid_from_right = false;
 is_solid_from_left = false;
 
+is_portalable = false;
 is_climbable = false;
 is_pushable = false;
 is_fragile = false;

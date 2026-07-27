@@ -69,16 +69,16 @@ get_right_ceiling_objects = function(_ignored_objects = []) {
     }, _ignored_objects);
 }
 
-get_inside_objects = function(_object_index = obj_game_object, _ignored_objects = []) {
-	return get_relative_objects(0, 0, always_true, _ignored_objects, _object_index);
+get_inside_objects = function(_object_index = obj_game_object, _pred = always_true, _ignored_objects = []) {
+	return get_relative_objects(0, 0, _pred, _ignored_objects, _object_index);
 }
 
-is_inside_object = function(_object_index = obj_game_object, _ignored_objects = []) {
-	return array_length(get_inside_objects(_object_index, _ignored_objects)) > 0;
+is_inside_object = function(_object_index = obj_game_object, _pred = always_true, _ignored_objects = []) {
+	return array_length(get_inside_objects(_object_index, _pred, _ignored_objects)) > 0;
 }
 
 get_inside_solids = function(_ignored_objects = []) {
-	return get_relative_objects(0, 0, function(_inst) {
+	return get_inside_objects(0, 0, function(_inst) {
         return _inst.is_solid_from_all_sides();
     }, _ignored_objects);
 }

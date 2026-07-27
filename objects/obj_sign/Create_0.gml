@@ -1,5 +1,7 @@
 event_inherited();
 
-sprite_index = spr_sign;
+// Parent Overrides
 main_palette = PALETTES.BROWN;
-sign_symbol = -1;
+
+// New Variables
+symbol_image_index = -1;

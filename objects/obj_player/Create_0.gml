@@ -6,6 +6,7 @@ is_solid_from_above = true;
 is_solid_from_below = true;
 is_solid_from_right = true;
 is_solid_from_left = true;
+is_portalable = true;
 is_left = true;
 is_up = false;
 	

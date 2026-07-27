@@ -12,6 +12,7 @@ image_index = 1;
 leaves = [];
 trunk = [];
 
+// Functions
 initialize_solids = function() {
 	// Create Leaves
 	var _visual_x_offset = 32, _visual_y_offset = 64;

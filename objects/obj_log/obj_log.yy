@@ -8,8 +8,8 @@
   "name":"obj_log",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Game Objects",
+    "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
     "name":"obj_visual_object",
