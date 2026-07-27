@@ -1,2 +1,2 @@
 sway_timer++;
-//sway_timer = sway_timer % 720;
+if (sway_timer > 24) { sway_timer = -(irandom(60) + 60); }

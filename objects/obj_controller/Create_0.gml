@@ -1,42 +1,65 @@
+#macro TRANSITION_DURATION 24
+#macro TRANSITION_DELAY 40
+#macro TRANSITION_HOLD 12
+
+#macro PARTICLE_DEPTH -2
+#macro WATER_DEPTH -1 // And Lava
+#macro PLAYER_DEPTH 0
+#macro CAPE_DEPTH 1
+#macro DYNAMIC_OBJECT_DEPTH 2
+#macro KEY_DEPTH 3
+#macro SWITCH_DEPTH 4
+#macro LADDER_DEPTH 5
+#macro PORTAL_DEPTH 6
+#macro STATIC_OBJECT_DEPTH 7
+#macro STATIC_AREA_DEPTH 8
+#macro VISUAL_OBJECT_DEPTH 9 // Tree
+
+// Set Up Game Window
 window_set_size(256*4, 240*4);
 window_set_fullscreen(false);
 game_set_speed(30, gamespeed_fps);
-depth = 10;
-global.controller = id;
-global.gamepad = noone;
-
-original_controls = true;
-combine_up_and_jump_controls = true;
-draw_game_object_grid = false;
-transition_surface = noone;
-static_area_surface = noone;
-should_rebuild_static_area = true;
-transition_duration = 24;
-transition_hold = 12;
-transition_delay = 40;
-room_seed = random_get_seed();
-portal_timer = 0;
-shine_timer = 1;
-screen_timer = 0;
-world_tint = c_white;
-show_debug_gui = false;
-
-determine_gamepad();
-
-u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
-u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
-
-frame_sounds = [];
+determine_gamepad(); // Poll This Constantly on Title Screen
 palettes_init();
 
+// Global Variables
+global.controller = id;
+global.gamepad = noone;
+global.original_controls = true;
+global.combine_up_and_jump_controls = true;
+global.should_rebuild_static_area = true;
+global.u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
+global.u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
+global.room_keys = 0;
+
+// Debug Variables
+show_debug_gui = true;
+draw_game_object_grid = false;
+
+// Graphic Variables
+transition_surface = noone;
+static_area_surface = noone;
+screen_shake_timer = 0;
+world_tint = c_white;
+depth = STATIC_AREA_DEPTH;
+
+// Timers
+transition_timer = 0;
+frame_timer = 0;
+
+// Gameplay Variables
+game_object_grid = [];
+frame_sounds = [];
+room_seed = random_get_seed();
+
 initialize_room = function(_new_room) {
-	room_keys = 0;
 	play_sound(snd_fade_in);
 	
-	transition_timer = transition_delay + transition_duration + transition_hold;
-	last_player_x = -32;
-	last_player_y = -32;
+	start_room_transition();
+	global.last_player_x = undefined;
+	global.last_player_y = undefined;
 	
+	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div 8, _rows = room_get_info(_new_room).height div 8;
 	game_object_grid = array_create(_cols);
 	for (var _x = 0; _x < _cols; _x++) {
@@ -48,13 +71,13 @@ initialize_room = function(_new_room) {
 }
 
 reset_room = function() {
-	transition_room(room, room_seed);
+	transition_room(room, false);
 }
 
-transition_room = function(_new_room, _new_room_seed = noone) {
-	room_seed = (_new_room_seed == noone) ? randomize() : _new_room_seed;
+transition_room = function(_new_room, _randomize_room_seed) {
+	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed);	
-	should_rebuild_static_area = true;
+	global.should_rebuild_static_area = true;
 	initialize_room(_new_room);
 	room_goto(_new_room);
 }
@@ -78,11 +101,11 @@ rebuild_static_area_surface = function() {
 	// Reset Surface
 	shader_reset();
 	surface_reset_target();
-	should_rebuild_static_area = false;
+	global.should_rebuild_static_area = false;
 }
 
-screen_shake = function() {
-	screen_timer = 8;
-}
+start_screen_shake = function() { screen_shake_timer = 8; }
 
-transition_room(rm_mdb_1_1);
+start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
+
+transition_room(rm_mdb_1_1, true);

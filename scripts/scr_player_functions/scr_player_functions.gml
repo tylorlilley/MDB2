@@ -177,8 +177,8 @@ update_controls = function() {
 	key_right = key_right || keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
 	key_up = key_up || keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5;
 	key_down = key_down || keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5;
-	if (global.controller.combine_up_and_jump_controls) { key_jump = key_jump || keyboard_check(vk_up); }
-	key_jump = (global.controller.original_controls) ? false : (key_jump || keyboard_check(ord("Z")) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3));
+	if (global.combine_up_and_jump_controls) { key_jump = key_jump || keyboard_check(vk_up); }
+	key_jump = (global.original_controls) ? false : (key_jump || keyboard_check(ord("Z")) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3));
 	key_restart = key_restart || keyboard_check(ord("R")) || gamepad_button_check(global.gamepad, gp_start) || gamepad_button_check(global.gamepad, gp_select);
 		
 	// Cancel out opposite inputs
@@ -190,6 +190,14 @@ update_controls = function() {
 		if (is_up) { key_down = false; }
 		else { key_up = false; }
 	}
+	
+	// Cancel out released inputs
+	if (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) >= -0.5))) { key_left = false; }
+	if (keyboard_check_released(vk_right)) { key_right = false; }
+	if (keyboard_check_released(vk_up)) { key_up = false; }
+	if (keyboard_check_released(vk_right)) { key_down = false; }
+	if (keyboard_check_released(ord("Z"))) { key_jump = false; }
+	if (keyboard_check_released(ord("R"))) { key_restart = false; }
 }
 	
 // State Updating Functions
@@ -197,7 +205,7 @@ start_pushing = function(_pushed_obj) {
 	// Push Box
 	if (!_pushed_obj.start_being_pushed(is_left)) { return false; }
 	// Push Self
-	return grid_move_horizontal(left_value());
+	return grid_move_horizontal(get_left_value());
 }
 	
 start_winning = function() {
@@ -223,8 +231,8 @@ start_fallback_state = function(_is_crushed = false) {
 start_standing = function(_is_crushed = false) {
 	state = PLAYER_STATES.STAND;
 	if (_is_crushed) { state = PLAYER_STATES.CRUSHED_STAND; }
-	else if (key_down && !global.controller.original_controls) { state = PLAYER_STATES.CROUCH; }
-	else if (key_up && !global.controller.original_controls) { state = PLAYER_STATES.LOOK_UP; }
+	else if (key_down && !global.original_controls) { state = PLAYER_STATES.CROUCH; }
+	else if (key_up && !global.original_controls) { state = PLAYER_STATES.LOOK_UP; }
 	transition_timer = (_is_crushed) ? 4 : 0;
 	air_walk = false;
 	if (key_left || key_right) { is_left = key_left; }
@@ -248,7 +256,7 @@ start_laddering = function() {
 }
 
 should_start_laddering = function() {
-	var _auto_grab = global.controller.original_controls && (is_grounded_state() || is_fall_state()) && !is_on_ground();
+	var _auto_grab = global.original_controls && (is_grounded_state() || is_fall_state()) && !is_on_ground();
 	var _should_ladder = ((key_up || key_down || _auto_grab) && can_start_laddering());
 	
 	return _should_ladder;
@@ -282,7 +290,7 @@ start_walking = function(_is_crushed = false) {
 		
 	// Continue with Walking or Fall
 	var _speed = (_is_crushed) ? 0.5 : 2;
-	if (grid_move_horizontal(_speed * left_value())) {
+	if (grid_move_horizontal(_speed * get_left_value())) {
 		transition_timer = (_is_crushed) ? 4 : 0;
 		state = (_is_crushed) ? PLAYER_STATES.CRUSHED_FORWARD : PLAYER_STATES.WALK_FORWARD;
 	}
@@ -291,7 +299,7 @@ start_walking = function(_is_crushed = false) {
 start_hopping = function(_should_move_horizontally = false) {
 	virtual_y_offset = get_switch_offset(); // This gets reset elsewhere if we remain grounded before being used in the Draw
 	
-	if (_should_move_horizontally && grid_move_horizontal(left_value())) { state = PLAYER_STATES.HOP_UP_FORWARD; }
+	if (_should_move_horizontally && grid_move_horizontal(get_left_value())) { state = PLAYER_STATES.HOP_UP_FORWARD; }
 	else { state = PLAYER_STATES.HOP_UP; }
 	
 	play_sound(snd_player_jump);
@@ -312,7 +320,7 @@ get_closest_ladder = function() {
 }
 
 get_climbed_object = function() {
-	if (is_under_ceiling() || (!key_jump && !key_up && !global.controller.original_controls)) { return noone; }
+	if (is_under_ceiling() || (!key_jump && !key_up && !global.original_controls)) { return noone; }
 	var _diagonal_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects();
 	if (array_length(_diagonal_ceiling_objects) > 0) { return noone; }
 	
@@ -342,16 +350,11 @@ can_start_laddering = function() {
 	return (!is_crushed_state() && at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder));
 }
 
-left_value = function() {
-	return ((is_left) ? -1 : 1);
-}
-
 // Main Functions
 update_player_state = function() {
 	prev_state = state;
 
 	// Check Controls
-	if (state != PLAYER_STATES.WIN) { reset_controls(); }
 	update_controls();
 	
 	// Restart Room
@@ -392,16 +395,16 @@ update_player_state = function() {
 					if (!grid_move_up(1)) { start_fallback_state(); }
 				}
 				else if (transition_timer == 18) {
-					if (grid_move_horizontal(left_value())) { walk_on_ground_objects(); }
+					if (grid_move_horizontal(get_left_value())) { walk_on_ground_objects(); }
 					else { start_fallback_state(); }
 				}
-				else if (transition_timer < 8) { transition_timer = 0; }
+				else if (transition_timer < 10) { transition_timer = 0; }
 				
 				break;
 			}
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
-				if (global.controller.original_controls && transition_timer <= 2) {
+				if (global.original_controls && transition_timer <= 2) {
 					transition_timer = 0;
 					y_transition_timer = 0;
 				}
@@ -440,7 +443,7 @@ update_player_state = function() {
 					var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
 					
 					if (_horizontal_input && instance_exists(get_climbed_object())) { start_climbing(); }
-					else if (_horizontal_input && _can_walk && grid_move_horizontal(left_value())) {
+					else if (_horizontal_input && _can_walk && grid_move_horizontal(get_left_value())) {
 						transition_timer = 8;
 						state = PLAYER_STATES.SWIM_FORWARD;
 					}
@@ -455,8 +458,8 @@ update_player_state = function() {
 					with (obj_door) { image_index = 2; create_particles(8 + irandom(8)); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
-					global.controller.last_player_x = x;
-					global.controller.last_player_y = y;
+					global.last_player_x = x;
+					global.last_player_y = y;
 				}
 				else { start_winning(); }
 				break;
@@ -479,10 +482,10 @@ update_player_state = function() {
 				if (should_start_laddering()) { start_laddering() }
 				else if (is_on_ground()) { start_standing(); }
 				else if (_on_hop_height_ground && _can_walk && _horizontal_input) { air_walk = true; start_walking(); }
-				else if (state == PLAYER_STATES.HOP_UP && (_horizontal_input || global.controller.original_controls) && instance_exists(get_climbed_object())) { start_climbing(); }
+				else if (state == PLAYER_STATES.HOP_UP && (_horizontal_input || global.original_controls) && instance_exists(get_climbed_object())) { start_climbing(); }
 				else {
 					// Continue with Hop Down
-					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(left_value())) {
+					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(get_left_value())) {
 						state = PLAYER_STATES.HOP_DOWN_FORWARD
 					}
 					else { state = PLAYER_STATES.HOP_DOWN; }
@@ -539,7 +542,7 @@ update_player_state = function() {
 							prev_state == PLAYER_STATES.PUSH_FORWARD ||
 							prev_state == PLAYER_STATES.PUSH_STAND ||
 							prev_state == PLAYER_STATES.TURN)) {
-						start_turning(_prev_is_left);
+						start_turning();
 					}
 						
 					// Update Landing on Objects from Hop/Airwalk
@@ -571,8 +574,8 @@ update_player_state = function() {
 							
 							// Determine if Can Hop
 							var _can_walk = (is_on_ground() || air_walk)  && ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
-							var _can_hop_up = !is_under_ceiling() && (key_jump || (_can_climb && global.controller.original_controls));
-							var _can_hop_forward = _can_walk && _can_hop_up && !_under_diagonal_ceiling && !global.controller.original_controls;
+							var _can_hop_up = !is_under_ceiling() && (key_jump || (_can_climb && global.original_controls));
+							var _can_hop_forward = _can_walk && _can_hop_up && !_under_diagonal_ceiling && !global.original_controls;
 							
 							if (_can_hop_forward) {
 								start_hopping(_can_hop_forward);
@@ -617,9 +620,9 @@ update_player_state = function() {
 								state = PLAYER_STATES.POWERFLY;
 								play_sound(snd_player_takeoff);
 							}
-							else if (!global.controller.original_controls) { start_hopping(); }
+							else if (!global.original_controls) { start_hopping(); }
 						}
-						else if (key_down && !global.controller.original_controls) {
+						else if (key_down && !global.original_controls) {
 							if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
 							else if (state != PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.CROUCH; transition_timer = 4; }
 
@@ -822,7 +825,7 @@ update_player_state = function() {
 				var _closest_ladder = get_closest_ladder();
 				if (instance_exists(_closest_ladder)) {
 					if (key_up || key_down) { is_up = key_up; }
-					var _ladder_speed = (global.controller.original_controls) ? 2 : 1;
+					var _ladder_speed = (global.original_controls) ? 2 : 1;
 
 					if (key_up && can_ladder_up(_closest_ladder) && grid_move_up_direct(_ladder_speed)) {
 						state = PLAYER_STATES.LADDER_UP;
@@ -860,9 +863,12 @@ update_player_state = function() {
 		}
 	}
 
+	// Reset Controls
+	reset_controls();
+
 	// Update transition speeds
-	y_transition_speed = -999;
-	x_transition_speed = -999;
+	y_transition_speed = undefined;
+	x_transition_speed = undefined;
 	if (is_hop_up_state()) {
 		var _speed = [0, 0, -1, -1, -1, -1, -2, -2];
 		y_transition_speed = _speed[transition_timer-1];
@@ -885,7 +891,7 @@ update_player_state = function() {
 					   1, 1, 1, 1, 0, 0, 0, 2,
 					   0, 2, 0, 0, 0, 0, 0, 0];
 		y_transition_speed = _y_speed[transition_timer-1];
-		x_transition_speed = _x_speed[transition_timer-1] * left_value();
+		x_transition_speed = _x_speed[transition_timer-1] * get_left_value();
 	}
 }
 
@@ -1035,6 +1041,10 @@ update_cape_graphics = function() {
 
 update_player_graphics = function() {
 	if (prev_state != state) {
+		show_debug_message(string("{0}: {1} -> {2} | tt={3} xtt={4} L={5} R={6} U={7}",
+	    current_time, player_state_to_string(prev_state), player_state_to_string(state),
+	    transition_timer, x_transition_timer, key_left, key_right, key_up));
+		
 		animation_timer = 0;
 		image_index = 0;
 		
@@ -1203,7 +1213,7 @@ update_player_graphics = function() {
 			case PLAYER_STATES.TUMBLE: { animation_speed = 1; break; }
 			default: { animation_speed = 0; }
 		}
-		if (global.controller.original_controls && is_ladder_state()) { animation_speed /= 2; }
+		if (global.original_controls && is_ladder_state()) { animation_speed /= 2; }
 		
 		// Update Images in Animations
 		if (animation_speed > 0) {
@@ -1241,6 +1251,32 @@ update_player_graphics = function() {
 			main_palette = (animation_timer % 3 == 0) ? original_palette : powered_palette; 
 		}
 	}
+}
+
+draw_cape_graphics = function() {
+	var _drawn_x_scale = get_left_value();
+	var _x_offset = get_x_draw_offset();
+	var _cape_x = virtual_x, _cape_y = virtual_y;
+	if (state != PLAYER_STATES.LADDER &&
+		state !=  PLAYER_STATES.LADDER_UP &&
+		state != PLAYER_STATES.LADDER_DOWN &&
+		state != PLAYER_STATES.FALL &&
+		state != PLAYER_STATES.DAZED_FALL &&
+		state != PLAYER_STATES.RECOIL &&
+		state != PLAYER_STATES.TUMBLE &&
+		state != PLAYER_STATES.POWERFALL &&
+		state != PLAYER_STATES.WIN &&
+		state != PLAYER_STATES.FLY &&
+		state != PLAYER_STATES.POWERFLY &&
+		state != PLAYER_STATES.CRUSHED_STAND &&
+		state != PLAYER_STATES.CRUSHED_FORWARD) {
+		if (state != PLAYER_STATES.LAND || image_index > 0) {
+			_cape_x += ((is_left) ? 8 : -8) * ((state == PLAYER_STATES.TURN) ? -1 : 1);
+		}
+	}
+	
+	set_shader_palette(PALETTES.GRAY_LIGHT);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
 }
 
 update_player_collisions_at_position = function() {

@@ -2,7 +2,7 @@ event_inherited();
 
 activated = false;
 activation_timer = 0;
-depth = 0;
+depth = PORTAL_DEPTH;
 anim_timer = 0;
 anim_speed = 8;
 

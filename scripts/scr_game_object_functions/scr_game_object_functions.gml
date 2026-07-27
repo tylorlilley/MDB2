@@ -138,7 +138,7 @@ create_particles = function(_total_particles, _palette = noone, _particle_sprite
 			sprite_index = _particle_sprite;
 			image_speed = (_particle_sprite != spr_particle) ? 1 : 0; // TODO: make this a param
 			image_blend = global.controller.world_tint;
-			depth = -9999;
+			depth = PARTICLE_DEPTH;
 			image_alpha = other.image_alpha;
 			hspeed = random(4) / 2 * ((_move_left) ? -1 : 1);
 			vspeed = (random(6) / 2 * -1) - 2;
@@ -182,11 +182,11 @@ draw_liquid = function() {
 // Game Action Functions
 get_damaged = function() {
 	if (instance_exists(creator)) { creator.part_damaged(id); }
-	if (hits >= 1) { global.controller.screen_shake(); }
+	if (hits >= 1) { global.controller.start_screen_shake(); }
 	hits--;
 	if (hits == 0) { instance_destroy(); }
 	else { play_sound(damaged_sound); }
-	global.controller.should_rebuild_static_area = true;
+	global.should_rebuild_static_area = true;
 }
 
 fall_on = function(_fall_dist) {

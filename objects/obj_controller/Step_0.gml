@@ -19,8 +19,8 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
 		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff / x_transition_timer);
 		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff / y_transition_timer);
-		if (y_transition_speed != -999) { _y_speed = y_transition_speed; }
-		if (x_transition_speed != -999) { _x_speed = x_transition_speed; }
+		if (!is_undefined(y_transition_speed)) { _y_speed = y_transition_speed; }
+		if (!is_undefined(x_transition_speed)) { _x_speed = x_transition_speed; }
 		if (abs(_x_speed) > 0 && abs(_x_speed) < 1) { _x_speed = (x_transition_timer % 2 == 0) ? sign(_x_speed) : 0; }
 		if (abs(_y_speed) > 0 && abs(_y_speed) < 1) { _y_speed = (y_transition_timer % 2 == 0) ?  sign(_y_speed) : 0; }
 		virtual_x += _x_speed;
@@ -49,7 +49,7 @@ with (obj_water) {
 with (obj_lava) {
 	anim_timer++;
 	anim_timer = anim_timer % (8 * 8);
-	other.should_rebuild_static_area = true;
+	global.should_rebuild_static_area = true;
 }
 // Update Switch Logic
 blocked_switch_colors = [false, false, false, false];
@@ -74,12 +74,12 @@ with (obj_door) {
 		
 		if (!is_fully_on_ground()) { instance_destroy(); }
 
-		if (global.controller.room_keys == 0) {
+		if (global.room_keys == 0) {
 			create_particles(8 + irandom(8), PALETTES.YELLOW_DARK);
 			create_sparkles(8 + irandom(8));
 			image_index = 1;
 			play_sound(snd_door_unlock);
-			global.controller.screen_shake();
+			global.controller.start_screen_shake();
 		}
 	}
 }
@@ -104,8 +104,8 @@ with (obj_reforming_cloud_outline) {
 	if (reform_timer <= 15 && reform_timer > 0) { image_index = 5;}
 	if (reform_timer == 0) { image_index = 0;}
 }
-portal_timer++;
-portal_timer = portal_timer % 24;
+frame_timer++;
+frame_timer = frame_timer % 24;
 with (obj_portal) {
 	// Determine Activated State
 	if (!instance_exists(linked_portal)) { activated = false; }
@@ -122,7 +122,7 @@ with (obj_portal) {
 	image_alpha = (activated) ? 0.8 : 0.5;
 	
 	// Animate Portal
-	image_index = other.portal_timer / _portal_speed;
+	image_index = other.frame_timer / _portal_speed;
 }
 
 // Game Object End Step
@@ -146,11 +146,11 @@ if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 
 else if (transition_timer > 0) {
 	transition_timer++;
 	
-	if (transition_timer == transition_delay) { play_sound(snd_fade_out); }
-	else if (transition_timer == transition_duration + transition_hold + transition_delay) { 
+	if (transition_timer == TRANSITION_DELAY) { play_sound(snd_fade_out); }
+	else if (transition_timer == TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { 
 		if (!_controllable_player_exists) { reset_room(); }
-		else { transition_room(room_next(room)); }
+		else { transition_room(room_next(room), true); }
 		play_sound(snd_fade_in);
 	}
-	else if (transition_timer >= (transition_duration * 2) + transition_hold + transition_delay) { transition_timer = 0; surface_free(transition_surface); } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
+	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
 }

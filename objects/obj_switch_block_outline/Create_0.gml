@@ -25,6 +25,6 @@ toggle_solid = function(_create_particles = false) {
 		solid_obj.grid_add();
 		should_draw = false;
 	}
-	global.controller.should_rebuild_static_area = true;
+	global.should_rebuild_static_area = true;
 	if (_create_particles) { create_sparkles(irandom(1)); }
 }

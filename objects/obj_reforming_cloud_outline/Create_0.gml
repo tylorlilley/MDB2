@@ -26,7 +26,7 @@ create_cloud = function() {
 		solid_obj.creator = id;
 		solid_obj.get_connections_for_graphics();
 		solid_obj.update_connected_graphics();
-		global.controller.should_rebuild_static_area = true;
+		global.should_rebuild_static_area = true;
 	}
 }
 

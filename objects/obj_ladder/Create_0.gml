@@ -1,6 +1,6 @@
 event_inherited();
 
-depth = 0;
+depth = LADDER_DEPTH;
 main_palette = PALETTES.GRAY_LIGHT;
 
 get_connections_for_graphics = function() {

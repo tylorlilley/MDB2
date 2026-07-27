@@ -22,8 +22,8 @@ fall_sound = noone;
 prev_state = PLAYER_STATES.STAND;
 state = PLAYER_STATES.STAND;
 image_speed = 0;
-depth = -2;
-cape_depth = 1;
+depth = PLAYER_DEPTH;
+cape_depth = PLAYER_DEPTH + 1;
 sprite_index = spr_player_idle;
 original_palette = PALETTES.PLAYER;
 main_palette = original_palette;
@@ -35,12 +35,14 @@ idle_cycle = 0;
 
 can_be_controlled = true;
 can_power_up = true;
-can_push_objects = !global.controller.original_controls;
-can_be_crushed = !global.controller.original_controls;
+can_push_objects = !global.original_controls;
+can_be_crushed = !global.original_controls;
 has_cape = true;
-last_x = -999;
-last_y = -999;
+last_x = undefined;
+last_y = undefined;
 
+
+shine_timer = 60 + irandom(8);
 transition_timer = 0;
 animation_timer = 0;
 ring_out_timer = 0;
@@ -52,8 +54,8 @@ scr_player_functions();
 	
 reset_controls();
 
-global.controller.last_player_x = x;
-global.controller.last_player_y = y;
+global.last_player_x = x;
+global.last_player_y = y;
 
 game_object_step = function() {
 	update_player_state();

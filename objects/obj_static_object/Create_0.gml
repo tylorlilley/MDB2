@@ -1,3 +1,3 @@
 event_inherited();
 
-depth = 10;
+depth = STATIC_OBJECT_DEPTH;

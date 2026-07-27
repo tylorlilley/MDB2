@@ -1,11 +1,10 @@
 // Inherit the parent event
 event_inherited();
 
-depth = -1;
+depth = KEY_DEPTH;
 main_palette = PALETTES.YELLOW;
 destroyed_sound = snd_key;
-sway_offset = irandom(359);
-sway_timer = 0;
+sway_timer = -(irandom(60) + 60);
 
 shine_timer = 60 + irandom(8);
-global.controller.room_keys++;
+global.room_keys++;

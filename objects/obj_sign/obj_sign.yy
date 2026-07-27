@@ -13,8 +13,8 @@
     "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_visual_object",
+    "path":"objects/obj_visual_object/obj_visual_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

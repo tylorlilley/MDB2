@@ -15,12 +15,10 @@ if (x > 0 && y > 0 && x < room_width && y < room_height) {
 }
 
 // Other Player Death Stuff
-if (can_be_controlled) { global.controller.screen_shake(); }
+if (can_be_controlled) { global.controller.start_screen_shake(); }
 play_sound(snd_player_death);
 audio_stop_sound(fall_sound);
-if (last_x != -999 && last_y != -999) {
-	with (global.controller) {
-		last_player_x = other.last_x;
-		last_player_y = other.last_y;
-	}
+if (!is_undefined(last_x) && !is_undefined(last_y)) {
+	global.last_player_x = last_x;
+	global.last_player_y = last_y;
 }

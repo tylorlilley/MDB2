@@ -9,9 +9,6 @@ is_climbable = true;
 
 walk_particles = 0;
 step_sound = noone;
-
-depth = 10;
-visible = false;
 should_draw = true;
 
 main_sprite = spr_box_16x16;
@@ -66,7 +63,7 @@ draw_static_area_tile = function() {
 	if (!should_draw) { return; }
 	
 	// Determine Offset
-	var _x_offset = -32, _y_offset = -32;
+	var _x_offset = undefined, _y_offset = undefined;
 	if (!is_connected_above && !is_connected_on_left && is_connected_below && is_connected_on_right) { // Top Left Corner
 		_x_offset = 0;
 		_y_offset = 0;
@@ -131,7 +128,7 @@ draw_static_area_tile = function() {
 	// Calculate Outline Position
 	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0), _main_sprite_image_index = (hits-1 <= 0) ? 0 : hits-1;
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8);
-	var _has_outline = outline_sprite != noone && (_x_offset >= 0 || _y_offset >= 0);
+	var _has_outline = outline_sprite != noone && (!is_undefined(_x_offset) && !is_undefined(_y_offset));
 	if (animated) { _main_sprite_image_index = anim_timer; _main_sprite_image_index = _main_sprite_image_index % sprite_get_number(main_sprite); }
 	
 	if (_has_outline) {
@@ -158,7 +155,7 @@ draw_static_area_tile = function() {
 	}
 	else {
 		// Draw Without Considering Outline
-		set_shader_palette();
+		set_shader_palette(main_palette);
 		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 	}

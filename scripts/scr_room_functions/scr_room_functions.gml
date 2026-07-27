@@ -100,6 +100,8 @@ function build_background(_world) {
 }
 
 function play_music(_world) {
+	if (global.controller.show_debug_gui) { return false; }
+
 	var _sound_to_play = noone;
 	switch (_world) {
 		case WORLDS.BEACH:{ _sound_to_play = bgm_w1; break; }

@@ -1,2 +1,2 @@
 main_palette = PALETTES.PINK;
-shine_timer = 1;
+depth = VISUAL_OBJECT_DEPTH;

@@ -2,7 +2,6 @@ event_inherited();
 
 // GameMaker Engine Overrides
 visible = false;
-depth = 11;
 
 // New Variables
 trunk = [];

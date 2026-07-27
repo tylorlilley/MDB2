@@ -1,6 +1,6 @@
 // Inherit the parent event
 event_inherited();
-depth = -20;
+depth = WATER_DEPTH;
 animated = true;
 
 anim_timer = 0;

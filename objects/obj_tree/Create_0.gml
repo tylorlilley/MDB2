@@ -4,7 +4,6 @@ event_inherited();
 main_palette = PALETTES.BROWN;
 
 // GameMaker Variable Overrides
-depth = 11;
 sprite_index = spr_wood_tree_extra_bottom;
 image_speed = 0;
 image_index = 1;

@@ -2,8 +2,8 @@
 draw_set_valign(fa_top)
 draw_set_alpha(0.5);
 draw_set_color(c_black);
-draw_rectangle(0, 0, 256, (original_controls ? 24 : 16), false);
-if (original_controls) {
+draw_rectangle(0, 0, 256, (global.original_controls ? 24 : 16), false);
+if (global.original_controls) {
 	draw_rectangle(0, 24, 8, 232, false);
 	draw_rectangle(248, 24, 256, 232, false);
 	draw_rectangle(0, 232, 256, 240, false);
@@ -29,11 +29,11 @@ if (draw_game_object_grid) {
 }
 
 // Draw Level Text and Key Amounts
-var _text_y_pos = -1 + (original_controls ? 4 : 0), _text_x_pos = 256-20;
-if (original_controls) { _text_x_pos -= 8; }
-if (room_keys >= 10) { _text_x_pos -= 8; }
-draw_text(((original_controls) ? 12 : 4), _text_y_pos, room_title);
-draw_text(_text_x_pos, _text_y_pos, "x" + string(room_keys));
+var _text_y_pos = -1 + (global.original_controls ? 4 : 0), _text_x_pos = 256-20;
+if (global.original_controls) { _text_x_pos -= 8; }
+if (global.room_keys >= 10) { _text_x_pos -= 8; }
+draw_text(((global.original_controls) ? 12 : 4), _text_y_pos, room_title);
+draw_text(_text_x_pos, _text_y_pos, "x" + string(global.room_keys));
 
 main_palette = PALETTES.YELLOW;
 shader_set(shd_palettizer);
@@ -42,16 +42,17 @@ draw_sprite(spr_key_icon, 0, _text_x_pos-16, _text_y_pos+1);
 shader_reset();
 
 // Draw Transition
-if (transition_timer > transition_delay) {
+if (transition_timer > TRANSITION_DELAY) {
 	// Determine Transition Parameters
 	var _max_scale = room_width;
-	var _fade_pos_x = last_player_x+8, _fade_pos_y = last_player_y+8;
+	var _fade_pos_x = is_undefined(global.last_player_x) ? room_width/2 : global.last_player_x + 8;
+	var _fade_pos_y = is_undefined(global.last_player_y) ? room_height/2 : global.last_player_y + 8;
 	if (_fade_pos_x < 0 || _fade_pos_x > room_width) { _fade_pos_x = room_width/2; }
 	if (_fade_pos_y < 0 || _fade_pos_y > room_height) {	_fade_pos_y = room_height/2; }
 		
 	var _scale = 0;
-	if (transition_timer < transition_duration + transition_delay) { _scale = power((1-((transition_timer - transition_delay) / transition_duration)), 4); }
-	else if (transition_timer > transition_duration + transition_hold + transition_delay) { _scale = power(((transition_timer - transition_duration - transition_hold - transition_delay) / (transition_duration)), 4); }
+	if (transition_timer < TRANSITION_DURATION + TRANSITION_DELAY) { _scale = power((1-((transition_timer - TRANSITION_DELAY) / TRANSITION_DURATION)), 4); }
+	else if (transition_timer > TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { _scale = power(((transition_timer - TRANSITION_DURATION - TRANSITION_HOLD - TRANSITION_DELAY) / (TRANSITION_DURATION)), 4); }
 		
 	// Create Transition Graphics
 	if (!surface_exists(transition_surface)) { transition_surface = surface_create(room_width, room_height); }

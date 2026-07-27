@@ -1,1 +1,1 @@
-screen_shake();
+start_screen_shake();

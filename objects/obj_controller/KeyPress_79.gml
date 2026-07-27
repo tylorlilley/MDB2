@@ -1,1 +1,1 @@
-transition_room(room_next(room));
+transition_room(room_next(room), true);

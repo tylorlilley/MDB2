@@ -9,8 +9,8 @@ virtual_y_offset = 0;
 transition_timer = 0;
 x_transition_timer = 0;
 y_transition_timer = 0;
-x_transition_speed = -999;
-y_transition_speed = -999;
+x_transition_speed = undefined;
+y_transition_speed = undefined;
 
 fall_timer = 0;
 swim_timer = 0;
@@ -27,6 +27,6 @@ contents = noone;
 walk_particles = 0;
 step_sound = noone;
 
-depth = 9;
+depth = DYNAMIC_OBJECT_DEPTH;
 
 scr_dynamic_object_functions();

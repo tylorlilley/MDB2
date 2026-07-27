@@ -1,6 +1,6 @@
 event_inherited();
 
-depth = 9;
+depth = SWITCH_DEPTH;
 pressed = false;
 sprite_index = spr_switch;
 image_index = 2;

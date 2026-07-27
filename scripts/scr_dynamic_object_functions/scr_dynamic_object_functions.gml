@@ -279,12 +279,12 @@ is_under_ceiling = function() {
 }
 
 is_blocked_on_left = function(_ignored_objects = []) {
-	return (array_length(get_left_wall_objects(_ignored_objects)) > 0 || x <= ((global.controller.original_controls) ? 16 : 8));
+	return (array_length(get_left_wall_objects(_ignored_objects)) > 0 || x <= ((global.original_controls) ? 16 : 8));
 }
 
 is_blocked_on_right = function(_ignored_objects = []) {
 	var _max_x = (room_width - 8 - sprite_get_width(sprite_index));
-	if (global.controller.original_controls) { _max_x -= 8; }
+	if (global.original_controls) { _max_x -= 8; }
 	return (array_length(get_right_wall_objects(_ignored_objects)) > 0 || x >= _max_x);
 }
 
@@ -309,6 +309,23 @@ start_being_pushed = function(_pushed_left) {
 
 is_carrying_key = function() {
 	return (contents != noone && contents.object_index == obj_key);
+}
+
+get_left_value = function() {
+	return ((is_left) ? -1 : 1);
+}
+
+get_x_draw_offset = function() {
+	return ((is_left) ? sprite_get_width(sprite_index) : 0);
+}
+
+// Draw Function
+draw_dynamic_object = function() {
+	var _drawn_x_scale = get_left_value();
+	var _x_offset = get_x_draw_offset();
+
+	set_shader_palette((shine_timer == 0) ? PALETTES.ALL_WHITE : main_palette);
+	draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, image_alpha);
 }
 
 // Step Function
