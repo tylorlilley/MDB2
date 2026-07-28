@@ -30,14 +30,14 @@ is_connected_bottom_right = noone;
 is_connected_bottom_left = noone;
 
 get_connections_for_graphics = function() {
-	is_connected_above = grid_array_first(instances_at_grid_position(x, y-8, 8, 8, object_index));
-	is_connected_below = grid_array_first(instances_at_grid_position(x, y+8, 8, 8, object_index));
-	is_connected_on_left = grid_array_first(instances_at_grid_position(x-8, y, 8, 8, object_index));
-	is_connected_on_right = grid_array_first(instances_at_grid_position(x+8, y, 8, 8, object_index));
-	is_connected_top_right = grid_array_first(instances_at_grid_position(x+8, y-8, 8, 8, object_index));
-	is_connected_top_left = grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index));
-	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index));
-	is_connected_bottom_left = grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index));
+	is_connected_above = grid_array_first(instances_at_grid_position(x, y-8, 8, 8, object_index, false));
+	is_connected_below = grid_array_first(instances_at_grid_position(x, y+8, 8, 8, object_index, false));
+	is_connected_on_left = grid_array_first(instances_at_grid_position(x-8, y, 8, 8, object_index, false));
+	is_connected_on_right = grid_array_first(instances_at_grid_position(x+8, y, 8, 8, object_index, false));
+	is_connected_top_right = grid_array_first(instances_at_grid_position(x+8, y-8, 8, 8, object_index, false));
+	is_connected_top_left = grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index, false));
+	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index, false));
+	is_connected_bottom_left = grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index, false));
 	
 	is_connected_above = (instance_exists(is_connected_above) && creator == is_connected_above.creator && object_index == is_connected_above.object_index) ? is_connected_above : noone;
 	is_connected_below = (instance_exists(is_connected_below) && creator == is_connected_below.creator && object_index == is_connected_below.object_index) ? is_connected_below : noone;

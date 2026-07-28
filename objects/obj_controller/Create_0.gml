@@ -30,7 +30,7 @@ global.room_keys = 0;
 global.world_tint = c_white;
 
 // Debug Variables
-show_debug_gui = false;
+show_debug_gui = true;
 draw_game_object_grid = false;
 
 // Set Up Game Window

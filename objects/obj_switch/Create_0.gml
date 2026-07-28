@@ -4,7 +4,6 @@ event_inherited();
 pressed = false;
 
 // Game Maker Variable Overrides
-main_palette = undefined;
 depth = SWITCH_DEPTH;
 sprite_index = spr_switch;
 image_index = 2;

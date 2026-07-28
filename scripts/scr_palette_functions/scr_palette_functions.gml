@@ -39,11 +39,13 @@ enum PORTAL_COLORS {
 #macro C_BROWN          C_YELLOW_DARK
 #macro C_BROWN_DARK     C_YELLOW_DARKEST
 
+#macro C_BLUE_PLAYER    make_color_rgb(18, 75, 186)
 #macro C_BLUE_DARKEST   make_color_rgb(15, 0, 191)
 #macro C_BLUE_DARK      make_color_rgb(0, 87, 247)
 #macro C_BLUE           make_color_rgb(39, 159, 255)
 #macro C_BLUE_LIGHT     make_color_rgb(175, 207, 255)
 
+#macro C_RED_DARKEST    make_color_rgb(73, 6, 0)
 #macro C_RED_DARK       make_color_rgb(143, 6, 0)
 #macro C_RED            make_color_rgb(223, 23, 0)
 #macro C_RED_LIGHT      make_color_rgb(255, 199, 207)
@@ -83,7 +85,7 @@ enum PALETTES {
 	GREEN_DARK,
 	RED_LIGHT,
 	RED,
-	// No Red Dark
+	RED_DARK,
 	PURPLE_LIGHT,
 	PURPLE,
 	INDIGO_LIGHT,
@@ -106,13 +108,13 @@ function palettes_init() {
 		[C_WHITE, C_YELLOW_LIGHT, C_YELLOW, C_YELLOW_DARK, C_YELLOW_DARKEST],
 		[C_WHITE, C_BLUE_LIGHT, C_BLUE, C_BLUE_DARK, C_BLUE_DARKEST, C_BLACK],
 		[C_WHITE, C_GREEN_LIGHT, C_GREEN, C_GREEN_DARK, C_GREEN_DARKEST],
-		[C_WHITE, C_RED_LIGHT, C_RED, C_RED_DARK],
+		[C_WHITE, C_RED_LIGHT, C_RED, C_RED_DARK, C_RED_DARKEST],
 		[C_WHITE, C_PURPLE_LIGHT, C_PURPLE, C_PURPLE_DARK],
 		[C_WHITE, C_INDIGO_LIGHT, C_INDIGO, C_INDIGO_DARK],
 		[C_WHITE, C_PINK_LIGHT, C_PINK, C_PINK_DARK],
 		[C_WHITE, C_SAND_LIGHT, C_SAND, C_SAND_DARK],
 		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
-		[C_WHITE, C_BLUE, C_BLUE_DARKEST],
+		[C_WHITE, C_BLUE, C_BLUE_PLAYER],
 	];
 	
 	global.palette_uniform_values = [];

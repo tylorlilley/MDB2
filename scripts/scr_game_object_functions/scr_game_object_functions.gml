@@ -49,6 +49,8 @@ is_fully_on_ground = function() {
 get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = [], _object_index = obj_game_object) {
 	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
 	var _x = x + _x_offset, _y = y + _y_offset, _width = _sprite_width, _height = _sprite_height;
+	
+	
 	if (_x_offset > 0) { _x += _sprite_width - GRID_SIZE; }
 	if (_y_offset > 0) { _y += _sprite_height - GRID_SIZE; }
 	if (_x_offset != 0) { _width = GRID_SIZE; }
@@ -204,7 +206,7 @@ shine_periodically = function() {
 }
 
 draw_liquid = function() {
-	var _area_above = at_grid_position(x, y-GRID_SIZE, GRID_SIZE, GRID_SIZE, object_index), _y_offset = (_area_above) ? 0 : 4;
+	var _area_above = at_grid_position(x, y-GRID_SIZE, GRID_SIZE, GRID_SIZE, object_index, false), _y_offset = (_area_above) ? 0 : 4;
 
 	set_shader_palette();
 	
@@ -280,7 +282,7 @@ get_connected_instances = function(_connected_instances) {
 		if (_dir == 2) { _y_offset = GRID_SIZE; }
 		if (_dir == 3) { _y_offset = -GRID_SIZE; }
 			
-		var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8, object_index);
+		var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, 8, 8, object_index, false);
 		for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
 			var _inst =  _instances_to_check[_i]
 			if (_inst.creator == creator && !array_contains(_connected_instances, _inst)) {

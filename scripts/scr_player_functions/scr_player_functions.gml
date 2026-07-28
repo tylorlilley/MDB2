@@ -182,10 +182,10 @@ update_controls = function(_inverted) {
 	var _new_restart_value = key_restart || keyboard_check(ord("R")) || gamepad_button_check(global.gamepad, gp_start) || gamepad_button_check(global.gamepad, gp_select);
 	
 	// Cancel out released inputs
-	if (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) >= -0.99))) { _new_left_value = false; }
-	if (keyboard_check_released(vk_right) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) <= 0.99))) { _new_right_value = false; }
-	if (keyboard_check_released(vk_up) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) >= -0.99))) { _new_up_value = false; }
-	if (keyboard_check_released(vk_down) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) <= 0.99))) { _new_down_value = false; }
+	if (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl)))) { _new_left_value = false; }
+	if (keyboard_check_released(vk_right) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padr)))) { _new_right_value = false; }
+	if (keyboard_check_released(vk_up) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padu)))) { _new_up_value = false; }
+	if (keyboard_check_released(vk_down) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padd)))) { _new_down_value = false; }
 	if (keyboard_check_released(ord("Z")) || gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4)) { _new_jump_value = false; }
 	if (keyboard_check_released(ord("R")) || gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select)) { _new_restart_value = false; }
 
@@ -426,8 +426,16 @@ update_player_state = function() {
 					else if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
 					else if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
 					else if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
-					else if (transition_timer == 14) { image_index = 2; cape_image_index = 0; play_sound(snd_key); create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT); }
-					else if (transition_timer < 14) { image_index = 2 + (transition_timer % 2); }
+					else if (transition_timer == 14) {
+						image_index = 3;
+						cape_image_index = 0;
+						play_sound(snd_key);
+						var _prev_x = x;
+						grid_move_to(x + (get_left_value() * GRID_SIZE), y);
+						create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
+						grid_move_to(_prev_x, y);
+					}
+					else if (transition_timer < 14) { image_index = 2; } // + (transition_timer % 2); }
 					else if (transition_timer == 1) { image_index = 0; start_cape_win(); }
 				}
 				break;
