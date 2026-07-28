@@ -175,6 +175,8 @@ create_particles = function(_total_particles, _particle_type = undefined, _parti
 				image_speed = (_particle_type == PARTICLE_TYPES.SPARKLE) ? 1 : 0;
 			}
 			else if (_particle_type == PARTICLE_TYPES.LEAF) {
+				if (irandom(1) == 0) { main_palette = get_darker_palette(main_palette); }
+				if (irandom(8) == 0) { main_palette = PALETTES.BROWN; }
 				image_speed = 0.125;
 				image_xscale = _horizontal_direction;
 				

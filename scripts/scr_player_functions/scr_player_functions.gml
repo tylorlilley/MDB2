@@ -306,17 +306,20 @@ start_hopping = function(_should_move_horizontally = false) {
 // Interactions with Other Object Functions
 get_left_and_right_objects = function(_get_above = false, _impact_fragile = false) {
 	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _left_object = noone, _right_object = noone, _returned_objects = [];
+	var _y_offset = (_get_above) ? sprite_get_height(sprite_index) : -GRID_SIZE;
 			
 	for (var _i = 0; _i < array_length(_objects); _i++) {
-		var _inst = _objects[_i]
-			if (is_instance_at_grid_position(x, y + sprite_get_height(sprite_index), _inst)) {
-				if (_impact_fragile && _inst.is_fragile) { instance_destroy(); }
-				else if (!instance_exists(_left_object) || _left_object.depth > _inst.depth) { _left_object = _inst; }
-			}
-			else if (is_instance_at_grid_position(x + GRID_SIZE, y + sprite_get_height(sprite_index), _inst)) {
-				if (_impact_fragile && _inst.is_fragile) { instance_destroy(); }
-				if (!instance_exists(_right_object) || _right_object.depth > _inst.depth) { _right_object = _inst; }
-			}
+		var _inst = _objects[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (is_instance_at_grid_position(x, y + _y_offset, _inst)) {
+			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
+			else if (!instance_exists(_left_object) || _left_object.depth > _inst.depth) { _left_object = _inst; }
+		}
+		else if (is_instance_at_grid_position(x + GRID_SIZE, y + _y_offset, _inst)) {
+			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
+			else if (!instance_exists(_right_object) || _right_object.depth > _inst.depth) { _right_object = _inst; }
+		}
 	}
 
 	if (_left_object == _right_object) { _right_object = noone; }
@@ -336,16 +339,22 @@ damage_objects = function(_damage_above = false) {
 	var _objects_to_damage = get_left_and_right_objects(_damage_above);
 	
 	// Also Damage Static Area Objects One Layer Deeper
-	var _prev_y = y, _deeper_objects_to_damage = [];
-	grid_move_to(x, y + (_damage_above ? -8 : 8));
-	_deeper_objects_to_damage = get_left_and_right_objects(_damage_above);
-	for (var _i = 0; _i < array_length(_deeper_objects_to_damage); _i++) {
-		var _deeper_inst = _deeper_objects_to_damage[_i];
-		if (!instance_exists(_deeper_inst)) { continue; }
+	
+	for (var _i = 0; _i < array_length(_objects_to_damage); _i++) {
+		var _inst = _objects_to_damage[_i];
+		if (_inst.is_a(obj_static_area)) {
+			var _prev_y = y;
+			grid_move_to(x, y + (_damage_above ? -GRID_SIZE : GRID_SIZE));
+			var _deeper_objects_to_damage = get_left_and_right_objects(_damage_above);
+			for (var _d = 0; _d < array_length(_deeper_objects_to_damage); _d++) {
+				var _deeper_inst = _deeper_objects_to_damage[_d];
+				if (!instance_exists(_deeper_inst)) { continue; }
 		
-		if (_deeper_inst.is_a(obj_static_area) && _deeper_inst.object_index == _deeper_inst.object_index && !array_contains(_objects_to_damage, _deeper_inst)) { array_push(_objects_to_damage, _deeper_inst); }
+				if (_deeper_inst.is_a(obj_static_area) && _deeper_inst.object_index == _inst.object_index && _deeper_inst.y == _inst.y && !array_contains(_objects_to_damage, _deeper_inst)) { array_push(_objects_to_damage, _deeper_inst); }
+			}
+			grid_move_to(x, _prev_y);
+		}
 	}
-	grid_move_to(x, _prev_y);
 	
 	// Damage Objects
 	while (array_length(_objects_to_damage) > 0) {
@@ -368,8 +377,8 @@ damage_objects = function(_damage_above = false) {
 		get_damaged_by_object(_inst);
 		
 		// Damage the Objects
-		if (_damage_above) { _inst.powerfly_into(fly_timer); }
-		else { _inst.powerfall_on(fall_timer); }
+		if (_damage_above) { _inst.powerfly_into(); }
+		else { _inst.powerfall_on(); }
 		play_sound(snd_impact);
 		
 	}
@@ -1302,21 +1311,14 @@ draw_cape_graphics = function() {
 }
 
 update_player_collisions_at_position = function() {
-	// Get Destroyed From Stepping on Lethal Tiles
+	// Get Destroyed From Lethal Objects
 	if (is_grounded_state()) {
 		// Destroy if Standing on Lethal Object and No Other Solids
-		/*
-		var _grounded_objects = get_ground_objects(), _safely_supported = false, _on_lethal_ground = false;
-		for (var _i = 0; _i < array_length(_grounded_objects); _i++) {
-			var _inst = _grounded_objects[_i]
-			if (instance_exists(_inst)) {
-				if (object_index == obj_player && _inst.is_player_lethal) { _on_lethal_ground = true; }
-				else if (object_index != obj_player && _inst.is_robot_lethal) { _on_lethal_ground = true; }
-				else { _safely_supported = true; }
-			}
+		var _ground_objects = get_left_and_right_objects();
+		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+			var _inst = _ground_objects[_i]
+			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
-		if (_on_lethal_ground && !_safely_supported) { instance_destroy(); }
-		*/
 		
 		// Destroy if Carrying Lethal Object
 		var _carried_objects = get_carried_objects();
