@@ -306,7 +306,7 @@ start_hopping = function(_should_move_horizontally = false) {
 // Interactions with Other Object Functions
 get_left_and_right_objects = function(_get_above = false, _impact_fragile = false) {
 	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _left_object = noone, _right_object = noone, _returned_objects = [];
-	var _y_offset = (_get_above) ? sprite_get_height(sprite_index) : -GRID_SIZE;
+	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
 			
 	for (var _i = 0; _i < array_length(_objects); _i++) {
 		var _inst = _objects[_i];
@@ -339,7 +339,6 @@ damage_objects = function(_damage_above = false) {
 	var _objects_to_damage = get_left_and_right_objects(_damage_above);
 	
 	// Also Damage Static Area Objects One Layer Deeper
-	
 	for (var _i = 0; _i < array_length(_objects_to_damage); _i++) {
 		var _inst = _objects_to_damage[_i];
 		if (_inst.is_a(obj_static_area)) {
@@ -350,7 +349,7 @@ damage_objects = function(_damage_above = false) {
 				var _deeper_inst = _deeper_objects_to_damage[_d];
 				if (!instance_exists(_deeper_inst)) { continue; }
 		
-				if (_deeper_inst.is_a(obj_static_area) && _deeper_inst.object_index == _inst.object_index && _deeper_inst.y == _inst.y && !array_contains(_objects_to_damage, _deeper_inst)) { array_push(_objects_to_damage, _deeper_inst); }
+				if (_deeper_inst.is_a(obj_static_area) && _deeper_inst.object_index == _inst.object_index && _deeper_inst.x == _inst.x && !array_contains(_objects_to_damage, _deeper_inst)) { array_push(_objects_to_damage, _deeper_inst); }
 			}
 			grid_move_to(x, _prev_y);
 		}
