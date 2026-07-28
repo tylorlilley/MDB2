@@ -6,7 +6,7 @@ array_sort(_keys_at_position, true);
 for (var _i = 0; _i < array_length(_keys_at_position); _i++) {
 	var _inst = _keys_at_position[_i];
 	if (_inst.object_index == object_index) { _total_keys++; }
-	if (_inst.id == id) { _key_position = _i; }
+	if (_inst == id) { _key_position = _i; }
 }
 
 // Draw Full Set of Keys Once

@@ -48,9 +48,14 @@ with (obj_water) {
 }
 with (obj_lava) {
 	anim_timer++;
-	anim_timer = anim_timer % (8 * 8);
+	anim_timer = anim_timer % (sprite_get_number(main_sprite) * 4);
 	global.should_rebuild_static_area = true;
 }
+with (obj_spikes) {
+	if (shine_timer > 0) { shine_timer--; }
+	if (shine_timer == 0) { main_palette = original_palette; }
+}
+
 // Update Switch Logic
 blocked_switch_colors = [false, false, false, false];
 with (obj_switch) {

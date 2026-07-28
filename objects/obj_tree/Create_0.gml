@@ -32,9 +32,9 @@ initialize_solids = function() {
 
 			var _leaf = instance_create(x + _col * 8, y + _row * 8, obj_leaf);
 			with (_leaf) {
+				creator = other;
 				main_palette = other.leaf_palette;
 				particle_palette = other.leaf_palette;
-				creator = other.id;
 				depth = other.depth + 1;
 			}
 			array_push(leaves, _leaf);
@@ -53,7 +53,7 @@ initialize_solids = function() {
 			var _trunk = instance_create(_trunk_x, _trunk_y, obj_wood);
 			array_push(trunk, _trunk);
 			with (_trunk) {
-				creator = other.id;
+				creator = other;
 				visual_origin_x =  other.x + _trunk_x;
 				visual_origin_y =  other.y + _trunk_y;
 				depth = other.depth + 1;

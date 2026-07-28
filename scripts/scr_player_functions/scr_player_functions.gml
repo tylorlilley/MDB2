@@ -276,18 +276,7 @@ start_turning = function() {
 	transition_timer = 4;
 	walk_on_ground_objects();
 }
-	
-walk_on_ground_objects = function() {
-	if (is_on_ground() || air_walk) {
-		var _ground_objects = get_ground_objects();
-			
-		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-			var _inst = _ground_objects[_i]
-				_inst.walk_on();
-		}
-	}
-}
-	
+
 start_walking = function(_is_crushed = false) {
 	// First, walk on next object
 	var _prev_x = x, _prev_y = y;
@@ -312,6 +301,119 @@ start_hopping = function(_should_move_horizontally = false) {
 	play_sound(snd_player_jump);
 	if (grid_move_up(1)) { transition_timer = 8; }
 	else { start_fallback_state(); }
+}
+
+// Interactions with Other Object Functions
+get_left_and_right_objects = function(_get_above = false, _impact_fragile = false) {
+	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _left_object = noone, _right_object = noone, _returned_objects = [];
+			
+	for (var _i = 0; _i < array_length(_objects); _i++) {
+		var _inst = _objects[_i]
+			if (is_instance_at_grid_position(x, y + sprite_get_height(sprite_index), _inst)) {
+				if (_impact_fragile && _inst.is_fragile) { instance_destroy(); }
+				else if (!instance_exists(_left_object) || _left_object.depth > _inst.depth) { _left_object = _inst; }
+			}
+			else if (is_instance_at_grid_position(x + GRID_SIZE, y + sprite_get_height(sprite_index), _inst)) {
+				if (_impact_fragile && _inst.is_fragile) { instance_destroy(); }
+				if (!instance_exists(_right_object) || _right_object.depth > _inst.depth) { _right_object = _inst; }
+			}
+	}
+
+	if (_left_object == _right_object) { _right_object = noone; }
+	if (instance_exists(_left_object)) { array_push(_returned_objects, _left_object); }
+	if (instance_exists(_right_object)) { array_push(_returned_objects, _right_object); }
+	return _returned_objects;
+}
+
+get_damaged_by_object = function(_inst) {
+	if ((object_index == obj_player && _inst.is_player_lethal) || (object_index != obj_player && _inst.is_robot_lethal)) {
+		instance_destroy();
+		_inst.deal_damage();
+	}
+}
+
+damage_objects = function(_damage_above = false) {
+	var _objects_to_damage = get_left_and_right_objects(_damage_above);
+	
+	// Also Damage Static Area Objects One Layer Deeper
+	var _prev_y = y, _deeper_objects_to_damage = [];
+	grid_move_to(x, y + (_damage_above ? -8 : 8));
+	_deeper_objects_to_damage = get_left_and_right_objects(_damage_above);
+	for (var _i = 0; _i < array_length(_deeper_objects_to_damage); _i++) {
+		var _deeper_inst = _deeper_objects_to_damage[_i];
+		if (!instance_exists(_deeper_inst)) { continue; }
+		
+		if (_deeper_inst.is_a(obj_static_area) && _deeper_inst.object_index == _deeper_inst.object_index && !array_contains(_objects_to_damage, _deeper_inst)) { array_push(_objects_to_damage, _deeper_inst); }
+	}
+	grid_move_to(x, _prev_y);
+	
+	// Damage Objects
+	while (array_length(_objects_to_damage) > 0) {
+		var _inst = array_pop(_objects_to_damage);
+		if (!instance_exists(_inst)) { continue; }
+		
+		// Remove Connected Instances from Objects to Damage
+		if (_inst.is_a(obj_static_area) && _inst.is_connected) {
+			var _connected_instances = _inst.get_connected_instances([_inst]);
+			for (var _i = 0; _i < array_length(_connected_instances); _i++) {
+				var _connected_inst = _connected_instances[_i];
+				if (!instance_exists(_connected_inst)) { continue; }
+
+				var _index = array_get_index(_objects_to_damage, _connected_inst);
+				if (_index >= 0) { array_delete(_objects_to_damage, _index, 1); }
+			}
+		}
+		
+		// Interact with Objects
+		get_damaged_by_object(_inst);
+		
+		// Damage the Objects
+		if (_damage_above) { _inst.powerfly_into(fly_timer); }
+		else { _inst.powerfall_on(fall_timer); }
+		play_sound(snd_impact);
+		
+	}
+}
+
+powerfall_on_ground_objects = function() { damage_objects(false); }
+powerfly_into_ceiling_objects = function() { damage_objects(true); }
+
+fall_on_ground_objects = function() {
+	var _ground_objects = get_left_and_right_objects(false, true);
+		
+	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+		var _inst = _ground_objects[_i];
+		if (instance_exists(_inst)) {
+			_inst.fall_on(fall_timer);
+			get_damaged_by_object(_inst);
+		}
+	}
+}
+
+fly_into_ceiling_objects = function() {
+	var _ceiling_objects = get_left_and_right_objects(true, true);
+		
+	for (var _i = 0; _i < array_length(_ceiling_objects); _i++) {
+		var _inst = _ceiling_objects[_i];
+		if (instance_exists(_inst)) {
+			_inst.fly_into(fly_timer);
+			get_damaged_by_object(_inst);
+		}
+	}
+}
+
+walk_on_ground_objects = function() {
+	// if (!is_on_ground() && !air_walk) { exit; }
+	
+	var _ground_objects = get_left_and_right_objects();
+		
+	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+		var _inst = _ground_objects[_i];
+		if (instance_exists(_inst)) {
+			_inst.walk_on();
+			get_damaged_by_object(_inst);
+		}
+	}
 }
 	
 // Positional Functions
@@ -569,11 +671,7 @@ update_player_state = function() {
 					if (is_hop_down_state()) {
 						if (transition_timer == 0) { start_standing(); }
 						transition_timer = 4;
-						var _ground_objects = get_ground_objects();
-						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-							var _inst = _ground_objects[_i];
-							if (instance_exists(_inst) && _inst.is_solid_from_above) { _inst.fall_on(fall_timer); }
-						}
+						fall_on_ground_objects();
 					}
 					else if (state == PLAYER_STATES.WALK_FORWARD && air_walk) {
 						start_standing();
@@ -666,64 +764,12 @@ update_player_state = function() {
 				if (should_start_laddering()) { start_laddering(); }
 				else {
 					// First, fly into ceiilng objects
-					if (is_under_ceiling()) {
-						// Attempt to Bump Ceiling
-						var _ceiling_objects = get_ceiling_objects();
-						for (var _i = 0; _i < array_length(_ceiling_objects); _i++) {
-							var _inst = _ceiling_objects[_i];
-							_inst.fly_into(fly_timer);
-						}
-					}
+					if (is_under_ceiling()) { fly_into_ceiling_objects(); }
 				
 					// If still under ceiling, collide with them
 					if (is_under_ceiling()) {
 						if (state == PLAYER_STATES.POWERFLY) {
-							// Get Targets to Damage
-							var _damaged_instances = []
-							for (var _dir = 0; _dir < 2; _dir++) {
-								var _x_offset = (_dir == 1) ? GRID_SIZE : 0, _y_offset = -GRID_SIZE;
-							
-								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, GRID_SIZE, GRID_SIZE);
-								for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
-									var _inst =  _instances_to_check[_i]
-									if (_inst.is_solid_from_below && _inst.id != id && !array_contains(_damaged_instances, _inst.id)) {
-										array_push(_damaged_instances, _inst.id);
-									}
-								}
-							}
-						
-							// Damage Targets
-							var _play_sound = false;
-							while (array_length(_damaged_instances) > 0) {
-								var _inst = grid_array_first(_damaged_instances);
-								array_delete(_damaged_instances, 0, 1);
-								if (instance_exists(_inst)) {
-									_play_sound = true;
-									if (_inst.is_connected) {
-										// Remove any connected instances from list of instances to damage
-										var _connected_instances = _inst.get_connected_instances([_inst.id])
-										for (var _i = 0; _i < array_length(_connected_instances); _i++) {
-											var _connected_inst = _connected_instances[_i]
-											var _index = array_get_index(_damaged_instances, _connected_inst.id);
-											if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
-										}
-									}
-									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= GRID_SIZE) {
-										// Damage deeper for connected areas
-										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y - GRID_SIZE, GRID_SIZE, GRID_SIZE);
-										for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
-											var _new_inst =  _instances_to_check[_i]
-											if (_new_inst.object_index == _inst.object_index && _new_inst.is_solid_from_below && _new_inst.id != id && !array_contains(_damaged_instances, _new_inst.id)) {
-												array_push(_damaged_instances, _new_inst.id);
-											}
-										}
-									}
-									_inst.powerfly_into(); 
-								}
-							}
-							if (_play_sound) { play_sound(snd_impact); }
-						
-							// Player reaction to Collision
+							powerfly_into_ceiling_objects();
 							start_falling(true);
 						}
 						else { start_fallback_state(); }
@@ -743,65 +789,14 @@ update_player_state = function() {
 			case PLAYER_STATES.POWERFALL: {
 				if (should_start_laddering()) { start_laddering(); }
 				else {
-					// First, land on ground objects
-					if (is_on_ground()) {
-						// Attempt to Land on Ground
-						var _ground_objects = get_ground_objects();
-						for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-							var _inst = _ground_objects[_i];
-							_inst.fall_on(fall_timer);
-						}
-					}
+					// First, land on ground objects to clear out any fragile ones
+					if (is_on_ground()) { fall_on_ground_objects(); }
 				
 					if (is_on_ground()) {
 						// Bonk against floor
 						if (state == PLAYER_STATES.POWERFALL && !is_fully_submerged() && !is_partially_submerged()) {
-							// Get Targets to Damage
-							var _damaged_instances = [];
-							for (var _dir = 0; _dir < 2; _dir++) {
-								var _x_offset = (_dir == 1) ? GRID_SIZE : 0, _y_offset = GRID_SIZE * 2;
-							
-								var _instances_to_check = instances_at_grid_position(x+_x_offset, y+_y_offset, GRID_SIZE, GRID_SIZE);
-								for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
-									var _inst =  _instances_to_check[_i]
-									if (_inst.is_solid_from_above && _inst.id != id && !array_contains(_damaged_instances, _inst.id)) {
-										array_push(_damaged_instances, _inst.id);
-									}
-								}
-							}
-						
-							// Damage Targets
-							var _play_sound = false;
-							while (array_length(_damaged_instances) > 0) {
-								var _inst = grid_array_first(_damaged_instances);
-								array_delete(_damaged_instances, 0, 1);
-								if (instance_exists(_inst)) {
-									_play_sound = true;
-									if (_inst.is_connected) {
-										// Remove any connected instances from list of instances to damage
-										var _connected_instances = _inst.get_connected_instances([_inst.id])
-										for (var _i = 0; _i < array_length(_connected_instances); _i++) {
-											var _connected_inst = _connected_instances[_i]
-											var _index = array_get_index(_damaged_instances, _connected_inst.id);
-											if (_index >= 0) { array_delete(_damaged_instances, _index, 1); }
-										}
-									}
-									else if (object_is_ancestor(_inst.object_index, obj_static_area) && abs(y - _inst.y) <= GRID_SIZE * 2) {
-										// Damage deeper for connected areas
-										var _instances_to_check = instances_at_grid_position(_inst.x, _inst.y + GRID_SIZE, GRID_SIZE, GRID_SIZE);
-										for (var _i = 0; _i < array_length(_instances_to_check); _i++) {
-											var _new_inst =  _instances_to_check[_i]
-											if (_new_inst.object_index == _inst.object_index && _new_inst.is_solid_from_above && _new_inst.id != id && !array_contains(_damaged_instances, _new_inst.id)) {
-												array_push(_damaged_instances, _new_inst.id);
-											}
-										}
-									}
-									_inst.powerfall_on(); // Add Switching Switches you Fall on here?
-								}
-							}
-							if (_play_sound) { play_sound(snd_impact); }
-						
 							// Player reaction to landing
+							powerfall_on_ground_objects();
 							state = PLAYER_STATES.RECOIL;
 							transition_timer = 8;
 							if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
@@ -1309,24 +1304,25 @@ draw_cape_graphics = function() {
 update_player_collisions_at_position = function() {
 	// Get Destroyed From Stepping on Lethal Tiles
 	if (is_grounded_state()) {
-		// Destroy if Standing on Lethal Object
-		var _grounded_objects = get_ground_objects();
+		// Destroy if Standing on Lethal Object and No Other Solids
+		/*
+		var _grounded_objects = get_ground_objects(), _safely_supported = false, _on_lethal_ground = false;
 		for (var _i = 0; _i < array_length(_grounded_objects); _i++) {
 			var _inst = _grounded_objects[_i]
 			if (instance_exists(_inst)) {
-				if (object_index == obj_player && _inst.is_player_lethal) { instance_destroy(); }
-				if (object_index != obj_player && _inst.is_robot_lethal) { instance_destroy(); }
+				if (object_index == obj_player && _inst.is_player_lethal) { _on_lethal_ground = true; }
+				else if (object_index != obj_player && _inst.is_robot_lethal) { _on_lethal_ground = true; }
+				else { _safely_supported = true; }
 			}
 		}
+		if (_on_lethal_ground && !_safely_supported) { instance_destroy(); }
+		*/
 		
 		// Destroy if Carrying Lethal Object
 		var _carried_objects = get_carried_objects();
 		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
 			var _inst = _carried_objects[_i]
-			if (instance_exists(_inst)) {
-				if (object_index == obj_player && _inst.is_player_lethal) { instance_destroy(); }
-				if (object_index != obj_player && _inst.is_robot_lethal) { instance_destroy(); }
-			}
+			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
 	}
 	

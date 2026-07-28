@@ -219,6 +219,8 @@ draw_liquid = function() {
 }
 
 // Game Action Functions
+deal_damage = function() { }
+
 walk_on = function() {
 	if (audio_exists(step_sound)) { play_sound(step_sound); }
 	
@@ -250,7 +252,7 @@ powerfall_on = function() {
 		var _connected_instances = get_connected_instances([id]);
 		for (var _i = 0; _i < array_length(_connected_instances); _i++) {
 			var _inst = _connected_instances[_i];
-			if (!instance_exists(_inst) || id == _inst.id) { continue; }
+			if (!instance_exists(_inst) || id == _inst) { continue; }
 			else { _inst.get_damaged(); }
 		}
 	}
@@ -272,7 +274,6 @@ get_damaged = function() {
 	
 	if (is_a(obj_static_area)) { global.should_rebuild_static_area = true; }
 }
-
 
 get_connected_instances = function(_connected_instances) {
 	for (var _dir = 0; _dir < 4; _dir++) {

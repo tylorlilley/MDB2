@@ -14,7 +14,7 @@ initialize_solids = function() {
 			var _trunk = instance_create(_trunk_x, _trunk_y, obj_wood);
 			array_push(trunk, _trunk);
 			with (_trunk) {
-				creator = other.id;
+				creator = other;
 					visual_origin_x =  other.x + _trunk_x;
 					visual_origin_y =  other.y + _trunk_y;
 				if (x == _trunk_x_left) {

@@ -19,8 +19,8 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 			var _instances_at_grid_position = global.controller.game_object_grid[_checked_x][_checked_y];
 			for (var _i = 0; _i < array_length(_instances_at_grid_position); _i++) {
 				var _inst = _instances_at_grid_position[_i];
-				if (instance_exists(_inst) && id != _inst.id && _inst.is_a(_object_index) && !array_contains(_returned_instances, _inst.id)) {
-					array_push(_returned_instances, _inst.id);
+				if (instance_exists(_inst) && id != _inst && _inst.is_a(_object_index) && !array_contains(_returned_instances, _inst)) {
+					array_push(_returned_instances, _inst);
 				}
 			}
 		}
@@ -38,11 +38,19 @@ function instances_at_grid_position_exact(_x, _y, _w = 8, _h = 8, _object_index 
 			var _potential_instances = instances_at_grid_position(_x+_grid_x, _y+_grid_y, 8, 8, _object_index, _ignore_outside_border);
 			for (var _i = array_length(_instances_at_grid_position) - 1; _i >= 0; _i--) {
 				var _inst = _instances_at_grid_position[_i]
-				if (!array_contains(_potential_instances, _inst.id)) { array_delete(_instances_at_grid_position, _i, 1); }
+				if (!array_contains(_potential_instances, _inst)) { array_delete(_instances_at_grid_position, _i, 1); }
 			}
 		}
 	}
 	return _instances_at_grid_position
+}
+
+function is_instance_at_grid_position(_x, _y, _inst, _ignore_outside_border = true) {
+	var _instances_at_position = instances_at_grid_position(_x, _y, GRID_SIZE, GRID_SIZE, _inst.object_index, _ignore_outside_border);
+	for (var _i = 0; _i < array_length(_instances_at_position); _i++) {
+		if (_inst == _instances_at_position[_i]) { return true; }
+	}
+	return false;
 }
 
 function at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object, _ignore_outside_border = true) {
