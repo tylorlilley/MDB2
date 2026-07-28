@@ -81,7 +81,7 @@ function build_background(_world) {
 			layer_background_htiled(_forest_canopy_bg, true);
 			layer_background_speed(_forest_canopy_bg, 2);
 			layer_y(_forest_canopy_layer, 104);
-			//layer_hspeed(_forest_canopy_layer, 0.125);
+			layer_hspeed(_forest_canopy_layer, -0.5);
 			layer_set_visible(_forest_canopy_layer, true);
 			
 			// Background Tree Layer

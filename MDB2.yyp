@@ -250,6 +250,7 @@
     {"id":{"name":"snd_level_clear","path":"sounds/snd_level_clear/snd_level_clear.yy",},},
     {"id":{"name":"snd_player_death","path":"sounds/snd_player_death/snd_player_death.yy",},},
     {"id":{"name":"snd_player_fall","path":"sounds/snd_player_fall/snd_player_fall.yy",},},
+    {"id":{"name":"snd_player_idle_yell","path":"sounds/snd_player_idle_yell/snd_player_idle_yell.yy",},},
     {"id":{"name":"snd_player_jump","path":"sounds/snd_player_jump/snd_player_jump.yy",},},
     {"id":{"name":"snd_player_ladder_step","path":"sounds/snd_player_ladder_step/snd_player_ladder_step.yy",},},
     {"id":{"name":"snd_player_offscreen","path":"sounds/snd_player_offscreen/snd_player_offscreen.yy",},},

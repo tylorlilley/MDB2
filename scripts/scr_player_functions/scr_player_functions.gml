@@ -402,7 +402,10 @@ update_player_state = function() {
 					if (!grid_move_up(1)) { start_fallback_state(); }
 				}
 				else if (transition_timer == 18) {
-					if (grid_move_horizontal(get_left_value())) { walk_on_ground_objects(); }
+					if (grid_move_horizontal(get_left_value())) {
+						walk_on_ground_objects();
+						start_cape_flutter_end();
+					}
 					else { start_fallback_state(); }
 				}
 				else if (transition_timer < 10) { transition_timer = 0; }
@@ -1235,7 +1238,7 @@ update_player_graphics = function() {
 		// Update Images in Animations
 		if (animation_speed > 0) {
 			// Update Animation Based on Selected Speed
-			if (animation_timer % animation_speed == 0) { image_index++; if (state == PLAYER_STATES.STAND) { idle_timer++; } }
+			if (animation_timer % animation_speed == 0) { image_index++; if (state == PLAYER_STATES.STAND) { idle_timer++; image_index--; } }
 			image_index = image_index % image_number;
 			// Update Step Index
 			if (state == PLAYER_STATES.LADDER_DOWN || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.PUSH_FORWARD) {
@@ -1256,7 +1259,13 @@ update_player_graphics = function() {
 			else if (idle_timer >= 12 && idle_timer < 14) { image_index = 1; }
 			else if (idle_timer >= 14 && idle_timer < 16) { image_index = 2; }
 			else if (idle_timer >= 16 && idle_timer < 18) { image_index = 3; }
-			else if (idle_timer >= 18 && idle_timer < 19) { image_index = 4; }
+			else if (idle_timer >= 18 && idle_timer < 19) {
+				if (image_index != 4) {
+					play_sound(snd_player_idle_yell);
+					image_index = 4;
+				}
+				else if (!audio_is_playing(snd_player_idle_yell)) { image_index = 3; idle_timer++; }
+			}
 			else if (idle_timer >= 19 && idle_timer < 21) { image_index = 3; }
 			else if (idle_timer >= 21 && idle_timer < 23) { image_index = 2; }
 			else if (idle_timer >= 23) { image_index = 1; }
@@ -1291,6 +1300,7 @@ draw_cape_graphics = function() {
 			_cape_x += get_left_value() * -GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
 		}
 	}
+	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
 	
 	set_shader_palette(PALETTES.GRAY_LIGHT);
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);

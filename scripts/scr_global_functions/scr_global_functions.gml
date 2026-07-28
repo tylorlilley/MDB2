@@ -2,10 +2,10 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 	var _grid_width = abs(_w) div 8, _grid_height = abs(_h) div  8;
 	var _returned_instances = [], _max_x = room_width div 8, _max_y = room_height div 8, _min_x = 0, _min_y = 0;
 	if (_ignore_outside_border) {
-		var _boarder_size = (global.original_controls) ? 16 : 8;
-		_max_x -= _boarder_size;
-		_min_x += _boarder_size;
-		_min_y += _boarder_size;
+		var _border_size = (global.original_controls) ? 2 : 1;
+		_max_x -= _border_size;
+		_min_x += _border_size;
+		_min_y += _border_size;
 	}
 	
 	for (var _grid_x = 0; _grid_x < _grid_width; _grid_x++) {
@@ -30,7 +30,7 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 
 // Checks if a single instance is at every position - doesn't count as an overlap of two instances with the same object index, like two ladders.
 function instances_at_grid_position_exact(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object, _ignore_outside_border = true) {
-	var _initial_instances = instances_at_grid_position(_x, _y, 8, 8, _object_index);
+	var _initial_instances = instances_at_grid_position(_x, _y, 8, 8, _object_index, _ignore_outside_border);
 	var _instances_at_grid_position = [];
 	array_copy(_instances_at_grid_position, 0, _initial_instances, 0, array_length(_initial_instances));
 	for (var _grid_x = 0; _grid_x < _w; _grid_x += 8) {

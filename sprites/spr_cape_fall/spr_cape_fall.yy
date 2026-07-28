@@ -2,7 +2,7 @@
   "$GMSprite":"v2",
   "%Name":"spr_cape_fall",
   "bboxMode":0,
-  "bbox_bottom":7,
+  "bbox_bottom":8,
   "bbox_left":3,
   "bbox_right":13,
   "bbox_top":0,
