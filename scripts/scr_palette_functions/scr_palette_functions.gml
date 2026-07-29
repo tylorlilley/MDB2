@@ -39,6 +39,26 @@ enum PORTAL_COLORS {
 #macro C_BROWN          C_YELLOW_DARK
 #macro C_BROWN_DARK     C_YELLOW_DARKEST
 
+#macro C_ROCK_LIGHT    make_color_rgb(204, 187, 143)
+#macro C_ROCK          make_color_rgb(117, 111, 84)
+#macro C_ROCK_DARK     make_color_rgb(51, 35, 42)
+
+#macro C_SOOT_LIGHT    make_color_rgb(94, 90, 101)
+#macro C_SOOT          make_color_rgb(74, 71, 80)
+#macro C_SOOT_DARK     make_color_rgb(51, 49, 57)
+
+#macro C_SOIL_LIGHT    make_color_rgb(142, 137, 76)
+#macro C_SOIL          make_color_rgb(114, 111, 66)
+#macro C_SOIL_DARK     make_color_rgb(88, 92, 61)
+
+#macro C_TRASH_LIGHT    make_color_rgb(128, 143, 88)
+#macro C_TRASH          make_color_rgb(103, 116, 71)
+#macro C_TRASH_DARK     make_color_rgb(75, 81, 60)
+
+#macro C_COTTON_CANDY_LIGHT    make_color_rgb(215, 146, 212)
+#macro C_COTTON_CANDY         make_color_rgb(178, 121, 175)
+#macro C_COTTON_CANDY_DARK     make_color_rgb(137, 91, 135)
+
 #macro C_BLUE_PLAYER    make_color_rgb(18, 75, 186)
 #macro C_BLUE_DARKEST   make_color_rgb(15, 0, 191)
 #macro C_BLUE_DARK      make_color_rgb(0, 87, 247)
@@ -93,8 +113,19 @@ enum PALETTES {
 	INDIGO,
 	PINK_LIGHT,
 	PINK,
+	ROCK_LIGHT,
+	ROCK,
 	SAND_LIGHT,
 	SAND,
+	SOIL_LIGHT,
+	SOIL,
+	SOOT_LIGHT,
+	SOOT,
+	TRASH_LIGHT,
+	TRASH,
+	COTTON_CANDY_LIGHT,
+	COTTON_CANDY,
+	// No Sand Dark
 	// No Brown Light
 	BROWN,
 	BROWN_DARK,
@@ -113,8 +144,14 @@ function palettes_init() {
 		[C_WHITE, C_PURPLE_LIGHT, C_PURPLE, C_PURPLE_DARK],
 		[C_WHITE, C_INDIGO_LIGHT, C_INDIGO, C_INDIGO_DARK],
 		[C_WHITE, C_PINK_LIGHT, C_PINK, C_PINK_DARK],
+		[C_WHITE, C_ROCK_LIGHT, C_ROCK, C_ROCK_DARK],
 		[C_WHITE, C_SAND_LIGHT, C_SAND, C_SAND_DARK],
+		[C_WHITE, C_SOIL_LIGHT, C_SOIL, C_SOIL_DARK],
+		[C_WHITE, C_SOOT_LIGHT, C_SOOT, C_SOOT_DARK],
+		[C_WHITE, C_TRASH_LIGHT, C_TRASH, C_TRASH_DARK],
+		[C_WHITE, C_COTTON_CANDY_LIGHT, C_COTTON_CANDY, C_COTTON_CANDY_DARK],
 		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
+		
 		[C_WHITE, C_BLUE, C_BLUE_PLAYER],
 	];
 	

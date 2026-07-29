@@ -19,7 +19,10 @@ with (obj_switch_block_outline) {
 with (obj_reforming_cloud_outline) { create_cloud(); }
 with (obj_tree) { initialize_solids(); }
 with (obj_log) { initialize_solids(); }
-with (obj_static_area) { get_connections_for_graphics(); }
+with (obj_static_area) {
+	get_connections_for_graphics();
+	get_world_palette();
+}
 
 // Spawn and Deactivate Instances
 with (obj_dynamic_object) {

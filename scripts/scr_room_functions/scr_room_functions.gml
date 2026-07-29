@@ -10,6 +10,31 @@ enum WORLDS {
 	NIGHT
 }
 
+function get_world_palette() {
+	switch (object_index) {
+		case obj_sand: {
+			switch (global.controller.room_world) {
+				case WORLDS.BEACH: { main_palette = PALETTES.SAND; break; }
+				case WORLDS.FOREST: { main_palette = PALETTES.SOIL; break; }
+				case WORLDS.FACTORY: { main_palette = PALETTES.TRASH; break; }
+				case WORLDS.CASTLE: { main_palette = PALETTES.SOOT; break; }
+				default: { main_palette = PALETTES.COTTON_CANDY; break; }
+			}
+			particle_palette = main_palette;
+			
+			break;
+		}
+		case obj_rock: {
+			switch (global.controller.room_world) {
+				case WORLDS.BEACH: { main_palette = PALETTES.BROWN; break; }
+				default: { main_palette = PALETTES.ROCK; break; }
+			}
+			
+			break;
+		}
+	}
+}
+
 function build_background(_world) {
 	global.world_tint = c_white;
 	switch(_world) {
@@ -53,7 +78,7 @@ function build_background(_world) {
 			break;
 		}
 		case WORLDS.FACTORY: {
-			global.world_tint = C_GRAY_DARK;
+			global.world_tint = C_TRASH_DARK;
 			
 			// BG Castle Layer
 			var _gears_layer = layer_create(100, "Factory_Gears");
@@ -73,6 +98,7 @@ function build_background(_world) {
 			var _forest_leaves_bg = layer_background_create(_forest_leaves_layer, bg_forest_canopy);
 			layer_background_htiled(_forest_leaves_bg, true);
 			layer_background_speed(_forest_leaves_bg, 0);
+			layer_hspeed(_forest_leaves_layer, -0.125);
 			layer_set_visible(_forest_leaves_layer, true);
 			
 			// Background Leaf Fringe Layer
@@ -81,7 +107,7 @@ function build_background(_world) {
 			layer_background_htiled(_forest_canopy_bg, true);
 			layer_background_speed(_forest_canopy_bg, 2);
 			layer_y(_forest_canopy_layer, 104);
-			layer_hspeed(_forest_canopy_layer, -0.5);
+			layer_hspeed(_forest_canopy_layer, -0.125);
 			layer_set_visible(_forest_canopy_layer, true);
 			
 			// Background Tree Layer
@@ -91,7 +117,7 @@ function build_background(_world) {
 			layer_background_vtiled(_forest_tresss_bg, true);
 			layer_background_speed(_forest_tresss_bg, 0);
 			layer_y(_forest_tress_layer, 104);
-			layer_hspeed(_forest_tress_layer, -0.38);
+			layer_hspeed(_forest_tress_layer, -0.038);
 			layer_set_visible(_forest_tress_layer, true);
 			
 			break;
