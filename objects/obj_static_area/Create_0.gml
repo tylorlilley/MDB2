@@ -131,8 +131,13 @@ draw_static_area_tile = function() {
 	// Calculate Outline Position
 	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0);
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8), _outline_mask_sprite = (is_undefined(outline_mask_sprite) ? outline_sprite : outline_mask_sprite);
-	var _animation_position_offset = (_is_even_x) ? 4 : 0;
-	var _main_sprite_image_index = (animated) ? _animation_position_offset + ((anim_timer div 8)) : ((hits-1 <= 0) ? 0 : hits-1), _outine_sprite_image_index = ((animated) ? _main_sprite_image_index : 0), _outline_mask_sprite_image_index = ((animated) ? _main_sprite_image_index : 1)
+	var _anim_frames = (animated) ? sprite_get_number(outline_sprite) : 1;
+	var _column_phase = ((visual_origin_x div 8) % 4 + 4) % 4;          // 0..3
+	var _anim_image_index = (animated) ? ((anim_timer div 8) + _column_phase * 2) % _anim_frames : 0;
+
+	var _main_sprite_image_index = (animated) ? (_anim_image_index % sprite_get_number(main_sprite)) : ((hits - 1 <= 0) ? 0 : hits - 1);
+	var _outine_sprite_image_index = (animated) ? _anim_image_index : 0;
+	var _outline_mask_sprite_image_index = (animated) ? _anim_image_index : 1;
 	var _has_outline = outline_sprite != noone && (!is_undefined(_x_offset) && !is_undefined(_y_offset));
 	
 	if (_has_outline) {

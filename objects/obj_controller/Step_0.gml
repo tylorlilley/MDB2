@@ -48,7 +48,7 @@ with (obj_water) {
 }
 with (obj_lava) {
 	anim_timer++;
-	anim_timer = anim_timer % (sprite_get_number(main_sprite) * 4);
+	anim_timer = anim_timer % (sprite_get_number(outline_sprite) * 8);
 	global.should_rebuild_static_area = true;
 }
 with (obj_spikes) {
@@ -57,7 +57,7 @@ with (obj_spikes) {
 }
 
 // Update Switch Logic
-blocked_switch_colors = [false, false, false, false];
+blocked_switch_colors = [false, false, false];
 with (obj_switch) {
 	prev_pressed = pressed;
 	if (!is_fully_on_ground()) { instance_destroy(); }

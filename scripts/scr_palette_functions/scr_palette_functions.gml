@@ -60,6 +60,7 @@ enum PORTAL_COLORS {
 #macro C_COTTON_CANDY_DARK     make_color_rgb(137, 91, 135)
 
 #macro C_BLUE_PLAYER    make_color_rgb(18, 75, 186)
+#macro C_BLUE_PLAYER_LIGHT    make_color_rgb(65, 168, 251)
 #macro C_BLUE_DARKEST   make_color_rgb(15, 0, 191)
 #macro C_BLUE_DARK      make_color_rgb(0, 87, 247)
 #macro C_BLUE           make_color_rgb(39, 159, 255)
@@ -152,7 +153,7 @@ function palettes_init() {
 		[C_WHITE, C_COTTON_CANDY_LIGHT, C_COTTON_CANDY, C_COTTON_CANDY_DARK],
 		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
 		
-		[C_WHITE, C_BLUE, C_BLUE_PLAYER],
+		[C_WHITE, C_BLUE_PLAYER_LIGHT, C_BLUE_PLAYER],
 	];
 	
 	global.palette_uniform_values = [];
