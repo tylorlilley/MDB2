@@ -96,6 +96,22 @@ function draw_sprite_silhoutte(_sprite_index, _image_index, _x, _y, _image_xscal
 function set_shader_palette(_palette_to_use = undefined) {
 	if (is_undefined(_palette_to_use)) { _palette_to_use = main_palette; }
 	shader_set_uniform_f_array(global.u_replacement_colors, global.palette_uniform_values[_palette_to_use]);
+	set_shader_clip();
+}
+
+function set_shader_clip(_sprite = noone, _subimg = 0, _left = 0, _top = 0, _x = 0, _y = 0, _width = 0, _height = 0) {
+	if (_sprite == noone) { shader_set_uniform_f(global.u_clip_enabled, 0); return; }
+	
+	var _uvs = sprite_get_uvs(_sprite, _subimg);
+	var _u_per_pixel = (_uvs[2] - _uvs[0]) / (sprite_get_width(_sprite) * _uvs[6]);
+	var _v_per_pixel = (_uvs[3] - _uvs[1]) / (sprite_get_height(_sprite) * _uvs[7]);
+	var _left_u = _uvs[0] + (_left - _uvs[4]) * _u_per_pixel;
+	var _top_v = _uvs[1] + (_top - _uvs[5]) * _v_per_pixel;
+	
+	shader_set_uniform_f(global.u_clip_uvs, _left_u, _top_v, _left_u + _width * _u_per_pixel, _top_v + _height * _v_per_pixel);
+	shader_set_uniform_f(global.u_clip_area, _x, _y, _width, _height);
+	shader_set_uniform_f(global.u_clip_enabled, 1);
+	texture_set_stage(global.u_clip_texture, sprite_get_texture(_sprite, _subimg));
 }
 
 function always_true() { return true; }

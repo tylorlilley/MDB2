@@ -7,6 +7,16 @@ varying vec4 v_vColour;
 uniform vec4 u_replacement_colors[4];
 uniform float u_tint_amount;
 
+varying highp vec2 v_vPosition;
+
+// Clip mask: restricts drawing to the opaque pixels of a region of another sprite.
+// u_clip_uvs is that region on its texture page (left, top, right, bottom); u_clip_area
+// is the area in room coordinates it covers (x, y, width, height).
+uniform sampler2D u_clip_texture;
+uniform vec4 u_clip_uvs;
+uniform vec4 u_clip_area;
+uniform float u_clip_enabled;
+
 // Base palette (PALETTES.GRAY_LIGHT): 239, 175, 95, 0 — must match scr_palette_shader
 const vec4 BASE_0 = vec4(239.0/255.0, 239.0/255.0, 239.0/255.0, 1.0);
 const vec4 BASE_1 = vec4(175.0/255.0, 175.0/255.0, 175.0/255.0, 1.0);
@@ -29,6 +39,13 @@ void main()
     // draw_text colours get diluted toward the source pixel.
     else                                            { is_pal = false; }
 
+    float clip = 1.0;
+    if (u_clip_enabled > 0.5)
+    {
+        vec2 t = (v_vPosition - u_clip_area.xy) / u_clip_area.zw;
+        clip = texture2D(u_clip_texture, mix(u_clip_uvs.xy, u_clip_uvs.zw, t)).a;
+    }
+
     float tint = is_pal ? u_tint_amount : 1.0;
-    gl_FragColor = vec4(mix(pal, pal * v_vColour.rgb, tint), pixel.a * v_vColour.a);
+    gl_FragColor = vec4(mix(pal, pal * v_vColour.rgb, tint), pixel.a * v_vColour.a * clip);
 }

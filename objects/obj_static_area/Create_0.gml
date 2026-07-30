@@ -141,11 +141,12 @@ draw_static_area_tile = function() {
 	var _has_outline = outline_sprite != noone && (!is_undefined(_x_offset) && !is_undefined(_y_offset));
 	
 	if (_has_outline) {
-		// Draw Main Image
+		// Draw Main Image, Clipped to This Tile's Own Outline Shape
+		var _mask_image_index = (animated) ? _anim_image_index : min(1, sprite_get_number(_outline_mask_sprite) - 1);
 		set_shader_palette();
+		set_shader_clip(_outline_mask_sprite, _mask_image_index, _x_offset, _y_offset, x, y, 8, 8);
 		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		gpu_set_blendmode(bm_normal);
 		
 		// Additionally Draw Inner Corners	
 		if (!is_connected_top_right && is_connected_above && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
@@ -153,13 +154,8 @@ draw_static_area_tile = function() {
 		if (!is_connected_bottom_right && is_connected_below && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		
-		// Use Outline as Mask to Draw
-		if (main_sprite != noone || fuzzing_sprite != noone) {
-			gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
-			draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
-			gpu_set_blendmode(bm_normal);
-		}
-		
+		// Draw the Outline Itself, Unclipped
+		set_shader_clip();
 		draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
 	
 

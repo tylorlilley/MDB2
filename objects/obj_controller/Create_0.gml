@@ -26,6 +26,10 @@ global.combine_up_and_jump_controls = true;
 global.should_rebuild_static_area = true;
 global.u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 global.u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
+global.u_clip_uvs = shader_get_uniform(shd_palettizer, "u_clip_uvs");
+global.u_clip_area = shader_get_uniform(shd_palettizer, "u_clip_area");
+global.u_clip_enabled = shader_get_uniform(shd_palettizer, "u_clip_enabled");
+global.u_clip_texture = shader_get_sampler_index(shd_palettizer, "u_clip_texture");
 global.room_keys = 0;
 global.world_tint = c_white;
 
