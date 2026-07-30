@@ -52,10 +52,8 @@ with (obj_lava) {
 	global.should_rebuild_static_area = true;
 }
 with (obj_spikes) {
-	if (shine_timer > 0) {
-		shine_timer--;
-		}
-	if (shine_timer == 0) { main_palette = original_palette; }
+	if (shine_timer > 0) { shine_timer--; }
+	if (shine_timer == 0) { main_sprite = spr_spikes; main_palette = original_palette; global.should_rebuild_static_area = true; }
 }
 
 // Update Switch Logic

@@ -34,12 +34,12 @@ global.room_keys = 0;
 global.world_tint = c_white;
 
 // Debug Variables
-show_debug_gui = false;
+show_debug_gui = true;
 draw_game_object_grid = false;
 
 // Set Up Game Window
 window_set_size(256*4, 240*4);
-window_set_fullscreen(true);
+window_set_fullscreen(false);
 game_set_speed(30, gamespeed_fps);
 determine_gamepad(); // Poll This Constantly on Title Screen
 palettes_init();
@@ -116,4 +116,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_2_4, true); //rm_test_terrain
+transition_room(rm_mdb_1_1, true); //rm_test_terrain

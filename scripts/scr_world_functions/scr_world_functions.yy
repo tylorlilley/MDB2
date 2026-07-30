@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_room_functions",
+  "%Name":"scr_world_functions",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_room_functions",
+  "name":"scr_world_functions",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

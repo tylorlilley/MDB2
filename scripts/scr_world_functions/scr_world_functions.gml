@@ -29,16 +29,16 @@ function get_world_palette() {
 				case WORLDS.BEACH: { main_palette = PALETTES.BROWN; break; }
 				default: { main_palette = PALETTES.ROCK; break; }
 			}
-			particle_palette = main_palette;
+			particle_palette = get_darker_palette(main_palette);
 			
 			break;
 		}
 		case obj_brick: {
 			switch (global.controller.room_world) {
-				case WORLDS.FOREST: { main_palette = PALETTES.GRAY_LIGHT; break; }
+				case WORLDS.FOREST: { main_palette = PALETTES.BRICK; break; }
 				default: { main_palette = PALETTES.GRAY_LIGHT; break; }
 			}
-			particle_palette = main_palette;
+			particle_palette = get_darker_palette(main_palette);
 			
 			break;
 		}
@@ -95,7 +95,7 @@ function build_background(_world) {
 			var _gear_bg = layer_background_create(_gears_layer, bg_factory);
 			layer_background_htiled(_gear_bg, true);
 			layer_background_vtiled(_gear_bg, true);
-			layer_background_speed(_gear_bg, 10);
+			layer_background_speed(_gear_bg, 0);
 			//layer_hspeed(_gears_layer, -0.125);
 			//layer_vspeed(_gears_layer, -0.25);
 			layer_set_visible(_gears_layer, true);

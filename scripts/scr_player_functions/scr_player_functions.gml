@@ -546,7 +546,7 @@ update_player_state = function() {
 						play_sound(snd_key);
 						var _prev_x = x;
 						grid_move_to(x + (get_left_value() * GRID_SIZE), y);
-						create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
+						//create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
 						grid_move_to(_prev_x, y);
 					}
 					else if (transition_timer < 14) { image_index = 2; } // + (transition_timer % 2); }
@@ -586,7 +586,7 @@ update_player_state = function() {
 				if (visible && (key_up || key_jump) && prev_state == PLAYER_STATES.WIN) {
 					visible = false;
 					play_sound(snd_impact);
-					with (obj_door) { image_index = 2; create_particles(8 + irandom(8)); }
+					with (obj_door) { image_index = 2; } // create_particles(8 + irandom(8)); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
 					global.last_player_x = x;
@@ -1305,7 +1305,8 @@ draw_cape_graphics = function() {
 		}
 	}
 	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
-	else if (is_ladder_state()) { _cape_y += 2; }
+	else if (state == PLAYER_STATES.POWERFALL) { _cape_y -= 1; }
+	else if (is_ladder_state()) { _cape_y += 1; }
 	
 	set_shader_palette(PALETTES.GRAY_LIGHT);
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);

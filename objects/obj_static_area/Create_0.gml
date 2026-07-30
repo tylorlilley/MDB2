@@ -12,6 +12,7 @@ is_climbable = true;
 
 step_sound = noone;
 should_draw = true;
+has_square_shape = false;
 
 main_sprite = spr_box_16x16;
 outline_sprite = noone;
@@ -30,11 +31,20 @@ is_connected_top_left = noone;
 is_connected_bottom_right = noone;
 is_connected_bottom_left = noone;
 
+is_connected_far_top = noone;
+is_connected_far_bottom = noone;
+is_connected_on_far_left = noone;
+is_connected_on_far_right = noone;
+
 get_connections_for_graphics = function() {
 	is_connected_above = grid_array_first(instances_at_grid_position(x, y-8, 8, 8, object_index, false));
 	is_connected_below = grid_array_first(instances_at_grid_position(x, y+8, 8, 8, object_index, false));
 	is_connected_on_left = grid_array_first(instances_at_grid_position(x-8, y, 8, 8, object_index, false));
 	is_connected_on_right = grid_array_first(instances_at_grid_position(x+8, y, 8, 8, object_index, false));
+	is_connected_far_top = grid_array_first(instances_at_grid_position(x, y-16, 8, 8, object_index, false));
+	is_connected_far_bottom = grid_array_first(instances_at_grid_position(x, y+16, 8, 8, object_index, false));
+	is_connected_on_far_left = grid_array_first(instances_at_grid_position(x-16, y, 8, 8, object_index, false));
+	is_connected_on_far_right = grid_array_first(instances_at_grid_position(x+16, y, 8, 8, object_index, false));
 	is_connected_top_right = grid_array_first(instances_at_grid_position(x+8, y-8, 8, 8, object_index, false));
 	is_connected_top_left = grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index, false));
 	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index, false));
@@ -48,6 +58,11 @@ get_connections_for_graphics = function() {
 	is_connected_top_left = (instance_exists(is_connected_top_left) && creator == is_connected_top_left.creator && object_index == is_connected_top_left.object_index) ? is_connected_top_left : noone;
 	is_connected_bottom_right = (instance_exists(is_connected_bottom_right) && creator == is_connected_bottom_right.creator && object_index == is_connected_bottom_right.object_index) ? is_connected_bottom_right : noone;
 	is_connected_bottom_left = (instance_exists(is_connected_bottom_left) && creator == is_connected_bottom_left.creator && object_index == is_connected_bottom_left.object_index) ? is_connected_bottom_left : noone;
+	
+	is_connected_far_top = (instance_exists(is_connected_far_top) && creator == is_connected_far_top.creator && object_index == is_connected_far_top.object_index) ? is_connected_far_top : noone;
+	is_connected_far_bottom = (instance_exists(is_connected_far_bottom) && creator == is_connected_far_bottom.creator && object_index == is_connected_far_bottom.object_index) ? is_connected_far_bottom : noone;
+	is_connected_on_far_left = (instance_exists(is_connected_on_far_left) && creator == is_connected_on_far_left.creator && object_index == is_connected_on_far_left.object_index) ? is_connected_on_far_left : noone;
+	is_connected_on_far_right = (instance_exists(is_connected_on_far_right) && creator == is_connected_on_far_right.creator && object_index == is_connected_on_far_right.object_index) ? is_connected_on_far_right : noone;
 }
 
 update_connected_graphics = function() {
@@ -70,22 +85,38 @@ draw_static_area_tile = function() {
 	if (!is_connected_above && !is_connected_on_left && is_connected_below && is_connected_on_right) { // Top Left Corner
 		_x_offset = 0;
 		_y_offset = 0;
+		if (has_square_shape && !is_connected_on_far_right && !is_connected_far_bottom) {
+			_x_offset = 24;
+			_y_offset = 16;
+		}
 	}
 	else if (!is_connected_above && is_connected_on_left && is_connected_below && !is_connected_on_right) { // Top Right Corner
 		_x_offset = 16;
 		_y_offset = 0;
-	}
-	else if (!is_connected_above && is_connected_on_left && is_connected_below && is_connected_on_right) { // Top Side
-		_x_offset = 8;
-		_y_offset = 0;
+		if (has_square_shape && !is_connected_on_far_left && !is_connected_far_bottom) {
+			_x_offset = 32;
+			_y_offset = 16;
+		}
 	}
 	else if (!is_connected_below && !is_connected_on_left && is_connected_above && is_connected_on_right) { // Bottom Left Corner
 		_x_offset = 0;
 		_y_offset = 16;
+		if (has_square_shape && !is_connected_on_far_right && !is_connected_far_top) {
+			_x_offset = 24;
+			_y_offset = 24;
+		}
 	}
 	else if (!is_connected_below && is_connected_on_left && is_connected_above && !is_connected_on_right) { // Bottom Right Corner
 		_x_offset = 16;
 		_y_offset = 16;
+		if (has_square_shape && !is_connected_on_far_left && !is_connected_far_top) {
+			_x_offset = 32;
+			_y_offset = 24;
+		}
+	}
+	else if (!is_connected_above && is_connected_on_left && is_connected_below && is_connected_on_right) { // Top Side
+		_x_offset = 8;
+		_y_offset = 0;
 	}
 	else if (!is_connected_below && is_connected_on_left && is_connected_above && is_connected_on_right) { // Bottom Side
 		_x_offset = 8;
@@ -107,10 +138,6 @@ draw_static_area_tile = function() {
 		_x_offset = 8;
 		_y_offset = 24;
 	}
-	else if (!is_connected_below && !is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Alone
-		_x_offset = 16;
-		_y_offset = 24;
-	}
 	else if (is_connected_below && !is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Peninsula With Bottom
 		_x_offset = 0;
 		_y_offset = 32;
@@ -127,7 +154,11 @@ draw_static_area_tile = function() {
 		_x_offset = 24;
 		_y_offset = 32;
 	}
-
+	else if (!is_connected_below && !is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Alone
+		_x_offset = 16;
+		_y_offset = 24;
+	}
+	
 	// Calculate Outline Position
 	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0);
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8), _outline_mask_sprite = (is_undefined(outline_mask_sprite) ? outline_sprite : outline_mask_sprite);
