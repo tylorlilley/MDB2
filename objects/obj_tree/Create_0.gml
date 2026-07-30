@@ -27,7 +27,7 @@ initialize_solids = function() {
 				case 5: { _place = (_col == 6 || _col == 7); break; }				             // Right Branch
 			}
 			if (!_place) { continue; }
-			var _solid_objects_at_position = get_objects_at(x + _col * 8,  y + _row * 8, 8, 8, function(_inst) { return _inst.is_solid_from_below; });
+			var _solid_objects_at_position = get_objects_at(x + _col * 8,  y + _row * 8, 8, 8, function(_inst) { return _inst.is_solid_from_all_sides(); });
 			if (array_length(_solid_objects_at_position) > 0) { continue; }
 
 			var _leaf = instance_create(x + _col * 8, y + _row * 8, obj_leaf);

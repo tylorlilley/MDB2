@@ -35,7 +35,7 @@ draw_game_object_grid = false;
 
 // Set Up Game Window
 window_set_size(256*4, 240*4);
-window_set_fullscreen(show_debug_gui);
+window_set_fullscreen(true);
 game_set_speed(30, gamespeed_fps);
 determine_gamepad(); // Poll This Constantly on Title Screen
 palettes_init();

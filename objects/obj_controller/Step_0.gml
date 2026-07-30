@@ -52,7 +52,9 @@ with (obj_lava) {
 	global.should_rebuild_static_area = true;
 }
 with (obj_spikes) {
-	if (shine_timer > 0) { shine_timer--; }
+	if (shine_timer > 0) {
+		shine_timer--;
+		}
 	if (shine_timer == 0) { main_palette = original_palette; }
 }
 

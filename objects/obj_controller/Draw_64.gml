@@ -6,7 +6,7 @@ draw_rectangle(0, 0, 256, (global.original_controls ? 24 : 16), false);
 if (global.original_controls) {
 	draw_rectangle(0, 24, 8, 232, false);
 	draw_rectangle(248, 24, 256, 232, false);
-	draw_rectangle(0, 232, 256, 240, false);
+	//draw_rectangle(0, 232, 256, 240, false);
 }
 draw_set_alpha(1);
 draw_set_color(c_white);

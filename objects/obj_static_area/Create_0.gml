@@ -132,7 +132,7 @@ draw_static_area_tile = function() {
 	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0);
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8), _outline_mask_sprite = (is_undefined(outline_mask_sprite) ? outline_sprite : outline_mask_sprite);
 	var _anim_frames = (animated) ? sprite_get_number(outline_sprite) : 1;
-	var _column_phase = ((visual_origin_x div 8) % 4 + 4) % 4;          // 0..3
+	var _column_phase = (((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4;
 	var _anim_image_index = (animated) ? ((anim_timer div 8) + _column_phase * 2) % _anim_frames : 0;
 
 	var _main_sprite_image_index = (animated) ? (_anim_image_index % sprite_get_number(main_sprite)) : ((hits - 1 <= 0) ? 0 : hits - 1);
@@ -154,9 +154,11 @@ draw_static_area_tile = function() {
 		if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		
 		// Use Outline as Mask to Draw
-		gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
-		draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
-		gpu_set_blendmode(bm_normal);
+		if (main_sprite != noone || fuzzing_sprite != noone) {
+			gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
+			draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
+			gpu_set_blendmode(bm_normal);
+		}
 		
 		draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
 	
@@ -170,5 +172,4 @@ draw_static_area_tile = function() {
 	}
 
 	gpu_set_blendmode(bm_normal);
-	
 }

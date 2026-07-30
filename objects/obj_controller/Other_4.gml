@@ -8,6 +8,8 @@ play_music(room_world);
 	
 // Set Palettes
 with (obj_visual_object) { image_blend = global.world_tint; }
+with (obj_tree) { initialize_solids(); }
+with (obj_log) { initialize_solids(); }
 with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
 with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);
@@ -17,8 +19,6 @@ with (obj_switch_block_outline) {
 	if (begin_off) { toggle_solid(); }
 }
 with (obj_reforming_cloud_outline) { create_cloud(); }
-with (obj_tree) { initialize_solids(); }
-with (obj_log) { initialize_solids(); }
 with (obj_static_area) {
 	get_connections_for_graphics();
 	get_world_palette();
