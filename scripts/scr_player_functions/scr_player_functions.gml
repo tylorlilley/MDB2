@@ -981,7 +981,7 @@ update_cape_graphics = function() {
 				else if (is_ladder_state()) { start_cape_ladder(); }
 				else if (is_fall_state()) { start_cape_fall_begin(); }
 				else if (is_hop_up_state()) { start_cape_crouch(); }
-				else if (cape_state == CAPE_STATES.STOP_FLUTTER || cape_state == CAPE_STATES.STAND) { start_cape_stand(); }
+				else if (cape_state == CAPE_STATES.STOP_FLUTTER || state == PLAYER_STATES.STAND) { start_cape_stand(); }
 				else { start_cape_crouch(); }
 				break;
 			}

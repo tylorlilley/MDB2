@@ -2,11 +2,11 @@
 draw_set_valign(fa_top)
 draw_set_alpha(0.5);
 draw_set_color(c_black);
-draw_rectangle(0, 0, 256, (global.original_controls ? 24 : 16), false);
+draw_rectangle(0, 0, 256, 16, false);
 if (global.original_controls) {
-	draw_rectangle(0, 24, 8, 240, false);
-	draw_rectangle(248, 24, 256, 240, false);
-	//draw_rectangle(0, 232, 256, 240, false);
+	draw_rectangle(0, 16, 8, 232, false);
+	draw_rectangle(248, 16, 256, 232, false);
+	draw_rectangle(0, 232, 256, 240, false);
 }
 draw_set_alpha(1);
 draw_set_color(c_white);
@@ -29,16 +29,16 @@ if (draw_game_object_grid) {
 }
 
 // Draw Level Text and Key Amounts
-var _text_y_pos = -1 + (global.original_controls ? 4 : 0), _text_x_pos = 256-20;
-if (global.original_controls) { _text_x_pos -= 8; }
-if (global.room_keys >= 10) { _text_x_pos -= 8; }
+var _text_y_pos = -2, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
 draw_text(((global.original_controls) ? 12 : 4), _text_y_pos, room_title);
-draw_text(_text_x_pos, _text_y_pos, "x" + string(global.room_keys));
+draw_set_halign(fa_right);
+draw_text(_text_x_pos, _text_y_pos, string(global.keys_collected) + "/" + string(global.room_keys));
+draw_set_halign(fa_left);
 
 main_palette = PALETTES.YELLOW;
 shader_set(shd_palettizer);
 set_shader_palette();
-draw_sprite(spr_key_icon, 0, _text_x_pos-16, _text_y_pos+1);
+draw_sprite(spr_key_icon, 0, _text_x_pos, _text_y_pos+1);
 shader_reset();
 
 // Draw Transition

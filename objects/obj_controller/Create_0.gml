@@ -31,6 +31,7 @@ global.u_clip_area = shader_get_uniform(shd_palettizer, "u_clip_area");
 global.u_clip_enabled = shader_get_uniform(shd_palettizer, "u_clip_enabled");
 global.u_clip_texture = shader_get_sampler_index(shd_palettizer, "u_clip_texture");
 global.room_keys = 0;
+global.keys_collected = 0;
 global.world_tint = c_white;
 
 // Debug Variables
@@ -66,6 +67,7 @@ initialize_room = function(_new_room) {
 	global.last_player_x = undefined;
 	global.last_player_y = undefined;
 	global.room_keys = 0;
+	global.keys_collected = 0;
 	
 	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;
