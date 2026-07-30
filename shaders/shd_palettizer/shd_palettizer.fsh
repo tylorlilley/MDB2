@@ -3,11 +3,10 @@
 //
 varying vec2 v_vTexcoord;
 varying vec4 v_vColour;
+varying vec2 v_vPosition;
 
 uniform vec4 u_replacement_colors[4];
 uniform float u_tint_amount;
-
-varying highp vec2 v_vPosition;
 
 // Clip mask: restricts drawing to the opaque pixels of a region of another sprite.
 // u_clip_uvs is that region on its texture page (left, top, right, bottom); u_clip_area
@@ -39,13 +38,13 @@ void main()
     // draw_text colours get diluted toward the source pixel.
     else                                            { is_pal = false; }
 
-    float clip = 1.0;
+	float mask_alpha = 1.0;
     if (u_clip_enabled > 0.5)
     {
-        vec2 t = (v_vPosition - u_clip_area.xy) / u_clip_area.zw;
-        clip = texture2D(u_clip_texture, mix(u_clip_uvs.xy, u_clip_uvs.zw, t)).a;
+        vec2 clip_position = (v_vPosition - u_clip_area.xy) / u_clip_area.zw;
+        mask_alpha = texture2D(u_clip_texture, mix(u_clip_uvs.xy, u_clip_uvs.zw, clip_position)).a;
     }
 
     float tint = is_pal ? u_tint_amount : 1.0;
-    gl_FragColor = vec4(mix(pal, pal * v_vColour.rgb, tint), pixel.a * v_vColour.a * clip);
+    gl_FragColor = vec4(mix(pal, pal * v_vColour.rgb, tint), pixel.a * v_vColour.a * mask_alpha);
 }
