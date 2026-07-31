@@ -27,12 +27,7 @@ press_switch = function() {
 	}
 	
 	if (_toggle_blocks) {
-		with (obj_switch_block_outline) { 
-			if (switch_color == other.switch_color) { toggle_solid(true); }
-		}
-		with (obj_switch_block_outline) {
-			if (switch_color == other.switch_color) { solid_obj.get_connections_for_graphics(); }
-		}
+		array_push(global.controller.pending_switch_colors, switch_color);
 		with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
 	}
 }

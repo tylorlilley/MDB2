@@ -57,6 +57,12 @@ with (obj_spikes) {
 }
 
 // Update Switch Logic
+for (var _i = 0; _i < array_length(pending_switch_colors); _i++) {
+	var _c = pending_switch_colors[_i];
+	with (obj_switch_block_outline) { if (switch_color == _c) { toggle_solid(true); } }
+	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.get_connections_for_graphics(); } }
+}
+pending_switch_colors = [];
 blocked_switch_colors = [false, false, false];
 with (obj_switch) {
 	prev_pressed = pressed;
@@ -158,3 +164,13 @@ else if (transition_timer > 0) {
 	}
 	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
 }
+
+global.frame++;
+var _line = string(global.frame);
+var _r = []; with (obj_robot) { array_push(_r, id); }
+array_sort(_r, function(_a, _b) { return sign(_a.y - _b.y); });
+for (var _i = 0; _i < array_length(_r); _i++) { with (_r[_i]) {
+    _line += "|" + string(x) + "," + string(is_left) + "," + string(walk_timer) + "," + string(state) + "," + string(transition_timer);
+} }
+with (obj_switch) { _line += "|S" + string(y) + "," + string(pressed); }
+show_debug_message(_line);

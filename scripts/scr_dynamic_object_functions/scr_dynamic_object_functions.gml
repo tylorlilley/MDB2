@@ -205,10 +205,10 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 	return _actual_carried_objects;
 }
 
-get_ground_objects = function() {
+get_ground_objects = function(_ignored_objects = []) {
 	return get_relative_objects(0, GRID_SIZE, function(_inst) {
         return _inst.is_solid_from_above;
-    });
+    }, _ignored_objects);
 }
 
 get_left_wall_objects = function(_ignored_objects = []) {
@@ -223,10 +223,10 @@ get_right_wall_objects = function(_ignored_objects = []) {
     }, _ignored_objects);
 }
 
-get_ceiling_objects = function() {
+get_ceiling_objects = function(_ignored_objects = []) {
 	return get_relative_objects(0, -GRID_SIZE, function(_inst) {
         return _inst.is_solid_from_below;
-    });
+    }, _ignored_objects);
 }
 
 get_left_ground_objects = function() {

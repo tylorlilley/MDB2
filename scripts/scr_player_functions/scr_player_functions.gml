@@ -556,9 +556,13 @@ update_player_state = function() {
 		}
 	}
 	
+	// Get Destroyed From Solids
+	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
+	
 	// While Not Transitioning
-	if (transition_timer == 0) {
+	if (instance_exists(id) && transition_timer == 0) {
 		update_player_collisions_at_position();
+		if (!instance_exists(id)) { exit; }
 		
 		switch (state) {
 			case PLAYER_STATES.SWIM:
@@ -889,9 +893,6 @@ update_player_state = function() {
 		}
 		
 		// Reset Controls
-		show_debug_message(string("{0}: {1} -> {2} | tt={3} xtt={4} L={5} R={6} U={7}",
-			    current_time, player_state_to_string(prev_state), player_state_to_string(state),
-				transition_timer, x_transition_timer, key_left, key_right, key_up));
 		reset_controls();
 	}
 
@@ -1331,14 +1332,11 @@ update_player_collisions_at_position = function() {
 		
 		// Destroy if Lethal Object is Falling on Player
 		var _objects_above = get_relative_objects(0, -GRID_SIZE, function(_inst) { return _inst.is_a(obj_dynamic_object) && _inst.has_gravity && _inst.is_fall_state(); });
-		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-			var _inst = _carried_objects[_i]
+		for (var _i = 0; _i < array_length(_objects_above); _i++) {
+			var _inst = _objects_above[_i]
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
 	}
-	
-	// Get Destroyed From Solids
-	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
 	
 	// Hanlde Water
 	if (is_fully_submerged()) {

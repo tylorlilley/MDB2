@@ -34,6 +34,7 @@ global.room_keys = 0;
 global.keys_collected = 0;
 global.room_portals = 0;
 global.world_tint = c_white;
+global.frame = 0;
 
 // Debug Variables
 level_number = 0;
@@ -60,6 +61,7 @@ frame_timer = 0;
 // Gameplay Variables
 game_object_grid = [];
 frame_sounds = [];
+pending_switch_colors = [];
 room_seed = random_get_seed();
 
 initialize_room = function(_new_room) {
@@ -71,6 +73,7 @@ initialize_room = function(_new_room) {
 	global.room_keys = 0;
 	global.room_portals = 0;
 	global.keys_collected = 0;
+	global.frame = 0;
 	if (_new_room != room) { level_number++; }
 	
 	// Create an Empty Game Object Grid that matches the Room Size

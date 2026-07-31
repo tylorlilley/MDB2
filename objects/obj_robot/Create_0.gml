@@ -69,7 +69,6 @@ update_controls = function() {
 	var _blocked_on_right = is_blocked_on_right(), _blocked_on_left = is_blocked_on_left(), _prev_is_left = is_left;
 	
 	// Update Walk Timer
-	var _grounded = is_on_ground();
 	if (!is_on_ground()) { walk_timer = 0; }
 	else {
 		// Update Facing Direction
