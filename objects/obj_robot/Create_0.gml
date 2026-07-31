@@ -2,7 +2,6 @@
 event_inherited();
 
 // Player Object Overrides
-is_left = false;
 can_power_up = false;
 can_push_objects = false;
 can_be_controlled = false;
