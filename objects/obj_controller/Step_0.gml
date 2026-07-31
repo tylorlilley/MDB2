@@ -53,7 +53,7 @@ with (obj_lava) {
 }
 with (obj_spikes) {
 	if (shine_timer > 0) { shine_timer--; }
-	if (shine_timer == 0) { main_sprite = spr_spikes_1; main_palette = original_palette; global.should_rebuild_static_area = true; }
+	if (shine_timer == 0) { image_index = 0; }
 }
 
 // Update Switch Logic

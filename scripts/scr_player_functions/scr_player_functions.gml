@@ -1286,9 +1286,6 @@ update_player_graphics = function() {
 }
 
 draw_cape_graphics = function() {
-	var _drawn_x_scale = get_left_value();
-	if (turn_pending) { _drawn_x_scale*= -1; }
-	var _x_offset = get_x_draw_offset();
 	var _cape_x = virtual_x, _cape_y = virtual_y;
 	if (state != PLAYER_STATES.LADDER &&
 		state !=  PLAYER_STATES.LADDER_UP &&
@@ -1304,7 +1301,7 @@ draw_cape_graphics = function() {
 		state != PLAYER_STATES.CRUSHED_STAND &&
 		state != PLAYER_STATES.CRUSHED_FORWARD) {
 		if (state != PLAYER_STATES.LAND || image_index > 0) {
-			_cape_x += get_left_value() * -GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
+			_cape_x += get_draw_x_scale() * -GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
 		}
 	}
 	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
@@ -1312,7 +1309,7 @@ draw_cape_graphics = function() {
 	else if (is_ladder_state()) { _cape_y += 1; }
 	
 	set_shader_palette(PALETTES.GRAY_LIGHT);
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x+_x_offset, _cape_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, 1);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_draw_x_scale(), 1, 0, image_blend, 1);
 }
 
 update_player_collisions_at_position = function() {
