@@ -112,6 +112,7 @@ update_player_graphics = function() {
 	// Deal with deferred turn
 	if (turn_hold > 0) { turn_hold--; }
 	else if (turn_timer > 0) {
+		turn_pending = false;
 		sprite_index = spr_robot_turn;
 		image_index = (turn_timer > 2) ? 0 : 1;
 		turn_timer--;
