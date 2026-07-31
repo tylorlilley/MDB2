@@ -321,7 +321,7 @@ get_draw_x_scale = function() {
 }
 
 get_x_draw_offset = function() {
-	return ((get_draw_is_left) ? sprite_get_width(sprite_index) : 0);
+	return ((get_draw_is_left()) ? sprite_get_width(sprite_index) : 0);
 }
 
 // Draw Function
