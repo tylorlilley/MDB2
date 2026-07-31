@@ -119,3 +119,11 @@ function always_true() { return true; }
 function instance_create(_x, _y, _obj) {
 	return instance_create_depth(_x, _y, 0, _obj);
 }
+
+function draw_sprite_with_center_rotation(_sprite_index, _image_index, _x, _y, _x_scale, _y_scale, _angle, _color, _alpha) {
+	var _sprite_x_center = sprite_get_width(_sprite_index) / 2, _sprite_y_center = sprite_get_height(_sprite_index) / 2;
+	var _radius = point_distance(0, 0, _sprite_x_center, _sprite_y_center);
+	var _direction = point_direction(0, 0, -_sprite_x_center, -_sprite_y_center) + _angle;
+		
+	draw_sprite_ext(_sprite_index, _image_index, _x + _sprite_x_center + lengthdir_x(_radius, _direction), _y + _sprite_y_center + lengthdir_y(_radius, _direction), _x_scale, _y_scale, _angle, _color, _alpha);
+}

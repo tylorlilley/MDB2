@@ -38,6 +38,7 @@ enum PORTAL_COLORS {
 #macro C_BROWN_LIGHT    C_YELLOW
 #macro C_BROWN          C_YELLOW_DARK
 #macro C_BROWN_DARK     C_YELLOW_DARKEST
+#macro C_BROWN_DARKEST  make_color_rgb(28, 23, 10)
 
 #macro C_ROCK_LIGHT    make_color_rgb(204, 187, 143)
 #macro C_ROCK          make_color_rgb(117, 111, 84)
@@ -141,6 +142,7 @@ enum PALETTES {
 	// No Brown Light
 	BROWN,
 	BROWN_DARK,
+	BROWN_DARKEST,
 	PLAYER,
 }
 
@@ -163,7 +165,7 @@ function palettes_init() {
 		[C_WHITE, C_SOOT_LIGHT, C_SOOT, C_SOOT_DARK],
 		[C_WHITE, C_TRASH_LIGHT, C_TRASH, C_TRASH_DARK],
 		[C_WHITE, C_COTTON_CANDY_LIGHT, C_COTTON_CANDY, C_COTTON_CANDY_DARK],
-		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BLACK],
+		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BROWN_DARKEST, C_BLACK],
 		
 		[C_WHITE, C_BLUE_PLAYER_LIGHT, C_BLUE_PLAYER],
 	];

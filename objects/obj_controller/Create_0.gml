@@ -36,6 +36,7 @@ global.room_portals = 0;
 global.world_tint = c_white;
 
 // Debug Variables
+level_number = 0;
 show_debug_gui = true;
 draw_game_object_grid = false;
 
@@ -70,6 +71,7 @@ initialize_room = function(_new_room) {
 	global.room_keys = 0;
 	global.room_portals = 0;
 	global.keys_collected = 0;
+	if (_new_room != room) { level_number++; }
 	
 	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;
@@ -120,4 +122,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_3_1, true); //rm_test_terrain
+transition_room(rm_mdb_3_4, true); //rm_test_terrain

@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_step_metal",
+  "%Name":"snd_gear",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.15292516,
+  "duration":0.02356009,
   "exportDir":"",
-  "name":"snd_step_metal",
+  "name":"snd_gear",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_step_metal.wav",
-  "volume":0.25,
+  "soundFile":"snd_gear.wav",
+  "volume":0.2,
 }

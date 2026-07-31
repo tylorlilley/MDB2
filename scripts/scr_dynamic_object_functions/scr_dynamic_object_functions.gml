@@ -186,7 +186,7 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 	// Get All Dynamic Objects Above Current Position
 	var _actual_carried_objects = []
 	var _possible_carried_objects = get_relative_objects(0, -GRID_SIZE, function(_inst) {
-        return _inst.is_a(obj_dynamic_object) && _inst.has_gravity && _inst.is_on_ground();
+        return _inst.is_a(obj_dynamic_object) && _inst.has_gravity && _inst.is_grounded_state() && _inst.is_on_ground();
     });
 	
 	// Weed Out Any Objects Also Resting on Something Else
@@ -271,6 +271,7 @@ is_on_ground = function() {
 }
 
 is_under_ceiling = function() {
+	// TODO: Remove all carried objects resting on self from the is_under_ceiling check
 	return (array_length(get_ceiling_objects()) > 0);
 }
 
@@ -321,7 +322,7 @@ draw_dynamic_object = function() {
 	var _x_offset = get_x_draw_offset();
 
 	set_shader_palette((shine_timer == 0) ? PALETTES.ALL_WHITE : main_palette);
-	draw_sprite_ext(sprite_index, image_index, virtual_x+_x_offset, virtual_y+virtual_y_offset, _drawn_x_scale, 1, 0, image_blend, image_alpha);
+	draw_sprite_with_center_rotation(sprite_index, image_index, virtual_x+_x_offset, virtual_y+virtual_y_offset, _drawn_x_scale, 1, image_angle, image_blend, image_alpha);
 }
 
 // Step Function

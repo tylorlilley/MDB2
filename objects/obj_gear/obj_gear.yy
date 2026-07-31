@@ -1,15 +1,20 @@
 {
   "$GMObject":"",
-  "%Name":"obj_downblock",
-  "eventList":[],
+  "%Name":"obj_gear",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
-  "name":"obj_downblock",
+  "name":"obj_gear",
   "overriddenProperties":[],
   "parent":{
     "name":"Game Objects",
     "path":"folders/Objects/Game Objects.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"obj_dynamic_object",
+    "path":"objects/obj_dynamic_object/obj_dynamic_object.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -28,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_crate",
-    "path":"sprites/spr_crate/spr_crate.yy",
+    "name":"spr_gear",
+    "path":"sprites/spr_gear/spr_gear.yy",
   },
   "spriteMaskId":null,
   "visible":true,
