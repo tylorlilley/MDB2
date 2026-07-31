@@ -32,6 +32,7 @@ global.u_clip_enabled = shader_get_uniform(shd_palettizer, "u_clip_enabled");
 global.u_clip_texture = shader_get_sampler_index(shd_palettizer, "u_clip_texture");
 global.room_keys = 0;
 global.keys_collected = 0;
+global.room_portals = 0;
 global.world_tint = c_white;
 
 // Debug Variables
@@ -67,6 +68,7 @@ initialize_room = function(_new_room) {
 	global.last_player_x = undefined;
 	global.last_player_y = undefined;
 	global.room_keys = 0;
+	global.room_portals = 0;
 	global.keys_collected = 0;
 	
 	// Create an Empty Game Object Grid that matches the Room Size
@@ -118,4 +120,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_1_1, true); //rm_test_terrain
+transition_room(rm_mdb_3_1, true); //rm_test_terrain

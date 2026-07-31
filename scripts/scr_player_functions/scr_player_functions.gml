@@ -372,14 +372,13 @@ damage_objects = function(_damage_above = false) {
 			}
 		}
 		
-		// Interact with Objects
-		get_damaged_by_object(_inst);
-		
 		// Damage the Objects
 		if (_damage_above) { _inst.powerfly_into(); }
 		else { _inst.powerfall_on(); }
 		play_sound(snd_impact);
 		
+		// Interact with Reamining Objects
+		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }	
 	}
 }
 
@@ -393,7 +392,7 @@ fall_on_ground_objects = function() {
 		var _inst = _ground_objects[_i];
 		if (instance_exists(_inst)) {
 			_inst.fall_on(fall_timer);
-			get_damaged_by_object(_inst);
+			//get_damaged_by_object(_inst);
 		}
 	}
 }
@@ -405,7 +404,7 @@ fly_into_ceiling_objects = function() {
 		var _inst = _ceiling_objects[_i];
 		if (instance_exists(_inst)) {
 			_inst.fly_into(fly_timer);
-			get_damaged_by_object(_inst);
+			//get_damaged_by_object(_inst);
 		}
 	}
 }
@@ -828,7 +827,7 @@ update_player_state = function() {
 							if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; }
 						}
-						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); if (fall_sound != noone) { audio_stop_sound(fall_sound); } }
+						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); if (fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; } }
 						
 					}
 					else { start_fallback_state(); }
@@ -1378,8 +1377,9 @@ update_player_collisions_at_position = function() {
 			}
 		}
 		else if (_inst.is_a(obj_portal) && _inst.activated) {
-			_inst.deactivate_portal();
-			if (instance_exists(_inst.linked_portal)) { _inst.linked_portal.deactivate_portal(); }
+			_inst.deactivate_portal(main_palette);
+			if (instance_exists(_inst.linked_portal)) { _inst.linked_portal.deactivate_portal(main_palette); }
+			
 			grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 			virtual_x = x;
 			virtual_y = y;

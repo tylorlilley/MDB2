@@ -41,19 +41,22 @@ get_connections_for_graphics = function() {
 	is_connected_below = grid_array_first(instances_at_grid_position(x, y+8, 8, 8, object_index, false));
 	is_connected_on_left = grid_array_first(instances_at_grid_position(x-8, y, 8, 8, object_index, false));
 	is_connected_on_right = grid_array_first(instances_at_grid_position(x+8, y, 8, 8, object_index, false));
-	is_connected_far_top = grid_array_first(instances_at_grid_position(x, y-16, 8, 8, object_index, false));
-	is_connected_far_bottom = grid_array_first(instances_at_grid_position(x, y+16, 8, 8, object_index, false));
-	is_connected_on_far_left = grid_array_first(instances_at_grid_position(x-16, y, 8, 8, object_index, false));
-	is_connected_on_far_right = grid_array_first(instances_at_grid_position(x+16, y, 8, 8, object_index, false));
+
 	is_connected_top_right = grid_array_first(instances_at_grid_position(x+8, y-8, 8, 8, object_index, false));
 	is_connected_top_left = grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index, false));
 	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index, false));
 	is_connected_bottom_left = grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index, false));
+		
+	is_connected_far_top = grid_array_first(instances_at_grid_position(x, y-16, 8, 8, object_index, false));
+	is_connected_far_bottom = grid_array_first(instances_at_grid_position(x, y+16, 8, 8, object_index, false));
+	is_connected_on_far_left = grid_array_first(instances_at_grid_position(x-16, y, 8, 8, object_index, false));
+	is_connected_on_far_right = grid_array_first(instances_at_grid_position(x+16, y, 8, 8, object_index, false));
 	
 	is_connected_above = (instance_exists(is_connected_above) && creator == is_connected_above.creator && object_index == is_connected_above.object_index) ? is_connected_above : noone;
 	is_connected_below = (instance_exists(is_connected_below) && creator == is_connected_below.creator && object_index == is_connected_below.object_index) ? is_connected_below : noone;
 	is_connected_on_left = (instance_exists(is_connected_on_left) && creator == is_connected_on_left.creator && object_index == is_connected_on_left.object_index) ? is_connected_on_left : noone;
 	is_connected_on_right = (instance_exists(is_connected_on_right) && creator == is_connected_on_right.creator && object_index == is_connected_on_right.object_index) ? is_connected_on_right : noone;
+	
 	is_connected_top_right = (instance_exists(is_connected_top_right) && creator == is_connected_top_right.creator && object_index == is_connected_top_right.object_index) ? is_connected_top_right : noone;
 	is_connected_top_left = (instance_exists(is_connected_top_left) && creator == is_connected_top_left.creator && object_index == is_connected_top_left.object_index) ? is_connected_top_left : noone;
 	is_connected_bottom_right = (instance_exists(is_connected_bottom_right) && creator == is_connected_bottom_right.creator && object_index == is_connected_bottom_right.object_index) ? is_connected_bottom_right : noone;
@@ -74,6 +77,10 @@ update_connected_graphics = function() {
 	with (is_connected_top_left) { get_connections_for_graphics(); }
 	with (is_connected_bottom_right) { get_connections_for_graphics(); }
 	with (is_connected_bottom_left) { get_connections_for_graphics(); }
+	with (is_connected_far_top) { get_connections_for_graphics(); }
+	with (is_connected_far_bottom) { get_connections_for_graphics(); }
+	with (is_connected_on_far_left) { get_connections_for_graphics(); }
+	with (is_connected_on_far_right) { get_connections_for_graphics(); }
 	with (obj_ladder) { get_connections_for_graphics(); }
 }
 
@@ -179,17 +186,9 @@ draw_static_area_tile = function() {
 		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		
-		// Additionally Draw Inner Corners	
-		if (!is_connected_top_right && is_connected_above && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!is_connected_top_left && is_connected_above && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!is_connected_bottom_right && is_connected_below && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		
 		// Draw the Outline Itself, Unclipped
 		set_shader_clip();
 		draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, _x_offset, _y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
-	
-
 	}
 	else {
 		// Draw Without Considering Outline
@@ -197,6 +196,13 @@ draw_static_area_tile = function() {
 		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 	}
+	
+	// Additionally Draw Inner Corners	
+	if (!is_connected_top_right && is_connected_above && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+	if (!is_connected_top_left && is_connected_above && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+	if (!is_connected_bottom_right && is_connected_below && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+	if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		
 
 	gpu_set_blendmode(bm_normal);
 }

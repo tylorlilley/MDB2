@@ -74,12 +74,11 @@ with (obj_switch) {
 }
 with (obj_key) { shine_periodically(); }
 with (obj_door) {
+	if (!is_fully_on_ground()) { instance_destroy(); }
 	if (image_index == 0) {
 		shine_periodically();
 		
-		if (!is_fully_on_ground()) { instance_destroy(); }
-
-		if (global.room_keys == 0) {
+		if (global.room_keys == global.keys_collected) {
 			create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
 			create_particles(8 + irandom(8), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
 			image_index = 1;
@@ -119,12 +118,12 @@ with (obj_portal) {
 	else { activated = true; } // image_blend = get_portal_color(portal_color);
 	
 	// Determine Visual Speed
-	var _portal_speed = 4;
-	if (is_overlapped() || (instance_exists(linked_portal) && linked_portal.is_overlapped())) { _portal_speed = 2; }
+	var _portal_speed = 4, _is_overlapped = (is_overlapped() || (instance_exists(linked_portal) && linked_portal.is_overlapped()));
+	if (_is_overlapped) { _portal_speed = 2; }
 	
 	// Set Palette and Animation Speed
-	main_palette = (activated) ? original_palette : PALETTES.GRAY;
-	image_alpha = (activated) ? 0.8 : 0.5;
+	main_palette = (activated) ? ((masked) ? PALETTES.INDIGO_DARK : original_palette) : PALETTES.GRAY;
+	image_alpha = (activated) ? ((_is_overlapped) ? 1 : 0.8) : 0.5;
 	
 	// Animate Portal
 	image_index = other.frame_timer / _portal_speed;

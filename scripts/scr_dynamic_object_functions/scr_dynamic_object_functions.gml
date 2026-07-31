@@ -186,7 +186,7 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 	// Get All Dynamic Objects Above Current Position
 	var _actual_carried_objects = []
 	var _possible_carried_objects = get_relative_objects(0, -GRID_SIZE, function(_inst) {
-        return _inst.is_a(obj_dynamic_object) && _inst.has_gravity;
+        return _inst.is_a(obj_dynamic_object) && _inst.has_gravity && _inst.is_on_ground();
     });
 	
 	// Weed Out Any Objects Also Resting on Something Else

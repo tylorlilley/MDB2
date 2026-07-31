@@ -90,15 +90,15 @@ function build_background(_world) {
 		case WORLDS.FACTORY: {
 			global.world_tint = C_TRASH_DARK;
 			
-			// BG Castle Layer
-			var _gears_layer = layer_create(100, "Factory_Gears");
-			var _gear_bg = layer_background_create(_gears_layer, bg_factory);
-			layer_background_htiled(_gear_bg, true);
-			layer_background_vtiled(_gear_bg, true);
-			layer_background_speed(_gear_bg, 0);
-			//layer_hspeed(_gears_layer, -0.125);
-			//layer_vspeed(_gears_layer, -0.25);
-			layer_set_visible(_gears_layer, true);
+			// BG Fence Layer
+			var _fence_layer = layer_create(100, "Factory_Fence");
+			var _fence_bg = layer_background_create(_fence_layer, bg_fence);
+			layer_background_htiled(_fence_bg, true);
+			layer_background_vtiled(_fence_bg, true);
+			layer_background_speed(_fence_bg, 0);
+			layer_hspeed(_fence_layer, 0.0625);
+			layer_vspeed(_fence_layer, 0.0625);
+			layer_set_visible(_fence_layer, true);
 			
 			break;
 		}
