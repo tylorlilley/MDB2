@@ -65,11 +65,12 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 
 update_controls = function() {
 	// Check for turn around
-	var _blocked_on_right = is_blocked_on_right(), _blocked_on_left = is_blocked_on_left();
+	var _blocked_on_right = is_blocked_on_right(), _blocked_on_left = is_blocked_on_left(), _prev_is_left = is_left;
 
 	if (_blocked_on_right && _blocked_on_left) { is_left = true; } // OLD GAME: is_left = true;
-	else if (is_left && _blocked_on_left) { key_right = true; turn_pending = true; }
-	else if (!is_left && _blocked_on_right) { key_left = true; turn_pending = true; }
+	else if (is_left && _blocked_on_left) { is_left = false; }
+	else if (!is_left && _blocked_on_right) { is_left = true; }
+	if (is_left != _prev_is_left) { turn_pending = true; }
 	
 	// Update Walk Timer
 	var _grounded = is_on_ground();

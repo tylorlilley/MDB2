@@ -206,6 +206,7 @@
     {"id":{"name":"rm_old2_1_3","path":"rooms/rm_old2_1_3/rm_old2_1_3.yy",},},
     {"id":{"name":"rm_old2_1_4","path":"rooms/rm_old2_1_4/rm_old2_1_4.yy",},},
     {"id":{"name":"rm_ow2_6","path":"rooms/rm_ow2_6/rm_ow2_6.yy",},},
+    {"id":{"name":"rm_robot_test","path":"rooms/rm_robot_test/rm_robot_test.yy",},},
     {"id":{"name":"rm_t1","path":"rooms/rm_t1/rm_t1.yy",},},
     {"id":{"name":"rm_t2","path":"rooms/rm_t2/rm_t2.yy",},},
     {"id":{"name":"rm_t3","path":"rooms/rm_t3/rm_t3.yy",},},
@@ -550,6 +551,7 @@
     {"roomId":{"name":"rm_wood_test","path":"rooms/rm_wood_test/rm_wood_test.yy",},},
     {"roomId":{"name":"rm_forest_background","path":"rooms/rm_forest_background/rm_forest_background.yy",},},
     {"roomId":{"name":"rm_test_terrain","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},},
+    {"roomId":{"name":"rm_robot_test","path":"rooms/rm_robot_test/rm_robot_test.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

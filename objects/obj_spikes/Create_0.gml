@@ -18,7 +18,7 @@ parent_deal_damage = deal_damage;
 deal_damage = function() { 
 	shine_timer = 4;
 	main_sprite = spr_spikes_shine;
-	main_palette = PALETTES.GRAY_LIGHT;
+	main_palette = PALETTES.ALL_WHITE;
 	parent_deal_damage();
 	play_sound(snd_player_idle_yell);
 }
