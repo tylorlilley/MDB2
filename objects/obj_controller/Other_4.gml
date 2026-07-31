@@ -37,3 +37,7 @@ with (obj_dynamic_object) {
 with (obj_dynamic_object) {
 	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }
 }
+
+with (obj_door) {
+	if (global.room_keys == 0) { image_index = 1; }
+}

@@ -266,13 +266,13 @@ get_right_climbable_objects = function(_ignored_objects = []) {
 }
 
 // Boolean Checks
-is_on_ground = function() {
-	return (array_length(get_ground_objects()) > 0);
+is_on_ground = function(_ignored_objects = []) {
+	return (array_length(get_ground_objects(_ignored_objects)) > 0);
 }
 
-is_under_ceiling = function() {
+is_under_ceiling = function(_ignored_objects = []) {
 	// TODO: Remove all carried objects resting on self from the is_under_ceiling check
-	return (array_length(get_ceiling_objects()) > 0);
+	return (array_length(get_ceiling_objects(_ignored_objects)) > 0);
 }
 
 is_blocked_on_left = function(_ignored_objects = []) {
@@ -319,6 +319,7 @@ get_x_draw_offset = function() {
 // Draw Function
 draw_dynamic_object = function() {
 	var _drawn_x_scale = get_left_value();
+	if (turn_pending) { _drawn_x_scale*= -1; }
 	var _x_offset = get_x_draw_offset();
 
 	set_shader_palette((shine_timer == 0) ? PALETTES.ALL_WHITE : main_palette);

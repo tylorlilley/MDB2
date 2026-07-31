@@ -1287,6 +1287,7 @@ update_player_graphics = function() {
 
 draw_cape_graphics = function() {
 	var _drawn_x_scale = get_left_value();
+	if (turn_pending) { _drawn_x_scale*= -1; }
 	var _x_offset = get_x_draw_offset();
 	var _cape_x = virtual_x, _cape_y = virtual_y;
 	if (state != PLAYER_STATES.LADDER &&
@@ -1326,6 +1327,13 @@ update_player_collisions_at_position = function() {
 		
 		// Destroy if Carrying Lethal Object
 		var _carried_objects = get_carried_objects();
+		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+			var _inst = _carried_objects[_i]
+			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
+		}
+		
+		// Destroy if Lethal Object is Falling on Player
+		var _objects_above = get_relative_objects(0, -GRID_SIZE, function(_inst) { return _inst.is_a(obj_dynamic_object) && _inst.has_gravity && _inst.is_fall_state(); });
 		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
 			var _inst = _carried_objects[_i]
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }

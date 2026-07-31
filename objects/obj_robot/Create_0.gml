@@ -21,6 +21,7 @@ main_palette = original_palette;
 // New Variables
 walk_timer = 0;
 turn_timer = 0;
+turn_hold = 0;
 turn_pending = false;
 
 // Function Overrides
@@ -66,21 +67,22 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 update_controls = function() {
 	// Check for turn around
 	var _blocked_on_right = is_blocked_on_right(), _blocked_on_left = is_blocked_on_left(), _prev_is_left = is_left;
-
-	if (_blocked_on_right && _blocked_on_left) { is_left = true; } // OLD GAME: is_left = true;
-	else if (is_left && _blocked_on_left) { is_left = false; }
-	else if (!is_left && _blocked_on_right) { is_left = true; }
-	if (is_left != _prev_is_left) { turn_pending = true; }
 	
 	// Update Walk Timer
 	var _grounded = is_on_ground();
 	if (!is_on_ground()) { walk_timer = 0; }
 	else {
+		// Update Facing Direction
+		if (_blocked_on_right && _blocked_on_left) { is_left = true; } // OLD GAME: is_left = true;
+		else if (is_left && _blocked_on_left) { is_left = false; }
+		else if (!is_left && _blocked_on_right) { is_left = true; }
+		if (is_left != _prev_is_left) { turn_pending = true; turn_hold = x_transition_timer; turn_timer = 4; }
+	
 		walk_timer++;
 		walk_timer = walk_timer % 8;
 		// Update State
 		if (walk_timer == 0) {
-			var _freeze_on_top_of_robot = false, _ground_objects = get_ground_objects();
+			var _freeze_on_top_of_robot = false, _ground_objects = get_ground_objects(get_list_of_controllable_players());
 			for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 				var _inst = _ground_objects[_i];
 				if (_inst.is_a(obj_robot) && _inst.is_left == is_left) { _freeze_on_top_of_robot = true;  break; }
@@ -105,14 +107,14 @@ update_player_graphics = function() {
 		case spr_player_idle: { sprite_index = (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk; break; }
 		case spr_player_fall: { sprite_index = spr_robot_fall; break; }
 	}
+	image_index = (state == PLAYER_STATES.STAND) ? 0 : _image_index;
 	
 	// Deal with deferred turn
-	if (turn_pending && x_transition_timer == 0) { turn_pending = false; turn_timer = 4; }
-	if (turn_timer > 0) {
+	if (turn_hold > 0) { turn_hold--; }
+	else if (turn_timer > 0) {
 		sprite_index = spr_robot_turn;
 		image_index = (turn_timer > 2) ? 0 : 1;
 		turn_timer--;
 	}
-	
-	image_index = (state == PLAYER_STATES.STAND) ? 0 : _image_index;
+	else { turn_pending = false; }
 }

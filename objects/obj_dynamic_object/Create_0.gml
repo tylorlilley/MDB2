@@ -2,6 +2,7 @@
 event_inherited();
 
 state = PLAYER_STATES.FALL;
+turn_pending = false;
 
 virtual_x = x;
 virtual_y = y;

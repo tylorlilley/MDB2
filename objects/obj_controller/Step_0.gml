@@ -53,7 +53,7 @@ with (obj_lava) {
 }
 with (obj_spikes) {
 	if (shine_timer > 0) { shine_timer--; }
-	if (shine_timer == 0) { main_sprite = spr_spikes; main_palette = original_palette; global.should_rebuild_static_area = true; }
+	if (shine_timer == 0) { main_sprite = spr_spikes_1; main_palette = original_palette; global.should_rebuild_static_area = true; }
 }
 
 // Update Switch Logic
@@ -62,7 +62,7 @@ with (obj_switch) {
 	prev_pressed = pressed;
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else {
-		_pressed_on = array_length(get_pressing_objects()) > 0;
+		var _pressed_on = array_length(get_pressing_objects()) > 0;
 		if (_pressed_on && !pressed) { press_switch(); }
 	}
 }

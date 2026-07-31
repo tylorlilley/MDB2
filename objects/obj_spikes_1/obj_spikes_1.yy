@@ -1,19 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_spikes",
+  "%Name":"obj_spikes_1",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_spikes",
+  "name":"obj_spikes_1",
   "overriddenProperties":[],
   "parent":{
     "name":"Static Areas",
     "path":"folders/Objects/Static Areas.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_static_area",
+    "path":"objects/obj_static_area/obj_static_area.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,12 +33,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_spikes_1",
-    "path":"sprites/spr_spikes_1/spr_spikes_1.yy",
+    "name":"spr_editor_spikes",
+    "path":"sprites/spr_editor_spikes/spr_editor_spikes.yy",
   },
   "spriteMaskId":{
-    "name":"spr_box_16x8",
-    "path":"sprites/spr_box_16x8/spr_box_16x8.yy",
+    "name":"spr_box_8x8",
+    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
   },
   "visible":true,
 }
