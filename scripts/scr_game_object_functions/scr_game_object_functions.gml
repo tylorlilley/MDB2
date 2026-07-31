@@ -247,7 +247,7 @@ create_walk_particles = function() {
 	if (random(1) < _particle_frequency) { create_particles(1); }
 }
 
-powerfall_on = function() {
+powerfall_on = function(_other = noone) {
 	get_damaged();
 	global.controller.start_screen_shake();
 	if (is_connected) {
@@ -260,8 +260,8 @@ powerfall_on = function() {
 	}
 }
 
-powerfly_into = function() {
-	powerfall_on();
+powerfly_into = function(_other = noone) {
+	powerfall_on(_other);
 }
 
 get_damaged = function() {

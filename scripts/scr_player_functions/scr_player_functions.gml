@@ -373,8 +373,8 @@ damage_objects = function(_damage_above = false) {
 		}
 		
 		// Damage the Objects
-		if (_damage_above) { _inst.powerfly_into(); }
-		else { _inst.powerfall_on(); }
+		if (_damage_above) { _inst.powerfly_into(id); }
+		else { _inst.powerfall_on(id); }
 		play_sound(snd_impact);
 		
 		// Interact with Reamining Objects

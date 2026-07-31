@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.02356009,
+  "duration":0.099569164,
   "exportDir":"",
   "name":"snd_gear",
   "parent":{
