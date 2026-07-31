@@ -1,15 +1,10 @@
 // NEXT:
 
 Clean up Create Code
-Create Particles Cleanup
-
+Fix Robot Parity with Previous Game
 BG Dirt Tiles
-Downblock
-Factory BG
-Lava Graphics
 Reforming Clouds
 
-Strange Event when walking onto ladder from left of ladder
 Press down to get off ladder;
 Climb from pressing left/right while on ladder
 

@@ -827,7 +827,10 @@ update_player_state = function() {
 							if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; }
 						}
-						if (state == PLAYER_STATES.POWERFALL) { play_sound(snd_player_powerfall); if (fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; } }
+						if (state = PLAYER_STATES.POWERFALL) {
+							play_sound(snd_player_powerfall);
+							if (fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
+						}
 						
 					}
 					else { start_fallback_state(); }

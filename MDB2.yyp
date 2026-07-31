@@ -420,6 +420,7 @@
     {"id":{"name":"spr_sand","path":"sprites/spr_sand/spr_sand.yy",},},
     {"id":{"name":"spr_sign_big","path":"sprites/spr_sign_big/spr_sign_big.yy",},},
     {"id":{"name":"spr_sign","path":"sprites/spr_sign/spr_sign.yy",},},
+    {"id":{"name":"spr_spikes_1","path":"sprites/spr_spikes_1/spr_spikes_1.yy",},},
     {"id":{"name":"spr_spikes_shine","path":"sprites/spr_spikes_shine/spr_spikes_shine.yy",},},
     {"id":{"name":"spr_spikes","path":"sprites/spr_spikes/spr_spikes.yy",},},
     {"id":{"name":"spr_switch_block_off_outline","path":"sprites/spr_switch_block_off_outline/spr_switch_block_off_outline.yy",},},
