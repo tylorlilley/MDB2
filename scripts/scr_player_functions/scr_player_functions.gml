@@ -378,7 +378,8 @@ damage_objects = function(_damage_above = false) {
 		play_sound(snd_impact);
 		
 		// Interact with Reamining Objects
-		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }	
+		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
+		if (!instance_exists(id)) { break; }
 	}
 }
 
@@ -419,6 +420,7 @@ walk_on_ground_objects = function() {
 		if (instance_exists(_inst)) {
 			_inst.walk_on();
 			get_damaged_by_object(_inst);
+			if (!instance_exists(id)) { break; }
 		}
 	}
 }
@@ -474,7 +476,7 @@ update_player_state = function() {
 	update_controls(object_index == obj_mirror_player);
 	
 	// Restart Room
-	if (key_restart) { instance_destroy(); }
+	if (key_restart) { instance_destroy(); exit; }
 
 	// Reset Timers
 	if (!is_ladder_state()) { is_up = false; }
@@ -781,7 +783,7 @@ update_player_state = function() {
 					if (is_under_ceiling()) {
 						if (state == PLAYER_STATES.POWERFLY) {
 							powerfly_into_ceiling_objects();
-							start_falling(true);
+							if (instance_exists(id)) { start_falling(true); }
 						}
 						else { start_fallback_state(); }
 					}
@@ -808,6 +810,8 @@ update_player_state = function() {
 						if (state == PLAYER_STATES.POWERFALL && !is_fully_submerged() && !is_partially_submerged()) {
 							// Player reaction to landing
 							powerfall_on_ground_objects();
+							if (!instance_exists(id)) { exit; }
+							
 							state = PLAYER_STATES.RECOIL;
 							transition_timer = 8;
 							if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
@@ -1337,6 +1341,7 @@ update_player_collisions_at_position = function() {
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
 	}
+	if (!instance_exists(id)) { exit; }
 	
 	// Hanlde Water
 	if (is_fully_submerged()) {

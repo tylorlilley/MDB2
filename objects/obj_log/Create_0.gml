@@ -38,11 +38,5 @@ part_damaged = function(_inst) { } // Do Nothing
 part_destroyed = function(_inst) {
 	array_delete(trunk, array_get_index(trunk, _inst), 1);
 	
-	if (array_length(trunk) == 0) {
-		// Destroy All Trunk
-		for (var _i = 0; _i < array_length(trunk); _i++) {
-			with (trunk[_i]) { creator = noone; instance_destroy(); }
-		}
-		instance_destroy();
-	}
+	if (array_length(trunk) == 0) { instance_destroy(); }
 }

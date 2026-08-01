@@ -81,7 +81,7 @@ with (obj_switch) {
 with (obj_key) { shine_periodically(); }
 with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
-	if (image_index == 0) {
+	else if (image_index == 0) {
 		shine_periodically();
 		
 		if (global.room_keys == global.keys_collected) {

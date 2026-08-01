@@ -7,6 +7,8 @@ grid_move_to = function(_new_x, _new_y) {
 }
 
 grid_add = function() {
+	if (!instance_exists(id)) { return false; }
+	
 	var _grid_width = sprite_get_width(sprite_index) div GRID_SIZE, _grid_height = sprite_get_height(sprite_index) div  GRID_SIZE;
 	var _max_x = room_width div GRID_SIZE, _max_y = room_height div GRID_SIZE;
 	
@@ -18,6 +20,7 @@ grid_add = function() {
 			array_push(global.controller.game_object_grid[_checked_x][_checked_y], id);
 		}
 	}
+	return true;
 }
 
 grid_remove = function() {

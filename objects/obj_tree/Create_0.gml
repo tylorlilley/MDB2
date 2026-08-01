@@ -89,14 +89,10 @@ part_destroyed = function(_inst) {
 	if (_inst.object_index == obj_wood) { _remove_from_array = trunk; }
 	array_delete(_remove_from_array, array_get_index(_remove_from_array, _inst), 1);
 	
+	// Destroy All Leaves When Trunk is Destroyed
 	if (array_length(trunk) == 0) {
-		// Destroy All Leaves
 		for (var _i = 0; _i < array_length(leaves); _i++) {
 			with (leaves[_i]) { creator = noone; instance_destroy(); }
-		}
-		// Destroy All Trunk
-		for (var _i = 0; _i < array_length(trunk); _i++) {
-			with (trunk[_i]) { creator = noone; instance_destroy(); }
 		}
 		instance_destroy();
 	}
