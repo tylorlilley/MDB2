@@ -36,36 +36,29 @@ is_connected_far_bottom = noone;
 is_connected_on_far_left = noone;
 is_connected_on_far_right = noone;
 
-get_connections_for_graphics = function(_check_creators = true) {
-	is_connected_above = grid_array_first(instances_at_grid_position(x, y-8, 8, 8, object_index, false));
-	is_connected_below = grid_array_first(instances_at_grid_position(x, y+8, 8, 8, object_index, false));
-	is_connected_on_left = grid_array_first(instances_at_grid_position(x-8, y, 8, 8, object_index, false));
-	is_connected_on_right = grid_array_first(instances_at_grid_position(x+8, y, 8, 8, object_index, false));
+get_connection_key = function() { return creator; }
 
-	is_connected_top_right = grid_array_first(instances_at_grid_position(x+8, y-8, 8, 8, object_index, false));
-	is_connected_top_left = grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index, false));
-	is_connected_bottom_right = grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index, false));
-	is_connected_bottom_left = grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index, false));
+get_connected_instance = function(_inst) {
+	return ((instance_exists(_inst)
+		&& _inst.object_index == object_index
+		&& _inst.get_connection_key() == get_connection_key()) ? _inst : noone);
+}
+
+get_connections_for_graphics = function() {
+	is_connected_above = get_connected_instance(grid_array_first(instances_at_grid_position(x, y-8, 8, 8, object_index, false)));
+	is_connected_below = get_connected_instance(grid_array_first(instances_at_grid_position(x, y+8, 8, 8, object_index, false)));
+	is_connected_on_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-8, y, 8, 8, object_index, false)));
+	is_connected_on_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+8, y, 8, 8, object_index, false)));
+
+	is_connected_top_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+8, y-8, 8, 8, object_index, false)));
+	is_connected_top_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index, false)));
+	is_connected_bottom_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index, false)));
+	is_connected_bottom_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index, false)));
 		
-	is_connected_far_top = grid_array_first(instances_at_grid_position(x, y-16, 8, 8, object_index, false));
-	is_connected_far_bottom = grid_array_first(instances_at_grid_position(x, y+16, 8, 8, object_index, false));
-	is_connected_on_far_left = grid_array_first(instances_at_grid_position(x-16, y, 8, 8, object_index, false));
-	is_connected_on_far_right = grid_array_first(instances_at_grid_position(x+16, y, 8, 8, object_index, false));
-	
-	is_connected_above = (instance_exists(is_connected_above) && is_connected_above.should_draw && (!_check_creators || creator == is_connected_above.creator) && object_index == is_connected_above.object_index) ? is_connected_above : noone;
-	is_connected_below = (instance_exists(is_connected_below) && is_connected_below.should_draw && (!_check_creators || creator == is_connected_below.creator) && object_index == is_connected_below.object_index) ? is_connected_below : noone;
-	is_connected_on_left = (instance_exists(is_connected_on_left) && is_connected_on_left.should_draw && (!_check_creators || creator == is_connected_on_left.creator) && object_index == is_connected_on_left.object_index) ? is_connected_on_left : noone;
-	is_connected_on_right = (instance_exists(is_connected_on_right) && is_connected_on_right.should_draw && (!_check_creators || creator == is_connected_on_right.creator) && object_index == is_connected_on_right.object_index) ? is_connected_on_right : noone;
-	
-	is_connected_top_right = (instance_exists(is_connected_top_right) && is_connected_top_right.should_draw && (!_check_creators || creator == is_connected_top_right.creator) && object_index == is_connected_top_right.object_index) ? is_connected_top_right : noone;
-	is_connected_top_left = (instance_exists(is_connected_top_left) && is_connected_top_left.should_draw && (!_check_creators || creator == is_connected_top_left.creator) && object_index == is_connected_top_left.object_index) ? is_connected_top_left : noone;
-	is_connected_bottom_right = (instance_exists(is_connected_bottom_right) && is_connected_bottom_right.should_draw && (!_check_creators || creator == is_connected_bottom_right.creator) && object_index == is_connected_bottom_right.object_index) ? is_connected_bottom_right : noone;
-	is_connected_bottom_left = (instance_exists(is_connected_bottom_left) && is_connected_bottom_left.should_draw && (!_check_creators || creator == is_connected_bottom_left.creator) && object_index == is_connected_bottom_left.object_index) ? is_connected_bottom_left : noone;
-	
-	is_connected_far_top = (instance_exists(is_connected_far_top) && is_connected_far_top.should_draw && (!_check_creators || creator == is_connected_far_top.creator) && object_index == is_connected_far_top.object_index) ? is_connected_far_top : noone;
-	is_connected_far_bottom = (instance_exists(is_connected_far_bottom) && is_connected_far_bottom.should_draw && (!_check_creators || creator == is_connected_far_bottom.creator) && object_index == is_connected_far_bottom.object_index) ? is_connected_far_bottom : noone;
-	is_connected_on_far_left = (instance_exists(is_connected_on_far_left) && is_connected_on_far_left.should_draw && (!_check_creators || creator == is_connected_on_far_left.creator) && object_index == is_connected_on_far_left.object_index) ? is_connected_on_far_left : noone;
-	is_connected_on_far_right = (instance_exists(is_connected_on_far_right) && is_connected_on_far_right.should_draw && (!_check_creators || creator == is_connected_on_far_right.creator) && object_index == is_connected_on_far_right.object_index) ? is_connected_on_far_right : noone;
+	is_connected_far_top = get_connected_instance(grid_array_first(instances_at_grid_position(x, y-16, 8, 8, object_index, false)));
+	is_connected_far_bottom = get_connected_instance(grid_array_first(instances_at_grid_position(x, y+16, 8, 8, object_index, false)));
+	is_connected_on_far_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-16, y, 8, 8, object_index, false)));
+	is_connected_on_far_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+16, y, 8, 8, object_index, false)));
 }
 
 update_connected_graphics = function() {

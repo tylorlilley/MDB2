@@ -101,9 +101,9 @@ transition_room = function(_new_room, _randomize_room_seed = false) {
 
 rebuild_static_area_surface = function() {
 	// Set up Surface to Draw
-	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); }
-	static_area_surface = surface_create(room_width, room_height);
-	surface_set_target(static_area_surface);
+	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); }
+	if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
+	if (!surface_set_target(static_area_surface)) { return; }
 	shader_set(shd_palettizer);
 	draw_clear_alpha(0, 0);
 	

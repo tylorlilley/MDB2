@@ -16,6 +16,12 @@ is_solid_from_left = false;
 is_climbable = false;
 should_draw = false;
 
+drawn_x_scale = 1;
+drawn_y_scale = 1;
+
+// Override Functions
+get_connection_key = function() { return reform_timer; }
+
 create_cloud = function() {
 	if (!instance_exists(solid_obj)) {
 		solid_obj = instance_create(x, y, obj_reforming_cloud);
