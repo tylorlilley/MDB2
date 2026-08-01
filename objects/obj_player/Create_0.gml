@@ -71,7 +71,7 @@ game_object_step = function() {
 }
 
 update_virtual_y_offset = function() {
-	if (state == PLAYER_STATES.CLIMB) {
+	if (state == PLAYER_STATES.CLIMB && instance_exists(climbed_inst)) {
 		climbed_inst.update_virtual_y_offset();
 		virtual_y_offset = climbed_inst.virtual_y_offset;
 	}

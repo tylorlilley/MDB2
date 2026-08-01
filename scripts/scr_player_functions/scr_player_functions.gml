@@ -282,6 +282,7 @@ start_walking = function(_is_crushed = false) {
 	var _prev_x = x, _prev_y = y;
 	grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y);
 	walk_on_ground_objects();
+	if (!instance_exists(id)) { exit; }
 	grid_move_to(_prev_x, _prev_y);
 		
 	// Continue with Walking or Fall
@@ -515,6 +516,7 @@ update_player_state = function() {
 				else if (transition_timer == 18) {
 					if (grid_move_horizontal(get_left_value())) {
 						walk_on_ground_objects();
+						if (!instance_exists(id)) { exit; }
 						start_cape_flutter_end();
 					}
 					else { start_fallback_state(); }
@@ -559,7 +561,7 @@ update_player_state = function() {
 	}
 	
 	// Get Destroyed From Solids
-	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
+	if (instance_exists(id) && is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
 	
 	// While Not Transitioning
 	if (instance_exists(id) && transition_timer == 0) {
@@ -1334,10 +1336,10 @@ update_player_collisions_at_position = function() {
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
 		
-		// Destroy if Lethal Object is Falling on Player
-		var _objects_above = get_relative_objects(0, -GRID_SIZE, function(_inst) { return _inst.is_a(obj_dynamic_object) && _inst.has_gravity && _inst.is_fall_state(); });
-		for (var _i = 0; _i < array_length(_objects_above); _i++) {
-			var _inst = _objects_above[_i]
+		// Destroy if Inside Lethal object
+		var _inside_objects = get_inside_objects(obj_dynamic_object);
+		for (var _i = 0; _i < array_length(_inside_objects); _i++) {
+			var _inst = _inside_objects[_i]
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
 	}
@@ -1389,12 +1391,13 @@ update_player_collisions_at_position = function() {
 		}
 		else if (_inst.is_a(obj_portal) && _inst.activated) {
 			_inst.deactivate_portal(main_palette);
-			if (instance_exists(_inst.linked_portal)) { _inst.linked_portal.deactivate_portal(main_palette); }
-			
-			grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
-			virtual_x = x;
-			virtual_y = y;
-			start_fallback_state();
+			if (instance_exists(_inst.linked_portal)) {
+				_inst.linked_portal.deactivate_portal(main_palette);
+				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
+				virtual_x = x;
+				virtual_y = y;
+				start_fallback_state();
+			}
 		}
 	}
 	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y + GRID_SIZE, sprite_get_width(sprite_index), GRID_SIZE);

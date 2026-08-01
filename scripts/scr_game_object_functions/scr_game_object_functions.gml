@@ -236,18 +236,18 @@ fall_on = function(_fall_dist) {
 	if (is_fragile) { get_damaged(); }
 	else if (audio_exists(step_sound)) { play_sound(step_sound); }
 	
-	create_walk_particles(_fall_dist/4);
+	if (instance_exists(id)) { create_walk_particles(_fall_dist/16); }
 }
 
 fly_into = function(_fall_dist) {
 	fall_on(_fall_dist);
 }
 
-create_walk_particles = function() {
+create_walk_particles = function(_particle_amount = 1) {
 	if (particle_frequency <= 0) { return; }
 
 	var _particle_frequency = sqr(particle_frequency) / 32.0;
-	if (random(1) < _particle_frequency) { create_particles(1); }
+	if (random(1) < _particle_frequency) { create_particles(_particle_amount); }
 }
 
 powerfall_on = function(_other = noone) {
