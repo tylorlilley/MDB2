@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_sand_background",
-    "path":"sprites/spr_sand_background/spr_sand_background.yy",
+    "name":"spr_editor_bg_sand",
+    "path":"sprites/spr_editor_bg_sand/spr_editor_bg_sand.yy",
   },
   "spriteMaskId":null,
   "visible":true,

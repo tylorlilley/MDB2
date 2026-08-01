@@ -5,7 +5,7 @@
 #macro TRANSITION_HOLD 12
 
 #macro PARTICLE_DEPTH -2
-#macro WATER_DEPTH -1 // And Lava
+#macro WATER_DEPTH -1
 #macro PLAYER_DEPTH 0
 #macro CAPE_DEPTH 1
 #macro DYNAMIC_OBJECT_DEPTH 2
@@ -17,6 +17,7 @@
 #macro STATIC_OBJECT_DEPTH 8
 #macro STATIC_AREA_DEPTH 9
 #macro VISUAL_OBJECT_DEPTH 10 // Tree
+#macro BACKGROUND_DEPTH 20
 
 // Global Variables
 global.controller = id;
@@ -51,6 +52,7 @@ palettes_init();
 // Graphic Variables
 transition_surface = noone;
 static_area_surface = noone;
+bg_area_surface = noone;
 screen_shake_timer = 0;
 depth = STATIC_AREA_DEPTH;
 
@@ -99,17 +101,18 @@ transition_room = function(_new_room, _randomize_room_seed = false) {
 	room_goto(_new_room);
 }
 
-rebuild_static_area_surface = function() {
+
+rebuild_surface = function(_surface, _object_index) {
 	// Set up Surface to Draw
-	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); }
-	if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
-	if (!surface_set_target(static_area_surface)) { return; }
+	if (surface_exists(_surface) && (surface_get_width(_surface) != room_width || surface_get_height(_surface) != room_height)) { surface_free(_surface); }
+	if (!surface_exists(_surface)) { _surface = surface_create(room_width, room_height); }
+	if (!surface_set_target(_surface)) { return noone; }
 	shader_set(shd_palettizer);
 	draw_clear_alpha(0, 0);
 	
 	// Draw Tiles in Depth Order
 	var _instances_to_draw = []
-	with (obj_static_area) { array_push(_instances_to_draw, id); }
+	with (_object_index) { array_push(_instances_to_draw, id); }
 	array_sort(_instances_to_draw, function(_a, _b) {
 		if (_a.depth != _b.depth) { return _b.depth - _a.depth; }
 		if (_a.y != _b.y) { return _a.y - _b.y; }
@@ -124,10 +127,11 @@ rebuild_static_area_surface = function() {
 	shader_reset();
 	surface_reset_target();
 	global.should_rebuild_static_area = false;
+	return _surface;
 }
 
 start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_5_3, true); //rm_test_terrain
+transition_room(rm_mdb_1_3, true); //rm_test_terrain
