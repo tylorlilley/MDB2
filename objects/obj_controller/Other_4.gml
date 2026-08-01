@@ -5,6 +5,15 @@ room_title = _data.title;
 global.world_tint = c_white;
 build_background(room_world);
 play_music(room_world);
+
+// Spawn Background Layers
+if (instance_number(obj_bg_dirt) > 1) {
+	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE;
+	var _background_surface_manager = instance_create(x, y, obj_surface_manager);
+	_background_surface_manager.depth = BACKGROUND_DEPTH;
+	_background_surface_manager.initialize_game_object_grid(_cols, _rows);
+	with (obj_bg_dirt) { grid_add(_background_surface_manager.game_object_grid); instance_destroy(); }
+}
 	
 // Spawn and Deactivate Instances
 with (obj_tree) { initialize_solids(); }
@@ -18,6 +27,10 @@ with (obj_switch_block_outline) {
 }
 with (obj_reforming_cloud_outline) { create_cloud(); }
 with (obj_static_area) {
+	get_connections_for_graphics();
+	get_world_palette();
+}
+with (obj_bg_dirt) {
 	get_connections_for_graphics();
 	get_world_palette();
 }

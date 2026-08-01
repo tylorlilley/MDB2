@@ -6,23 +6,6 @@ grid_move_to = function(_new_x, _new_y) {
 	grid_add();
 }
 
-grid_add = function() {
-	if (!instance_exists(id)) { return false; }
-	
-	var _grid_width = sprite_get_width(sprite_index) div GRID_SIZE, _grid_height = sprite_get_height(sprite_index) div  GRID_SIZE;
-	var _max_x = room_width div GRID_SIZE, _max_y = room_height div GRID_SIZE;
-	
-	for (var _grid_x = 0; _grid_x < _grid_width; _grid_x++) {
-		for (var _grid_y = 0; _grid_y < _grid_height; _grid_y++) {
-			var _checked_x = x div GRID_SIZE + _grid_x, _checked_y = y div GRID_SIZE + _grid_y;
-			
-			if (_checked_x < 0 || _checked_x >= _max_x || _checked_y < 0 || _checked_y >= _max_y) { continue; }
-			array_push(global.controller.game_object_grid[_checked_x][_checked_y], id);
-		}
-	}
-	return true;
-}
-
 grid_remove = function() {
 	var _grid_width = sprite_get_width(sprite_index) div GRID_SIZE, _grid_height = sprite_get_height(sprite_index) div  GRID_SIZE;
 	var _max_x = room_width div GRID_SIZE, _max_y = room_height div GRID_SIZE;

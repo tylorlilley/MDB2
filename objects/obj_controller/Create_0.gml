@@ -50,11 +50,11 @@ determine_gamepad(); // TODO: Poll This Constantly on Title Screen
 palettes_init();
 
 // Graphic Variables
-transition_surface = noone;
-static_area_surface = noone;
-bg_area_surface = noone;
-screen_shake_timer = 0;
 depth = STATIC_AREA_DEPTH;
+transition_surface = noone;
+screen_shake_timer = 0;
+scr_surface_manager_functions();
+initialize_surface_manager();
 
 // Timers
 transition_timer = 0;
@@ -79,13 +79,7 @@ initialize_room = function(_new_room) {
 	
 	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;
-	game_object_grid = array_create(_cols);
-	for (var _x = 0; _x < _cols; _x++) {
-		game_object_grid[_x] = array_create(_rows);
-		for (var _y = 0; _y < _rows; _y++) {
-	        game_object_grid[_x][_y] = [];
-	    }
-	}
+	initialize_game_object_grid(_cols, _rows);
 }
 
 reset_room = function() {
@@ -96,40 +90,10 @@ transition_room = function(_new_room, _randomize_room_seed = false) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed);	
 	global.should_rebuild_static_area = true;
-	bg_area_surface = noone;
-	static_area_surface = noone;
+	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); }
 	initialize_room(_new_room);
 	audio_stop_sound(snd_player_fall);
 	room_goto(_new_room);
-}
-
-
-rebuild_surface = function(_surface, _object_index) {
-	// Set up Surface to Draw
-	if (surface_exists(_surface) && (surface_get_width(_surface) != room_width || surface_get_height(_surface) != room_height)) { surface_free(_surface); }
-	if (!surface_exists(_surface)) { _surface = surface_create(room_width, room_height); }
-	if (!surface_set_target(_surface)) { return noone; }
-	shader_set(shd_palettizer);
-	draw_clear_alpha(0, 0);
-	
-	// Draw Tiles in Depth Order
-	var _instances_to_draw = []
-	with (_object_index) { array_push(_instances_to_draw, id); }
-	array_sort(_instances_to_draw, function(_a, _b) {
-		if (_a.depth != _b.depth) { return _b.depth - _a.depth; }
-		if (_a.y != _b.y) { return _a.y - _b.y; }
-		if (_a.x != _b.x) { return _a.x - _b.x; }
-		return real(_a.id) - real(_b.id);
-	});
-	for (var _i = 0; _i < array_length(_instances_to_draw); _i++) {
-		_instances_to_draw[_i].draw_static_area_tile();
-	}
-	
-	// Reset Surface
-	shader_reset();
-	surface_reset_target();
-	global.should_rebuild_static_area = false;
-	return _surface;
 }
 
 start_screen_shake = function() { screen_shake_timer = 8; }

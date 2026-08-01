@@ -1,4 +1,5 @@
 initialize_static_area = function() {
+	depth = STATIC_AREA_DEPTH;
 	visible = false;
 	should_draw = true;
 	
