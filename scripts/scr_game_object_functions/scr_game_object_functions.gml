@@ -283,7 +283,3 @@ get_connected_instances = function(_connected_instances) {
 
 	return _connected_instances;
 }
-
-is_a = function(_object_index) {
-	return (object_index == _object_index || object_is_ancestor(object_index, _object_index));
-}

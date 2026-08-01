@@ -1,4 +1,4 @@
-function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object, _ignore_outside_border = true) {
+function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object, _ignore_outside_border = true, _grid = global.controller.game_object_grid) {
 	var _grid_width = abs(_w) div 8, _grid_height = abs(_h) div  8;
 	var _returned_instances = [], _max_x = room_width div 8, _max_y = room_height div 8, _min_x = 0, _min_y = 0;
 	if (_ignore_outside_border) {
@@ -16,7 +16,7 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
                 continue;
             }
 			
-			var _instances_at_grid_position = global.controller.game_object_grid[_checked_x][_checked_y];
+			var _instances_at_grid_position = _grid[_checked_x][_checked_y];
 			for (var _i = 0; _i < array_length(_instances_at_grid_position); _i++) {
 				var _inst = _instances_at_grid_position[_i];
 				if (instance_exists(_inst) && id != _inst && _inst.is_a(_object_index) && !array_contains(_returned_instances, _inst)) {

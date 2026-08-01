@@ -13,7 +13,7 @@ initialize_game_object_grid = function(_cols, _rows) {
 	}
 }
 
-rebuild_surface = function(_object_index = noone) {
+rebuild_surface = function(_object_index = obj_visual_object) {
 	// Set up Surface to Draw
 	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); static_area_surface = noone; }
 	if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
@@ -30,7 +30,7 @@ rebuild_surface = function(_object_index = noone) {
 			for (var _i = 0; _i < array_length(_arr); _i++) {
 				var _inst = _arr[_i];
 				if (!instance_exists(_inst)) { continue; }
-				if (_object_index == noone || _inst.is_a(_object_index)) { array_push(_instances_to_draw, _inst) };
+				if (_inst.is_a(_object_index)) { array_push(_instances_to_draw, _inst) };
 			}
 		}
 	}

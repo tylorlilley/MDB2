@@ -207,7 +207,7 @@ function room_data(_room = room) {
 			
 			// MDB World 5
 			{ rm: rm_mdb_5_1, world: WORLDS.SKY,  title: "Head in the Clouds" },
-			{ rm: rm_mdb_5_2, world: WORLDS.SKY,  title: "Flying Too Close" },
+			{ rm: u_tint_amount, world: WORLDS.SKY,  title: "Flying Too Close" },
 			{ rm: rm_mdb_5_3, world: WORLDS.SKY_3,  title: "Setting Sun" },
 			{ rm: rm_mdb_5_4, world: WORLDS.SKY_3,  title: "Stairway to Heaven" },
 			{ rm: rm_mdb_5_5, world: WORLDS.SKY_3,  title: "The Storm Rolls In" },

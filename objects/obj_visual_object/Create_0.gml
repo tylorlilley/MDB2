@@ -19,3 +19,7 @@ grid_add = function(_grid_to_add = global.controller.game_object_grid) {
 	}
 	return true;
 }
+
+is_a = function(_object_index) {
+	return (object_index == _object_index || object_is_ancestor(object_index, _object_index));
+}
