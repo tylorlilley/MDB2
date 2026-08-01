@@ -363,6 +363,7 @@
     {"name":"inst_2D97A39","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},
     {"name":"inst_3A158B10","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},
     {"name":"inst_659EAAC1","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},
+    {"name":"inst_31132842","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -726,8 +727,9 @@
         {"$GMRInstance":"v4","%Name":"inst_2D97A39","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_2D97A39","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"properties":[
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"propertyId":{"name":"linked_portal","path":"objects/obj_portal/obj_portal.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"inst_FA7B862",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":16.0,"y":8.0,},
-        {"$GMRInstance":"v4","%Name":"inst_3A158B10","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_3A158B10","objectId":{"name":"obj_crate","path":"objects/obj_crate/obj_crate.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":192.0,"y":168.0,},
-        {"$GMRInstance":"v4","%Name":"inst_659EAAC1","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_659EAAC1","objectId":{"name":"obj_mirror_player","path":"objects/obj_mirror_player/obj_mirror_player.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":120.0,"y":168.0,},
+        {"$GMRInstance":"v4","%Name":"inst_3A158B10","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_3A158B10","objectId":{"name":"obj_crate","path":"objects/obj_crate/obj_crate.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":176.0,"y":136.0,},
+        {"$GMRInstance":"v4","%Name":"inst_659EAAC1","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_659EAAC1","objectId":{"name":"obj_mirror_player","path":"objects/obj_mirror_player/obj_mirror_player.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":16.0,"y":40.0,},
+        {"$GMRInstance":"v4","%Name":"inst_31132842","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_31132842","objectId":{"name":"obj_reforming_cloud_outline","path":"objects/obj_reforming_cloud_outline/obj_reforming_cloud_outline.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":200.0,"y":208.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_test_terrain",

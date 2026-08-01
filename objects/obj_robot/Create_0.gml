@@ -75,7 +75,7 @@ update_controls = function() {
 		if (_blocked_on_right && _blocked_on_left) { is_left = true; } // OLD GAME: is_left = true;
 		else if (is_left && _blocked_on_left) { is_left = false; }
 		else if (!is_left && _blocked_on_right) { is_left = true; }
-		if (is_left != _prev_is_left) { turn_pending = true; turn_hold = x_transition_timer; turn_timer = 4; }
+		if (is_left != _prev_is_left) { turn_pending = true; turn_hold = max(x_transition_timer, y_transition_timer); turn_timer = 4; }
 	
 		walk_timer++;
 		walk_timer = walk_timer % 8;

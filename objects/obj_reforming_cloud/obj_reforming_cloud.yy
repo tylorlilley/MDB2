@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_editor_cloud",
-    "path":"sprites/spr_editor_cloud/spr_editor_cloud.yy",
+    "name":"spr_box_8x8",
+    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_8x8",

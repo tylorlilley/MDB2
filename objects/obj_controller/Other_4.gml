@@ -6,11 +6,9 @@ global.world_tint = c_white;
 build_background(room_world);
 play_music(room_world);
 	
-// Set Palettes
-with (obj_visual_object) { image_blend = global.world_tint; }
+// Spawn and Deactivate Instances
 with (obj_tree) { initialize_solids(); }
 with (obj_log) { initialize_solids(); }
-with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
 with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);
 	solid_obj = instance_create(x, y, solid_obj);
@@ -23,8 +21,6 @@ with (obj_static_area) {
 	get_connections_for_graphics();
 	get_world_palette();
 }
-
-// Spawn and Deactivate Instances
 with (obj_dynamic_object) {
 	if (contents != noone) {
 		contents = instance_create(0, 0, contents);
@@ -33,7 +29,9 @@ with (obj_dynamic_object) {
 	}
 }
 
-// Set Dynamic Instance Palette Based on Spawned Instances
+// Set Palettes
+with (obj_visual_object) { image_blend = global.world_tint; }
+with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
 with (obj_dynamic_object) {
 	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }
 }

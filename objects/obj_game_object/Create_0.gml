@@ -25,7 +25,6 @@ is_player_lethal = false;
 is_robot_lethal = false;
 
 hits = 1;
-image_speed = 0;
 destroyed_sound = snd_explosion;
 damaged_sound = snd_solid_crack;
 virtual_y_offset = 0;

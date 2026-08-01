@@ -22,7 +22,6 @@ fall_sound = noone;
 // Player Specific Variables
 prev_state = PLAYER_STATES.STAND;
 state = PLAYER_STATES.STAND;
-image_speed = 0;
 depth = PLAYER_DEPTH;
 cape_depth = PLAYER_DEPTH + 1;
 sprite_index = spr_player_idle;

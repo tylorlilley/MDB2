@@ -29,8 +29,9 @@ if (draw_game_object_grid) {
 }
 
 // Draw Level Text and Key Amounts
-var _text_y_pos = -2, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
-draw_text(((global.original_controls) ? 12 : 4), _text_y_pos, room_title);
+var _text_y_pos = -1, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
+var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
+draw_text(((global.original_controls) ? 12 : 4), _text_y_pos, string(_world) + "-" + string(_level) + ": " + room_title);
 draw_set_halign(fa_right);
 draw_text(_text_x_pos, _text_y_pos, string(global.keys_collected) + "/" + string(global.room_keys));
 draw_set_halign(fa_left);

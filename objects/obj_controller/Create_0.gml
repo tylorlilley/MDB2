@@ -34,18 +34,18 @@ global.room_keys = 0;
 global.keys_collected = 0;
 global.room_portals = 0;
 global.world_tint = c_white;
-global.frame = 0;
 
 // Debug Variables
-level_number = 0;
+level_number = -1;
 show_debug_gui = true;
 draw_game_object_grid = false;
 
 // Set Up Game Window
 window_set_size(256*4, 240*4);
+window_enable_borderless_fullscreen(true);
 window_set_fullscreen(false);
 game_set_speed(30, gamespeed_fps);
-determine_gamepad(); // Poll This Constantly on Title Screen
+determine_gamepad(); // TODO: Poll This Constantly on Title Screen
 palettes_init();
 
 // Graphic Variables
@@ -73,7 +73,6 @@ initialize_room = function(_new_room) {
 	global.room_keys = 0;
 	global.room_portals = 0;
 	global.keys_collected = 0;
-	global.frame = 0;
 	if (_new_room != room) { level_number++; }
 	
 	// Create an Empty Game Object Grid that matches the Room Size
@@ -96,6 +95,7 @@ transition_room = function(_new_room, _randomize_room_seed = false) {
 	random_set_seed(room_seed);	
 	global.should_rebuild_static_area = true;
 	initialize_room(_new_room);
+	audio_stop_sound(snd_player_fall);
 	room_goto(_new_room);
 }
 
@@ -110,7 +110,12 @@ rebuild_static_area_surface = function() {
 	// Draw Tiles in Depth Order
 	var _instances_to_draw = []
 	with (obj_static_area) { array_push(_instances_to_draw, id); }
-	array_sort(_instances_to_draw, function(_a, _b) { return _b.depth - _a.depth; });
+	array_sort(_instances_to_draw, function(_a, _b) {
+		if (_a.depth != _b.depth) { return _b.depth - _a.depth; }
+		if (_a.y != _b.y) { return _a.y - _b.y; }
+		if (_a.x != _b.x) { return _a.x - _b.x; }
+		return real(_a.id) - real(_b.id);
+	});
 	for (var _i = 0; _i < array_length(_instances_to_draw); _i++) {
 		_instances_to_draw[_i].draw_static_area_tile();
 	}
@@ -125,4 +130,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_2_6, true); //rm_test_terrain
+transition_room(rm_mdb_3_3, true); //rm_test_terrain

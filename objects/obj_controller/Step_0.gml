@@ -103,16 +103,19 @@ with (obj_spawner) {
 }
 with (obj_reforming_cloud_outline) {
 	if (reform_timer > 0) {
+		image_alpha = (240-reform_timer) / 240;
 		reform_timer--;
-		if (reform_timer == 0) { create_cloud(); }
+		if (reform_timer == 0) {
+			create_cloud();
+			refresh_cloud_graphics();
+			play_sound(snd_pop);
+			image_alpha = 1;
+			main_sprite = noone;
+			should_draw = false;
+		}
+		global.should_rebuild_static_area = true;
 	}
-	image_index = 0;
-	if (reform_timer > 60) { image_index = 1; }
-	if (reform_timer <= 60 && reform_timer > 45) { image_index = 2;}
-	if (reform_timer <= 45 && reform_timer > 30) { image_index = 3;}
-	if (reform_timer <= 30 && reform_timer > 15) { image_index = 4;}
-	if (reform_timer <= 15 && reform_timer > 0) { image_index = 5;}
-	if (reform_timer == 0) { image_index = 0;}
+
 }
 frame_timer++;
 frame_timer = frame_timer % 24;
@@ -164,13 +167,3 @@ else if (transition_timer > 0) {
 	}
 	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
 }
-
-global.frame++;
-var _line = string(global.frame);
-var _r = []; with (obj_robot) { array_push(_r, id); }
-array_sort(_r, function(_a, _b) { return sign(_a.y - _b.y); });
-for (var _i = 0; _i < array_length(_r); _i++) { with (_r[_i]) {
-    _line += "|" + string(x) + "," + string(is_left) + "," + string(walk_timer) + "," + string(state) + "," + string(transition_timer);
-} }
-with (obj_switch) { _line += "|S" + string(y) + "," + string(pressed); }
-show_debug_message(_line);

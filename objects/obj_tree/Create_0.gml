@@ -3,7 +3,6 @@ event_inherited();
 // Visual Object Overrides
 main_palette = PALETTES.BROWN;
 sprite_index = spr_wood_tree_extra_bottom;
-image_speed = 0;
 image_index = 1;
 
 // New Variables

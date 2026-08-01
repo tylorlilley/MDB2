@@ -1,6 +1,5 @@
 event_inherited();
 
-image_alpha = 1;
 step_sound = snd_step_cloud;
 destroyed_sound = snd_pop;
 //is_fragile = true;
