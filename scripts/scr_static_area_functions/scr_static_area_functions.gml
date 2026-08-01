@@ -30,12 +30,10 @@ initialize_static_area = function() {
 	is_connected_on_far_right = noone;
 }
 
-get_connection_key = function() { return creator; }
+connected_to = function(_inst) { return _inst.object_index == object_index && _inst.creator == creator; }
 
 get_connected_instance = function(_inst) {
-	return ((instance_exists(_inst)
-		&& _inst.object_index == object_index
-		&& _inst.get_connection_key() == get_connection_key()) ? _inst : noone);
+	return ((instance_exists(_inst) && connected_to(_inst)) ? _inst : noone);
 }
 
 get_connections_for_graphics = function() {

@@ -5,4 +5,4 @@ main_palette = PALETTES.GRAY;
 hits = 2;
 
 // Override Functions
-get_connection_key = function() { return true; }
+connected_to = function(_inst) { return _inst.object_index == object_index; }

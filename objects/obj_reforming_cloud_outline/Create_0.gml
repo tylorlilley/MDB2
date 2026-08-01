@@ -20,7 +20,8 @@ drawn_x_scale = 1;
 drawn_y_scale = 1;
 
 // Override Functions
-get_connection_key = function() { return reform_timer; }
+
+connected_to = function(_inst) { return _inst.object_index == object_index && _inst.reform_timer == reform_timer; }
 
 reform_cloud = function() {
 	create_cloud();

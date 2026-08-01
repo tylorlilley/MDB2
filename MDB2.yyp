@@ -420,6 +420,8 @@
     {"id":{"name":"spr_robot_walk","path":"sprites/spr_robot_walk/spr_robot_walk.yy",},},
     {"id":{"name":"spr_rock_outline","path":"sprites/spr_rock_outline/spr_rock_outline.yy",},},
     {"id":{"name":"spr_rock","path":"sprites/spr_rock/spr_rock.yy",},},
+    {"id":{"name":"spr_sand_background_fuzzing","path":"sprites/spr_sand_background_fuzzing/spr_sand_background_fuzzing.yy",},},
+    {"id":{"name":"spr_sand_background_outline","path":"sprites/spr_sand_background_outline/spr_sand_background_outline.yy",},},
     {"id":{"name":"spr_sand_background","path":"sprites/spr_sand_background/spr_sand_background.yy",},},
     {"id":{"name":"spr_sand_fuzzing","path":"sprites/spr_sand_fuzzing/spr_sand_fuzzing.yy",},},
     {"id":{"name":"spr_sand_outline","path":"sprites/spr_sand_outline/spr_sand_outline.yy",},},

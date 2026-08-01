@@ -2,9 +2,6 @@
 
 Clean up Create Code
 Fix Robot Parity with Previous Game
-BG Dirt Tiles
-Reforming Clouds
-
 Press down to get off ladder;
 Climb from pressing left/right while on ladder
 

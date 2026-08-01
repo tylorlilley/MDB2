@@ -39,13 +39,13 @@ global.world_tint = c_white;
 
 // Debug Variables
 level_number = -1;
-show_debug_gui = true;
+show_debug_gui = false;
 draw_game_object_grid = false;
 
 // Set Up Game Window
 window_set_size(256*4, 240*4);
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(false);
+window_set_fullscreen(true);
 game_set_speed(30, gamespeed_fps);
 determine_gamepad(); // TODO: Poll This Constantly on Title Screen
 palettes_init();
@@ -101,4 +101,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_1_1, true); //rm_test_terrain
+transition_room(rm_mdb_4_1, true); //rm_test_terrain

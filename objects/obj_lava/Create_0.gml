@@ -30,6 +30,4 @@ deal_damage = function() {
 	create_particles(4);
 }
 
-get_connection_key = function() {
-	return (object_index = obj_lava || is_solid_from_all_sides());
-}
+connected_to = function(_inst) { return _inst.object_index == object_index || (_inst.is_solid_from_all_sides() && _inst.y <= y); }
