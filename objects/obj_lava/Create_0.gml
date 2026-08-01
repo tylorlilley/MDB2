@@ -22,9 +22,14 @@ particle_frequency = 8;
 
 parent_deal_damage = deal_damage;
 
+// Overriden Functions
 deal_damage = function() { 
 	parent_deal_damage();
 	play_sound(snd_step_lava);
 	play_sound(snd_player_idle_yell);
 	create_particles(4);
+}
+
+get_connection_key = function() {
+	return (object_index = obj_lava || is_solid_from_all_sides());
 }

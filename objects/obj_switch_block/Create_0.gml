@@ -1,5 +1,5 @@
 event_inherited();
-
+depth = SWITCH_BLOCK_DEPTH;
 step_sound = snd_step_bubble;
 damaged_sound = snd_solid_invulnerable;
 switch_color = noone;
