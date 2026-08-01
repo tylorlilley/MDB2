@@ -19,10 +19,10 @@ main_sprite = spr_lava_old_1;
 outline_sprite = spr_lava_outline;
 outline_mask_sprite = spr_lava_outline_mask;
 particle_frequency = 8;
-
-parent_deal_damage = deal_damage;
+connection_object_index = obj_static_area;
 
 // Overriden Functions
+parent_deal_damage = deal_damage;
 deal_damage = function() { 
 	parent_deal_damage();
 	play_sound(snd_step_lava);
@@ -30,4 +30,4 @@ deal_damage = function() {
 	create_particles(4);
 }
 
-connected_to = function(_inst) { return _inst.object_index == object_index || (_inst.is_solid_from_all_sides() && _inst.y <= y); }
+connected_to = function(_inst) { return _inst.object_index == object_index || (_inst.is_solid_from_all_sides() && _inst.y >= y); }

@@ -14,6 +14,7 @@ initialize_static_area = function() {
 	visual_origin_y = y;
 	animated = false;
 	has_square_shape = false;
+	connection_object_index = object_index;
 
 	is_connected_above = noone;
 	is_connected_below = noone;
@@ -32,26 +33,29 @@ initialize_static_area = function() {
 
 connected_to = function(_inst) { return _inst.object_index == object_index && _inst.creator == creator; }
 
-get_connected_instance = function(_inst) {
-	return ((instance_exists(_inst) && connected_to(_inst)) ? _inst : noone);
+get_connected_instance = function(_array) {
+	for (var _i = 0; _i < array_length(_array); _i++) {
+		if (connected_to(_array[_i])) { return _array[_i]; }
+	}
+	return noone;
 }
 
 get_connections_for_graphics = function() {
 	var _grid = (manager == noone) ? global.controller.game_object_grid : manager.game_object_grid;
-	is_connected_above = get_connected_instance(grid_array_first(instances_at_grid_position(x, y-8, 8, 8, object_index, false, _grid)));
-	is_connected_below = get_connected_instance(grid_array_first(instances_at_grid_position(x, y+8, 8, 8, object_index, false, _grid)));
-	is_connected_on_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-8, y, 8, 8, object_index, false, _grid)));
-	is_connected_on_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+8, y, 8, 8, object_index, false, _grid)));
+	is_connected_above = get_connected_instance(instances_at_grid_position(x, y-8, 8, 8, connection_object_index, false, _grid));
+	is_connected_below = get_connected_instance(instances_at_grid_position(x, y+8, 8, 8, connection_object_index, false, _grid));
+	is_connected_on_left = get_connected_instance(instances_at_grid_position(x-8, y, 8, 8, connection_object_index, false, _grid));
+	is_connected_on_right = get_connected_instance(instances_at_grid_position(x+8, y, 8, 8, connection_object_index, false, _grid));
 
-	is_connected_top_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+8, y-8, 8, 8, object_index, false, _grid)));
-	is_connected_top_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-8, y-8, 8, 8, object_index, false, _grid)));
-	is_connected_bottom_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+8, y+8, 8, 8, object_index, false, _grid)));
-	is_connected_bottom_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-8, y+8, 8, 8, object_index, false, _grid)));
+	is_connected_top_right = get_connected_instance(instances_at_grid_position(x+8, y-8, 8, 8, connection_object_index, false, _grid));
+	is_connected_top_left = get_connected_instance(instances_at_grid_position(x-8, y-8, 8, 8, connection_object_index, false, _grid));
+	is_connected_bottom_right = get_connected_instance(instances_at_grid_position(x+8, y+8, 8, 8, connection_object_index, false, _grid));
+	is_connected_bottom_left = get_connected_instance(instances_at_grid_position(x-8, y+8, 8, 8, connection_object_index, false, _grid));
 		
-	is_connected_far_top = get_connected_instance(grid_array_first(instances_at_grid_position(x, y-16, 8, 8, object_index, false, _grid)));
-	is_connected_far_bottom = get_connected_instance(grid_array_first(instances_at_grid_position(x, y+16, 8, 8, object_index, false, _grid)));
-	is_connected_on_far_left = get_connected_instance(grid_array_first(instances_at_grid_position(x-16, y, 8, 8, object_index, false, _grid)));
-	is_connected_on_far_right = get_connected_instance(grid_array_first(instances_at_grid_position(x+16, y, 8, 8, object_index, false, _grid)));
+	is_connected_far_top = get_connected_instance(instances_at_grid_position(x, y-16, 8, 8, connection_object_index, false, _grid));
+	is_connected_far_bottom = get_connected_instance(instances_at_grid_position(x, y+16, 8, 8, connection_object_index, false, _grid));
+	is_connected_on_far_left = get_connected_instance(instances_at_grid_position(x-16, y, 8, 8, connection_object_index, false, _grid));
+	is_connected_on_far_right = get_connected_instance(instances_at_grid_position(x+16, y, 8, 8, connection_object_index, false, _grid));
 }
 
 update_connected_graphics = function() {
