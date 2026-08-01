@@ -561,12 +561,11 @@ update_player_state = function() {
 	}
 	
 	// Get Destroyed From Solids
-	if (instance_exists(id) && is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
+	update_player_collisions_at_position();
+	if (!instance_exists(id)) { exit; }
 	
 	// While Not Transitioning
 	if (instance_exists(id) && transition_timer == 0) {
-		update_player_collisions_at_position();
-		if (!instance_exists(id)) { exit; }
 		
 		switch (state) {
 			case PLAYER_STATES.SWIM:
@@ -1335,14 +1334,18 @@ update_player_collisions_at_position = function() {
 			var _inst = _carried_objects[_i]
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
-		
-		// Destroy if Inside Lethal object
-		var _inside_objects = get_inside_objects(obj_dynamic_object);
-		for (var _i = 0; _i < array_length(_inside_objects); _i++) {
-			var _inst = _inside_objects[_i]
-			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
-		}
 	}
+	
+	// Destroy if Inside Lethal object
+	var _inside_objects = get_inside_objects(obj_dynamic_object);
+	for (var _i = 0; _i < array_length(_inside_objects); _i++) {
+		var _inst = _inside_objects[_i]
+		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
+	}
+	
+	// Destroy if Inside Solid
+	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
+		
 	if (!instance_exists(id)) { exit; }
 	
 	// Hanlde Water
