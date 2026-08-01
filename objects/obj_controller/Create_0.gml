@@ -130,4 +130,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_3_3, true); //rm_test_terrain
+transition_room(rm_mdb_5_3, true); //rm_test_terrain

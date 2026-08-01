@@ -22,6 +22,16 @@ drawn_y_scale = 1;
 // Override Functions
 get_connection_key = function() { return reform_timer; }
 
+reform_cloud = function() {
+	create_cloud();
+	refresh_cloud_graphics();
+	solid_obj.create_walk_particles(2);
+	play_sound(snd_reforming_cloud);
+	image_alpha = 1;
+	main_sprite = noone;
+	should_draw = false;
+}
+
 create_cloud = function() {
 	if (!instance_exists(solid_obj)) {
 		solid_obj = instance_create(x, y, obj_reforming_cloud);

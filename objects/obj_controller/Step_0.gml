@@ -105,14 +105,7 @@ with (obj_reforming_cloud_outline) {
 	if (reform_timer > 0) {
 		image_alpha = (240-reform_timer) / 240;
 		reform_timer--;
-		if (reform_timer == 0) {
-			create_cloud();
-			refresh_cloud_graphics();
-			play_sound(snd_pop);
-			image_alpha = 1;
-			main_sprite = noone;
-			should_draw = false;
-		}
+		if (reform_timer == 0) { reform_cloud(); }
 		global.should_rebuild_static_area = true;
 	}
 
