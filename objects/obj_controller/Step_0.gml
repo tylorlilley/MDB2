@@ -158,5 +158,5 @@ else if (transition_timer > 0) {
 		else { transition_room(room_next(room), true); }
 		play_sound(snd_fade_in);
 	}
-	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
+	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); transition_surface = noone; } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
 }

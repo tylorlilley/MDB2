@@ -1,0 +1,1 @@
+if (surface_exists(static_area_surface)) { surface_free(static_area_surface); static_area_surface = noone; }

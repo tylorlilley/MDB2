@@ -1,5 +1,5 @@
 // Draw Static Areas
-if (!surface_exists(static_area_surface) || global.should_rebuild_static_area) { static_area_surface = rebuild_surface(static_area_surface, obj_static_area); }
+if (!surface_exists(static_area_surface) || global.should_rebuild_static_area) { rebuild_surface(obj_static_area); }
 shader_reset();
 draw_surface(static_area_surface, 0, 0);
 global.should_rebuild_static_area = false;

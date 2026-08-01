@@ -12,7 +12,7 @@ if (instance_number(obj_bg_dirt) > 1) {
 	var _background_surface_manager = instance_create(x, y, obj_surface_manager);
 	_background_surface_manager.depth = BACKGROUND_DEPTH;
 	_background_surface_manager.initialize_game_object_grid(_cols, _rows);
-	with (obj_bg_dirt) { grid_add(_background_surface_manager.game_object_grid); instance_destroy(); }
+	with (obj_bg_dirt) { grid_add(_background_surface_manager.game_object_grid); } // instance_destroy(); }
 }
 	
 // Spawn and Deactivate Instances

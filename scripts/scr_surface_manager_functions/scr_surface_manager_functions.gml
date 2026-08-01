@@ -13,11 +13,11 @@ initialize_game_object_grid = function(_cols, _rows) {
 	}
 }
 
-rebuild_surface = function(_surface, _object_index = noone) {
+rebuild_surface = function(_object_index = noone) {
 	// Set up Surface to Draw
-	if (surface_exists(_surface) && (surface_get_width(_surface) != room_width || surface_get_height(_surface) != room_height)) { surface_free(_surface); }
-	if (!surface_exists(_surface)) { _surface = surface_create(room_width, room_height); }
-	if (!surface_set_target(_surface)) { show_debug_message("ERROR SURFACE"); return noone; }
+	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); static_area_surface = noone; }
+	if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
+	if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SURFACE"); return noone; }
 	shader_set(shd_palettizer);
 	draw_clear_alpha(0, 0);
 	
@@ -29,7 +29,8 @@ rebuild_surface = function(_surface, _object_index = noone) {
 			var _arr = game_object_grid[_grid_x][_grid_y];
 			for (var _i = 0; _i < array_length(_arr); _i++) {
 				var _inst = _arr[_i];
-				if (_object_index != noone && _inst.is_a(_object_index)) { array_push(_instances_to_draw, _inst) };
+				if (!instance_exists(_inst)) { continue; }
+				if (_object_index == noone || _inst.is_a(_object_index)) { array_push(_instances_to_draw, _inst) };
 			}
 		}
 	}
@@ -46,5 +47,4 @@ rebuild_surface = function(_surface, _object_index = noone) {
 	// Reset Surface
 	shader_reset();
 	surface_reset_target();
-	return _surface;
 }

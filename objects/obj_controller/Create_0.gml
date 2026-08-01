@@ -90,7 +90,7 @@ transition_room = function(_new_room, _randomize_room_seed = false) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed);	
 	global.should_rebuild_static_area = true;
-	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); }
+	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); static_area_surface = noone; }
 	initialize_room(_new_room);
 	audio_stop_sound(snd_player_fall);
 	room_goto(_new_room);
