@@ -35,11 +35,13 @@ enum PORTAL_COLORS {
 #macro C_YELLOW_DARK    make_color_rgb(136, 112, 0)
 #macro C_YELLOW_DARKEST make_color_rgb(64, 44, 0)
 
+#macro C_DIRT_BORDER	make_color_rgb(95, 76, 34)
 #macro C_BROWN_LIGHT    C_YELLOW
 #macro C_BROWN          C_YELLOW_DARK
 #macro C_BROWN_DARK     C_YELLOW_DARKEST
 #macro C_BROWN_DARKEST  make_color_rgb(28, 23, 10)
 
+#macro C_ROCK_BORDER	make_color_rgb(74, 71, 59)
 #macro C_ROCK_LIGHT    make_color_rgb(204, 187, 143)
 #macro C_ROCK          make_color_rgb(117, 111, 84)
 #macro C_ROCK_DARK     make_color_rgb(51, 35, 42)
@@ -55,6 +57,7 @@ enum PORTAL_COLORS {
 #macro C_TRASH_LIGHT    make_color_rgb(128, 143, 88)
 #macro C_TRASH          make_color_rgb(103, 116, 71)
 #macro C_TRASH_DARK     make_color_rgb(75, 81, 60)
+#macro C_TRASH_DARKER     make_color_rgb(58, 66, 36)
 
 #macro C_COTTON_CANDY_LIGHT    make_color_rgb(215, 146, 212)
 #macro C_COTTON_CANDY         make_color_rgb(178, 121, 175)
@@ -136,6 +139,7 @@ enum PALETTES {
 	SOOT,
 	TRASH_LIGHT,
 	TRASH,
+	TRASH_DARK,
 	COTTON_CANDY_LIGHT,
 	COTTON_CANDY,
 	// No Sand Dark
@@ -143,6 +147,8 @@ enum PALETTES {
 	BROWN,
 	BROWN_DARK,
 	BROWN_DARKEST,
+	BACKGROUND_DIRT,
+	BACKGROUND_ROCK,
 	PLAYER,
 }
 
@@ -159,14 +165,15 @@ function palettes_init() {
 		[C_WHITE, C_INDIGO_LIGHT, C_INDIGO, C_INDIGO_DARK, C_INDIGO_DARKEST],
 		[C_WHITE, C_PINK_LIGHT, C_PINK, C_PINK_DARK],
 		[C_BRICK_LIGHT, C_BRICK, C_BRICK_DARK, C_BLACK],
-		[C_ROCK_LIGHT, C_ROCK, C_ROCK_DARK, C_BLACK],
+		[C_ROCK_LIGHT, C_ROCK, C_ROCK_DARK, C_NEAR_BLACK],
 		[C_WHITE, C_SAND_LIGHT, C_SAND, C_SAND_DARK],
 		[C_WHITE, C_SOIL_LIGHT, C_SOIL, C_SOIL_DARK],
 		[C_WHITE, C_SOOT_LIGHT, C_SOOT, C_SOOT_DARK],
-		[C_WHITE, C_TRASH_LIGHT, C_TRASH, C_TRASH_DARK],
+		[C_WHITE, C_TRASH_LIGHT, C_TRASH, C_TRASH_DARK, C_TRASH_DARKER],
 		[C_WHITE, C_COTTON_CANDY_LIGHT, C_COTTON_CANDY, C_COTTON_CANDY_DARK],
 		[C_BROWN_LIGHT, C_BROWN, C_BROWN_DARK, C_BROWN_DARKEST, C_BLACK],
-		
+		[C_DIRT_BORDER, C_BROWN_DARK, C_BROWN_DARKEST],
+		[C_ROCK_BORDER, C_ROCK_DARK, C_NEAR_BLACK],
 		[C_WHITE, C_BLUE_PLAYER_LIGHT, C_BLUE_PLAYER],
 	];
 	

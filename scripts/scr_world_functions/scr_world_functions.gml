@@ -24,6 +24,16 @@ function get_world_palette() {
 			
 			break;
 		}
+		case obj_bg_dirt: {
+			switch (global.controller.room_world) {
+				case WORLDS.FOREST: { main_palette = PALETTES.BACKGROUND_ROCK; break; }
+				case WORLDS.FACTORY: { main_palette = PALETTES.TRASH_DARK; break; }
+				default: { main_palette = PALETTES.BACKGROUND_DIRT; break; }
+			}
+			particle_palette = get_darker_palette(main_palette);
+			
+			break;
+		}
 		case obj_rock: {
 			switch (global.controller.room_world) {
 				case WORLDS.BEACH: { main_palette = PALETTES.BROWN; break; }
@@ -104,20 +114,27 @@ function build_background(_world) {
 			break;
 		}
 		case WORLDS.FOREST: {
+			// Determine Canopy Height
+			var _lowest_leaf_y = 0;
+			with (obj_leaf) { if (y > _lowest_leaf_y) { _lowest_leaf_y = y; } }
+			var _canopy_y = _lowest_leaf_y + 20 - sprite_get_height(bg_forest_leaves);
+			var _leaves_y = _canopy_y - sprite_get_height(bg_forest_canopy)
+			
 			// Background Leaves Layer
-			var _forest_leaves_layer = layer_create(100, "Forest_Canopy");
+			var _forest_leaves_layer = layer_create(100, "Forest_Leaves");
 			var _forest_leaves_bg = layer_background_create(_forest_leaves_layer, bg_forest_canopy);
 			layer_background_htiled(_forest_leaves_bg, true);
 			layer_background_speed(_forest_leaves_bg, 0);
+			layer_y(_forest_leaves_layer, _leaves_y);
 			layer_hspeed(_forest_leaves_layer, -0.125);
 			layer_set_visible(_forest_leaves_layer, true);
 			
 			// Background Leaf Fringe Layer
-			var _forest_canopy_layer = layer_create(101, "Forest_Leaves");
+			var _forest_canopy_layer = layer_create(101, "Forest_Canopy");
 			var _forest_canopy_bg = layer_background_create(_forest_canopy_layer, bg_forest_leaves);
 			layer_background_htiled(_forest_canopy_bg, true);
 			layer_background_speed(_forest_canopy_bg, 2);
-			layer_y(_forest_canopy_layer, 104);
+			layer_y(_forest_canopy_layer, _canopy_y);
 			layer_hspeed(_forest_canopy_layer, -0.125);
 			layer_set_visible(_forest_canopy_layer, true);
 			
@@ -127,7 +144,7 @@ function build_background(_world) {
 			layer_background_htiled(_forest_tresss_bg, true);
 			layer_background_vtiled(_forest_tresss_bg, true);
 			layer_background_speed(_forest_tresss_bg, 0);
-			layer_y(_forest_tress_layer, 104);
+			layer_y(_forest_tress_layer, _canopy_y - 16);
 			layer_hspeed(_forest_tress_layer, -0.038);
 			layer_set_visible(_forest_tress_layer, true);
 			

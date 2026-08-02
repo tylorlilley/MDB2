@@ -3,7 +3,7 @@ event_inherited();
 scr_static_area_functions();
 initialize_static_area();
 
-main_palette = PALETTES.BROWN_DARK;
+main_palette = PALETTES.BACKGROUND_DIRT;
 depth = BACKGROUND_DEPTH;
 
 main_sprite = spr_sand_background;
