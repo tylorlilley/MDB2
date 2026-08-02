@@ -168,3 +168,11 @@ else if (transition_timer > 0) {
 	}
 	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); transition_surface = noone; } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
 }
+
+// Create Win Sparkles
+var _winning_player_x = noone, _door_open = true;
+with (obj_door) { if (image_index >= 2) { _door_open = false; } }
+with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
+if (_winning_player_x != noone && _door_open && irandom(2) == 0) {
+	create_particles(1, PARTICLE_TYPES.CONFETTI, PALETTES.GRAY_LIGHT, _winning_player_x+8, -2);
+}

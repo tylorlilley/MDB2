@@ -2,9 +2,7 @@
 while (array_length(frame_sounds) > 0) {
 	var _entry = array_pop(frame_sounds);
 	var _avg_x = _entry.x_sum / _entry.plays;
-	var _pan = ((clamp(_avg_x, 0, room_width) / room_width) * 2 - 1) * SOUND_PAN_STRENGTH;
-	var _ang = _pan * SOUND_PAN_MAX_ANGLE;
-	audio_play_sound_at(_entry.snd, dsin(_ang) * SOUND_PAN_RADIUS, dcos(_ang) * SOUND_PAN_RADIUS, 0, SOUND_PAN_RADIUS, SOUND_PAN_RADIUS, 1, false, 1);
+	audio_play_sound_panned(_entry.snd, _avg_x);
 }
 
 // Do Screenshake

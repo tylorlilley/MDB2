@@ -253,7 +253,7 @@ start_falling = function(_is_dazed = false) {
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 	fall_timer = 0;
 	audio_stop_sound(fall_sound);
-	fall_sound = audio_play_sound(snd_player_fall, 1, false);
+	fall_sound = audio_play_sound_panned(snd_player_fall, x);
 }
 
 start_laddering = function() {

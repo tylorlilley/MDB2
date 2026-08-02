@@ -63,8 +63,6 @@ transition_surface = noone;
 screen_shake_timer = 0;
 scr_surface_manager_functions();
 initialize_surface_manager();
-x = room_width/2;
-y = room_height/2;
 
 // Timers
 transition_timer = 0;

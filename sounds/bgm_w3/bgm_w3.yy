@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"bgm_w3.wav",
-  "volume":0.5,
+  "volume":0.3,
 }
