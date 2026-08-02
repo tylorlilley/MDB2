@@ -231,6 +231,7 @@ function get_portal_palette(_portal_color) {
 		case PORTAL_COLORS.ELEVEN: { return PALETTES.YELLOW; }
 		case PORTAL_COLORS.TWELVE: { return PALETTES.ROCK; }
 		case PORTAL_COLORS.THIRTEEN: { return PALETTES.TRASH_LIGHT; }
+		default: { return PALETTES.GRAY_LIGHT; }
 	}
 }
 

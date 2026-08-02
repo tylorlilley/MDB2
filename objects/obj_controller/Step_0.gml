@@ -67,7 +67,7 @@ with (obj_water) {
 with (obj_lava) {
 	anim_timer++;
 	anim_timer = anim_timer % (sprite_get_number(outline_sprite) * 8);
-	global.should_rebuild_static_area = true;
+	if (anim_timer % 8 == 0) { global.should_rebuild_static_area = true; }
 }
 with (obj_game_object) {
 	if (shine_timer > 0) {
@@ -134,7 +134,7 @@ with (obj_portal) {
 	if (_is_overlapped) { _portal_speed = 2; }
 	
 	// Set Palette and Animation Speed
-	main_palette = (activated) ? ((masked) ? PALETTES.INDIGO_DARK : original_palette) : PALETTES.GRAY;
+	main_palette = (activated) ? ((masked) ? masked_palette : original_palette) : PALETTES.GRAY;
 	image_alpha = (activated) ? ((_is_overlapped) ? 1 : 0.8) : 0.5;
 	
 	// Animate Portal

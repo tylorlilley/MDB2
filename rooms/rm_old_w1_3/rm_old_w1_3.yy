@@ -563,6 +563,7 @@
     {"name":"inst_MB000742","path":"rooms/rm_old_w1_3/rm_old_w1_3.yy",},
     {"name":"inst_MB000743","path":"rooms/rm_old_w1_3/rm_old_w1_3.yy",},
     {"name":"inst_MB000744","path":"rooms/rm_old_w1_3/rm_old_w1_3.yy",},
+    {"name":"inst_B2891DB","path":"rooms/rm_old_w1_3/rm_old_w1_3.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -1130,6 +1131,7 @@
         {"$GMRInstance":"v4","%Name":"inst_MB000742","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_MB000742","objectId":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":264.0,"y":232.0,},
         {"$GMRInstance":"v4","%Name":"inst_MB000743","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_MB000743","objectId":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":264.0,"y":240.0,},
         {"$GMRInstance":"v4","%Name":"inst_MB000744","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_MB000744","objectId":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":264.0,"y":248.0,},
+        {"$GMRInstance":"v4","%Name":"inst_B2891DB","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_B2891DB","objectId":{"name":"obj_ladder","path":"objects/obj_ladder/obj_ladder.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":32.0,"y":160.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_old_w1_3",
