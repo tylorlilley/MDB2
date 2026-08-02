@@ -170,14 +170,13 @@ draw_static_area_tile = function() {
 	var _outine_sprite_image_index = (animated) ? _anim_image_index : 0;
 	var _outline_mask_sprite_image_index = (animated) ? _anim_image_index : 1;
 	var _has_outline = outline_sprite != noone && (!is_undefined(_x_offset) && !is_undefined(_y_offset));
-	var _main_x_scale = get_draw_x_scale(), _main_x_offset = get_x_draw_offset();
 	
 	if (_has_outline) {
 		// Draw Main Image, Clipped to This Tile's Own Outline Shape
 		var _mask_image_index = (animated) ? _anim_image_index : min(1, sprite_get_number(_outline_mask_sprite) - 1);
 		set_shader_palette();
 		set_shader_clip(_outline_mask_sprite, _mask_image_index, _x_offset, _y_offset, x, y, 8, 8);
-		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x + _main_x_offset, y, _main_x_scale, 1, image_blend, image_alpha); }
+		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		
 		// Draw the Outline Itself, Unclipped
@@ -187,7 +186,7 @@ draw_static_area_tile = function() {
 	else {
 		// Draw Without Considering Outline
 		set_shader_palette(main_palette);
-		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x + _main_x_offset, y, _main_x_scale, 1, image_blend, image_alpha); }
+		if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 		if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 	}
 	

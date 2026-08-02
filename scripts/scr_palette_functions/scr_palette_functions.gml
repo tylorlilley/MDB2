@@ -16,7 +16,8 @@ enum PORTAL_COLORS {
 	NINE,
 	TEN,
 	ELEVEN,
-	TWELVE
+	TWELVE,
+	THIRTEEN
 }
 
 #macro C_WHITE          make_color_rgb(239, 239, 239)
@@ -229,6 +230,7 @@ function get_portal_palette(_portal_color) {
 		case PORTAL_COLORS.TEN: { return PALETTES.RED; }
 		case PORTAL_COLORS.ELEVEN: { return PALETTES.YELLOW; }
 		case PORTAL_COLORS.TWELVE: { return PALETTES.ROCK; }
+		case PORTAL_COLORS.THIRTEEN: { return PALETTES.TRASH_LIGHT; }
 	}
 }
 

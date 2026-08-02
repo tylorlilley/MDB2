@@ -9,6 +9,7 @@ image_blend = global.world_tint;
 
 has_gravity = false;
 
+is_left = false;
 
 is_solid_from_above = false;
 is_solid_from_below = false;
