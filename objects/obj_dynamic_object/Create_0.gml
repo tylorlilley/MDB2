@@ -29,6 +29,5 @@ particle_frequency = 0;
 step_sound = noone;
 
 depth = DYNAMIC_OBJECT_DEPTH;
-shine_timer = 60 + irandom(8);
 
 scr_dynamic_object_functions();

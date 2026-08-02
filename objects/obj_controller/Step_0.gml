@@ -58,7 +58,7 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 
 // Handle Static Object Step
 with (obj_dynamic_object) {
-	if (is_carrying_key()) { shine_periodically(); }
+	if (is_carrying_key() && shine_timer == 0) { reset_shine_timer(); }
 }
 with (obj_water) {
 	anim_timer++;
@@ -69,10 +69,12 @@ with (obj_lava) {
 	anim_timer = anim_timer % (sprite_get_number(outline_sprite) * 8);
 	global.should_rebuild_static_area = true;
 }
-with (obj_spikes) {
-	if (shine_timer > 0) { shine_timer--; }
-	if (shine_timer == 0) { image_index = 0; }
+with (obj_game_object) {
+	if (shine_timer > 0) {
+		shine_timer--;
+	}
 }
+
 
 // Detect Switch Presses
 with (obj_switch) {
@@ -86,11 +88,11 @@ with (obj_switch) {
 	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
 	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
 }
-with (obj_key) { shine_periodically(); }
+with (obj_key) { if (shine_timer == 0) { reset_shine_timer(); } }
 with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else if (image_index == 0) {
-		shine_periodically();
+		if (shine_timer == 0) { reset_shine_timer(); }
 		
 		if (global.room_keys == global.keys_collected) {
 			create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);

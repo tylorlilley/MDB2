@@ -18,7 +18,7 @@ assign_portal_color = function(_player_palette) {
 	original_palette = get_portal_palette(global.room_portals);
 	particle_palette = original_palette;
 	player_palette = _player_palette;
-	masked = false;
+	masked = (global.color_portals) ? false : true;
 }
 
 deactivate_portal = function(_player_palette) {

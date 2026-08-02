@@ -18,6 +18,7 @@ parent_powerfall_on = powerfall_on;
 parent_powerfly_into = powerfly_into;
 
 powerfall_on = function(_other) {
+	shine_timer = 2;
 	parent_powerfall_on(_other);
 	start_gear_move(8);
 	if (instance_exists(_other)) {
@@ -28,6 +29,7 @@ powerfall_on = function(_other) {
 }
 
 powerfly_into = function(_other) {
+	shine_timer = 2;
 	parent_powerfly_into(_other);
 	start_gear_move(-8);
 	if (instance_exists(_other)) {

@@ -1,5 +1,6 @@
 // Inherit the parent event
 event_inherited();
+reset_shine_timer();
 
 // Visual Object Overrides
 original_palette = PALETTES.YELLOW;

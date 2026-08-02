@@ -125,9 +125,8 @@ enum PARTICLE_TYPES {
 	SPARK
 }
 
-shine_periodically = function() {
-	shine_timer--;
-	if (shine_timer < 0) { shine_timer = 120 + irandom(16); } //  if (visible) { create_sparkles(irandom(4)); }
+reset_shine_timer = function() {
+	shine_timer = 120 + irandom(16);
 }
 
 draw_liquid = function() {

@@ -1,3 +1,4 @@
+is_left = false;
 main_palette = PALETTES.PINK;
 depth = VISUAL_OBJECT_DEPTH;
 image_blend = global.world_tint;
@@ -22,4 +23,20 @@ grid_add = function(_grid_to_add = global.controller.game_object_grid) {
 
 is_a = function(_object_index) {
 	return (object_index == _object_index || object_is_ancestor(object_index, _object_index));
+}
+
+get_left_value = function() {
+	return ((is_left) ? -1 : 1);
+}
+
+get_draw_is_left = function() {
+	return is_left;
+}
+
+get_draw_x_scale = function() {
+	return ((get_draw_is_left()) ? -1 : 1); 
+}
+
+get_x_draw_offset = function() {
+	return ((get_draw_is_left()) ? sprite_get_width(sprite_index) : 0);
 }

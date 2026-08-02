@@ -4,6 +4,7 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 	if (_ignore_outside_border) {
 		var _border_size = (global.original_controls) ? 2 : 1;
 		_max_x -= _border_size;
+		_max_y -= _border_size;
 		_min_x += _border_size;
 		_min_y += _border_size;
 	}

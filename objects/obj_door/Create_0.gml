@@ -4,4 +4,4 @@ event_inherited();
 main_palette = PALETTES.BROWN;
 particle_palette = PALETTES.BROWN_DARK;
 
-shine_timer = 60 + irandom(8);
+reset_shine_timer();

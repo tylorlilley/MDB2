@@ -16,7 +16,7 @@ shine_timer = 0;
 parent_deal_damage = deal_damage;
 
 deal_damage = function() { 
-	shine_timer = 4;
+	shine_timer = 2;
 	main_sprite = spr_spikes_shine;
 	main_palette = PALETTES.ALL_WHITE;
 	parent_deal_damage();

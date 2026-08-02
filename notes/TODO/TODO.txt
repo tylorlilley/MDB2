@@ -5,6 +5,8 @@ Fix Robot Parity with Previous Game
 Press down to get off ladder;
 Climb from pressing left/right while on ladder
 
+move sway timer out of key step
+
 // NEXT:
 
 Go to Next Room Errors

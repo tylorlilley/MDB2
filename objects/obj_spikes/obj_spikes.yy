@@ -12,8 +12,8 @@
     "path":"folders/Objects/Static Areas.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_dynamic_object",
+    "path":"objects/obj_dynamic_object/obj_dynamic_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

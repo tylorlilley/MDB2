@@ -9,7 +9,6 @@ image_blend = global.world_tint;
 
 has_gravity = false;
 
-is_left = false;
 
 is_solid_from_above = false;
 is_solid_from_below = false;
@@ -25,6 +24,7 @@ is_player_lethal = false;
 is_robot_lethal = false;
 
 hits = 1;
+shine_timer = 0;
 destroyed_sound = snd_explosion;
 damaged_sound = snd_solid_crack;
 virtual_y_offset = 0;

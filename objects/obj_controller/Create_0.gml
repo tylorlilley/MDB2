@@ -25,6 +25,7 @@ global.controller = id;
 global.gamepad = noone;
 global.original_controls = true;
 global.combine_up_and_jump_controls = true;
+global.color_portals = false;
 global.should_rebuild_static_area = true;
 global.u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 global.u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
@@ -45,7 +46,7 @@ draw_game_object_grid = false;
 // Set Up Game Window
 window_set_size(256*4, 240*4);
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(true);
+window_set_fullscreen(false);
 
 // Set Up Game Audio
 frame_sounds = [];

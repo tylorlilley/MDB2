@@ -1,4 +1,4 @@
-set_shader_palette((shine_timer == 0) ? PALETTES.ALL_WHITE : main_palette);
+set_shader_palette((shine_timer == 1) ? PALETTES.ALL_WHITE : main_palette);
 draw_self();
 	
 // Draw Open Door
