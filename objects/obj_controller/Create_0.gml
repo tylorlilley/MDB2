@@ -46,6 +46,13 @@ draw_game_object_grid = false;
 window_set_size(256*4, 240*4);
 window_enable_borderless_fullscreen(true);
 window_set_fullscreen(true);
+
+// Set Up Game Audio
+frame_sounds = [];
+audio_falloff_set_model(audio_falloff_none);
+audio_listener_position(0, 0, 0);
+audio_listener_orientation(0, 1, 0, 0, 0, 1); // forward = room +y, up = out of screen => room +x is listener right
+
 game_set_speed(30, gamespeed_fps);
 determine_gamepad(); // TODO: Poll This Constantly on Title Screen
 palettes_init();
@@ -56,6 +63,8 @@ transition_surface = noone;
 screen_shake_timer = 0;
 scr_surface_manager_functions();
 initialize_surface_manager();
+x = room_width/2;
+y = room_height/2;
 
 // Timers
 transition_timer = 0;
@@ -63,7 +72,6 @@ frame_timer = 0;
 
 // Gameplay Variables
 game_object_grid = [];
-frame_sounds = [];
 pending_switch_colors = [];
 room_seed = random_get_seed();
 
@@ -71,8 +79,6 @@ initialize_room = function(_new_room) {
 	play_sound(snd_fade_in);
 	
 	start_room_transition();
-	global.last_player_x = undefined;
-	global.last_player_y = undefined;
 	global.room_keys = 0;
 	global.room_portals = 0;
 	global.keys_collected = 0;
@@ -101,4 +107,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_4_1, true); //rm_test_terrain
+transition_room(rm_mdb_1_1, true); //rm_test_terrain

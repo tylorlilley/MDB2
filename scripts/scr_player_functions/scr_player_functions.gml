@@ -595,8 +595,8 @@ update_player_state = function() {
 					with (obj_door) { image_index = 2; } // create_particles(8 + irandom(8)); }
 					// TODO: Do this in controller instead of player?
 					global.controller.transition_timer = 1;
-					global.last_player_x = x;
-					global.last_player_y = y;
+					global.controller.x = x;
+					global.controller.y = y;
 				}
 				else { start_winning(); }
 				break;

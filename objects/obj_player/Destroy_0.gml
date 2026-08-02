@@ -14,6 +14,6 @@ if (can_be_controlled) { global.controller.start_screen_shake(); }
 play_sound(snd_player_death);
 audio_stop_sound(fall_sound);
 if (!is_undefined(last_x) && !is_undefined(last_y)) {
-	global.last_player_x = last_x;
-	global.last_player_y = last_y;
+	global.controller.x = last_x;
+	global.controller.y = last_y;
 }

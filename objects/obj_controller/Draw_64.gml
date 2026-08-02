@@ -46,10 +46,7 @@ shader_reset();
 if (transition_timer > TRANSITION_DELAY) {
 	// Determine Transition Parameters
 	var _max_scale = room_width;
-	var _fade_pos_x = is_undefined(global.last_player_x) ? room_width/2 : global.last_player_x;
-	var _fade_pos_y = is_undefined(global.last_player_y) ? room_height/2 : global.last_player_y;
-	if (_fade_pos_x < 0 || _fade_pos_x > room_width) { _fade_pos_x = room_width/2; }
-	if (_fade_pos_y < 0 || _fade_pos_y > room_height) {	_fade_pos_y = room_height/2; }
+	var _fade_pos_x = x, _fade_pos_y = y;
 		
 	var _scale = 0;
 	if (transition_timer < TRANSITION_DURATION + TRANSITION_DELAY) { _scale = power((1-((transition_timer - TRANSITION_DELAY) / TRANSITION_DURATION)), 4); }

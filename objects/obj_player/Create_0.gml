@@ -52,8 +52,8 @@ scr_player_functions();
 	
 reset_controls();
 
-global.last_player_x = x;
-global.last_player_y = y;
+global.controller.x = x;
+global.controller.y = y;
 
 game_object_step = function() {
 	if (x > 0 && y > 0 && x < room_width && y < room_height) {

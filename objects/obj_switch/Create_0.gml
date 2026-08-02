@@ -6,7 +6,7 @@ pressed = false;
 // Game Maker Variable Overrides
 depth = SWITCH_DEPTH;
 sprite_index = spr_switch;
-image_index = 2;
+image_index = 0;
 
 // Functions
 get_pressing_objects = function() {
