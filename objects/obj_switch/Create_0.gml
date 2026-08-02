@@ -26,8 +26,7 @@ press_switch = function() {
 		if (id != other.id && switch_color == other.switch_color && pressed != other.pressed && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; global.controller.blocked_switch_colors[switch_color] = true; }
 	}
 	
-	if (_toggle_blocks) {
+	if (_toggle_blocks && !array_contains(global.controller.pending_switch_colors, switch_color)) {
 		array_push(global.controller.pending_switch_colors, switch_color);
-		with (obj_switch) { if (switch_color == other.switch_color) { pressed = !pressed; } }
 	}
 }

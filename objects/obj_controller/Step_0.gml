@@ -1,6 +1,20 @@
-// Capture Step Begin Switch State
-blocked_switch_colors = [false, false, false];
+// Resolve Switch Presses From Previous Frame
 with (obj_switch) { prev_pressed = pressed; }
+for (var _i = 0; _i < array_length(pending_switch_colors); _i++) {
+	var _c = pending_switch_colors[_i];
+	with (obj_switch) { if (switch_color == _c) { pressed = !pressed; } }
+	with (obj_switch_block_outline) { if (switch_color == _c) { toggle_solid(true); } }
+	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.get_connections_for_graphics(); } }
+}
+pending_switch_colors = [];
+
+// Update Switch Graphics and Sound
+with (obj_switch) {
+	if (global.controller.blocked_switch_colors[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
+	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
+	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
+}
+blocked_switch_colors = [false, false, false];
 
 // Handle Dynamic Game Object Step
 var _dynamic_instances = [];
@@ -60,19 +74,10 @@ with (obj_spikes) {
 	if (shine_timer == 0) { image_index = 0; }
 }
 
-// Update Switch Logic
-for (var _i = 0; _i < array_length(pending_switch_colors); _i++) {
-	var _c = pending_switch_colors[_i];
-	with (obj_switch_block_outline) { if (switch_color == _c) { toggle_solid(true); } }
-	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.get_connections_for_graphics(); } }
-}
-pending_switch_colors = [];
+// Detect Switch Presses
 with (obj_switch) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
-	else {
-		var _pressed_on = array_length(get_pressing_objects()) > 0;
-		if (_pressed_on && !pressed) { press_switch(); }
-	}
+	else if (!pressed && array_length(get_pressing_objects()) > 0) { press_switch(); }
 }
 
 // Update Switch Graphics and Sound

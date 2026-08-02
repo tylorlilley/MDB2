@@ -71,6 +71,7 @@ transition_timer = 0;
 frame_timer = 0;
 
 // Gameplay Variables
+blocked_switch_colors = [false, false, false];
 game_object_grid = [];
 pending_switch_colors = [];
 room_seed = random_get_seed();
