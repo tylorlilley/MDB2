@@ -37,6 +37,7 @@ global.room_keys = 0;
 global.keys_collected = 0;
 global.room_portals = 0;
 global.world_tint = c_white;
+global.mask_portals = true;
 
 // Debug Variables
 level_number = -1;

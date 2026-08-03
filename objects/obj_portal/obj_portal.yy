@@ -33,6 +33,7 @@
   "properties":[
     {"$GMObjectProperty":"v2","%Name":"linked_portal","filters":[],"listItems":[],"multiselect":false,"name":"linked_portal","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":4,},
     {"$GMObjectProperty":"v2","%Name":"portal_color","filters":[],"listItems":[],"multiselect":false,"name":"portal_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
+    {"$GMObjectProperty":"v2","%Name":"activation_time","filters":[],"listItems":[],"multiselect":false,"name":"activation_time","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"80","varType":1,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

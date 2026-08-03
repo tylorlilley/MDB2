@@ -1393,9 +1393,9 @@ update_player_collisions_at_position = function() {
 			}
 		}
 		else if (_inst.is_a(obj_portal) && _inst.activated) {
-			_inst.deactivate_portal(main_palette);
+			_inst.deactivate_portal(original_palette);
 			if (instance_exists(_inst.linked_portal)) {
-				_inst.linked_portal.deactivate_portal(main_palette);
+				_inst.linked_portal.deactivate_portal(original_palette);
 				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 				virtual_x = x;
 				virtual_y = y;
