@@ -1,33 +1,50 @@
-// Draw HUD Bars
-draw_set_valign(fa_top)
-draw_set_alpha(0.5);
-draw_set_color(c_black);
-draw_rectangle(0, 0, 256, 16, false);
-if (global.original_controls) {
-	draw_rectangle(0, 16, 8, 232, false);
-	draw_rectangle(248, 16, 256, 232, false);
-	draw_rectangle(0, 232, 256, 240, false);
-}
-draw_set_alpha(1);
-draw_set_color(c_white);
-draw_set_font(ft_teko);
-
-// Draw Winning Spotlight
-var _winning_player_x = noone;
-with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
-if (_winning_player_x != noone) {
-	// Create Spotlight Graphics
-	if (!surface_exists(transition_surface)) { transition_surface = surface_create(room_width, room_height); }
-	surface_set_target(transition_surface);
+if (!instance_exists(obj_transition_manager)) {
+	// Draw HUD Bars
+	draw_set_valign(fa_top)
+	draw_set_alpha(0.5);
 	draw_set_color(c_black);
-	draw_rectangle(0, 0, room_width, room_height, false);
-	gpu_set_blendequation(bm_eq_subtract);
-	draw_sprite_ext(spr_spotlight_mask, 0, _winning_player_x-16, 0, 1, 1, 0, c_white, 1);
-	gpu_set_blendequation(bm_eq_add);
-	surface_reset_target();
+	draw_rectangle(0, 0, 256, 16, false);
+	if (global.original_controls) {
+		draw_rectangle(0, 16, 8, 232, false);
+		draw_rectangle(248, 16, 256, 232, false);
+		draw_rectangle(0, 232, 256, 240, false);
+	}
+	draw_set_alpha(1);
+	draw_set_color(c_white);
+	draw_set_font(ft_teko);
+
+	// Draw Winning Spotlight
+	var _winning_player_x = noone;
+	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
+	if (_winning_player_x != noone) {
+		// Create Spotlight Graphics
+		if (!surface_exists(transition_surface)) { transition_surface = surface_create(room_width, room_height); }
+		surface_set_target(transition_surface);
+		draw_set_color(c_black);
+		draw_rectangle(0, 0, room_width, room_height, false);
+		gpu_set_blendequation(bm_eq_subtract);
+		draw_sprite_ext(spr_spotlight_mask, 0, _winning_player_x-16, 0, 1, 1, 0, c_white, 1);
+		gpu_set_blendequation(bm_eq_add);
+		surface_reset_target();
 		
-	// Draw Spotlight
-	draw_surface_ext(transition_surface, 0, 0, 1, 1, 0, c_white, 0.65);
+		// Draw Spotlight
+		draw_surface_ext(transition_surface, 0, 0, 1, 1, 0, c_white, 0.65);
+	}
+	
+	// Draw Level Text and Key Amounts
+	var _text_y_pos = -1, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
+	var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
+	draw_set_color(C_WHITE);
+	draw_text(((global.original_controls) ? 12 : 4), _text_y_pos, string(_world) + "-" + string(_level) + ": " + room_title);
+	draw_set_halign(fa_right);
+	draw_text(_text_x_pos, _text_y_pos, string(global.keys_collected) + "/" + string(global.room_keys));
+	draw_set_halign(fa_left);
+
+	main_palette = PALETTES.YELLOW;
+	shader_set(shd_palettizer);
+	set_shader_palette();
+	draw_sprite(spr_key_icon, 0, _text_x_pos, _text_y_pos+1);
+	shader_reset();
 }
 
 // Draw Debug Mask Highlights
@@ -45,21 +62,6 @@ if (draw_game_object_grid) {
 		}
 	}
 }
-
-// Draw Level Text and Key Amounts
-var _text_y_pos = -1, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
-var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
-draw_set_color(C_WHITE);
-draw_text(((global.original_controls) ? 12 : 4), _text_y_pos, string(_world) + "-" + string(_level) + ": " + room_title);
-draw_set_halign(fa_right);
-draw_text(_text_x_pos, _text_y_pos, string(global.keys_collected) + "/" + string(global.room_keys));
-draw_set_halign(fa_left);
-
-main_palette = PALETTES.YELLOW;
-shader_set(shd_palettizer);
-set_shader_palette();
-draw_sprite(spr_key_icon, 0, _text_x_pos, _text_y_pos+1);
-shader_reset();
 
 // Draw Transition
 if (transition_timer > TRANSITION_DELAY) {

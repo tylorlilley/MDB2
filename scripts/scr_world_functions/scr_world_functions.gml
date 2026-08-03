@@ -73,7 +73,7 @@ function build_background(_world) {
 			if (_world == WORLDS.NIGHT) { _sprite = bg_stars; global.world_tint = C_PURPLE_DARK; }
 			
 			// BG Sky Layer
-			var _sky_layer = layer_create(100, "Beach_Sky");
+			var _sky_layer = layer_create(800, "Beach_Sky");
 			var _sky_bg = layer_background_create(_sky_layer, _sprite);
 			layer_background_htiled(_sky_bg, true);
 			layer_background_vtiled(_sky_bg, true);
@@ -88,7 +88,7 @@ function build_background(_world) {
 			global.world_tint = C_RED_DARK;
 			
 			// BG Castle Layer
-			var _castle_layer = layer_create(100, "Castle_Background");
+			var _castle_layer = layer_create(800, "Castle_Background");
 			var _castle_bg = layer_background_create(_castle_layer, bg_castle);
 			layer_background_htiled(_castle_bg, true);
 			layer_background_vtiled(_castle_bg, true);
@@ -102,7 +102,7 @@ function build_background(_world) {
 			global.world_tint = C_TRASH_DARK;
 			
 			// BG Fence Layer
-			var _fence_layer = layer_create(100, "Factory_Fence");
+			var _fence_layer = layer_create(800, "Factory_Fence");
 			var _fence_bg = layer_background_create(_fence_layer, bg_fence);
 			layer_background_htiled(_fence_bg, true);
 			layer_background_vtiled(_fence_bg, true);
@@ -121,7 +121,7 @@ function build_background(_world) {
 			var _leaves_y = _canopy_y - sprite_get_height(bg_forest_canopy)
 			
 			// Background Leaves Layer
-			var _forest_leaves_layer = layer_create(100, "Forest_Leaves");
+			var _forest_leaves_layer = layer_create(800, "Forest_Leaves");
 			var _forest_leaves_bg = layer_background_create(_forest_leaves_layer, bg_forest_canopy);
 			layer_background_htiled(_forest_leaves_bg, true);
 			layer_background_speed(_forest_leaves_bg, 0);
@@ -130,7 +130,7 @@ function build_background(_world) {
 			layer_set_visible(_forest_leaves_layer, true);
 			
 			// Background Leaf Fringe Layer
-			var _forest_canopy_layer = layer_create(101, "Forest_Canopy");
+			var _forest_canopy_layer = layer_create(801, "Forest_Canopy");
 			var _forest_canopy_bg = layer_background_create(_forest_canopy_layer, bg_forest_leaves);
 			layer_background_htiled(_forest_canopy_bg, true);
 			layer_background_speed(_forest_canopy_bg, 2);
@@ -139,7 +139,7 @@ function build_background(_world) {
 			layer_set_visible(_forest_canopy_layer, true);
 			
 			// Background Tree Layer
-			var _forest_tress_layer = layer_create(102, "Forest_Trees");
+			var _forest_tress_layer = layer_create(802, "Forest_Trees");
 			var _forest_tresss_bg = layer_background_create(_forest_tress_layer, bg_forest_trees);
 			layer_background_htiled(_forest_tresss_bg, true);
 			layer_background_vtiled(_forest_tresss_bg, true);
@@ -277,6 +277,11 @@ function room_data(_room = room) {
 			{ rm: rm_old_w5_2, world: WORLDS.SKY_2,  title: "Warp Whiplash" },
 			{ rm: rm_old_w5_3, world: WORLDS.SKY_3,  title: "Tangerine Dreams" },
 			{ rm: rm_old_w5_4, world: WORLDS.SKY_4,  title: "Dusk Bowl" },
+			
+			// World Transition Cutscenes
+			{ rm: rm_t1, world: WORLDS.BEACH,  title: "From Beach to Forest" },
+			{ rm: rm_t2, world: WORLDS.FOREST,  title: "From Forest to Factory" },
+			{ rm: rm_t3, world: WORLDS.BEACH,  title: "From Factory to Fortress" },
 		];
 
 		_index = {};

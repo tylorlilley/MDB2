@@ -761,6 +761,10 @@
     {"name":"inst_1A84B7BB","path":"rooms/rm_old_w3_7/rm_old_w3_7.yy",},
     {"name":"inst_6B9B2121","path":"rooms/rm_old_w3_7/rm_old_w3_7.yy",},
     {"name":"inst_CB0A63","path":"rooms/rm_old_w3_7/rm_old_w3_7.yy",},
+    {"name":"inst_BG003777","path":"rooms/rm_old_w3_7/rm_old_w3_7.yy",},
+    {"name":"inst_BG003778","path":"rooms/rm_old_w3_7/rm_old_w3_7.yy",},
+    {"name":"inst_BG003779","path":"rooms/rm_old_w3_7/rm_old_w3_7.yy",},
+    {"name":"inst_BG003780","path":"rooms/rm_old_w3_7/rm_old_w3_7.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -1521,6 +1525,12 @@
         {"$GMRInstance":"v4","%Name":"inst_6B9B2121","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6B9B2121","objectId":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":0.0,"y":240.0,},
         {"$GMRInstance":"v4","%Name":"inst_CB0A63","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_CB0A63","objectId":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":8.0,"y":240.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
+    {"$GMRInstanceLayer":"","%Name":"Background_Instances","depth":100,"effectEnabled":true,"effectType":null,"gridX":8,"gridY":8,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
+        {"$GMRInstance":"v4","%Name":"inst_BG003777","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003777","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":16.0,"y":176.0,},
+        {"$GMRInstance":"v4","%Name":"inst_BG003778","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003778","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":24.0,"y":176.0,},
+        {"$GMRInstance":"v4","%Name":"inst_BG003779","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003779","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":16.0,"y":184.0,},
+        {"$GMRInstance":"v4","%Name":"inst_BG003780","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003780","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":24.0,"y":184.0,},
+      ],"layers":[],"name":"Background_Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_old_w3_7",
   "parent":{

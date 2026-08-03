@@ -1716,8 +1716,8 @@
   ],
   "name":"rm_robot_test",
   "parent":{
-    "name":"MDB",
-    "path":"folders/Rooms/Translated Rooms/MDB.yy",
+    "name":"Translated Rooms",
+    "path":"folders/Rooms/Translated Rooms.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

@@ -717,6 +717,10 @@
     {"name":"inst_22AD2F05","path":"rooms/rm_old_w3_8/rm_old_w3_8.yy",},
     {"name":"inst_4CECB92F","path":"rooms/rm_old_w3_8/rm_old_w3_8.yy",},
     {"name":"inst_2315477D","path":"rooms/rm_old_w3_8/rm_old_w3_8.yy",},
+    {"name":"inst_BG003781","path":"rooms/rm_old_w3_8/rm_old_w3_8.yy",},
+    {"name":"inst_BG003782","path":"rooms/rm_old_w3_8/rm_old_w3_8.yy",},
+    {"name":"inst_BG003783","path":"rooms/rm_old_w3_8/rm_old_w3_8.yy",},
+    {"name":"inst_BG003784","path":"rooms/rm_old_w3_8/rm_old_w3_8.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -1439,6 +1443,12 @@
         {"$GMRInstance":"v4","%Name":"inst_4CECB92F","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_4CECB92F","objectId":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":0.0,"y":240.0,},
         {"$GMRInstance":"v4","%Name":"inst_2315477D","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_2315477D","objectId":{"name":"obj_metal","path":"objects/obj_metal/obj_metal.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":8.0,"y":240.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
+    {"$GMRInstanceLayer":"","%Name":"Background_Instances","depth":100,"effectEnabled":true,"effectType":null,"gridX":8,"gridY":8,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
+        {"$GMRInstance":"v4","%Name":"inst_BG003781","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003781","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":240.0,"y":80.0,},
+        {"$GMRInstance":"v4","%Name":"inst_BG003782","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003782","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":248.0,"y":80.0,},
+        {"$GMRInstance":"v4","%Name":"inst_BG003783","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003783","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":240.0,"y":88.0,},
+        {"$GMRInstance":"v4","%Name":"inst_BG003784","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_BG003784","objectId":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":248.0,"y":88.0,},
+      ],"layers":[],"name":"Background_Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_old_w3_8",
   "parent":{

@@ -156,7 +156,7 @@ with (obj_dynamic_object) { update_virtual_y_offset(); }
 
 // Handle Transition Code
 var _controllable_player_exists = false;
-with (obj_player) { if (can_be_controlled) { _controllable_player_exists = true; } }
+with (obj_player) { if (can_be_controlled || instance_exists(obj_transition_manager)) { _controllable_player_exists = true; } }
 
 if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 1; }
 else if (transition_timer > 0) {
@@ -174,7 +174,9 @@ else if (transition_timer > 0) {
 // Create Win Sparkles
 var _winning_player_x = noone, _door_open = true;
 with (obj_door) { if (image_index >= 2) { _door_open = false; } }
-with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
-if (_winning_player_x != noone && _door_open && irandom(2) == 0) {
-	create_particles(1, PARTICLE_TYPES.CONFETTI, PALETTES.GRAY_LIGHT, _winning_player_x+8, -2);
+if (!instance_exists(obj_transition_manager)) {
+	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
+	if (_winning_player_x != noone && _door_open && irandom(2) == 0) {
+		create_particles(1, PARTICLE_TYPES.CONFETTI, PALETTES.GRAY_LIGHT, _winning_player_x+8, -2);
+	}
 }
