@@ -1381,7 +1381,7 @@ update_player_collisions_at_position = function() {
 		if (!instance_exists(_inst)) { continue; }
 		
 		if (_inst.is_a(obj_door)) {
-			if ((can_be_controlled || instance_exists(obj_transition_manager)) && _inst.image_index > 0 && _inst.is_fully_on_ground() && state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
+			if (can_be_controlled && _inst.image_index > 0 && _inst.is_fully_on_ground() && state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
 				start_winning();
 				stop_music();
 				play_sound(snd_level_clear);

@@ -55,7 +55,8 @@
   },
   "name":"MDB2",
   "resources":[
-    {"id":{"name":"ft_teko","path":"fonts/ft_teko/ft_teko.yy",},},
+    {"id":{"name":"ft_block_blueprint","path":"fonts/ft_block_blueprint/ft_block_blueprint.yy",},},
+    {"id":{"name":"ft_nirmala_ui","path":"fonts/ft_nirmala_ui/ft_nirmala_ui.yy",},},
     {"id":{"name":"TODO","path":"notes/TODO/TODO.yy",},},
     {"id":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},},
     {"id":{"name":"obj_block_blue","path":"objects/obj_block_blue/obj_block_blue.yy",},},

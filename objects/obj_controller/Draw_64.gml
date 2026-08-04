@@ -9,11 +9,9 @@ if (!instance_exists(obj_transition_manager)) {
 		draw_rectangle(248, 16, 256, 232, false);
 		draw_rectangle(0, 232, 256, 240, false);
 	}
-	draw_set_alpha(1);
-	draw_set_color(c_white);
-	draw_set_font(ft_teko);
 
 	// Draw Winning Spotlight
+	draw_set_alpha(1);
 	var _winning_player_x = noone;
 	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
 	if (_winning_player_x != noone) {
@@ -32,18 +30,22 @@ if (!instance_exists(obj_transition_manager)) {
 	}
 	
 	// Draw Level Text and Key Amounts
-	var _text_y_pos = -1, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
+	var _text_y_pos = -2, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
 	var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
+	
+	draw_set_alpha(1);
+	draw_set_font(ft_nirmala_ui);
 	draw_set_color(C_WHITE);
+	draw_set_halign(fa_left);
+	
 	draw_text(((global.original_controls) ? 12 : 4), _text_y_pos, string(_world) + "-" + string(_level) + ": " + room_title);
 	draw_set_halign(fa_right);
 	draw_text(_text_x_pos, _text_y_pos, string(global.keys_collected) + "/" + string(global.room_keys));
-	draw_set_halign(fa_left);
 
 	main_palette = PALETTES.YELLOW;
 	shader_set(shd_palettizer);
 	set_shader_palette();
-	draw_sprite(spr_key_icon, 0, _text_x_pos, _text_y_pos+1);
+	draw_sprite(spr_key_icon, 0, _text_x_pos, 0);
 	shader_reset();
 }
 
