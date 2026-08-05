@@ -7,6 +7,7 @@ enum TITLE_STATES {
 event_inherited();
 
 state = TITLE_STATES.BEGIN;
+camera_speed = 0;
 
 key_right = false;
 key_left = false;
