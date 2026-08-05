@@ -32,6 +32,7 @@ switch (state) {
 				var _bounce_speed = [4, 2, 1][bounce_count];
 				camera_speed = -_bounce_speed;
 				bounce_count += 1;
+				play_sound(snd_soft_thud);
 			}
 		}
 		else { camera_speed += 0.5 }
