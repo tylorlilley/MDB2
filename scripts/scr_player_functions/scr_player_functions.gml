@@ -474,7 +474,9 @@ update_player_state = function() {
 	prev_state = state;
 
 	// Check Controls
-	update_controls(object_index == obj_mirror_player);
+	var _transition_manager_exists = false;
+	with (obj_transition_manager) { _transition_manager_exists = true; }
+	if (!_transition_manager_exists) { update_controls(object_index == obj_mirror_player); }
 	
 	// Restart Room
 	if (key_restart) { instance_destroy(); exit; }

@@ -1,5 +1,3 @@
-display_set_gui_maximise();
-
 draw_set_color(C_BLACK);
 draw_set_font(ft_nirmala_ui);
 draw_set_halign(fa_left);

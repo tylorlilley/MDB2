@@ -33,7 +33,7 @@ state_durations = [
 ];
 
 transition_timer = 0;
-depth = global.controller.depth - 1;
+depth = -10;
 global.controller.level_number--;
 transition_max = 240;
 

@@ -45,7 +45,9 @@ show_debug_gui = false;
 draw_game_object_grid = false;
 
 // Set Up Game Window
-window_set_size(256*3, 240*3);
+var _window_width = 256*3, _window_height = 240*3, _display_width = display_get_width(), _display_height = display_get_height();
+window_set_size(_window_width, _window_height);
+window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
 window_set_fullscreen(false);
 
