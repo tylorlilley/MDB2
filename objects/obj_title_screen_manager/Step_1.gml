@@ -21,23 +21,23 @@ with (obj_player) {
 // Tackle Input
 switch (state) {
 	case TITLE_STATES.BEGIN: {
-		if (key_up || key_down ||  key_left || key_right || key_jump || key_restart) { state = TITLE_STATES.PAN_OVER; }
+		if (key_up || key_down ||  key_left || key_right || key_jump || key_restart) { play_sound(snd_key); state = TITLE_STATES.PAN_OVER; }
 		break;
 	}
 	case TITLE_STATES.PAN_OVER: {
-		var _view_x_pos = camera_get_view_x(view_camera[0]), _view_y_pos = camera_get_view_y(view_camera[0]);
-		var _bounce_offset = (3-bounce_count) * 2;
-		if (_view_x_pos >= 72 && bounce_count >= 3) { states = TITLE_STATES.MAIN_MENU; }
-		else {
-			if (_view_x_pos >= 74) {
-				camera_speed = -_bounce_offset;
+		var _view_y_pos = camera_get_view_y(view_camera[0]), _target_x_pos = 74;
+		if (camera_x >= _target_x_pos) {
+			if (bounce_count >= 3) { state = TITLE_STATES.MAIN_MENU; }
+			else {
+				var _bounce_speed = [4, 2, 1][bounce_count];
+				camera_speed = -_bounce_speed;
 				bounce_count += 1;
 			}
-			else {
-				camera_speed = min(camera_speed+1, 8);
-			}
-			camera_set_view_pos(view_camera[0], _view_x_pos + _bounce_offset, _view_y_pos);
 		}
+		else { camera_speed += 0.5 }
+		
+		camera_x += camera_speed;
+		camera_set_view_pos(view_camera[0], camera_x, _view_y_pos);
 	
 		break;
 	}

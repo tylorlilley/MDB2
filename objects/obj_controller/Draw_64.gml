@@ -30,7 +30,7 @@ if (instance_number(obj_transition_manager) == 0) {
 	}
 	
 	// Draw Level Text and Key Amounts
-	var _text_y_pos = 2, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
+	var _text_y_pos = 1, _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
 	var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
 	
 	draw_set_alpha(1);
@@ -45,7 +45,7 @@ if (instance_number(obj_transition_manager) == 0) {
 	main_palette = PALETTES.YELLOW;
 	shader_set(shd_palettizer);
 	set_shader_palette();
-	draw_sprite(spr_key_icon, 0, _text_x_pos, -2);
+	draw_sprite(spr_key_icon, 0, _text_x_pos, -1);
 	shader_reset();
 }
 
