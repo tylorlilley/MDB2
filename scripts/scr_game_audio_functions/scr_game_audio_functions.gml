@@ -18,6 +18,7 @@ function play_sound(_snd_index, _sound_x = x) {
 }
 
 function stop_music() {
+	audio_stop_sound(bgm_title);
 	audio_stop_sound(bgm_w1);
 	audio_stop_sound(bgm_w2);
 	audio_stop_sound(bgm_w3);

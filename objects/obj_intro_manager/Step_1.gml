@@ -5,7 +5,10 @@ if (transition_timer == 40 && room == rm_intro) { instance_create(room_width/2 -
 
 with (obj_static_area) { should_draw = false; particle_palette = PALETTES.ALL_WHITE; }
 with (obj_door) { visible = false; }
-with (obj_player) { key_right = false; }
+with (obj_player) {
+	key_right = false;
+	if (state == PLAYER_STATES.WIN && other.bgm == noone) { other.bgm = audio_play_sound(bgm_title, 100, true); }
+}
 
 if (instance_number(obj_sand) == 0 && !made_particles) {
 	made_particles = true;

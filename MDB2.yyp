@@ -117,6 +117,7 @@
     {"id":{"name":"obj_switch_yellow_up","path":"objects/obj_switch_yellow_up/obj_switch_yellow_up.yy",},},
     {"id":{"name":"obj_switch","path":"objects/obj_switch/obj_switch.yy",},},
     {"id":{"name":"obj_tile","path":"objects/obj_tile/obj_tile.yy",},},
+    {"id":{"name":"obj_title_screen_manager","path":"objects/obj_title_screen_manager/obj_title_screen_manager.yy",},},
     {"id":{"name":"obj_tough_cloud","path":"objects/obj_tough_cloud/obj_tough_cloud.yy",},},
     {"id":{"name":"obj_transition_manager","path":"objects/obj_transition_manager/obj_transition_manager.yy",},},
     {"id":{"name":"obj_tree","path":"objects/obj_tree/obj_tree.yy",},},
@@ -221,6 +222,7 @@
     {"id":{"name":"rm_t3","path":"rooms/rm_t3/rm_t3.yy",},},
     {"id":{"name":"rm_test_terrain","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},},
     {"id":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},},
+    {"id":{"name":"rm_title","path":"rooms/rm_title/rm_title.yy",},},
     {"id":{"name":"rm_tt1","path":"rooms/rm_tt1/rm_tt1.yy",},},
     {"id":{"name":"rm_tt2","path":"rooms/rm_tt2/rm_tt2.yy",},},
     {"id":{"name":"rm_tt3","path":"rooms/rm_tt3/rm_tt3.yy",},},
@@ -475,6 +477,7 @@
   "RoomOrderNodes":[
     {"roomId":{"name":"rm_controller","path":"rooms/rm_controller/rm_controller.yy",},},
     {"roomId":{"name":"rm_intro","path":"rooms/rm_intro/rm_intro.yy",},},
+    {"roomId":{"name":"rm_title","path":"rooms/rm_title/rm_title.yy",},},
     {"roomId":{"name":"rm_mdb_1_1","path":"rooms/rm_mdb_1_1/rm_mdb_1_1.yy",},},
     {"roomId":{"name":"rm_mdb_1_2","path":"rooms/rm_mdb_1_2/rm_mdb_1_2.yy",},},
     {"roomId":{"name":"rm_mdb_1_3","path":"rooms/rm_mdb_1_3/rm_mdb_1_3.yy",},},

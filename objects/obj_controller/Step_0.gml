@@ -155,21 +155,23 @@ with (obj_player) {
 with (obj_dynamic_object) { update_virtual_y_offset(); }
 
 // Handle Transition Code
-var _controllable_player_exists = false;
+var _controllable_player_exists = false, _transition_manager_exists = false;
 with (obj_player) { if (can_be_controlled) { _controllable_player_exists = true; } }
-with (obj_transition_manager) { _controllable_player_exists = true; }
+with (obj_transition_manager) { _controllable_player_exists = true; _transition_manager_exists = true; }
 
 if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 1; }
 else if (transition_timer > 0) {
 	transition_timer++;
 	
 	if (transition_timer == TRANSITION_DELAY) { play_sound(snd_fade_out); }
-	else if (transition_timer == TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { 
+	if (transition_timer == TRANSITION_DELAY + TRANSITION_DURATION && _transition_manager_exists) { transition_timer += TRANSITION_HOLD; }
+	if (transition_timer == TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { 
 		if (!_controllable_player_exists) { reset_room(); }
 		else { transition_room((room == rm_intro_eih) ? room_next(rm_intro) : room_next(room), true); }
 		play_sound(snd_fade_in);
 	}
-	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); transition_surface = noone; } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
+	 if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY ||
+		 (_transition_manager_exists && transition_timer == TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD)) { transition_timer = 0; surface_free(transition_surface); transition_surface = noone; } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level
 }
 
 // Create Win Sparkles
