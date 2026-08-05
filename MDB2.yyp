@@ -56,7 +56,10 @@
   "name":"MDB2",
   "resources":[
     {"id":{"name":"ft_block_blueprint","path":"fonts/ft_block_blueprint/ft_block_blueprint.yy",},},
-    {"id":{"name":"ft_nirmala_ui","path":"fonts/ft_nirmala_ui/ft_nirmala_ui.yy",},},
+    {"id":{"name":"ft_nirmala","path":"fonts/ft_nirmala/ft_nirmala.yy",},},
+    {"id":{"name":"ft_pixel_zone","path":"fonts/ft_pixel_zone/ft_pixel_zone.yy",},},
+    {"id":{"name":"ft_pixel","path":"fonts/ft_pixel/ft_pixel.yy",},},
+    {"id":{"name":"ft_title","path":"fonts/ft_title/ft_title.yy",},},
     {"id":{"name":"TODO","path":"notes/TODO/TODO.yy",},},
     {"id":{"name":"obj_bg_dirt","path":"objects/obj_bg_dirt/obj_bg_dirt.yy",},},
     {"id":{"name":"obj_block_blue","path":"objects/obj_block_blue/obj_block_blue.yy",},},

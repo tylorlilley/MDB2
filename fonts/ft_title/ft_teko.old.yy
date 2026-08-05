@@ -1,6 +1,6 @@
 {
   "$GMFont":"",
-  "%Name":"ft_block_blueprint",
+  "%Name":"ft_teko",
   "AntiAlias":0,
   "applyKerning":0,
   "ascender":13,
@@ -117,7 +117,7 @@
   "last":0,
   "lineHeight":16,
   "maintainGms1Font":false,
-  "name":"ft_block_blueprint",
+  "name":"ft_teko",
   "parent":{
     "name":"MDB2",
     "path":"MDB2.yyp",

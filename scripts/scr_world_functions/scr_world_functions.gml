@@ -263,7 +263,7 @@ function room_data(_room = room) {
 			{ rm: rm_old_w3_8, world: WORLDS.FACTORY,  title: "Primary Colors" },
 			
 			// Classic World 4
-			{ rm: rm_old_w4_1, world: WORLDS.CASTLE,  title: "Patroling the Labyrinth" },
+			{ rm: rm_old_w4_1, world: WORLDS.CASTLE,  title: "Patrol the Labyrinth" }, // OG: Patroling the Labyrinth
 			{ rm: rm_old_w4_2, world: WORLDS.CASTLE,  title: "Living Key Soldiers" },
 			{ rm: rm_old_w4_3, world: WORLDS.CASTLE,  title: "The Barracks" },
 			{ rm: rm_old_w4_4, world: WORLDS.CASTLE,  title: "Follow the Leader" },

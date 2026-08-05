@@ -25,10 +25,18 @@ switch (state) {
 		break;
 	}
 	case TITLE_STATES.PAN_OVER: {
-		if (view_get_xport(0) >= 64) { states = TITLE_STATES.MAIN_MENU; }
+		var _view_x_pos = camera_get_view_x(view_camera[0]), _view_y_pos = camera_get_view_y(view_camera[0]);
+		var _bounce_offset = (3-bounce_count) * 2;
+		if (_view_x_pos >= 72 && bounce_count >= 3) { states = TITLE_STATES.MAIN_MENU; }
 		else {
-			if (camera_speed < 8) { camera_speed++; }
-			view_set_xport(0, view_get_xport(0)-camera_speed);
+			if (_view_x_pos >= 74) {
+				camera_speed = -_bounce_offset;
+				bounce_count += 1;
+			}
+			else {
+				camera_speed = min(camera_speed+1, 8);
+			}
+			camera_set_view_pos(view_camera[0], _view_x_pos + _bounce_offset, _view_y_pos);
 		}
 	
 		break;

@@ -16,7 +16,7 @@ if (global.controller.show_debug_gui) {
 	}
 
 	draw_set_halign(fa_left);
-	draw_set_font(ft_nirmala_ui);
+	draw_set_font(ft_pixel);
 	draw_set_color(c_white);
 	draw_text(4, room_height-44, "Cape State: " + cape_state_string + " " + string(cape_timer));
 	draw_text(4, room_height-32, "Player State: " + player_state_string + " " + player_timer_string);
