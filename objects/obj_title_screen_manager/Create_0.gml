@@ -1,3 +1,16 @@
+enum TITLE_STATES {
+	BEGIN,
+	PAN_OVER,
+	MAIN_MENU
+}
+
 event_inherited();
 
-//audio_play_sound(bgm_title, 100, true);
+state = TITLE_STATES.BEGIN;
+
+key_right = false;
+key_left = false;
+key_up = false;
+key_down = false;
+key_jump = false;
+key_restart = false;
