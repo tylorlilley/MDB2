@@ -1,4 +1,4 @@
-if (!instance_exists(obj_transition_manager)) {
+if (instance_number(obj_transition_manager) == 0) {
 	// Draw HUD Bars
 	draw_set_valign(fa_top)
 	draw_set_alpha(0.5);

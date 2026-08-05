@@ -45,7 +45,7 @@ show_debug_gui = false;
 draw_game_object_grid = false;
 
 // Set Up Game Window
-window_set_size(256*4, 240*4);
+window_set_size(256*3, 240*3);
 window_enable_borderless_fullscreen(true);
 window_set_fullscreen(false);
 
@@ -108,4 +108,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_mdb_1_1, true); //rm_test_terrain
+transition_room(rm_intro, true); //rm_test_terrain
