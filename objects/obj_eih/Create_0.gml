@@ -1,6 +1,5 @@
 event_inherited();
 
-depth = -99999;
 hits = 1;
 particle_palette = PALETTES.ALL_WHITE;
 walk_timer = 0;

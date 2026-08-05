@@ -127,6 +127,7 @@
     {"id":{"name":"rm_area_test","path":"rooms/rm_area_test/rm_area_test.yy",},},
     {"id":{"name":"rm_controller","path":"rooms/rm_controller/rm_controller.yy",},},
     {"id":{"name":"rm_forest_background","path":"rooms/rm_forest_background/rm_forest_background.yy",},},
+    {"id":{"name":"rm_intro_eih","path":"rooms/rm_intro_eih/rm_intro_eih.yy",},},
     {"id":{"name":"rm_intro","path":"rooms/rm_intro/rm_intro.yy",},},
     {"id":{"name":"rm_ladder_test","path":"rooms/rm_ladder_test/rm_ladder_test.yy",},},
     {"id":{"name":"rm_mdb_1_1","path":"rooms/rm_mdb_1_1/rm_mdb_1_1.yy",},},
@@ -454,6 +455,7 @@
     {"id":{"name":"spr_tough_cloud_area","path":"sprites/spr_tough_cloud_area/spr_tough_cloud_area.yy",},},
     {"id":{"name":"spr_tough_cloud_fuzzing","path":"sprites/spr_tough_cloud_fuzzing/spr_tough_cloud_fuzzing.yy",},},
     {"id":{"name":"spr_tough_cloud_outline","path":"sprites/spr_tough_cloud_outline/spr_tough_cloud_outline.yy",},},
+    {"id":{"name":"spr_transition_circle","path":"sprites/spr_transition_circle/spr_transition_circle.yy",},},
     {"id":{"name":"spr_transition_mask","path":"sprites/spr_transition_mask/spr_transition_mask.yy",},},
     {"id":{"name":"spr_water_outline","path":"sprites/spr_water_outline/spr_water_outline.yy",},},
     {"id":{"name":"spr_wood_fuzzing","path":"sprites/spr_wood_fuzzing/spr_wood_fuzzing.yy",},},
@@ -578,6 +580,7 @@
     {"roomId":{"name":"rm_forest_background","path":"rooms/rm_forest_background/rm_forest_background.yy",},},
     {"roomId":{"name":"rm_test_terrain","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},},
     {"roomId":{"name":"rm_robot_test","path":"rooms/rm_robot_test/rm_robot_test.yy",},},
+    {"roomId":{"name":"rm_intro_eih","path":"rooms/rm_intro_eih/rm_intro_eih.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

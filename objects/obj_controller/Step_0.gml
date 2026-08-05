@@ -166,7 +166,7 @@ else if (transition_timer > 0) {
 	if (transition_timer == TRANSITION_DELAY) { play_sound(snd_fade_out); }
 	else if (transition_timer == TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { 
 		if (!_controllable_player_exists) { reset_room(); }
-		else { transition_room(room_next(room), true); }
+		else { transition_room((room == rm_intro_eih) ? room_next(rm_intro) : room_next(room), true); }
 		play_sound(snd_fade_in);
 	}
 	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); transition_surface = noone; } //audio_play_sound(snd_bgm_w1, 100, true); } // TODO: Vary by level

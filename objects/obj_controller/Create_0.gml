@@ -108,4 +108,5 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-transition_room(rm_intro, true); //rm_test_terrain
+var _initial_room = rm_intro//(irandom(100) == 0) ? rm_intro_eih : rm_intro;
+transition_room(_initial_room, true); //rm_test_terrain

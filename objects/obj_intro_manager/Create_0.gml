@@ -1,4 +1,5 @@
 event_inherited();
 
-
-transition_max = 320;
+intro_string = "Tylor Lilley Presents"
+transition_max = (room == rm_intro_eih) ? 360 : 180;
+made_particles = false;
