@@ -75,7 +75,6 @@ with (obj_game_object) {
 	}
 }
 
-
 // Detect Switch Presses
 with (obj_switch) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
@@ -88,7 +87,11 @@ with (obj_switch) {
 	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
 	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
 }
-with (obj_key) { if (shine_timer == 0) { reset_shine_timer(); } }
+with (obj_key) {
+	if (shine_timer == 0) { reset_shine_timer(); }
+	sway_timer++;
+	if (sway_timer > 32) { sway_timer = -(irandom(60) + 60); }
+}
 with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else if (image_index == 0) {

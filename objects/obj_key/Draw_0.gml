@@ -12,17 +12,12 @@ for (var _i = 0; _i < array_length(_keys_at_position); _i++) {
 // Draw Full Set of Keys Once
 if (_key_position == 0) {
 	// Sway Back and Forth
-	var _sprite_x_center = sprite_get_width(sprite_index) / 2, _sprite_y_center = sprite_get_height(sprite_index) / 2;
-	var _radius = point_distance(0, 0, _sprite_x_center, _sprite_y_center);
 	set_shader_palette((shine_timer == 1) ? PALETTES.ALL_WHITE : main_palette);
 	
 	var _keys_to_draw = min(_total_keys, 5), _offsets_for_total_keys = draw_offsets[_keys_to_draw-1];
 	for (var _i = 0; _i < _keys_to_draw; _i++) {
 		var _offset = _offsets_for_total_keys[_i], _angle_offset = _i * 2;
-		var _angle = 15 * dsin(clamp(sway_timer + _angle_offset, 0, 24) * 15);
-		var _direction = point_direction(0, 0, -_sprite_x_center, -_sprite_y_center) + _angle;
-		
-		draw_sprite_ext(sprite_index, image_index, x + _offset + _sprite_x_center + lengthdir_x(_radius, _direction), y + _offset + _sprite_y_center + lengthdir_y(_radius, _direction), 1, 1, _angle, image_blend, image_alpha);
+		draw_sprite_swaying(sprite_index, image_index, sway_timer, x + _offset, y + _offset, image_blend, image_alpha, _angle_offset);
 	}
 }
 

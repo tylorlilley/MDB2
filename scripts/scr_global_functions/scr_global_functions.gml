@@ -88,10 +88,23 @@ function grid_array_first(_array) {
 	return (array_length(_array) > 0) ? _array[0] : noone;
 }
 
+function get_shake_value(_shake_magnitude) {
+	return (irandom(1 + (_shake_magnitude div 2)) * ((irandom(1) == 0) ? -1 : 1));
+}
+
 function draw_sprite_silhoutte(_sprite_index, _image_index, _x, _y, _image_xscale, _image_yscale, _image_angle, _silhoutte_color, _image_alpha) {
 	gpu_set_fog(true, _silhoutte_color, 0, 0);
 	draw_sprite_ext(_sprite_index, _image_index, _x, _y, _image_xscale, _image_yscale, _image_angle, _silhoutte_color, _image_alpha);
 	gpu_set_fog(false, _silhoutte_color, 0, 0);
+}
+
+function draw_sprite_swaying(_sprite_index, _image_index, _sway_value, _x, _y, _image_blend, _image_alpha, _angle_offset = 0) {
+	var _sprite_x_center = sprite_get_width(_sprite_index) / 2, _sprite_y_center = sprite_get_height(_sprite_index) / 2;
+	var _radius = point_distance(0, 0, _sprite_x_center, _sprite_y_center);
+	var _angle = 15 * dsin(clamp(_sway_value + _angle_offset, 0, 24) * 15);
+	var _direction = point_direction(0, 0, -_sprite_x_center, -_sprite_y_center) + _angle;
+		
+	draw_sprite_ext(_sprite_index, _image_index, _x + _sprite_x_center + lengthdir_x(_radius, _direction), _y + _sprite_y_center + lengthdir_y(_radius, _direction), 1, 1, _angle, _image_blend, _image_alpha);
 }
 
 function set_shader_palette(_palette_to_use = undefined) {
