@@ -11,7 +11,7 @@ bgm = noone;
 part_damaged = function(_inst) { } // Do Nothing
 
 part_destroyed = function(_inst) {
-	with (obj_particle) { instance_destroy(false); }
+	with (obj_particle) { instance_destroy(); }
 	
 	var _intro_string_length = string_width(intro_string)
 	show_debug_message(_intro_string_length);

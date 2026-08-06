@@ -45,11 +45,11 @@ show_debug_gui = false;
 draw_game_object_grid = false;
 
 // Set Up Game Window
-var _window_width = 256*3, _window_height = 240*3, _display_width = display_get_width(), _display_height = display_get_height();
+var _window_width = 256*4, _window_height = 240*4, _display_width = display_get_width(), _display_height = display_get_height();
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(false);
+window_set_fullscreen(true);
 
 // Set Up Game Audio
 frame_sounds = [];
@@ -111,4 +111,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
 var _initial_room = rm_intro//(irandom(100) == 0) ? rm_intro_eih : rm_intro;
-transition_room(_initial_room, true); //rm_test_terrain
+transition_room(rm_intro_eih, true); //rm_test_terrain

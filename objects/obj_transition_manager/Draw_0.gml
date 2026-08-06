@@ -5,8 +5,8 @@ draw_rectangle(0, 0, room_width, _bar_height, false);
 draw_rectangle(0, _bar_height * 3, room_width, room_height, false);
 
 // Setup for Drawing Text
-var _top_base = "Now Leaving", _top_extra = "... " + from_string, _top_y = _bar_height - 24;
-var _bottom_base = "Now Entering", _bottom_extra = "... " + to_string, _bottom_y = (_bar_height * 3);// + 24;
+var _top_base = "Leaving", _top_extra = "... " + from_string, _top_y = _bar_height - 24;
+var _bottom_base = "Entering", _bottom_extra = "... " + to_string, _bottom_y = (_bar_height * 3);// + 24;
 draw_set_color(C_WHITE);
 draw_set_font(ft_pixel);
 draw_set_halign(fa_left);

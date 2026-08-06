@@ -469,6 +469,14 @@ can_start_laddering = function() {
 	return (!is_crushed_state() && at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder));
 }
 
+can_start_climbing = function() {
+	var _prev_y = y;
+	grid_move_to(x, y - GRID_SIZE);
+	var _can_climb = instance_exists(get_climbed_object());
+	grid_move_to(x, _prev_y);
+	return _can_climb;
+}
+
 // Main Functions
 update_player_state = function() {
 	prev_state = state;
@@ -702,16 +710,10 @@ update_player_state = function() {
 					if (transition_timer == 0) {
 						if (should_start_laddering()) { start_laddering(); }
 						else if (key_left || key_right) {
-							// Determine if Can Climb
-							var _prev_y = y;
-							grid_move_to(x, y - GRID_SIZE);
-							var _can_climb = instance_exists(get_climbed_object());
-							grid_move_to(x, _prev_y);
-							
 							// Determine if Can Hop
 							var _diagonal_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects(), _under_diagonal_ceiling = (array_length(_diagonal_ceiling_objects) > 0);
 							var _can_walk = (is_on_ground() || air_walk)  && ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
-							var _can_hop_up = !is_under_ceiling() && (key_jump || (_can_climb && global.original_controls));
+							var _can_hop_up = !is_under_ceiling() && (key_jump || (can_start_climbing() && global.original_controls));
 							var _can_hop_forward = _can_walk && _can_hop_up && !_under_diagonal_ceiling && !global.original_controls;
 							
 							if (_can_hop_forward) {
@@ -875,10 +877,11 @@ update_player_state = function() {
 						state = PLAYER_STATES.LADDER_DOWN;
 						play_sound(snd_player_ladder_step);
 					}
-					//else if (key_down && !can_ladder_down(_closest_ladder)) { start_standing(); }
 					else if ((key_left || key_right) && (is_on_ground() && !is_inside_solid())) {
 						is_left = key_left;
+						
 						if ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right()) { start_walking(); }
+						else if (can_start_climbing() && !is_under_ceiling()) { start_hopping(false); }
 						else { state = PLAYER_STATES.LADDER; }
 					}
 					else { state = PLAYER_STATES.LADDER; }

@@ -6,7 +6,7 @@ global.world_tint = c_white;
 build_background(room_world);
 var _transition_room = false;
 with (obj_transition_manager) { _transition_room = true; }
-if (!build_background) { play_music(room_world); }
+if (!_transition_room) { play_music(room_world); }
 
 // Spawn Background Layers
 if (instance_number(obj_bg_dirt) > 1) {

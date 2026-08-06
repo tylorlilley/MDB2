@@ -1,6 +1,6 @@
 #macro TRANSITION_WAIT_TIME		16
 #macro TRANSITION_FLY_TIME		24
-#macro TRANSITION_SCRAWL_TIME	32
+#macro TRANSITION_SCRAWL_TIME	48
 #macro TRANSITION_REVEAL_WINDOW	0.5
 #macro TRANSITION_CRAWL_OFFSET	0
 #macro TRANSITION_GAP_FRAMES	4
@@ -35,7 +35,7 @@ state_durations = [
 transition_timer = 0;
 depth = -10;
 global.controller.level_number--;
-transition_max = 240;
+transition_max = 264;
 
 transition_revealed_length = function(_name, _progress) {
 	var _prefix_length = string_length(TRANSITION_ELLIPSIS), _total = _prefix_length + string_length(_name);
