@@ -1,15 +1,15 @@
 {
   "$GMFont":"",
-  "%Name":"ft_nirmala_ui_1",
+  "%Name":"ft_pixel_zone",
   "AntiAlias":0,
   "applyKerning":0,
   "ascender":14,
   "ascenderOffset":0,
-  "bold":true,
+  "bold":false,
   "canGenerateBitmap":true,
   "charset":0,
   "first":0,
-  "fontName":"Nirmala UI",
+  "fontName":"Pixelzone",
   "glyphOperations":0,
   "glyphs":{
     "32":{"character":32,"h":18,"offset":0,"shift":4,"w":4,"x":2,"y":2,},
@@ -117,7 +117,7 @@
   "last":0,
   "lineHeight":18,
   "maintainGms1Font":false,
-  "name":"ft_nirmala_ui_1",
+  "name":"ft_pixel_zone",
   "parent":{
     "name":"MDB2",
     "path":"MDB2.yyp",
@@ -132,8 +132,8 @@
   "resourceVersion":"2.0",
   "sampleText":"abcdef ABCDEF\n0123456789 .,<>\"'&!?\nthe quick brown fox jumps over the lazy dog\nTHE QUICK BROWN FOX JUMPS OVER THE LAZY DOG\nDefault character: ▯ (9647)",
   "sdfSpread":8,
-  "size":10.0,
-  "styleName":"Regular",
+  "size":16.0,
+  "styleName":"Medium",
   "textureGroupId":{
     "name":"Default",
     "path":"texturegroups/Default",

@@ -1,6 +1,3 @@
-#macro SCREEN_MIDDLE_X 128
-#macro SCREEN_MIDDLE_Y 120
-
 event_inherited();
 
 depth = global.controller.depth - 1;

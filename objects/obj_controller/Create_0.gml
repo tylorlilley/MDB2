@@ -1,4 +1,8 @@
 #macro GRID_SIZE 8
+#macro SCREEN_WIDTH 256
+#macro SCREEN_HEIGHT 240
+#macro SCREEN_MIDDLE_X SCREEN_WIDTH/2
+#macro SCREEN_MIDDLE_Y SCREEN_HEIGHT/2
 
 #macro TRANSITION_DURATION 24
 #macro TRANSITION_DELAY 40
@@ -111,4 +115,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
 var _initial_room = rm_intro//(irandom(100) == 0) ? rm_intro_eih : rm_intro;
-transition_room(rm_intro_eih, true); //rm_test_terrain
+transition_room(rm_title, true); //rm_test_terrain

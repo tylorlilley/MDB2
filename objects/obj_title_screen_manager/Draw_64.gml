@@ -5,43 +5,24 @@ draw_set_valign(fa_top);
 
 
 var _view_x_pos = camera_get_view_x(view_camera[0]), _view_y_pos = camera_get_view_y(view_camera[0]);
-draw_text(128, 16, "MIGHTY\nDIVE BOMBER");
-draw_text(128, 15, "MIGHTY\nDIVE BOMBER");
-draw_text(128, 14, "MIGHTY\nDIVE BOMBER");
-draw_text(128, 13, "MIGHTY\nDIVE BOMBER");
-draw_set_color((transition_timer % 8 == 0) ? C_RED : C_WHITE);
-draw_text(128, 12, "MIGHTY\nDIVE BOMBER");
+var _selected_color = ((transition_timer div 4) % 2 == 0) ? C_RED : C_WHITE, _title_y_pos = 8;
+draw_text_outlined(SCREEN_MIDDLE_X, _title_y_pos, "MIGHTY\nDIVE BOMBER", _selected_color);
 
 if (state > TITLE_STATES.PAN_OVER) {
-	draw_set_font(ft_pixel);
+	draw_set_font(ft_block_blueprint);
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
-	draw_set_color(C_BLACK);
 	
-	draw_text(128 - 16, 120 + 16 + 1, "START NEW GAME");
-	draw_text(128 - 16, 120 + 16 + 2, "START NEW GAME");
-	draw_text(128 - 16, 120 + 16 + 3, "START NEW GAME");
-	draw_text(128 - 16, 120 + 16 + 4, "START NEW GAME");
-	draw_text(128 - 16, 120 + 32 + 1, "CONTINUE GAME");
-	draw_text(128 - 16, 120 + 32 + 2, "CONTINUE GAME");
-	draw_text(128 - 16, 120 + 32 + 3, "CONTINUE GAME");
-	draw_text(128 - 16, 120 + 32 + 4, "CONTINUE GAME");
-	draw_text(128 - 16, 120 + 48 + 1, "VIEW CONTROLS");
-	draw_text(128 - 16, 120 + 48 + 2, "VIEW CONTROLS");
-	draw_text(128 - 16, 120 + 48 + 3, "VIEW CONTROLS");
-	draw_text(128 - 16, 120 + 48 + 4, "VIEW CONTROLS");
-	draw_text(128 - 16, 120 + 64 + 1, "SETTINGS");
-	draw_text(128 - 16, 120 + 64 + 2, "SETTINGS");
-	draw_text(128 - 16, 120 + 64 + 3, "SETTINGS");
-	draw_text(128 - 16, 120 + 64 + 4, "SETTINGS");
-	
-	draw_set_color(C_WHITE);
-	draw_text(128 - 16, 120 + 16 + 1, "START NEW GAME");
-	draw_text(128 - 16, 120 + 16, "START NEW GAME");
-	draw_text(128 - 16, 120 + 32 + 1, "CONTINUE GAME");
-	draw_text(128 - 16, 120 + 32, "CONTINUE GAME");
-	draw_text(128 - 16, 120 + 48 + 1, "VIEW CONTROLS");
-	draw_text(128 - 16, 120 + 48, "VIEW CONTROLS");
-	draw_text(128 - 16, 120 + 64 + 1, "SETTINGS");
-	draw_text(128 - 16, 120 + 64, "SETTINGS");
+	var _option_strings = [
+		 "START CLASSIC GAME",
+		 "START NEW GAME",
+		 "CONTINUE GAME",
+		 "VIEW CONTROLS",
+		 "SETTINGS",
+	]
+	for (var _i = 0; _i < array_length(_option_strings); _i++) {
+		//if (i == 0) { continue; } // TODO: Unlock Option After Beating Game
+		var _y_offset = _i * 16, _option_string = _option_strings[_i];
+		draw_text_outlined(SCREEN_MIDDLE_X-16, SCREEN_MIDDLE_Y+_y_offset, "START NEW GAME", ((menu_pos == _i) ? _selected_color : C_GRAY_LIGHT));
+	}
 }
