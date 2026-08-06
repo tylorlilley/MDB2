@@ -1,3 +1,7 @@
+// Reset Surface
+surface_resize(application_surface, SCREEN_WIDTH * 4, SCREEN_HEIGHT * 4);
+display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 // Load Room Data
 var _data = room_data();
 room_world = _data.world;

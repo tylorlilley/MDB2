@@ -1,6 +1,7 @@
 #macro GRID_SIZE 8
 #macro SCREEN_WIDTH 256
 #macro SCREEN_HEIGHT 240
+#macro SCREEN_SCALE_FACTOR 4
 #macro SCREEN_MIDDLE_X SCREEN_WIDTH/2
 #macro SCREEN_MIDDLE_Y SCREEN_HEIGHT/2
 
@@ -49,7 +50,8 @@ show_debug_gui = false;
 draw_game_object_grid = false;
 
 // Set Up Game Window
-var _window_width = 256*4, _window_height = 240*4, _display_width = display_get_width(), _display_height = display_get_height();
+var _window_width = SCREEN_WIDTH * SCREEN_SCALE_FACTOR, _window_height = SCREEN_HEIGHT * SCREEN_SCALE_FACTOR, _display_width = display_get_width(), _display_height = display_get_height();
+surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);

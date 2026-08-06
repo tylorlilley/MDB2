@@ -22,8 +22,11 @@ with (obj_player) {
 }
 
 // Update Timers
+cursor_sway_timer++;
+if (cursor_sway_timer > 32) { cursor_sway_timer = -(irandom(60) + 60); }
 title_sway_timer++;
-if (title_sway_timer > 32) { title_sway_timer = -(irandom(60) + 60); }
+if (title_sway_timer > 0) { title_sway_timer = -60; }
+if (text_shake_timer > 0) { text_shake_timer--; }
 
 // Tackle Input
 switch (state) {

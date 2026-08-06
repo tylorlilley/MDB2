@@ -14,6 +14,7 @@ bounce_count = 0;
 menu_pos = 0;
 text_shake_timer = 0;
 title_sway_timer = -(irandom(60) + 60);
+cursor_sway_timer = -(irandom(60) + 60);
 
 key_right = false;
 key_left = false;

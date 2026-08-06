@@ -457,6 +457,7 @@
     {"id":{"name":"spr_switch","path":"sprites/spr_switch/spr_switch.yy",},},
     {"id":{"name":"spr_tile_outline","path":"sprites/spr_tile_outline/spr_tile_outline.yy",},},
     {"id":{"name":"spr_tile","path":"sprites/spr_tile/spr_tile.yy",},},
+    {"id":{"name":"spr_title","path":"sprites/spr_title/spr_title.yy",},},
     {"id":{"name":"spr_tough_cloud_area","path":"sprites/spr_tough_cloud_area/spr_tough_cloud_area.yy",},},
     {"id":{"name":"spr_tough_cloud_fuzzing","path":"sprites/spr_tough_cloud_fuzzing/spr_tough_cloud_fuzzing.yy",},},
     {"id":{"name":"spr_tough_cloud_outline","path":"sprites/spr_tough_cloud_outline/spr_tough_cloud_outline.yy",},},
