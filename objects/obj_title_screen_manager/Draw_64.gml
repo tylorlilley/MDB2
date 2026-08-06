@@ -14,7 +14,7 @@ draw_text_outlined(SCREEN_MIDDLE_X, _title_y_pos+24+4, "DIVE BOMBER", _selected_
 draw_text_outlined(SCREEN_MIDDLE_X, _title_y_pos+24+2, "DIVE BOMBER", _selected_color);
 draw_text_outlined(SCREEN_MIDDLE_X, _title_y_pos+24, "DIVE BOMBER", _selected_color);
 */
-draw_sprite_swaying(spr_title, ((transition_timer div 4) % 2), title_sway_timer, SCREEN_MIDDLE_X-sprite_get_width(spr_title)/2, 8, c_white, 1);
+draw_sprite_swaying(spr_title, ((transition_timer div 4) % 2), title_sway_timer, SCREEN_MIDDLE_X-sprite_get_width(spr_title)/2, 8, c_white, 1, 5);
 
 // Draw Main Menu
 if (state > TITLE_STATES.PAN_OVER) {
@@ -61,7 +61,7 @@ if (state > TITLE_STATES.PAN_OVER) {
 			_y_offset += _shake_y;
 			
 			set_shader_palette(_cursor_palette)
-			draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 5);
+			draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
 		}
 		draw_text_outlined(_x_pos + _x_offset, _y_pos + _y_offset, _option_string, (_selected ? _selected_color : C_GRAY_LIGHT));
 	}
