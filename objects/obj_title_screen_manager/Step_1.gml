@@ -24,8 +24,7 @@ with (obj_player) {
 // Update Timers
 cursor_sway_timer++;
 if (cursor_sway_timer > 32) { cursor_sway_timer = -(irandom(60) + 60); }
-title_sway_timer++;
-if (title_sway_timer > 0) { title_sway_timer = -60; }
+title_sway_timer = (title_sway_timer + 1) % 24;
 if (text_shake_timer > 0) { text_shake_timer--; }
 
 // Tackle Input
@@ -55,7 +54,7 @@ switch (state) {
 	case TITLE_STATES.MAIN_MENU: {
 		// Update Menu Position
 		if (text_shake_timer == 0) {
-			_prev_menu_pos = menu_pos;
+			var _prev_menu_pos = menu_pos;
 			if (key_up && !key_down) { menu_pos--; }
 			else if (key_down && ! key_up) { menu_pos++; }	
 			menu_pos = clamp(menu_pos, 0, 4);
@@ -63,6 +62,19 @@ switch (state) {
 			if (menu_pos != _prev_menu_pos) {
 				audio_play_sound(snd_player_ladder_step, 2, false);
 				text_shake_timer = 8;
+			}
+		}
+		
+		// Make Menu Selection
+		if (key_jump || key_restart) {
+			switch (menu_pos) {
+				case 0:
+				case 1: {
+					// Go To Next Room
+					global.controller.transition_timer = 1;
+					global.controller.x = x;
+					global.controller.y = y;
+				}
 			}
 		}
 	}

@@ -17,7 +17,7 @@ if (_key_position == 0) {
 	var _keys_to_draw = min(_total_keys, 5), _offsets_for_total_keys = draw_offsets[_keys_to_draw-1];
 	for (var _i = 0; _i < _keys_to_draw; _i++) {
 		var _offset = _offsets_for_total_keys[_i], _angle_offset = _i * 2;
-		draw_sprite_swaying(sprite_index, image_index, sway_timer, x + _offset, y + _offset, image_blend, image_alpha, _angle_offset);
+		draw_sprite_swaying(sprite_index, image_index, sway_timer, x + _offset, y + _offset, image_blend, image_alpha, 15, _angle_offset);
 	}
 }
 

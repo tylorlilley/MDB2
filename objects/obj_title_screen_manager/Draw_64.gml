@@ -48,7 +48,7 @@ if (state > TITLE_STATES.PAN_OVER) {
 		//if (i == 0) { continue; } // TODO: Unlock Option After Beating Game
 		var _y_offset = _i * 12, _x_offset = 0, _option_string = _option_strings[_i], _selected = (menu_pos == _i);
 		var _cursor_sprite = _cursor_sprites[_i], _cursor_palette = _cursor_palettes[_i];
-		var _x_pos = SCREEN_MIDDLE_X-16+_x_offset, _y_pos =  SCREEN_MIDDLE_Y+4+_y_offset;
+		var _x_pos = SCREEN_MIDDLE_X-16, _y_pos =  SCREEN_MIDDLE_Y+4;
 		if (_selected) {
 			// Set Up Text Shake Values
 			var _shake_x = 0, _shake_y = 0;
@@ -61,8 +61,8 @@ if (state > TITLE_STATES.PAN_OVER) {
 			_y_offset += _shake_y;
 			
 			set_shader_palette(_cursor_palette)
-			draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos-20, _y_pos, c_white, 1);
+			draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 5);
 		}
-		draw_text_outlined(_x_pos,_y_pos, _option_string, (_selected ? _selected_color : C_GRAY_LIGHT));
+		draw_text_outlined(_x_pos + _x_offset, _y_pos + _y_offset, _option_string, (_selected ? _selected_color : C_GRAY_LIGHT));
 	}
 }

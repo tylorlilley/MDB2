@@ -55,7 +55,7 @@ surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(false);
+window_set_fullscreen(true);
 
 // Set Up Game Audio
 frame_sounds = [];
@@ -117,4 +117,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
 var _initial_room = rm_intro//(irandom(100) == 0) ? rm_intro_eih : rm_intro;
-transition_room(rm_title, true); //rm_test_terrain
+transition_room(_initial_room, true); //rm_test_terrain
