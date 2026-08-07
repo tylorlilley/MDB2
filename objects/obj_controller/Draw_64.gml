@@ -31,7 +31,7 @@ if (instance_number(obj_transition_manager) == 0) {
 	}
 	
 	// Draw Level Text and Key Amounts
-	var _float_offset = get_float_value(float_timer div 4), _text_y_pos = _float_offset + ((classic_levels) ? 4 : 0), _key_pos = _float_offset + ((classic_levels) ? 3 : -1), _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
+	var _float_offset = get_float_value(float_timer, 1, 4 * FLOAT_OFFSET_PERIOD_FRAMES), _text_y_pos = _float_offset + ((classic_levels) ? 4 : 0), _key_pos = _float_offset + ((classic_levels) ? 3 : -1), _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
 	var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
 	
 	draw_set_alpha(1);

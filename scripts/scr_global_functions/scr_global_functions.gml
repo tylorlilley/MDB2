@@ -114,9 +114,8 @@ function set_shader_palette(_palette_to_use = undefined) {
 }
 
  
-function get_float_value(_timer) {
-	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES;
-	_y_offset = round(_amplitude * sin(_timer*(2 * pi / _period)));
+function get_float_value(_timer, _amplitude, _period = FLOAT_OFFSET_PERIOD_FRAMES) {
+	var _y_offset = _amplitude * sin(_timer*(2 * pi / _period));
 	return _y_offset;
 }
 

@@ -49,8 +49,7 @@ get_float_offset = function() {
 		}
 	}
 	// Calculate Base Offset Yourself
-	else if (is_floating_state()) {
-		_y_offset = get_float_value(swim_timer);
+	else if (is_floating_state()) { _y_offset = round(get_float_value(swim_timer, 2));
 	}
 	
 	if (_y_offset == 999) { _y_offset = 0; }
