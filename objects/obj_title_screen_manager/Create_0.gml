@@ -8,10 +8,11 @@ event_inherited();
 
 depth = global.controller.depth + 1;
 state = TITLE_STATES.BEGIN;
+prev_state = state;
 camera_x = camera_get_view_x(view_camera[0]);
 camera_speed = 0;
 bounce_count = 0;
-menu_pos = 4;
+menu_pos = 0;
 text_shake_timer = 0;
 title_sway_timer = irandom(23);
 cursor_sway_timer = -(irandom(60) + 60);

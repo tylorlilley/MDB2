@@ -55,7 +55,7 @@ surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(true);
+window_set_fullscreen(false);
 
 // Set Up Game Audio
 frame_sounds = [];
@@ -83,15 +83,18 @@ blocked_switch_colors = [false, false, false];
 game_object_grid = [];
 pending_switch_colors = [];
 room_seed = random_get_seed();
+target_room = rm_intro//(irandom(100) == 0) ? rm_intro_eih : rm_intro;
 
 initialize_room = function(_new_room) {
 	play_sound(snd_fade_in);
 	
+	// Reset Per-room variables
 	start_room_transition();
 	global.room_keys = 0;
 	global.room_portals = 0;
 	global.keys_collected = 0;
 	if (_new_room != room) { level_number++; }
+	target_room = room_next(_new_room);
 	
 	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;
@@ -102,7 +105,7 @@ reset_room = function() {
 	transition_room(room, false);
 }
 
-transition_room = function(_new_room, _randomize_room_seed = false) {
+transition_room = function(_new_room, _randomize_room_seed = true) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed);	
 	global.should_rebuild_static_area = true;
@@ -116,5 +119,4 @@ start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
-var _initial_room = rm_intro//(irandom(100) == 0) ? rm_intro_eih : rm_intro;
-transition_room(_initial_room, true); //rm_test_terrain
+transition_room(target_room); //rm_test_terrain

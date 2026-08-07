@@ -172,7 +172,7 @@ function determine_gamepad() {
 	return global.gamepad;
 }
 	
-update_controls = function(_inverted) {
+update_controls = function(_inverted = false) {
 	// Accumulate Inputs
 	var _new_left_value = ((_inverted) ? key_right : key_left) || keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5;
 	var _new_right_value = ((_inverted) ? key_left : key_right) || keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
@@ -186,8 +186,8 @@ update_controls = function(_inverted) {
 	if (keyboard_check_released(vk_right) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padr)))) { _new_right_value = false; }
 	if (keyboard_check_released(vk_up) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padu)))) { _new_up_value = false; }
 	if (keyboard_check_released(vk_down) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padd)))) { _new_down_value = false; }
-	if (keyboard_check_released(ord("Z")) || gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4)) { _new_jump_value = false; }
-	if (keyboard_check_released(ord("R")) || gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select)) { _new_restart_value = false; }
+	if (keyboard_check_released(ord("Z")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4)))) { _new_jump_value = false; }
+	if (keyboard_check_released(ord("R")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select)))) { _new_restart_value = false; }
 
 	// Cancel out opposite inputs in favor of currently moving direction
 	if (_new_left_value && _new_right_value) {
@@ -203,7 +203,7 @@ update_controls = function(_inverted) {
 	key_right = (_inverted) ? _new_left_value : _new_right_value;
 	key_up = _new_up_value;
 	key_down = _new_down_value;
-	key_jump = (global.original_controls) ? false : (_new_jump_value || ((global.combine_up_and_jump_controls) ? _new_up_value : false));
+	key_jump =_new_jump_value;
 	key_restart = _new_restart_value;
 }
 	
@@ -484,7 +484,11 @@ update_player_state = function() {
 	// Check Controls
 	var _transition_manager_exists = false;
 	with (obj_transition_manager) { _transition_manager_exists = true; }
-	if (!_transition_manager_exists) { update_controls(object_index == obj_mirror_player); }
+	if (!_transition_manager_exists) {
+		update_controls(object_index == obj_mirror_player);
+		if (global.combine_up_and_jump_controls) { key_jump = key_up; }
+		if (global.original_controls) { key_jump = false; }
+	}
 	
 	// Restart Room
 	if (key_restart) { instance_destroy(); exit; }

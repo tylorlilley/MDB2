@@ -5,9 +5,11 @@ with (obj_player) {
 	other.key_left = key_left;
 	other.key_up = key_up;
 	other.key_down = key_down;
-	other.key_jump = key_jump;
-	other.key_restart = key_restart;
 }
+
+// Set Jump and Restart Based on Release Only
+key_jump =  (keyboard_check_released(ord("Z")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4))));
+key_restart = (keyboard_check_released(ord("R")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select))));
 
 event_inherited();
 audio_stop_sound(bgm_transition);
@@ -28,6 +30,7 @@ title_sway_timer = (title_sway_timer + 1) % 24;
 if (text_shake_timer > 0) { text_shake_timer--; }
 
 // Tackle Input
+prev_state = state;
 switch (state) {
 	case TITLE_STATES.BEGIN: {
 		if (key_up || key_down ||  key_left || key_right || key_jump || key_restart) { play_sound(snd_key); state = TITLE_STATES.PAN_OVER; }
@@ -68,12 +71,25 @@ switch (state) {
 		// Make Menu Selection
 		if (key_jump || key_restart) {
 			switch (menu_pos) {
-				case 0:
+				case 0: {
+					// Go To Next Room
+					with (obj_player) {
+						global.controller.x = x;
+						global.controller.y = y;
+					}
+					global.controller.target_room = rm_old_w1_1;
+					global.controller.transition_timer = TRANSITION_DELAY;
+					audio_stop_sound(bgm_title);
+				}
 				case 1: {
 					// Go To Next Room
-					global.controller.transition_timer = 1;
-					global.controller.x = x;
-					global.controller.y = y;
+					with (obj_player) {
+						global.controller.x = x;
+						global.controller.y = y;
+					}
+					global.controller.target_room = rm_mdb_1_1;
+					global.controller.transition_timer = TRANSITION_DELAY;
+					audio_stop_sound(bgm_title);
 				}
 			}
 		}

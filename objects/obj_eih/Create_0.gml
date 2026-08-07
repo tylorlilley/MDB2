@@ -11,3 +11,5 @@ is_solid_from_right = true;
 is_solid_from_left = true;
 is_climbable = true;
 step_sound = snd_eih_step;
+
+global.controller.target_room = room_next(rm_intro);
