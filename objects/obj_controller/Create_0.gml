@@ -17,7 +17,7 @@
 #macro KEY_DEPTH 3
 #macro CRATE_DEPTH 5
 #macro LADDER_DEPTH 6
-#macro SWITCH_BLOCK_DEPTH 7
+#macro SWITCH_BLOCK_DEPTH 7 //Lie, drawn by controller
 #macro PORTAL_DEPTH 8
 #macro SWITCH_DEPTH 9//4
 #macro STATIC_OBJECT_DEPTH 10
@@ -44,6 +44,7 @@ global.room_portals = 0;
 global.world_tint = c_white;
 global.world_tint_strength = 0;
 global.mask_portals = true;
+global.border_alpha = 0.5;
 
 // Debug Variables
 level_number = -1;
@@ -57,7 +58,7 @@ surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(false);
+window_set_fullscreen(true);
 
 // Set Up Game Audio
 frame_sounds = [];

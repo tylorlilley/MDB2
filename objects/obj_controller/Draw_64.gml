@@ -1,14 +1,15 @@
 if (instance_number(obj_transition_manager) == 0) {
 	// Draw HUD Bars
-	draw_set_valign(fa_top)
-	draw_set_alpha(0.5);
-	draw_set_alpha(0);
-	draw_set_color(c_black);
-	draw_rectangle(0, 0, 256, 16, false);
-	if (global.original_controls) {
-		draw_rectangle(0, 16, 8, 232, false);
-		draw_rectangle(248, 16, 256, 232, false);
-		draw_rectangle(0, 232, 256, 240, false);
+	if (!classic_levels) {
+		draw_set_valign(fa_top)
+		draw_set_alpha(global.border_alpha);
+		draw_set_color(c_black);
+		draw_rectangle(0, 0, 256, 16, false);
+		if (global.original_controls) {
+			draw_rectangle(0, 16, 8, 232, false);
+			draw_rectangle(248, 16, 256, 232, false);
+			draw_rectangle(0, 232, 256, 240, false);
+		}
 	}
 
 	// Draw Winning Spotlight
@@ -31,7 +32,8 @@ if (instance_number(obj_transition_manager) == 0) {
 	}
 	
 	// Draw Level Text and Key Amounts
-	var _float_offset = get_float_value(float_timer, 1, 4 * FLOAT_OFFSET_PERIOD_FRAMES), _text_y_pos = _float_offset + ((classic_levels) ? 4 : 0), _key_pos = _float_offset + ((classic_levels) ? 3 : -1), _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
+	//var _float_offset = get_float_value(float_timer, 1, 4 * FLOAT_OFFSET_PERIOD_FRAMES);
+	var _float_offset = 0, _text_y_pos = _float_offset + ((classic_levels) ? 4 : 0), _key_pos = _float_offset + ((classic_levels) ? 3 : -1), _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
 	var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
 	
 	draw_set_alpha(1);
@@ -39,7 +41,8 @@ if (instance_number(obj_transition_manager) == 0) {
 	draw_set_color(C_WHITE);
 	draw_set_halign(fa_left);
 	
-	draw_text_outlined(((global.original_controls) ? 12 : 4), _text_y_pos, string(_world) + "-" + string(_level) + ": " + room_title);
+	draw_text_outlined(((global.original_controls) ? 12 : 4), _text_y_pos, string(_world) + "-" + string(_level) + ":");
+	draw_text_outlined(((global.original_controls) ? 44 : 36), _text_y_pos, room_title);
 	draw_set_halign(fa_right);
 	draw_text_outlined(_text_x_pos, _text_y_pos, string(global.keys_collected) + "/" + string(global.room_keys));
 

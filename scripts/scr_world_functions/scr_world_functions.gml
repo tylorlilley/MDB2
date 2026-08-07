@@ -65,12 +65,14 @@ function build_background(_world) {
 		case WORLDS.SKY_3:
 		case WORLDS.SKY_4:
 		case WORLDS.NIGHT: {
+			global.border_alpha = 0.5;
+			
 			// Choose Sky Sprite and World Tint
 			var _sprite = (_world == WORLDS.NIGHT) ? bg_stars : bg_sky;
 			if (_world == WORLDS.SKY_2) { _sprite = bg_sky_2; }
 			if (_world == WORLDS.SKY_3) { _sprite = bg_sky_3; global.world_tint = make_colour_rgb(255, 169, 128); global.world_tint_strength = 0.42; }
 			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_3; global.world_tint = make_colour_rgb(148, 54, 44); global.world_tint_strength = 0.42; }
-			if (_world == WORLDS.NIGHT) { _sprite = bg_stars; global.world_tint = C_PURPLE_DARK; global.world_tint_strength = 0.42; }
+			if (_world == WORLDS.NIGHT) { _sprite = bg_stars; global.border_alpha = 0.6; global.world_tint = C_PURPLE_DARK; global.world_tint_strength = 0.42; }
 			
 			// BG Sky Layer
 			var _sky_layer = layer_create(800, "Beach_Sky");
@@ -87,6 +89,7 @@ function build_background(_world) {
 		case WORLDS.CASTLE: {
 			global.world_tint = C_RED_DARK;
 			global.world_tint_strength = 0.32;
+			global.border_alpha = 0.6;
 			
 			// BG Castle Layer
 			var _castle_layer = layer_create(800, "Castle_Background");
@@ -102,6 +105,7 @@ function build_background(_world) {
 		case WORLDS.FACTORY: {
 			global.world_tint = C_TRASH_DARK;
 			global.world_tint_strength = 0.52;
+			global.border_alpha = 0.6;
 			
 			// BG Fence Layer
 			var _fence_layer = layer_create(800, "Factory_Fence");
@@ -118,6 +122,7 @@ function build_background(_world) {
 		case WORLDS.FOREST: {
 			global.world_tint = C_GREEN_DARK;
 			global.world_tint_strength = 0.12;
+			global.border_alpha = 0.5;
 			
 			// Determine Canopy Height
 			var _lowest_leaf_y = 0;
