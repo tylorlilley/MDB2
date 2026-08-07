@@ -113,6 +113,13 @@ function set_shader_palette(_palette_to_use = undefined) {
 	set_shader_clip();
 }
 
+ 
+function get_float_value(_timer) {
+	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES;
+	_y_offset = round(_amplitude * sin(_timer*(2 * pi / _period)));
+	return _y_offset;
+}
+
 function set_shader_clip(_sprite = noone, _subimg = 0, _left = 0, _top = 0, _x = 0, _y = 0, _width = 0, _height = 0) {
 	if (_sprite == noone) { shader_set_uniform_f(global.u_clip_enabled, 0); return; }
 	
@@ -141,6 +148,19 @@ function draw_sprite_with_center_rotation(_sprite_index, _image_index, _x, _y, _
 		
 	draw_sprite_ext(_sprite_index, _image_index, _x + _sprite_x_center + lengthdir_x(_radius, _direction), _y + _sprite_y_center + lengthdir_y(_radius, _direction), _x_scale, _y_scale, _angle, _color, _alpha);
 }
+
+function draw_text_outlined(_x, _y, _text, _text_color = C_WHITE, _outline_color = C_BLACK) {
+	draw_set_color(_outline_color);
+	for (var _x_offset = -1; _x_offset < 2; _x_offset++) {
+		for (var _y_offset = -1; _y_offset < 3; _y_offset++) {
+			if (_x_offset == 0 && _y_offset == 0) { continue; }
+			draw_text(_x + _x_offset, _y + _y_offset, _text);
+		}
+	}
+	draw_set_color(_text_color);
+	draw_text(_x, _y, _text);
+}
+
 
 function audio_play_sound_panned(_snd, _x) {
 	var _pan = ((clamp(_x, 0, room_width) / room_width) * 2 - 1) * SOUND_PAN_STRENGTH;

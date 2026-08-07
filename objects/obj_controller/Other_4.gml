@@ -10,7 +10,15 @@ global.world_tint = c_white;
 build_background(room_world);
 var _transition_room = false;
 with (obj_transition_manager) { _transition_room = true; }
-if (!_transition_room) { play_music(room_world); }
+if (!_transition_room) {
+	play_music(room_world);
+	// Save Current Room
+	ini_open("mdb.ini");
+	ini_write_real("progress", "current_level", room);
+	ini_write_real("progress", "level_number", level_number);
+	ini_write_real("progress", "progress_level", 1);
+	ini_close();
+}
 
 // Spawn Background Layers
 if (instance_number(obj_bg_dirt) > 1) {

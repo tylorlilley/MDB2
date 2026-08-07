@@ -42,10 +42,12 @@ global.room_keys = 0;
 global.keys_collected = 0;
 global.room_portals = 0;
 global.world_tint = c_white;
+global.world_tint_strength = 0;
 global.mask_portals = true;
 
 // Debug Variables
 level_number = -1;
+classic_levels = false;
 show_debug_gui = false;
 draw_game_object_grid = false;
 
@@ -77,6 +79,7 @@ initialize_surface_manager();
 // Timers
 transition_timer = 0;
 frame_timer = 0;
+float_timer = 0;
 
 // Gameplay Variables
 blocked_switch_colors = [false, false, false];

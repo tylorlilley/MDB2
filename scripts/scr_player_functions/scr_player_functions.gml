@@ -179,7 +179,7 @@ update_controls = function(_inverted = false) {
 	var _new_up_value = key_up || keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5;
 	var _new_down_value = key_down || keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5;
 	var _new_jump_value = key_jump || ((global.original_controls) ? false : (keyboard_check(ord("Z")) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3) || gamepad_button_check(global.gamepad, gp_face4)));
-	var _new_restart_value = key_restart || keyboard_check(ord("R")) || gamepad_button_check(global.gamepad, gp_start) || gamepad_button_check(global.gamepad, gp_select);
+	var _new_restart_value = key_restart || keyboard_check(ord("R")) || keyboard_check(vk_enter) || gamepad_button_check(global.gamepad, gp_start) || gamepad_button_check(global.gamepad, gp_select);
 	
 	// Cancel out released inputs
 	if (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl)))) { _new_left_value = false; }
@@ -1387,6 +1387,7 @@ update_player_collisions_at_position = function() {
 	}
 	
 	// Collide with Full Overlaps
+	if (transition_timer != 0) { exit; }
 	var _fully_overlapping_instances = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
 	for (var _i = 0; _i < array_length(_fully_overlapping_instances); _i++) {
 		var _inst = _fully_overlapping_instances[_i];

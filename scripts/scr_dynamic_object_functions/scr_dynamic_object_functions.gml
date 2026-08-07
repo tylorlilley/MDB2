@@ -32,7 +32,6 @@ get_switch_offset = function() {
 	return _y_offset;
 }
 
-
 get_float_offset = function() {
 	if (!is_grounded_state() && !is_floating_state()) { return 0; }
 	
@@ -51,8 +50,7 @@ get_float_offset = function() {
 	}
 	// Calculate Base Offset Yourself
 	else if (is_floating_state()) {
-		var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES;
-		_y_offset = round(_amplitude * sin(swim_timer*(2 * pi / _period)));
+		_y_offset = get_float_value(swim_timer);
 	}
 	
 	if (_y_offset == 999) { _y_offset = 0; }

@@ -125,6 +125,8 @@ with (obj_reforming_cloud_outline) {
 }
 frame_timer++;
 frame_timer = frame_timer % 24;
+float_timer++;
+float_timer = float_timer % (4 * FLOAT_OFFSET_PERIOD_FRAMES);
 with (obj_portal) {
 	// Determine Activated State
 	if (!instance_exists(linked_portal)) { activated = false; }
@@ -172,7 +174,11 @@ else if (transition_timer > 0) {
 		else { transition_room(target_room); }
 		play_sound(snd_fade_in);
 	}
-	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) { transition_timer = 0; surface_free(transition_surface); transition_surface = noone; }
+	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) {
+		transition_timer = 0;
+		if (surface_exists(transition_surface)) { surface_free(transition_surface); }
+		transition_surface = noone;
+	}
 }
 
 // Create Win Sparkles

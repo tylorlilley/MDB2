@@ -5,5 +5,5 @@ if (instance_exists(linked_portal) && activation_timer > 78) {
 	var _player_palette = translate_uniform_values_to_color(player_palette, 2);
 	draw_line_color(x + 8, y + 8, linked_portal.x + 8, linked_portal.y + 8, _original_palette, _player_palette);
 	shader_set(shd_palettizer);
-	shader_set_uniform_f(global.u_tint_amount, 0.42);
+	shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
 }

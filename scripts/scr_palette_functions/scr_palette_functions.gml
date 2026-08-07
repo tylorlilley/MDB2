@@ -22,6 +22,7 @@ enum PORTAL_COLORS {
 
 #macro C_WHITE          make_color_rgb(239, 239, 239)
 #macro C_GRAY_LIGHT     make_color_rgb(175, 175, 175)
+#macro C_METAL_GRAY		make_color_rgb(132, 132, 132)
 #macro C_GRAY           make_color_rgb(95, 95, 95)
 #macro C_GRAY_DARK      make_color_rgb(71, 71, 71)
 #macro C_NEAR_BLACK     make_color_rgb(23, 23, 23)
@@ -151,6 +152,7 @@ enum PALETTES {
 	BACKGROUND_DIRT,
 	BACKGROUND_ROCK,
 	PLAYER,
+	METAL
 }
 
 function palettes_init() {
@@ -176,6 +178,7 @@ function palettes_init() {
 		[C_DIRT_BORDER, C_BROWN_DARK, C_BROWN_DARKEST],
 		[C_ROCK_BORDER, C_ROCK_DARK, C_NEAR_BLACK],
 		[C_WHITE, C_BLUE_PLAYER_LIGHT, C_BLUE_PLAYER],
+		[C_METAL_GRAY, C_GRAY, C_GRAY_DARK],
 	];
 	
 	global.palette_uniform_values = [];

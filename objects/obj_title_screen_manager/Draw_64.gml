@@ -16,6 +16,14 @@ draw_text_outlined(SCREEN_MIDDLE_X, _title_y_pos+24, "DIVE BOMBER", _selected_co
 */
 draw_sprite_swaying(spr_title, ((transition_timer div 4) % 2), title_sway_timer, SCREEN_MIDDLE_X-sprite_get_width(spr_title)/2, 8, c_white, 1, 2);
 
+if (state == TITLE_STATES.BEGIN && (transition_timer div 8) % 2 == 0) {
+	draw_set_color(C_BLACK);
+	draw_set_font(ft_pixel);
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_top);
+	draw_text_outlined(SCREEN_MIDDLE_X, 84, "PRESS ANY KEY TO BEGIN");
+}
+
 // Draw Main Menu
 if (state > TITLE_STATES.PAN_OVER) {
 	if (prev_state != state) {
@@ -35,8 +43,8 @@ if (state > TITLE_STATES.PAN_OVER) {
 			 "SETTINGS",
 		]
 		var _cursor_sprites = [
-			spr_player_hop_up,
-			spr_player_hop_down,
+			spr_player_classic,
+			spr_player_fall,
 			spr_door,
 			spr_key,
 			spr_gear,
@@ -50,8 +58,9 @@ if (state > TITLE_STATES.PAN_OVER) {
 		];
 		var _selected_color = ((transition_timer div 4) % 2 == 0) ? C_RED : C_WHITE;
 		for (var _i = 0; _i < array_length(_option_strings); _i++) {
-			//if (i == 0) { continue; } // TODO: Unlock Option After Beating Game
-			var _y_offset = _i * 12, _x_offset = 0, _option_string = _option_strings[_i], _selected = (menu_pos == _i);
+			if (_i == 0 && progress_level == 0) { continue; }
+			if (_i == 2 && saved_room == noone) { continue; }
+			var _y_offset = _i * 14, _x_offset = 0, _option_string = _option_strings[_i], _selected = (menu_pos == _i);
 			var _cursor_sprite = _cursor_sprites[_i], _cursor_palette = _cursor_palettes[_i];
 			var _x_pos = SCREEN_MIDDLE_X-16, _y_pos =  SCREEN_MIDDLE_Y+4;
 			if (_selected) {
@@ -65,6 +74,10 @@ if (state > TITLE_STATES.PAN_OVER) {
 				_x_offset += _shake_x;
 				_y_offset += _shake_y;
 			
+				if (menu_pos == 1) {
+					set_shader_palette(PALETTES.GRAY_LIGHT);
+					draw_sprite_swaying(spr_cape_fall, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1-4, c_white, 1, 15);
+				}
 				set_shader_palette(_cursor_palette)
 				draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
 			}

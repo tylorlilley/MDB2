@@ -9,7 +9,7 @@ with (obj_player) {
 
 // Set Jump and Restart Based on Release Only
 key_jump =  (keyboard_check_released(ord("Z")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4))));
-key_restart = (keyboard_check_released(ord("R")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select))));
+key_restart = (keyboard_check_released(ord("R")) || keyboard_check_released(vk_enter) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select))));
 
 event_inherited();
 audio_stop_sound(bgm_transition);
@@ -39,7 +39,7 @@ switch (state) {
 	case TITLE_STATES.PAN_OVER: {
 		var _view_y_pos = camera_get_view_y(view_camera[0]), _target_x_pos = 74;
 		if (camera_x >= _target_x_pos) {
-			if (bounce_count >= 3) { state = TITLE_STATES.MAIN_MENU; play_sound(snd_explosion); }
+			if (bounce_count >= 3) { state = TITLE_STATES.MAIN_MENU; play_sound(snd_explosion); cursor_sway_timer = 0; }
 			else {
 				var _bounce_speed = [4, 2, 1][bounce_count];
 				camera_speed = -_bounce_speed;
@@ -57,39 +57,44 @@ switch (state) {
 	case TITLE_STATES.MAIN_MENU: {
 		// Update Menu Position
 		if (text_shake_timer == 0) {
-			var _prev_menu_pos = menu_pos;
-			if (key_up && !key_down) { menu_pos--; }
-			else if (key_down && ! key_up) { menu_pos++; }	
-			menu_pos = clamp(menu_pos, 0, 4);
-			// TODO: Clamp to 1 instead if classic mode not unlocked
+			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room == noone), _menu_change = 0;
+			var _min_menu_pos = (progress_level == 0) ? 1 : 0, _max_menu_pos = 4;
+			if (key_up && !key_down) { _menu_change = -1; }
+			else if (key_down && ! key_up) { _menu_change = 1; }
+			menu_pos += _menu_change;
+			if (menu_pos == 2 && _skip_continue) { menu_pos += _menu_change; }
+			if (menu_pos > _max_menu_pos || menu_pos < _min_menu_pos) { 
+				menu_pos = clamp(menu_pos, _min_menu_pos, _max_menu_pos);
+				audio_play_sound(snd_solid_invulnerable, 2, false);
+			}
 			if (menu_pos != _prev_menu_pos) {
 				audio_play_sound(snd_player_ladder_step, 2, false);
 				text_shake_timer = 8;
+				cursor_sway_timer = 0;
 			}
 		}
 		
 		// Make Menu Selection
+		var _next_level = (menu_pos == 0) ? rm_old_w1_1 : rm_mdb_1_1;
+		if (menu_pos == 2) { _next_level = saved_room; }
+		
 		if (key_jump || key_restart) {
 			switch (menu_pos) {
-				case 0: {
+				case 0:
+				case 1:
+				case 2: {
 					// Go To Next Room
 					with (obj_player) {
 						global.controller.x = x;
 						global.controller.y = y;
 					}
-					global.controller.target_room = rm_old_w1_1;
-					global.controller.transition_timer = TRANSITION_DELAY;
+					global.controller.target_room = _next_level;
+					global.controller.transition_timer = TRANSITION_DELAY-1;
+					if (menu_pos == 0) { global.controller.classic_levels = true; }
+					if (menu_pos == 2) { global.controller.level_number = level_number-1; }
 					audio_stop_sound(bgm_title);
-				}
-				case 1: {
-					// Go To Next Room
-					with (obj_player) {
-						global.controller.x = x;
-						global.controller.y = y;
-					}
-					global.controller.target_room = rm_mdb_1_1;
-					global.controller.transition_timer = TRANSITION_DELAY;
-					audio_stop_sound(bgm_title);
+					
+					break;
 				}
 			}
 		}

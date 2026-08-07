@@ -4,4 +4,4 @@ shader_reset();
 draw_surface(static_area_surface, 0, 0);
 global.should_rebuild_static_area = false;
 shader_set(shd_palettizer);
-shader_set_uniform_f(global.u_tint_amount, 0.42);
+shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);

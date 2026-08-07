@@ -403,6 +403,7 @@
     {"id":{"name":"spr_particle_player_dying","path":"sprites/spr_particle_player_dying/spr_particle_player_dying.yy",},},
     {"id":{"name":"spr_particle_robot_dying","path":"sprites/spr_particle_robot_dying/spr_particle_robot_dying.yy",},},
     {"id":{"name":"spr_particle_sparkle","path":"sprites/spr_particle_sparkle/spr_particle_sparkle.yy",},},
+    {"id":{"name":"spr_player_classic","path":"sprites/spr_player_classic/spr_player_classic.yy",},},
     {"id":{"name":"spr_player_climb","path":"sprites/spr_player_climb/spr_player_climb.yy",},},
     {"id":{"name":"spr_player_crouch","path":"sprites/spr_player_crouch/spr_player_crouch.yy",},},
     {"id":{"name":"spr_player_crushed_idle","path":"sprites/spr_player_crushed_idle/spr_player_crushed_idle.yy",},},
