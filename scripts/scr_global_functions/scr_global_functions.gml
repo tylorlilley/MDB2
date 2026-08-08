@@ -182,7 +182,8 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 
 	var  _horizontal_direction = (irandom(1) == 0) ? 1 : -1;
 	for (var _i = 0; _i < _total_particles; _i++) {
-		with (instance_create(_x_pos, _y_pos, obj_particle)) {
+		var _particle = instance_create(_x_pos, _y_pos, obj_particle);
+		with (_particle) {
 			main_palette = _particle_palette;
 			sprite_index = _particle_sprite;
 			depth = PARTICLE_DEPTH;
@@ -249,5 +250,6 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 			// Switch Direction for Next Particle Created
 			_horizontal_direction *= -1;
 		}
+		if (_total_particles == 1) { return _particle; }
 	}
 }

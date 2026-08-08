@@ -62,6 +62,15 @@ with (obj_lava) {
 	anim_timer++;
 	anim_timer = anim_timer % (sprite_get_number(outline_sprite) * 8);
 	if (anim_timer % 8 == 0) { global.should_rebuild_static_area = true; }
+	
+	if (bubble_timer > 0 && !is_connected_above) {
+		bubble_timer--;
+		if (bubble_timer == 0) {
+			bubble_timer = irandom(256*4) + 256;
+			var _particle = create_particles(1, PARTICLE_TYPES.DEBRIS, PALETTES.RED);
+			_particle.vspeed -= 1.25;
+		}
+	}
 }
 with (obj_game_object) {
 	if (shine_timer > 0) {

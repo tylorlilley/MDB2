@@ -1,30 +1,41 @@
-// NEXT:
+// TODO:
 
+- Settings Page
+- Controls Page
+- Intro Cutscene
+- W4 - W5 Transition Cutscene
+- Ending Cutscene + Credits
+
+// VISUALS:
+factory rock more green?
+factory and forest sand too close?
+Should Gear spin always one way for up and one for down? Should  they spin slower? Move slower?
+Make the portal mask color different per world?
+Fuzzing palette on bricks different than pure black for cracks? Better adjust palette as damaged?
+swooshier leaves?
+lava bubble occasionally particle?
+
+// FACTORY LEVELS
 Test gear/portal interaction?
 
-New Factory Levels
 - Sawmill
 - Add Gears to Trash
 - More Confusing Circular Logic
 - Move Mounting Tension Earlier?
 - primary colors too easy didnt need brick?
-- make rock more green
-
-Clean up Create Code
-Fix Robot Parity with Previous Game
-Press down to get off ladder;
-
-// Levels to Replace:
-- Replace 4_1; it (and maybe 4_5 tbd) are the only levels that rely on the old game switches being on the NEXT frame
 - Replace 3_8; it is the only level that relies on the bounceback under a switch NOT killing the player, and the only one with switches on switch blocks
 
-// NEXT:
+// FORTRESS LEVELS
+- Replace 4_1; it (and maybe 4_5 tbd) are the only levels that rely on the old game switches being on the NEXT frame
+
+// TECH DEBT:
 
 Go to Next Room Errors
 Sort tiebreak?
-Test Robots Work Like Originals?
 Entering a portal while flying causes you to start falling; if the portal is over ground the cape is fucked up
-
+Clean up Create Code
+Fix Robot Parity with Previous Game
+Press down to get off ladder?
 
 // CRATE TODO:
 Box starts falling when pushing it off the ledge before it is fully off the ledge
@@ -45,7 +56,6 @@ Push sounds when pushing a block and it stops moving due to running into somethi
 -- Implemented but figure out if this makes sense or matches the original cadence
 
 // FUTURE IDEAS
-
 Crates/Bubbles with things in them
 Moveable Platforms
 Advanced Robots
@@ -53,3 +63,4 @@ Advanced Robots
 Scrolling rooms
 wrap-around screen movements (horizontal or vertical)
 Hidden Idols buried in specific spots in many levels as an extra layer of secrets to uncover
+- maybe a room that spawns idol if all robots are killed when that is hard to go out of your way to do?

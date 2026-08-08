@@ -20,6 +20,7 @@ outline_sprite = spr_lava_outline;
 outline_mask_sprite = spr_lava_outline_mask;
 particle_frequency = 8;
 connection_object_index = obj_static_area;
+bubble_timer = irandom(256*4) + 32;
 
 // Overriden Functions
 parent_deal_damage = deal_damage;
