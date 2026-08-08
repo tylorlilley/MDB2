@@ -10,51 +10,40 @@ enum WORLDS {
 	NIGHT
 }
 
-function get_world_palette() {
-	switch (object_index) {
+function get_world_palette(_object_index) {
+	switch (_object_index) {
 		case obj_bg_dirt: {
 			switch (global.controller.room_world) {
-				case WORLDS.FOREST: { main_palette = PALETTES.BACKGROUND_ROCK; break; }
-				case WORLDS.FACTORY: { main_palette = PALETTES.TRASH_DARKEST; break; }
-				case WORLDS.FORTRESS: { main_palette = PALETTES.GRAY_DARK; break; }
-				default: { main_palette = PALETTES.BACKGROUND_DIRT; break; }
+				case WORLDS.FOREST: { return PALETTES.BACKGROUND_ROCK; }
+				case WORLDS.FACTORY: { return PALETTES.TRASH_DARKEST; }
+				case WORLDS.FORTRESS: { return PALETTES.GRAY_DARK; }
+				default: { return PALETTES.BACKGROUND_DIRT; }
 			}
-			particle_palette = get_darker_palette(main_palette);
-			
-			break;
 		}
 		case obj_sand: {
 			switch (global.controller.room_world) {
-				case WORLDS.BEACH: { main_palette = PALETTES.SAND; break; }
-				case WORLDS.FOREST: { main_palette = PALETTES.SOIL; break; }
-				case WORLDS.FACTORY: { main_palette = PALETTES.TRASH; break; }
-				case WORLDS.FORTRESS: { main_palette = PALETTES.SOOT; break; }
-				default: { main_palette = PALETTES.COTTON_CANDY; break; }
+				case WORLDS.BEACH: { return PALETTES.SAND; }
+				case WORLDS.FOREST: { return PALETTES.SOIL; }
+				case WORLDS.FACTORY: { return PALETTES.TRASH; }
+				case WORLDS.FORTRESS: { return PALETTES.SOOT; }
+				default: { return PALETTES.COTTON_CANDY; }
 			}
-			particle_palette = main_palette;
-			
-			break;
 		}
 		case obj_rock: {
 			switch (global.controller.room_world) {
-				case WORLDS.BEACH: { main_palette = PALETTES.BROWN; break; }
-				default: { main_palette = PALETTES.ROCK; break; }
+				case WORLDS.BEACH: { return PALETTES.BROWN; }
+				default: { return PALETTES.ROCK; }
 			}
-			particle_palette = get_darker_palette(main_palette);
-			
-			break;
 		}
 		case obj_brick: {
 			switch (global.controller.room_world) {
-				case WORLDS.FOREST: { main_palette = PALETTES.BRICK; break; }
-				case WORLDS.FACTORY: { main_palette = PALETTES.BROWN_DARK; break; }
-				default: { main_palette = PALETTES.GRAY_LIGHT; break; }
+				case WORLDS.FOREST: { return PALETTES.BRICK; }
+				case WORLDS.FACTORY: { return PALETTES.BROWN_DARK; }
+				default: { return PALETTES.GRAY_LIGHT; }
 			}
-			particle_palette = get_darker_palette(main_palette);
-			
-			break;
 		}
 	}
+	return undefined;
 }
 
 function build_background(_world) {

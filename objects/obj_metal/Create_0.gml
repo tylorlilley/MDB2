@@ -9,5 +9,4 @@ particle_palette = main_palette;
 main_sprite = spr_metal;
 outline_sprite = spr_metal_outline;
 fuzzing_sprite = spr_metal_fuzzing;
-fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);
 particle_frequency = 0;

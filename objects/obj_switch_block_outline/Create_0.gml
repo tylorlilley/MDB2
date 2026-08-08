@@ -3,7 +3,7 @@ event_inherited();
 // Create Solid Metal Area
 solid_obj = obj_switch_block;
 begin_off = false;
-depth = SWITCH_BLOCK_DEPTH;
+//depth = SWITCH_BLOCK_DEPTH;
 
 // Solid Area Variables
 main_sprite = noone;

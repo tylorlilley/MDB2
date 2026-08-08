@@ -1,7 +1,7 @@
 event_inherited();
 
 sprite_index = spr_gear;
-depth = 12;
+depth = GEAR_DEPTH;
 main_palette = PALETTES.GRAY_LIGHT;
 particle_palette = PALETTES.GRAY_LIGHT;
 

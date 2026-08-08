@@ -8,7 +8,6 @@ attribute vec2 in_TextureCoord;              // (u,v)
 
 varying vec2 v_vTexcoord;
 varying vec4 v_vColour;
-varying vec2 v_vPosition;
 
 void main()
 {
@@ -17,5 +16,4 @@ void main()
     
     v_vColour = in_Colour;
     v_vTexcoord = in_TextureCoord;
-    v_vPosition = in_Position.xy;             // Room Coordinates, Used to Look up the Clip Mask
 }

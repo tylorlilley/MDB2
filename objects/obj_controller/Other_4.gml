@@ -21,6 +21,7 @@ if (!_transition_room) {
 }
 
 // Spawn Background Layers
+/*
 if (instance_number(obj_bg_dirt) > 1) {
 	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE;
 	var _background_surface_manager = instance_create(x, y, obj_surface_manager);
@@ -28,9 +29,7 @@ if (instance_number(obj_bg_dirt) > 1) {
 	_background_surface_manager.initialize_game_object_grid(_cols, _rows);
 	with (obj_bg_dirt) { grid_add(_background_surface_manager.game_object_grid); manager = _background_surface_manager; } // instance_destroy(); }
 }
-
-// Update Player Facing
-with (obj_player) { is_left = !other.classic_levels; }
+*/
 	
 // Spawn and Deactivate Instances
 with (obj_tree) { initialize_solids(); }
@@ -43,14 +42,6 @@ with (obj_switch_block_outline) {
 	if (begin_off) { toggle_solid(); }
 }
 with (obj_reforming_cloud_outline) { create_cloud(); }
-with (obj_static_area) {
-	get_connections_for_graphics();
-	get_world_palette();
-}
-with (obj_bg_dirt) {
-	get_connections_for_graphics();
-	get_world_palette();
-}
 with (obj_dynamic_object) {
 	if (contents != noone) {
 		contents = instance_create(0, 0, contents);
@@ -59,13 +50,32 @@ with (obj_dynamic_object) {
 	}
 }
 
-// Set Palettes
+// Set Up Palettes and Visual Variables
+static_area_objects_to_draw = [];
+for (var _i = 0; _i < array_length(STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER); _i++) {
+	var _obj_index = STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER[_i], _obj_type_exists = false;
+	with (_obj_index) {
+		depth = STATIC_AREA_DEPTH - _i; // TODO: Does this matter for anything if the controller is always drawing things? Is depth used for something else?
+		if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
+		if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
+		get_connections_for_graphics();
+		main_plaette = get_world_palette(object_index) ?? main_palette; // TODO: Does setting this per-instance matter if the controller is owning the draw? What else is this used for?
+		particle_palette = (object_index == obj_sand) ? main_palette: get_darker_palette(main_palette);
+	}
+	if (_obj_type_exists) { array_push(_obj_index, static_area_objects_to_draw); }
+}
+
+with (obj_bg_dirt) {
+	if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
+	get_connections_for_graphics();
+	main_plaette = get_world_palette(object_index) ?? main_palette;
+}
 with (obj_visual_object) { image_blend = global.world_tint; }
 with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
 with (obj_dynamic_object) {
 	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }
 }
-
+with (obj_player) { is_left = !other.classic_levels; }
 with (obj_door) {
 	if (global.room_keys == 0) { image_index = 1; }
 }

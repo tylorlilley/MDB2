@@ -12,4 +12,3 @@ outline_sprite = spr_leaf_outline;
 particle_frequency = 4;
 particle_type = PARTICLE_TYPES.LEAF;
 fuzzing_sprite = spr_leaf_fuzzing;
-fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);

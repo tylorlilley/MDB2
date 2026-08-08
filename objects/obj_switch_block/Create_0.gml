@@ -1,5 +1,5 @@
 event_inherited();
-depth = SWITCH_BLOCK_DEPTH;
+// depth = SWITCH_BLOCK_DEPTH;
 // image_alpha = 0.875;
 
 step_sound = snd_step_bubble;

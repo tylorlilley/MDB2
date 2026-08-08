@@ -17,13 +17,19 @@
 #macro KEY_DEPTH 3
 #macro CRATE_DEPTH 5
 #macro LADDER_DEPTH 6
-#macro SWITCH_BLOCK_DEPTH 7 //Lie, drawn by controller
+//#macro SWITCH_BLOCK_DEPTH 7 // TODO: Draw these behind dynamic objects drawn by controller
 #macro PORTAL_DEPTH 8
-#macro SWITCH_DEPTH 9//4
+#macro SWITCH_DEPTH 9 //4
 #macro STATIC_OBJECT_DEPTH 10
-#macro STATIC_AREA_DEPTH 11
-#macro VISUAL_OBJECT_DEPTH 15 // Tree
-#macro BACKGROUND_DEPTH 20
+#macro GEAR_DEPTH 11
+
+#macro STATIC_AREA_DEPTH 50 // Lowest Depth, works upward from BG Dirt
+#macro VISUAL_OBJECT_DEPTH 51 // Tree
+
+//#macro BACKGROUND_DEPTH 100
+
+// Ordered Lowest Depth First
+#macro STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block]
 
 // Global Variables
 global.controller = id;
@@ -34,10 +40,6 @@ global.color_portals = false;
 global.should_rebuild_static_area = true;
 global.u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 global.u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
-global.u_clip_uvs = shader_get_uniform(shd_palettizer, "u_clip_uvs");
-global.u_clip_area = shader_get_uniform(shd_palettizer, "u_clip_area");
-global.u_clip_enabled = shader_get_uniform(shd_palettizer, "u_clip_enabled");
-global.u_clip_texture = shader_get_sampler_index(shd_palettizer, "u_clip_texture");
 global.room_keys = 0;
 global.keys_collected = 0;
 global.room_portals = 0;
@@ -58,7 +60,7 @@ surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(true);
+window_set_fullscreen(false);
 
 // Set Up Game Audio
 frame_sounds = [];
@@ -72,6 +74,8 @@ palettes_init();
 
 // Graphic Variables
 depth = STATIC_AREA_DEPTH;
+static_area_object_indexes_to_draw = [];
+
 transition_surface = noone;
 screen_shake_timer = 0;
 scr_surface_manager_functions();

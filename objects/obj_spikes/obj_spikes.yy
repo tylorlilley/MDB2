@@ -33,12 +33,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_spikes_1",
-    "path":"sprites/spr_spikes_1/spr_spikes_1.yy",
+    "name":"spr_spikes",
+    "path":"sprites/spr_spikes/spr_spikes.yy",
   },
   "spriteMaskId":{
-    "name":"spr_box_16x8",
-    "path":"sprites/spr_box_16x8/spr_box_16x8.yy",
+    "name":"spr_box_8x16",
+    "path":"sprites/spr_box_8x16/spr_box_8x16.yy",
   },
   "visible":true,
 }

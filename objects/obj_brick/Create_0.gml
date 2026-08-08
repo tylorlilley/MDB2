@@ -6,6 +6,5 @@ hits = 3;
 main_palette = PALETTES.GRAY_LIGHT;
 outline_sprite = spr_brick_outline;
 fuzzing_sprite = spr_brick_fuzzing;
-fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);
 main_sprite = spr_brick;
 particle_frequency = 1;

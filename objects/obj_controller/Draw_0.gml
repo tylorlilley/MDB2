@@ -1,7 +1,2 @@
 // Draw Static Areas
-if (!surface_exists(static_area_surface) || global.should_rebuild_static_area) { rebuild_surface(obj_static_area); }
-shader_reset();
-draw_surface(static_area_surface, 0, 0);
-global.should_rebuild_static_area = false;
-shader_set(shd_palettizer);
-shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
+draw_static_areas();
