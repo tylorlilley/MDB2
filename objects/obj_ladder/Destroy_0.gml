@@ -1,3 +1,3 @@
 event_inherited();
 
-with (obj_ladder) { get_connections_for_graphics(); }
+with (obj_ladder) { update_connections(); }

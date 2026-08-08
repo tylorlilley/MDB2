@@ -58,16 +58,17 @@ for (var _i = 0; _i < array_length(STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER); _i++) 
 		depth = STATIC_AREA_DEPTH - _i; // TODO: Does this matter for anything if the controller is always drawing things? Is depth used for something else?
 		if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 		if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
-		get_connections_for_graphics();
+		update_connections();
 		main_plaette = get_world_palette(object_index) ?? main_palette; // TODO: Does setting this per-instance matter if the controller is owning the draw? What else is this used for?
 		particle_palette = (object_index == obj_sand) ? main_palette: get_darker_palette(main_palette);
+		_obj_type_exists = true;
 	}
-	if (_obj_type_exists) { array_push(_obj_index, static_area_objects_to_draw); }
+	if (_obj_type_exists) { array_push(static_area_objects_to_draw, _obj_index); }
 }
 
 with (obj_bg_dirt) {
 	if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
-	get_connections_for_graphics();
+	update_connections();
 	main_plaette = get_world_palette(object_index) ?? main_palette;
 }
 with (obj_visual_object) { image_blend = global.world_tint; }

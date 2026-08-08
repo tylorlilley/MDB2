@@ -90,7 +90,7 @@ for (var _i = 0; _i < array_length(pending_switch_colors); _i++) {
 	var _c = pending_switch_colors[_i];
 	with (obj_switch) { if (switch_color == _c) { pressed = !pressed; } }
 	with (obj_switch_block_outline) { if (switch_color == _c) { toggle_solid(true); } }
-	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.get_connections_for_graphics(); } }
+	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.update_connections(); } }
 }
 pending_switch_colors = [];
 */

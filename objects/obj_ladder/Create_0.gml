@@ -4,7 +4,7 @@ event_inherited();
 depth = LADDER_DEPTH;
 main_palette = PALETTES.GRAY_LIGHT;
 
-get_connections_for_graphics = function() {
+update_connections = function() {
 	// Set Graphic Based on Adjacent Ladders and Solid Areas
 	image_index = 0;
 	var _spr_width = sprite_get_width(sprite_index), _spr_height = sprite_get_height(sprite_index);

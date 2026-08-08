@@ -44,7 +44,7 @@ create_cloud = function() {
 }
 
 refresh_cloud_graphics = function() {
-	solid_obj.get_connections_for_graphics();
+	solid_obj.update_connections();
 	solid_obj.update_connected_graphics();
 	global.should_rebuild_static_area = true;
 }
@@ -53,7 +53,7 @@ start_reform_timer = function() {
 	reform_timer = 240;
 	main_sprite = spr_cloud_area;
 	should_draw = true;
-	get_connections_for_graphics();
+	update_connections();
 	update_connected_graphics();
 	image_index = 0;
 	image_angle = irandom(3) * 90;

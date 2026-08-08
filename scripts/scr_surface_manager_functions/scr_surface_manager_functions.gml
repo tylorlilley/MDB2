@@ -15,11 +15,8 @@ initialize_game_object_grid = function(_cols, _rows) {
 
 
 draw_static_areas = function() {
-	// Set up Surface to Draw On
+	// Regenerate Surface if Room Size has Changed
 	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); static_area_surface = noone; }
-	
-	// Clear Surface
-	draw_clear_alpha(0, 0);
 	
 	var _new_static_area_objects_to_draw = [];
 	for (var _i = 0; _i < array_length(static_area_objects_to_draw); _i++) {
@@ -28,9 +25,10 @@ draw_static_areas = function() {
 		// Set up Surface to Draw On
 		if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
 		if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SETTING SURFACE"); }
+		draw_clear_alpha(c_white, 0);
 		
 		// Set Palette and Draw Tiles to Surface
-		set_shader_palette(get_world_palette(_object_index) ?? main_palette);
+		set_shader_palette(get_world_palette(_object_index) ?? _object_index.main_palette);
 		with (_object_index) {
 			draw_static_area_tile();
 			_obj_type_exists = true;

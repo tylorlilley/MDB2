@@ -37,5 +37,5 @@ press_switch = function() {
 toggle_switch_color = function(_color) {
 	with (obj_switch) { if (switch_color == _color) { pressed = !pressed; } }
 	with (obj_switch_block_outline) { if (switch_color == _color) { toggle_solid(true); } }
-	with (obj_switch_block_outline) { if (switch_color == _color) { solid_obj.get_connections_for_graphics(); } }
+	with (obj_switch_block_outline) { if (switch_color == _color) { solid_obj.update_connections(); } }
 }

@@ -1,11 +1,11 @@
 {
   "$GMObject":"",
-  "%Name":"obj_block_red",
+  "%Name":"obj_switch_block_red",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_block_red",
+  "name":"obj_switch_block_red",
   "overriddenProperties":[],
   "parent":{
     "name":"Parents",

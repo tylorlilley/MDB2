@@ -1,1 +1,1 @@
-get_connections_for_graphics();
+update_connections();

@@ -189,7 +189,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 				image_xscale = (irandom(1) == 0) ? -1 : 1;
 				image_yscale = (irandom(1) == 0) ? -1 : 1;
 				image_speed = (_particle_type == PARTICLE_TYPES.SPARKLE) ? 1 : 0;
-				if (_particle_type == PARTICLE_TYPES.SPARKLE) { vspeed = (random(3) * -1) - 2; }
+				if (_particle_type == PARTICLE_TYPES.SPARKLE) { vspeed = (-random(6)) + 1; }
 			}
 			else if (_particle_type == PARTICLE_TYPES.LEAF) {
 				if (irandom(1) == 0) { main_palette = get_darker_palette(main_palette); }
