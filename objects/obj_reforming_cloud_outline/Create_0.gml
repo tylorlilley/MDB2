@@ -39,6 +39,7 @@ create_cloud = function() {
 		solid_obj.depth = depth - 1;
 		solid_obj.main_palette = main_palette;
 		solid_obj.particle_palette = main_palette;
+		solid_obj.fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);
 		solid_obj.creator = id;
 	}
 }

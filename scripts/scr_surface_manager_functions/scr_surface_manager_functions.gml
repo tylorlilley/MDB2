@@ -25,23 +25,29 @@ draw_static_areas = function() {
 		// Set up Surface to Draw On
 		if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
 		if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SETTING SURFACE"); }
-		draw_clear_alpha(c_white, 0);
+		draw_clear_alpha(c_black, 0);
 		
 		// Set Palette and Draw Tiles to Surface
-		set_shader_palette(get_world_palette(_object_index) ?? _object_index.main_palette);
+		var _last_palette = undefined;
 		with (_object_index) {
-			draw_static_area_tile();
+			if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
+			draw_static_area_fill();
 			_obj_type_exists = true;
 		}
+		with (_object_index) { draw_static_area_outline(); }
+		gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
+		with (_object_index) { draw_static_area_mask(); }
+		gpu_set_blendmode(bm_normal);
 		
 		// Draw Surface to Application Surface
 		surface_reset_target();
-		draw_surface(static_area_surface, 0, 0); // TODO: should this use draw_surface_ext and apply any per-object-type alpha here when the surface is drawn, instead of using alpha in draw_static_area_tile?
+		gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
+		draw_surface(static_area_surface, 0, 0);
+		gpu_set_blendmode(bm_normal);
 		
 		if (_obj_type_exists) { array_push(_new_static_area_objects_to_draw, _object_index); }
 	}
 	static_area_objects_to_draw = _new_static_area_objects_to_draw;
-	//shader_reset(); // TODO: Does this need to be called  if controller always calls it at Draw End anyway?
 }
 
 /*

@@ -29,7 +29,7 @@
 //#macro BACKGROUND_DEPTH 100
 
 // Ordered Lowest Depth First
-#macro STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER [ obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline_red_off, obj_switch_block_outline_blue_off, obj_switch_block_outline_yellow_off, obj_switch_block_red, obj_switch_block_blue, obj_switch_block_yellow ]
+#macro STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER [ obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline_red_on, obj_switch_block_outline_blue_on, obj_switch_block_outline_yellow_on, obj_switch_block_red, obj_switch_block_blue, obj_switch_block_yellow ]
 
 // Global Variables
 global.controller = id;

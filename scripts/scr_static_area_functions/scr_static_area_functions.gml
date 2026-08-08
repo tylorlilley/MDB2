@@ -180,8 +180,8 @@ draw_static_area_fill = function() {
 	var _damage_based_main_sprite_image_index = ((hits - 1 <= 0) ? 0 : hits - 1);
 	var _main_sprite_image_index = (animated) ? get_animated_sprite_image_index(main_sprite) : _damage_based_main_sprite_image_index;
 	
-	if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-	if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+	if (main_sprite != noone) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (fuzzing_sprite != noone) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
 }
 
 draw_static_area_outline = function() {
@@ -202,21 +202,24 @@ draw_static_area_outline = function() {
 }
 
 draw_static_area_mask = function() {
-	if (!should_draw || outline_sprite == noone || (is_undefined(outline_x_offset) || is_undefined(outline_y_offset))) { return; }
+	if (!should_draw) { return; }
 	gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
 	
-	var _outline_mask_sprite = outline_mask_sprite ?? outline_sprite;
-	var _outline_mask_sprite_image_index = (animated) ? get_animated_sprite_image_index(_outline_mask_sprite) : 1;
-	
-	draw_sprite_part_ext(outline_sprite, _outline_mask_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, c_white, 1);
+	if (outline_sprite == noone || (is_undefined(outline_x_offset) || is_undefined(outline_y_offset))) {
+		// Apply Alpha to Interior Tiles with No Outline clipping
+		if (image_alpha < 1) {
+			draw_set_alpha(image_alpha);
+			draw_rectangle(x, y, x + GRID_SIZE, y + GRID_SIZE, false);
+			draw_set_alpha(1);
+		}
+	}
+	else {
+		
+		var _outline_mask_sprite = outline_mask_sprite ?? outline_sprite;
+		var _outline_mask_sprite_image_index = (animated) ? get_animated_sprite_image_index(_outline_mask_sprite) : 1;
+		draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, c_white, image_alpha);
+	}
 	gpu_set_blendmode(bm_normal);
-}
-
-draw_static_area_tile = function() {
-	// Can we do this without resetting blend modes on each tile?
-	draw_static_area_fill();
-	draw_static_area_outline();
-	draw_static_area_mask();
 }
 
 /*
