@@ -18,6 +18,7 @@ step_index = 1;
 air_walk = false;
 climbed_inst = noone;
 fall_sound = noone;
+death_sound = snd_player_die;
 	
 // Player Specific Variables
 prev_state = PLAYER_STATES.STAND;

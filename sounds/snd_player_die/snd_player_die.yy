@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_player_death",
+  "%Name":"snd_player_die",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -12,7 +12,7 @@
   "conversionMode":0,
   "duration":1.5659411,
   "exportDir":"",
-  "name":"snd_player_death",
+  "name":"snd_player_die",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_player_death.wav",
+  "soundFile":"snd_player_die.wav",
   "volume":0.33,
 }

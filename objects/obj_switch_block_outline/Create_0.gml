@@ -29,5 +29,6 @@ toggle_solid = function(_create_particles = false) {
 	global.should_rebuild_static_area = true;
 	if (_create_particles) {
 		//if (irandom(3) == 0) { create_particles(1, PARTICLE_TYPES.SPARKLE, get_lighter_palette(main_palette)); }
+		solid_obj.main_palette = PALETTES.ALL_WHITE;
 	}
 }

@@ -1,6 +1,6 @@
 if (instance_exists(creator)) { creator.part_destroyed(id); }
 grid_remove();
-create_particles(irandom(4)+2, PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW);
+create_particles(irandom(2)+4, PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
 play_sound(destroyed_sound);
 //global.room_keys--;
 global.keys_collected++;

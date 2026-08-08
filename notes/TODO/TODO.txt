@@ -1,23 +1,33 @@
 // NEXT:
 
+Test gear/portal interaction?
+
+New Factory Levels
+- Sawmill
+- Add Gears to Trash
+- More Confusing Circular Logic
+- Move Mounting Tension Earlier?
+- primary colors too easy didnt need brick?
+- make rock more green
+
 Clean up Create Code
 Fix Robot Parity with Previous Game
 Press down to get off ladder;
-Climb from pressing left/right while on ladder
 
-move sway timer out of key step
+// Levels to Replace:
+- Replace 4_1; it (and maybe 4_5 tbd) are the only levels that rely on the old game switches being on the NEXT frame
+- Replace 3_8; it is the only level that relies on the bounceback under a switch NOT killing the player, and the only one with switches on switch blocks
 
 // NEXT:
 
 Go to Next Room Errors
-Background Sand Cave Tiles
 Sort tiebreak?
 Test Robots Work Like Originals?
 Entering a portal while flying causes you to start falling; if the portal is over ground the cape is fucked up
 
-Box starts falling when pushing it off the ledge before it is fully off the ledge
 
-// PAST OBJECTS TO RECREATE
+// CRATE TODO:
+Box starts falling when pushing it off the ledge before it is fully off the ledge
 keep crushed walk in grid until movement finishes so crates dont fall until after movement completes?
 Push sounds when pushing a block and it stops moving due to running into something? Same for player?
 
@@ -32,7 +42,7 @@ Push sounds when pushing a block and it stops moving due to running into somethi
 - Add Swim State
 - What to do about Crushed States?
 - Soliders on top of soliders shouldn't move each other as carried objects?
--- Implemented but figure out if this makes sens or matches the original cadence
+-- Implemented but figure out if this makes sense or matches the original cadence
 
 // FUTURE IDEAS
 

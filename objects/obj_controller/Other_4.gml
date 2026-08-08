@@ -28,6 +28,9 @@ if (instance_number(obj_bg_dirt) > 1) {
 	_background_surface_manager.initialize_game_object_grid(_cols, _rows);
 	with (obj_bg_dirt) { grid_add(_background_surface_manager.game_object_grid); manager = _background_surface_manager; } // instance_destroy(); }
 }
+
+// Update Player Facing
+with (obj_player) { is_left = !other.classic_levels; }
 	
 // Spawn and Deactivate Instances
 with (obj_tree) { initialize_solids(); }

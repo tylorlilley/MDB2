@@ -78,7 +78,7 @@ switch (state) {
 		var _next_level = (menu_pos == 0) ? rm_old_w1_1 : rm_mdb_1_1;
 		if (menu_pos == 2) { _next_level = saved_room; }
 		
-		if (key_jump || key_restart) {
+		if (global.controller.transition_timer == 0 && (key_jump || key_restart)) {
 			switch (menu_pos) {
 				case 0:
 				case 1:

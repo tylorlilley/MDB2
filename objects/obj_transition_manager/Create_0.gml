@@ -35,7 +35,7 @@ state_durations = [
 transition_timer = 0;
 depth = -10;
 global.controller.level_number--;
-transition_max = 264;
+transition_max = 280;
 
 transition_revealed_length = function(_name, _progress) {
 	var _prefix_length = string_length(TRANSITION_ELLIPSIS), _total = _prefix_length + string_length(_name);

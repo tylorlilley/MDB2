@@ -1,12 +1,6 @@
 // Resolve Switch Presses From Previous Frame
 with (obj_switch) { prev_pressed = pressed; }
-for (var _i = 0; _i < array_length(pending_switch_colors); _i++) {
-	var _c = pending_switch_colors[_i];
-	with (obj_switch) { if (switch_color == _c) { pressed = !pressed; } }
-	with (obj_switch_block_outline) { if (switch_color == _c) { toggle_solid(true); } }
-	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.get_connections_for_graphics(); } }
-}
-pending_switch_colors = [];
+with (obj_switch_block_outline) { solid_obj.main_palette = main_palette; global.should_rebuild_static_area = true; }
 
 // Update Switch Graphics and Sound
 with (obj_switch) {
@@ -80,6 +74,17 @@ with (obj_switch) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else if (!pressed && array_length(get_pressing_objects()) > 0) { press_switch(); }
 }
+
+// Toggle Pressed Switches
+/*
+for (var _i = 0; _i < array_length(pending_switch_colors); _i++) {
+	var _c = pending_switch_colors[_i];
+	with (obj_switch) { if (switch_color == _c) { pressed = !pressed; } }
+	with (obj_switch_block_outline) { if (switch_color == _c) { toggle_solid(true); } }
+	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.get_connections_for_graphics(); } }
+}
+pending_switch_colors = [];
+*/
 
 // Update Switch Graphics and Sound
 with (obj_switch) {

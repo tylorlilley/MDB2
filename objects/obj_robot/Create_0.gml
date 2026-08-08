@@ -7,6 +7,7 @@ can_push_objects = false;
 can_be_controlled = false;
 can_be_crushed = false;
 has_cape = false;
+death_sound = snd_robot_die;
 
 // Game Object Overrides
 is_player_lethal = true;

@@ -2,7 +2,7 @@ enum WORLDS {
 	BEACH,
 	FOREST,
 	FACTORY,
-	CASTLE,
+	FORTRESS,
 	SKY,
 	SKY_2,
 	SKY_3,
@@ -12,25 +12,26 @@ enum WORLDS {
 
 function get_world_palette() {
 	switch (object_index) {
+		case obj_bg_dirt: {
+			switch (global.controller.room_world) {
+				case WORLDS.FOREST: { main_palette = PALETTES.BACKGROUND_ROCK; break; }
+				case WORLDS.FACTORY: { main_palette = PALETTES.TRASH_DARKEST; break; }
+				case WORLDS.FORTRESS: { main_palette = PALETTES.GRAY_DARK; break; }
+				default: { main_palette = PALETTES.BACKGROUND_DIRT; break; }
+			}
+			particle_palette = get_darker_palette(main_palette);
+			
+			break;
+		}
 		case obj_sand: {
 			switch (global.controller.room_world) {
 				case WORLDS.BEACH: { main_palette = PALETTES.SAND; break; }
 				case WORLDS.FOREST: { main_palette = PALETTES.SOIL; break; }
 				case WORLDS.FACTORY: { main_palette = PALETTES.TRASH; break; }
-				case WORLDS.CASTLE: { main_palette = PALETTES.SOOT; break; }
+				case WORLDS.FORTRESS: { main_palette = PALETTES.SOOT; break; }
 				default: { main_palette = PALETTES.COTTON_CANDY; break; }
 			}
 			particle_palette = main_palette;
-			
-			break;
-		}
-		case obj_bg_dirt: {
-			switch (global.controller.room_world) {
-				case WORLDS.FOREST: { main_palette = PALETTES.BACKGROUND_ROCK; break; }
-				case WORLDS.FACTORY: { main_palette = PALETTES.TRASH_DARK; break; }
-				default: { main_palette = PALETTES.BACKGROUND_DIRT; break; }
-			}
-			particle_palette = get_darker_palette(main_palette);
 			
 			break;
 		}
@@ -46,7 +47,7 @@ function get_world_palette() {
 		case obj_brick: {
 			switch (global.controller.room_world) {
 				case WORLDS.FOREST: { main_palette = PALETTES.BRICK; break; }
-				case WORLDS.FACTORY: { main_palette = PALETTES.BROWN; break; }
+				case WORLDS.FACTORY: { main_palette = PALETTES.BROWN_DARK; break; }
 				default: { main_palette = PALETTES.GRAY_LIGHT; break; }
 			}
 			particle_palette = get_darker_palette(main_palette);
@@ -86,7 +87,7 @@ function build_background(_world) {
 			
 			break;
 		}
-		case WORLDS.CASTLE: {
+		case WORLDS.FORTRESS: {
 			global.world_tint = C_RED_DARK;
 			global.world_tint_strength = 0.32;
 			global.border_alpha = 0.6;
@@ -171,7 +172,7 @@ function play_music(_world) {
 		case WORLDS.BEACH:{ _sound_to_play = bgm_w1; break; }
 		case WORLDS.FOREST: { _sound_to_play = bgm_w2; break; }
 		case WORLDS.FACTORY: { _sound_to_play = bgm_w3; break; }
-		case WORLDS.CASTLE: { _sound_to_play = bgm_w4; break; }
+		case WORLDS.FORTRESS: { _sound_to_play = bgm_w4; break; }
 		case WORLDS.SKY:
 		case WORLDS.SKY_2:
 		case WORLDS.SKY_3:
@@ -223,14 +224,14 @@ function room_data(_room = room) {
 			{ rm: rm_mdb_3_8, world: WORLDS.FACTORY,  title: "Switch Switching" },
 			
 			// MDB World 4
-			{ rm: rm_mdb_4_1, world: WORLDS.CASTLE,  title: "Rank and File" },
-			{ rm: rm_mdb_4_2, world: WORLDS.CASTLE,  title: "Extra Lives" },
-			{ rm: rm_mdb_4_3, world: WORLDS.CASTLE,  title: "Key Creations" },
-			{ rm: rm_mdb_4_4, world: WORLDS.CASTLE,  title: "Lava Tubes" },
-			{ rm: rm_mdb_4_5, world: WORLDS.CASTLE,  title: "The Dying Tree" },
-			{ rm: rm_mdb_4_6, world: WORLDS.CASTLE,  title: "Follow the Leader" },
-			{ rm: rm_mdb_4_7, world: WORLDS.CASTLE,  title: "Chutes and Ladders" },
-			{ rm: rm_mdb_4_8, world: WORLDS.CASTLE,  title: "Mission Control" },
+			{ rm: rm_mdb_4_1, world: WORLDS.FORTRESS,  title: "Rank and File" },
+			{ rm: rm_mdb_4_2, world: WORLDS.FORTRESS,  title: "Extra Lives" },
+			{ rm: rm_mdb_4_3, world: WORLDS.FORTRESS,  title: "Key Creations" },
+			{ rm: rm_mdb_4_4, world: WORLDS.FORTRESS,  title: "Lava Tubes" },
+			{ rm: rm_mdb_4_5, world: WORLDS.FORTRESS,  title: "The Dying Tree" },
+			{ rm: rm_mdb_4_6, world: WORLDS.FORTRESS,  title: "Follow the Leader" },
+			{ rm: rm_mdb_4_7, world: WORLDS.FORTRESS,  title: "Chutes and Ladders" },
+			{ rm: rm_mdb_4_8, world: WORLDS.FORTRESS,  title: "Mission Control" },
 			
 			// MDB World 5
 			{ rm: rm_mdb_5_1, world: WORLDS.SKY,  title: "Head in the Clouds" },
@@ -273,14 +274,14 @@ function room_data(_room = room) {
 			{ rm: rm_old_w3_8, world: WORLDS.FACTORY,  title: "Primary Colors" },
 			
 			// Classic World 4
-			{ rm: rm_old_w4_1, world: WORLDS.CASTLE,  title: "Patrol the Labyrinth" }, // OG: Patroling the Labyrinth
-			{ rm: rm_old_w4_2, world: WORLDS.CASTLE,  title: "Living Key Soldiers" },
-			{ rm: rm_old_w4_3, world: WORLDS.CASTLE,  title: "The Barracks" },
-			{ rm: rm_old_w4_4, world: WORLDS.CASTLE,  title: "Follow the Leader" },
-			{ rm: rm_old_w4_5, world: WORLDS.CASTLE,  title: "The Dying Magic Tree" },
-			{ rm: rm_old_w4_6, world: WORLDS.CASTLE,  title: "Frozen Magma Fortress" },
-			{ rm: rm_old_w4_7, world: WORLDS.CASTLE,  title: "Life Preservers" },
-			{ rm: rm_old_w4_8, world: WORLDS.CASTLE,  title: "Sidekick Soldier Assistant" },
+			{ rm: rm_old_w4_1, world: WORLDS.FORTRESS,  title: "Patrol the Labyrinth" }, // OG: Patroling the Labyrinth
+			{ rm: rm_old_w4_2, world: WORLDS.FORTRESS,  title: "Living Key Soldiers" },
+			{ rm: rm_old_w4_3, world: WORLDS.FORTRESS,  title: "The Barracks" },
+			{ rm: rm_old_w4_4, world: WORLDS.FORTRESS,  title: "Follow the Leader" },
+			{ rm: rm_old_w4_5, world: WORLDS.FORTRESS,  title: "The Dying Magic Tree" },
+			{ rm: rm_old_w4_6, world: WORLDS.FORTRESS,  title: "Frozen Magma Fortress" },
+			{ rm: rm_old_w4_7, world: WORLDS.FORTRESS,  title: "Life Preservers" },
+			{ rm: rm_old_w4_8, world: WORLDS.FORTRESS,  title: "Sidekick Soldier Assistant" },
 			
 			// Classic World 5
 			{ rm: rm_old_w5_1, world: WORLDS.SKY,  title: "Nimbus Cubs" },

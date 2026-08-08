@@ -553,10 +553,10 @@ update_player_state = function() {
 				if ((key_up || key_jump) && prev_state == PLAYER_STATES.WIN) { transition_timer = 0; }
 				else if (visible) {
 					if (transition_timer == 51) { image_index = 0; cape_image_index = 0; }
-					else if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
-					else if (transition_timer == 28) { image_index = 0; cape_image_index = 0; }
-					else if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); }
-					else if (transition_timer == 20) { image_index = 0; cape_image_index = 0; }
+					else if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); virtual_y -= 2; }
+					else if (transition_timer == 28) { image_index = 0; cape_image_index = 0; virtual_y += 2; }
+					else if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); virtual_y -= 2; }
+					else if (transition_timer == 20) { image_index = 0; cape_image_index = 0; virtual_y += 2; }
 					else if (transition_timer == 14) {
 						image_index = 3;
 						cape_image_index = 0;
@@ -580,7 +580,6 @@ update_player_state = function() {
 	
 	// While Not Transitioning
 	if (instance_exists(id) && transition_timer == 0) {
-		
 		switch (state) {
 			case PLAYER_STATES.SWIM:
 			case PLAYER_STATES.SWIM_FORWARD: {
