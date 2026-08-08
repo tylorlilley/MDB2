@@ -9,6 +9,7 @@ main_palette = PALETTES.RED;
 is_climbable = false;
 is_connected = true;
 is_player_lethal = true;
+is_powered_player_lethal = true;
 is_robot_lethal = true;
 
 hits = 0;

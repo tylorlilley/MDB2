@@ -43,8 +43,7 @@ get_connected_instance = function(_array) {
 	return noone;
 }
 
-update_connections = function() {
-	var _grid = (manager == noone) ? global.controller.game_object_grid : manager.game_object_grid;
+update_connections = function(_grid = global.controller.game_object_grid) {
 	is_connected_above = get_connected_instance(instances_at_grid_position(x, y-8, 8, 8, connection_object_index, false, _grid));
 	is_connected_below = get_connected_instance(instances_at_grid_position(x, y+8, 8, 8, connection_object_index, false, _grid));
 	is_connected_on_left = get_connected_instance(instances_at_grid_position(x-8, y, 8, 8, connection_object_index, false, _grid));
@@ -203,7 +202,6 @@ draw_static_area_outline = function() {
 
 draw_static_area_mask = function() {
 	if (!should_draw) { return; }
-	gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
 	
 	if (outline_sprite == noone || (is_undefined(outline_x_offset) || is_undefined(outline_y_offset))) {
 		// Apply Alpha to Interior Tiles with No Outline clipping
@@ -214,12 +212,11 @@ draw_static_area_mask = function() {
 		}
 	}
 	else {
-		
+		// Draw Mask to Clip Beyond Outline And Apply Alpha
 		var _outline_mask_sprite = outline_mask_sprite ?? outline_sprite;
 		var _outline_mask_sprite_image_index = (animated) ? get_animated_sprite_image_index(_outline_mask_sprite) : 1;
 		draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, c_white, image_alpha);
 	}
-	gpu_set_blendmode(bm_normal);
 }
 
 /*

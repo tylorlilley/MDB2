@@ -28,10 +28,8 @@
 
 //#macro BACKGROUND_DEPTH 100
 
-// Ordered Lowest Depth First
-#macro STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER [ obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline_red_on, obj_switch_block_outline_blue_on, obj_switch_block_outline_yellow_on, obj_switch_block_red, obj_switch_block_blue, obj_switch_block_yellow ]
-
 // Global Variables
+global.static_area_object_index_depth_order = [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline_red_on, obj_switch_block_outline_blue_on, obj_switch_block_outline_yellow_on, obj_switch_block_red, obj_switch_block_blue, obj_switch_block_yellow ]
 global.controller = id;
 global.gamepad = noone;
 global.original_controls = true;
@@ -77,8 +75,7 @@ static_area_object_indexes_to_draw = [];
 
 transition_surface = noone;
 screen_shake_timer = 0;
-scr_surface_manager_functions();
-initialize_surface_manager();
+static_area_surface = noone;
 
 // Timers
 transition_timer = 0;
@@ -105,7 +102,7 @@ initialize_room = function(_new_room) {
 	
 	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;
-	initialize_game_object_grid(_cols, _rows);
+	game_object_grid = create_object_grid(_cols, _rows);
 }
 
 reset_room = function() {
@@ -124,5 +121,55 @@ transition_room = function(_new_room, _randomize_room_seed = true) {
 start_screen_shake = function() { screen_shake_timer = 8; }
 
 start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
+
+create_object_grid = function(_cols, _rows) {
+	var _game_object_grid = array_create(_cols);
+	for (var _x = 0; _x < _cols; _x++) {
+		_game_object_grid[_x] = array_create(_rows);
+		for (var _y = 0; _y < _rows; _y++) {
+	        _game_object_grid[_x][_y] = [];
+	    }
+	}
+	return _game_object_grid;
+}
+
+draw_static_areas = function() {
+	// Regenerate Surface if Room Size has Changed
+	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); static_area_surface = noone; }
+	
+	for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order); _i++) {
+		var _object_index = global.static_area_object_index_depth_order[_i];
+		if (!instance_exists(_object_index)) { continue; }
+		
+		// Set up Surface to Draw On
+		if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
+		if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SETTING SURFACE"); continue; }
+		draw_clear_alpha(c_black, 0);
+		
+		// Set Palette and Draw Tiles to Surface
+		var _last_palette = undefined;
+		with (_object_index) {
+			if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
+			draw_static_area_fill();
+		}
+		_last_palette = undefined;
+		with (_object_index) {
+			if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
+			draw_static_area_outline();
+		}
+		gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
+		with (_object_index) { draw_static_area_mask(); }
+		gpu_set_blendmode(bm_normal);
+		
+		// Draw Surface to Application Surface
+		surface_reset_target();
+		shader_reset();
+		gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
+		draw_surface(static_area_surface, 0, 0);
+		gpu_set_blendmode(bm_normal);
+		shader_set(shd_palettizer);
+		shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
+	}
+}
 
 transition_room(target_room); //rm_test_terrain

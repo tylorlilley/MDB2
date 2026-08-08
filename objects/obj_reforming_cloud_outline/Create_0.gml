@@ -14,7 +14,6 @@ is_solid_from_below = false;
 is_solid_from_right = false;
 is_solid_from_left = false;
 is_climbable = false;
-should_draw = false;
 
 drawn_x_scale = 1;
 drawn_y_scale = 1;
@@ -28,9 +27,10 @@ reform_cloud = function() {
 	refresh_cloud_graphics();
 	solid_obj.create_walk_particles(2);
 	solid_obj.fuzzing_image_index = irandom(sprite_get_number(solid_obj.fuzzing_sprite)-1);
+	solid_obj.outline_sprite = spr_cloud_outline;
 	play_sound(snd_reforming_cloud);
-	image_alpha = 1;
 	main_sprite = noone;
+	outline_sprite = spr_cloud_outline;
 	should_draw = false;
 }
 
@@ -52,6 +52,7 @@ refresh_cloud_graphics = function() {
 start_reform_timer = function() {
 	reform_timer = 240;
 	main_sprite = spr_cloud_area;
+	outline_sprite = spr_reforming_cloud_outline;
 	should_draw = true;
 	update_connections();
 	update_connected_graphics();

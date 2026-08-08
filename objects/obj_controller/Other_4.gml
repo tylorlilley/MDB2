@@ -20,16 +20,11 @@ if (!_transition_room) {
 	ini_close();
 }
 
-// Spawn Background Layers
-/*
 if (instance_number(obj_bg_dirt) > 1) {
-	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE;
-	var _background_surface_manager = instance_create(x, y, obj_surface_manager);
-	_background_surface_manager.depth = BACKGROUND_DEPTH;
-	_background_surface_manager.initialize_game_object_grid(_cols, _rows);
-	with (obj_bg_dirt) { grid_add(_background_surface_manager.game_object_grid); manager = _background_surface_manager; } // instance_destroy(); }
+	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE, _dirt_grid = create_object_grid(_cols, _rows);
+	with (obj_bg_dirt) { grid_add(_dirt_grid); }
+	with (obj_bg_dirt) { update_connections(_dirt_grid); }
 }
-*/
 	
 // Spawn and Deactivate Instances
 with (obj_tree) { initialize_solids(); }
@@ -39,7 +34,6 @@ with (obj_switch_block_outline) {
 	solid_obj = instance_create(x, y, solid_obj);
 	solid_obj.depth = depth - 1;
 	solid_obj.main_palette = main_palette;
-	if (begin_off) { toggle_solid(); }
 }
 with (obj_reforming_cloud_outline) { create_cloud(); }
 with (obj_dynamic_object) {
@@ -51,21 +45,19 @@ with (obj_dynamic_object) {
 }
 
 // Set Up Palettes and Visual Variables
-static_area_objects_to_draw = [];
-for (var _i = 0; _i < array_length(STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER); _i++) {
-	var _obj_index = STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER[_i], _obj_type_exists = false;
+for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order); _i++) {
+	var _obj_index = global.static_area_object_index_depth_order[_i], _obj_type_exists = false;
 	with (_obj_index) {
 		depth = STATIC_AREA_DEPTH - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
 		if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 		if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
 		update_connections();
-		main_palette = get_world_palette(object_index) ?? main_palette; // TODO: Does setting this per-instance matter if the controller is owning the draw? What else is this used for?
+		main_palette = get_world_palette(object_index) ?? main_palette;
 		particle_palette = (object_index == obj_sand) ? main_palette: get_darker_palette(main_palette);
 		_obj_type_exists = true;
 	}
-	if (_obj_type_exists) { array_push(static_area_objects_to_draw, _obj_index); }
 }
-
+with (obj_switch_block_outline) { if (begin_off) { toggle_solid(); } }
 with (obj_bg_dirt) {
 	if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 	update_connections();

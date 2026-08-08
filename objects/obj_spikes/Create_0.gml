@@ -4,6 +4,7 @@ step_sound = snd_step_metal;
 image_speed = 0;
 
 is_player_lethal = true;
+is_powered_player_lethal = true;
 is_climbable = true;
 has_gravity = false;
 

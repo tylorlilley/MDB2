@@ -105,6 +105,10 @@ cape_state_to_string = function() {
 	return _cape_state_string;
 }
 
+is_powered_state = function() {
+	return (state == PLAYER_STATES.POWERFALL || state == PLAYER_STATES.POWERFLY);
+}
+
 is_push_state = function() {
 	return (state == PLAYER_STATES.PUSH_STAND || state == PLAYER_STATES.PUSH_FORWARD)
 }
@@ -330,8 +334,8 @@ get_left_and_right_objects = function(_get_above = false, _impact_fragile = fals
 }
 
 get_damaged_by_object = function(_inst) {
-	if ((object_index == obj_player && _inst.is_player_lethal) || (object_index != obj_player && _inst.is_robot_lethal)) {
-		instance_destroy();
+	if ((object_index == obj_player && (_inst.is_powered_player_lethal || !is_powered_state() && _inst.is_player_lethal)) || (object_index != obj_player && _inst.is_robot_lethal)) {
+		if (instance_exists(id)) { instance_destroy(); }
 		_inst.deal_damage();
 	}
 }
@@ -374,13 +378,14 @@ damage_objects = function(_damage_above = false) {
 		}
 		
 		// Damage the Objects
-		if (_damage_above) { _inst.powerfly_into(id); }
-		else { _inst.powerfall_on(id); }
-		play_sound(snd_impact);
+		if (instance_exists(id)) {
+			if (_damage_above) { _inst.powerfly_into(id); }
+			else { _inst.powerfall_on(id); }
+			play_sound(snd_impact);
+		}
 		
 		// Interact with Reamining Objects
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
-		if (!instance_exists(id)) { break; }
 	}
 }
 
@@ -392,10 +397,10 @@ fall_on_ground_objects = function() {
 		
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 		var _inst = _ground_objects[_i];
-		if (instance_exists(_inst)) {
-			_inst.fall_on(fall_timer);
-			//get_damaged_by_object(_inst);
-		}
+		if (!instance_exists(_inst)) { continue; }
+
+		_inst.fall_on(fall_timer);
+		get_damaged_by_object(_inst);
 	}
 }
 
@@ -404,10 +409,10 @@ fly_into_ceiling_objects = function() {
 		
 	for (var _i = 0; _i < array_length(_ceiling_objects); _i++) {
 		var _inst = _ceiling_objects[_i];
-		if (instance_exists(_inst)) {
-			_inst.fly_into(fly_timer);
-			//get_damaged_by_object(_inst);
-		}
+		if (!instance_exists(_inst)) { continue; }
+		
+		_inst.fly_into(fly_timer);
+		get_damaged_by_object(_inst);
 	}
 }
 
@@ -418,11 +423,10 @@ walk_on_ground_objects = function() {
 		
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 		var _inst = _ground_objects[_i];
-		if (instance_exists(_inst)) {
-			_inst.walk_on();
-			get_damaged_by_object(_inst);
-			if (!instance_exists(id)) { break; }
-		}
+		if (!instance_exists(_inst)) { continue; }
+		
+		_inst.walk_on();
+		get_damaged_by_object(_inst);
 	}
 }
 	
