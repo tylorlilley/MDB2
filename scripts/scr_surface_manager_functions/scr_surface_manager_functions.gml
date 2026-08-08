@@ -34,16 +34,23 @@ draw_static_areas = function() {
 			draw_static_area_fill();
 			_obj_type_exists = true;
 		}
-		with (_object_index) { draw_static_area_outline(); }
+		_last_palette = undefined;
+		with (_object_index) {
+			if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
+			draw_static_area_outline();
+		}
 		gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
 		with (_object_index) { draw_static_area_mask(); }
 		gpu_set_blendmode(bm_normal);
 		
 		// Draw Surface to Application Surface
 		surface_reset_target();
+		shader_reset();
 		gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
 		draw_surface(static_area_surface, 0, 0);
 		gpu_set_blendmode(bm_normal);
+		shader_set(shd_palettizer);
+		shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
 		
 		if (_obj_type_exists) { array_push(_new_static_area_objects_to_draw, _object_index); }
 	}

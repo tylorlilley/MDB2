@@ -37,7 +37,6 @@ global.gamepad = noone;
 global.original_controls = true;
 global.combine_up_and_jump_controls = true;
 global.color_portals = false;
-global.should_rebuild_static_area = true;
 global.u_replacement_colors = shader_get_uniform(shd_palettizer, "u_replacement_colors");
 global.u_tint_amount = shader_get_uniform(shd_palettizer, "u_tint_amount");
 global.room_keys = 0;
@@ -116,7 +115,6 @@ reset_room = function() {
 transition_room = function(_new_room, _randomize_room_seed = true) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed);	
-	global.should_rebuild_static_area = true;
 	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); static_area_surface = noone; }
 	initialize_room(_new_room);
 	audio_stop_sound(snd_player_fall);

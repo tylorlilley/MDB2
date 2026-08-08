@@ -27,6 +27,7 @@ reform_cloud = function() {
 	create_cloud();
 	refresh_cloud_graphics();
 	solid_obj.create_walk_particles(2);
+	solid_obj.fuzzing_image_index = irandom(sprite_get_number(solid_obj.fuzzing_sprite)-1);
 	play_sound(snd_reforming_cloud);
 	image_alpha = 1;
 	main_sprite = noone;
@@ -39,7 +40,6 @@ create_cloud = function() {
 		solid_obj.depth = depth - 1;
 		solid_obj.main_palette = main_palette;
 		solid_obj.particle_palette = main_palette;
-		solid_obj.fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1);
 		solid_obj.creator = id;
 	}
 }
@@ -47,7 +47,6 @@ create_cloud = function() {
 refresh_cloud_graphics = function() {
 	solid_obj.update_connections();
 	solid_obj.update_connected_graphics();
-	global.should_rebuild_static_area = true;
 }
 
 start_reform_timer = function() {

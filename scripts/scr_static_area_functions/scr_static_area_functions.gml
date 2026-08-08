@@ -209,7 +209,7 @@ draw_static_area_mask = function() {
 		// Apply Alpha to Interior Tiles with No Outline clipping
 		if (image_alpha < 1) {
 			draw_set_alpha(image_alpha);
-			draw_rectangle(x, y, x + GRID_SIZE, y + GRID_SIZE, false);
+			draw_rectangle(x, y, x + GRID_SIZE-1, y + GRID_SIZE-1, false);
 			draw_set_alpha(1);
 		}
 	}

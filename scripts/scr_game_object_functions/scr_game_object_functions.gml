@@ -195,8 +195,6 @@ get_damaged = function() {
 		play_sound(damaged_sound);
 	}
 	if (hits < 0) { hits = 0; }
-	
-	if (is_a(obj_static_area)) { global.should_rebuild_static_area = true; }
 }
 
 get_connected_instances = function(_connected_instances) {

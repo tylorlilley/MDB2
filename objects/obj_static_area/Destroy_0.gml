@@ -1,3 +1,2 @@
 event_inherited();
 update_connected_graphics();
-global.should_rebuild_static_area = true;

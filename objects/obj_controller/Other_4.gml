@@ -55,7 +55,7 @@ static_area_objects_to_draw = [];
 for (var _i = 0; _i < array_length(STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER); _i++) {
 	var _obj_index = STATIC_AREA_OBJECT_INDEX_DEPTH_ORDER[_i], _obj_type_exists = false;
 	with (_obj_index) {
-		depth = STATIC_AREA_DEPTH - _i; // TODO: Does this matter for anything if the controller is always drawing things? Is depth used for something else?
+		depth = STATIC_AREA_DEPTH - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
 		if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 		if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
 		update_connections();
