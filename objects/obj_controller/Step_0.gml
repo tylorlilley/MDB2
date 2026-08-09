@@ -65,8 +65,8 @@ with (obj_lava) {
 	if (bubble_timer > 0 && !is_connected_above) {
 		bubble_timer--;
 		if (bubble_timer == 0) {
-			bubble_timer = irandom(256*4) + 256;
-			var _particle = create_particles(1, PARTICLE_TYPES.DEBRIS, PALETTES.RED);
+			bubble_timer = irandom(256*6) + 256 + 128;
+			var _particle = create_particles(1, PARTICLE_TYPES.DEBRIS, PALETTES.RED_DARK);
 			_particle.vspeed -= 1.25;
 		}
 	}
@@ -174,7 +174,7 @@ with (obj_dynamic_object) { update_virtual_y_offset(); }
 // Handle Transition Code
 var _controllable_player_exists = false, _transition_manager_exists = false;
 with (obj_player) { if (can_be_controlled) { _controllable_player_exists = true; } }
-with (obj_transition_manager) { _controllable_player_exists = true; _transition_manager_exists = true; }
+with (obj_cutscene_manager) { _controllable_player_exists = true; _transition_manager_exists = true; }
 
 if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 1; }
 else if (transition_timer > 0) {
@@ -196,7 +196,7 @@ else if (transition_timer > 0) {
 // Create Win Sparkles
 var _winning_player_x = noone, _door_open = true;
 with (obj_door) { if (image_index >= 2) { _door_open = false; } }
-if (instance_number(obj_transition_manager) == 0) {
+if (instance_number(obj_cutscene_manager) == 0) {
 	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
 	if (_winning_player_x != noone && _door_open && irandom(2) == 0) {
 		create_particles(1, PARTICLE_TYPES.CONFETTI, PALETTES.GRAY_LIGHT, _winning_player_x+8, -2);

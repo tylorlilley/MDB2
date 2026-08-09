@@ -334,7 +334,7 @@ get_left_and_right_objects = function(_get_above = false, _impact_fragile = fals
 }
 
 get_damaged_by_object = function(_inst) {
-	if ((object_index == obj_player && (_inst.is_powered_player_lethal || !is_powered_state() && _inst.is_player_lethal)) || (object_index != obj_player && _inst.is_robot_lethal)) {
+	if ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (object_index != obj_player && _inst.is_robot_lethal)) {
 		if (instance_exists(id)) { instance_destroy(); }
 		_inst.deal_damage();
 	}
@@ -487,7 +487,7 @@ update_player_state = function() {
 
 	// Check Controls
 	var _transition_manager_exists = false;
-	with (obj_transition_manager) { _transition_manager_exists = true; }
+	with (obj_cutscene_manager) { _transition_manager_exists = true; }
 	if (!_transition_manager_exists) {
 		update_controls(object_index == obj_mirror_player);
 		if (global.combine_up_and_jump_controls) { key_jump = key_up; }

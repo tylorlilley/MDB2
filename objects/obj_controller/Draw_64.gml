@@ -1,4 +1,4 @@
-if (instance_number(obj_transition_manager) == 0) {
+if (instance_number(obj_cutscene_manager) == 0) {
 	// Draw HUD Bars
 	if (!classic_levels) {
 		draw_set_valign(fa_top)
@@ -48,7 +48,7 @@ if (instance_number(obj_transition_manager) == 0) {
 
 	set_shader_palette(PALETTES.ALL_BLACK);
 	draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos+1);
-	//draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos+2);
+	draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos+2);
 	//draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos+3);
 	set_shader_palette(PALETTES.YELLOW);
 	draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos);

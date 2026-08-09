@@ -1,3 +1,5 @@
+event_inherited();
+
 #macro TRANSITION_WAIT_TIME		16
 #macro TRANSITION_FLY_TIME		24
 #macro TRANSITION_SCRAWL_TIME	48
@@ -20,6 +22,7 @@ enum TRANSITION_STATES {
 
 enum TRANSITION_TEXT_PHASE { FLY_IN, SCRAWL, FLY_OUT }
 
+// New Variables
 state_durations = [
 	TRANSITION_WAIT_TIME,		// INITIAL_WAIT
 	TRANSITION_FLY_TIME,		// TOP_TEXT_FLY_IN
@@ -32,11 +35,7 @@ state_durations = [
 	infinity					// FINAL_WAIT
 ];
 
-transition_timer = 0;
-depth = -10;
-global.controller.level_number--;
-transition_max = 280;
-
+// New Functions
 transition_revealed_length = function(_name, _progress) {
 	var _prefix_length = string_length(TRANSITION_ELLIPSIS), _total = _prefix_length + string_length(_name);
 	if (_total <= 0) { return 0; }

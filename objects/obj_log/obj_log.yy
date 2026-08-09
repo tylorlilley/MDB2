@@ -30,6 +30,7 @@
   "physicsStartAwake":true,
   "properties":[
     {"$GMObjectProperty":"v2","%Name":"is_left","filters":[],"listItems":[],"multiselect":false,"name":"is_left","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
+    {"$GMObjectProperty":"v2","%Name":"main_palette","filters":[],"listItems":[],"multiselect":false,"name":"main_palette","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"PALETTES.BROWN","varType":4,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

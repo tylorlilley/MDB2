@@ -1,5 +1,4 @@
-event_inherited();
-audio_stop_sound(snd_fade_in);
+audio_stop_all();
 
-with (obj_static_area) { should_draw = false; particle_palette = PALETTES.ALL_WHITE; }
-with (obj_door) { visible = false; }
+with (obj_static_area) { should_draw = false; }
+with (obj_door) { visible = false; } // TODO: Replace visible with should_draw for non-static-area objects

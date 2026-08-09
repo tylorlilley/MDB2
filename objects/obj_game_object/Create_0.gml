@@ -21,7 +21,7 @@ is_climbable = false;
 is_pushable = false;
 is_fragile = false;
 is_connected = false;
-is_player_lethal = false
+is_player_lethal = false;
 is_powered_player_lethal = false;
 is_robot_lethal = false;
 

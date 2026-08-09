@@ -10,8 +10,8 @@
   "name":"obj_eih",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"EIH",
+    "path":"folders/Objects/Cutscenes/EIH.yy",
   },
   "parentObjectId":{
     "name":"obj_static_object",

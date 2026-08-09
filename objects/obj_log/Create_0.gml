@@ -15,8 +15,10 @@ initialize_solids = function() {
 			array_push(trunk, _trunk);
 			with (_trunk) {
 				creator = other;
-					visual_origin_x =  other.x + _trunk_x;
-					visual_origin_y =  other.y + _trunk_y;
+				visual_origin_x =  other.x + _trunk_x;
+				visual_origin_y =  other.y + _trunk_y;
+				main_palette = other.main_palette;
+				
 				if (x == _trunk_x_left) {
 					main_sprite = (other.is_left) ? spr_wood_log_hole_left : spr_wood_log_end_left;
 					fuzzing_sprite = noone;

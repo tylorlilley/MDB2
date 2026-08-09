@@ -7,6 +7,8 @@ reform_timer = 0;
 main_palette = PALETTES.GRAY;
 main_sprite = noone;
 outline_sprite = spr_cloud_outline;
+should_draw = false;
+has_square_shape = true;
 
 // Solid Area Variables
 is_solid_from_above = false;

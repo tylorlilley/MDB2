@@ -135,7 +135,7 @@ function draw_sprite_with_center_rotation(_sprite_index, _image_index, _x, _y, _
 function draw_text_outlined(_x, _y, _text, _text_color = C_WHITE, _outline_color = C_BLACK) {
 	draw_set_color(_outline_color);
 	for (var _x_offset = -1; _x_offset < 2; _x_offset++) {
-		for (var _y_offset = -1; _y_offset < 3; _y_offset++) {
+		for (var _y_offset = -1; _y_offset < 4; _y_offset++) {
 			if (_x_offset == 0 && _y_offset == 0) { continue; }
 			draw_text(_x + _x_offset, _y + _y_offset, _text);
 		}

@@ -48,6 +48,7 @@ function get_world_palette(_object_index) {
 
 function build_background(_world) {
 	global.world_tint = c_white;
+	global.world_tint_strength = 0;
 	switch(_world) {
 		case WORLDS.BEACH:
 		case WORLDS.SKY:

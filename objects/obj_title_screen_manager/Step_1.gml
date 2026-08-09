@@ -1,21 +1,8 @@
-// Read Controller Values from Player
-with (obj_player) {
-	update_controls();
-	other.key_right = key_right;
-	other.key_left = key_left;
-	other.key_up = key_up;
-	other.key_down = key_down;
-}
-
-// Set Jump and Restart Based on Release Only
-key_jump =  (keyboard_check_released(ord("Z")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4))));
-key_restart = (keyboard_check_released(ord("R")) || keyboard_check_released(vk_enter) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select))));
-
 event_inherited();
-audio_stop_sound(bgm_transition);
 
 // Make Player Ignore Controls
 with (obj_player) {
+	is_left = false;
 	if (transition_timer == 0) { transition_timer = 4; }
 	reset_controls();
 	sprite_index = spr_player_walk;
@@ -29,11 +16,12 @@ if (cursor_sway_timer > 32) { cursor_sway_timer = -(irandom(60) + 60); }
 title_sway_timer = (title_sway_timer + 1) % 24;
 if (text_shake_timer > 0) { text_shake_timer--; }
 
-// Tackle Input
+// Tackle Input in Different States
 prev_state = state;
 switch (state) {
 	case TITLE_STATES.BEGIN: {
 		if (key_up || key_down ||  key_left || key_right || key_jump || key_restart) { play_sound(snd_key); state = TITLE_STATES.PAN_OVER; }
+
 		break;
 	}
 	case TITLE_STATES.PAN_OVER: {
