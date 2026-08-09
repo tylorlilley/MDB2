@@ -7,6 +7,7 @@ with (obj_player) {
 	other.key_left = key_left;
 	other.key_up = key_up;
 	other.key_down = key_down;
+	reset_controls();
 	
 	if (other.cutscene_timer > 8) {
 		key_right = true;

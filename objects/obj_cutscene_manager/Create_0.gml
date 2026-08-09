@@ -1,5 +1,4 @@
 depth = global.controller.depth + 1;
-global.controller.level_number--; // TODO: Add this to room values information map instead
 
 // New Variables
 cutscene_timer = 0;

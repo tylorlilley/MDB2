@@ -66,8 +66,9 @@ with (obj_lava) {
 		bubble_timer--;
 		if (bubble_timer == 0) {
 			bubble_timer = irandom(256*6) + 256 + 128;
-			var _particle = create_particles(1, PARTICLE_TYPES.DEBRIS, PALETTES.RED_DARK);
-			_particle.vspeed -= 1.25;
+			var _lava_bubble = create_particles(1, PARTICLE_TYPES.DEBRIS, PALETTES.RED_DARK);
+			_lava_bubble.vspeed -= 1.125;
+			_lava_bubble.destroyed_by = obj_lava;
 		}
 	}
 }

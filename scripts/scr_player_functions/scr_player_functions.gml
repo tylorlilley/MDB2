@@ -1415,7 +1415,10 @@ update_player_collisions_at_position = function() {
 				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 				virtual_x = x;
 				virtual_y = y;
+				var _prev_x = x, _prev_y = y;
 				start_fallback_state();
+				grid_move_to(_prev_x, _prev_y);
+				transition_timer = 1;
 			}
 		}
 	}

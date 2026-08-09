@@ -151,13 +151,14 @@ function audio_play_sound_panned(_snd, _x) {
 	return audio_play_sound_at(_snd, dsin(_ang) * SOUND_PAN_RADIUS, dcos(_ang) * SOUND_PAN_RADIUS, 0, SOUND_PAN_RADIUS, SOUND_PAN_RADIUS, 1, false, 1);
 }
 
-function create_particles(_total_particles, _particle_type = undefined, _particle_palette = undefined, _x_pos = noone, _y_pos = noone) {
+function create_particles(_total_particles, _particle_type = undefined, _particle_palette = undefined, _x_pos = undefined, _y_pos = undefined) {
 	if (_total_particles <= 0) { exit; }
-	if (_x_pos = noone) { _x_pos = x+sprite_get_width(sprite_index)/2; }
-	if (_y_pos = noone) { _y_pos = y+sprite_get_height(sprite_index)/2; }
 	
+	_x_pos ??= x+sprite_get_width(sprite_index)/2;
+	_y_pos ??= y+sprite_get_height(sprite_index)/2;
 	_particle_type ??= particle_type;
 	_particle_palette ??= particle_palette ?? get_darker_palette(main_palette);
+	
 	var _particle_sprite = spr_particle_debris;
 	if (_particle_type == PARTICLE_TYPES.LEAF) { _particle_sprite = spr_particle_leaf; }
 	if (_particle_type == PARTICLE_TYPES.SPARKLE) { _particle_sprite = spr_particle_sparkle; }

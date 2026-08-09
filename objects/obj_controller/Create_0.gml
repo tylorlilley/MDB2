@@ -46,7 +46,7 @@ global.mask_portals = true;
 global.border_alpha = 0.5;
 
 // Debug Variables
-level_number = -1;
+level_number = 0;
 classic_levels = false;
 show_debug_gui = false;
 draw_game_object_grid = false;
@@ -57,7 +57,7 @@ surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(false);
+window_set_fullscreen(true);
 
 // Set Up Game Audio
 frame_sounds = [];
@@ -97,7 +97,21 @@ initialize_room = function(_new_room) {
 	global.room_keys = 0;
 	global.room_portals = 0;
 	global.keys_collected = 0;
-	if (_new_room != room) { level_number++; }
+	
+	// If Leaving Non-Cutscene Room for a New Room
+	var _cutscene_room = false;
+	with (obj_cutscene_manager) { _cutscene_room = true; }
+	if (!_cutscene_room && _new_room != room) {
+		level_number++;
+		
+		// Save Current Room
+		ini_open("mdb.ini");
+		ini_write_real("progress", "current_level", _new_room);
+		ini_write_real("progress", "level_number", level_number);
+		ini_write_real("progress", "progress_level", 0);
+		ini_close();
+	}
+	
 	target_room = room_next(_new_room);
 	
 	// Create an Empty Game Object Grid that matches the Room Size
@@ -111,7 +125,7 @@ reset_room = function() {
 
 transition_room = function(_new_room, _randomize_room_seed = true) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
-	random_set_seed(room_seed);	
+	random_set_seed(room_seed, true);	
 	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); static_area_surface = noone; }
 	initialize_room(_new_room);
 	audio_stop_sound(snd_player_fall);

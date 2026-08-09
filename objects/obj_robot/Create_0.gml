@@ -76,7 +76,7 @@ update_controls = function() {
 		if (_blocked_on_right && _blocked_on_left) { is_left = true; } // OLD GAME: is_left = true;
 		else if (is_left && _blocked_on_left) { is_left = false; }
 		else if (!is_left && _blocked_on_right) { is_left = true; }
-		if (is_left != _prev_is_left) { turn_pending = true; turn_hold = max(x_transition_timer, y_transition_timer); turn_timer = 4; }
+		if (is_left != _prev_is_left && is_grounded_state()) { turn_pending = true; turn_hold = max(x_transition_timer, y_transition_timer); turn_timer = 4; }
 	
 		walk_timer++;
 		walk_timer = walk_timer % 8;
@@ -99,23 +99,29 @@ update_controls = function() {
 parent_update_player_graphics = update_player_graphics;
 update_player_graphics = function() {
 	parent_update_player_graphics();
+	
+	// Update Turn Animation Variables
+	if (!is_grounded_state()) { clear_pending_turn(); }
+	else if (turn_hold > 0) { turn_hold--; }
+	
+	// Assign Sprite Based on State
 	var _image_index = image_index, _carried_objects = get_carried_objects()
-	switch (sprite_index) {
-		case spr_robot_walk:
-		case spr_robot_carry:
-		case spr_player_walk:
-		case spr_player_idle: { sprite_index = (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk; break; }
-		case spr_player_fall: { sprite_index = spr_robot_fall; break; }
+	if (state == PLAYER_STATES.FALL) { sprite_index = spr_robot_fall; }
+	else if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.WALK_FORWARD) {
+		 if (turn_timer > 0) {
+			turn_pending = false;
+			sprite_index = spr_robot_turn;
+			_image_index = (turn_timer > 2) ? 0 : 1;
+			turn_timer--;
+		}
+		else {
+			clear_pending_turn();
+			sprite_index = (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk;
+		}
 	}
 	image_index = (state == PLAYER_STATES.STAND) ? 0 : _image_index;
-	
-	// Deal with deferred turn
-	if (turn_hold > 0) { turn_hold--; }
-	else if (turn_timer > 0) {
-		turn_pending = false;
-		sprite_index = spr_robot_turn;
-		image_index = (turn_timer > 2) ? 0 : 1;
-		turn_timer--;
-	}
-	else { turn_pending = false; }
+}
+
+clear_pending_turn = function() {
+	turn_hold = 0; turn_timer = 0; turn_pending = false; 
 }

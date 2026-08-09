@@ -1,9 +1,12 @@
 // Play All Sounds in Sound Buffer
-while (array_length(frame_sounds) > 0) {
-	var _entry = array_pop(frame_sounds);
-	var _avg_x = _entry.x_sum / _entry.plays;
-	audio_play_sound_panned(_entry.snd, _avg_x);
+if (transition_timer <= TRANSITION_DELAY || transition_timer >= (TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD)) {
+	while (array_length(frame_sounds) > 0) {
+		var _entry = array_pop(frame_sounds);
+		var _avg_x = _entry.x_sum / _entry.plays;
+		audio_play_sound_panned(_entry.snd, _avg_x);
+	}
 }
+else { frame_sounds = []; }
 
 // Do Screenshake
 var _screen_x = 8, _screen_y =  8, _cam = view_camera[0];

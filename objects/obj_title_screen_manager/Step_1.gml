@@ -4,7 +4,6 @@ event_inherited();
 with (obj_player) {
 	is_left = false;
 	if (transition_timer == 0) { transition_timer = 4; }
-	reset_controls();
 	sprite_index = spr_player_walk;
 	image_index = 1;
 	if (cape_state != CAPE_STATES.FLUTTER) { start_cape_flutter(); }
@@ -79,7 +78,7 @@ switch (state) {
 					global.controller.target_room = _next_level;
 					global.controller.transition_timer = TRANSITION_DELAY-1;
 					if (menu_pos == 0) { global.controller.classic_levels = true; }
-					if (menu_pos == 2) { global.controller.level_number = level_number-1; }
+					if (menu_pos == 2) { global.controller.level_number = level_number; }
 					audio_stop_sound(bgm_title);
 					
 					break;

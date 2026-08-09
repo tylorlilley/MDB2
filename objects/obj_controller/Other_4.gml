@@ -8,17 +8,10 @@ room_world = _data.world;
 room_title = _data.title;
 global.world_tint = c_white;
 build_background(room_world);
-var _transition_room = false;
-with (obj_cutscene_manager) { _transition_room = true; }
-if (!_transition_room) {
-	play_music(room_world);
-	// Save Current Room
-	ini_open("mdb.ini");
-	ini_write_real("progress", "current_level", room);
-	ini_write_real("progress", "level_number", level_number);
-	ini_write_real("progress", "progress_level", 1);
-	ini_close();
-}
+
+var _cutscene_room = false;
+with (obj_cutscene_manager) { _cutscene_room = true; }
+if (!_cutscene_room) { play_music(room_world); }
 
 if (instance_exists(obj_bg_dirt)) {
 	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE, _dirt_grid = create_object_grid(_cols, _rows);
@@ -51,7 +44,7 @@ for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order);
 		depth = STATIC_AREA_DEPTH - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
 		if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 		if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
-		update_connections();
+		if (_obj_index != obj_bg_dirt) { update_connections(); } // TODO: Base this on something else
 		main_palette = get_world_palette(object_index) ?? main_palette;
 		particle_palette = (object_index == obj_sand) ? main_palette: get_darker_palette(main_palette);
 		_obj_type_exists = true;

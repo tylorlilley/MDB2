@@ -30,10 +30,7 @@
   "physicsShape":1,
   "physicsShapePoints":[],
   "physicsStartAwake":true,
-  "properties":[
-    {"$GMObjectProperty":"v2","%Name":"to_string","filters":[],"listItems":[],"multiselect":false,"name":"to_string","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"Forest","varType":2,},
-    {"$GMObjectProperty":"v2","%Name":"from_string","filters":[],"listItems":[],"multiselect":false,"name":"from_string","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"Beach","varType":2,},
-  ],
+  "properties":[],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
