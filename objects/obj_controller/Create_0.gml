@@ -29,7 +29,7 @@
 //#macro BACKGROUND_DEPTH 100
 
 // Global Variables
-global.static_area_object_index_depth_order = [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline_red_on, obj_switch_block_outline_blue_on, obj_switch_block_outline_yellow_on, obj_switch_block_red, obj_switch_block_blue, obj_switch_block_yellow ]
+global.static_area_object_index_depth_order = [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block];
 global.controller = id;
 global.gamepad = noone;
 global.original_controls = true;

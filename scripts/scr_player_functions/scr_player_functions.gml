@@ -333,8 +333,12 @@ get_left_and_right_objects = function(_get_above = false, _impact_fragile = fals
 	return _returned_objects;
 }
 
+can_be_damaged_by_object = function(_inst) {
+	return ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (object_index != obj_player && _inst.is_robot_lethal));
+}
+
 get_damaged_by_object = function(_inst) {
-	if ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (object_index != obj_player && _inst.is_robot_lethal)) {
+	if (can_be_damaged_by_object(_inst)) {
 		if (instance_exists(id)) { instance_destroy(); }
 		_inst.deal_damage();
 	}
@@ -1337,10 +1341,18 @@ update_player_collisions_at_position = function() {
 	// Get Destroyed From Lethal Objects
 	if (is_grounded_state()) {
 		// Destroy if Standing on Lethal Object and No Other Solids
-		var _ground_objects = get_left_and_right_objects();
+		var _ground_objects = get_left_and_right_objects(), _safe = false, _damaged = false;
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-			var _inst = _ground_objects[_i]
-			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
+			var _inst = _ground_objects[_i];
+			if (instance_exists(_inst)) {
+				if (!can_be_damaged_by_object(_inst)) { _safe = true; }
+			}
+		}
+		if (!_safe) {
+			for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+			var _inst = _ground_objects[_i];
+				if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
+			}
 		}
 		
 		// Destroy if Carrying Lethal Object
