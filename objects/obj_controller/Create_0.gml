@@ -99,16 +99,14 @@ initialize_room = function(_new_room) {
 	global.keys_collected = 0;
 	
 	// If Leaving Non-Cutscene Room for a New Room
-	var _cutscene_room = false;
-	with (obj_cutscene_manager) { _cutscene_room = true; }
-	if (!_cutscene_room && _new_room != room) {
+	if (!is_cutscene_room() && _new_room != room) {
 		level_number++;
 		
 		// Save Current Room
 		ini_open("mdb.ini");
 		ini_write_real("progress", "current_level", _new_room);
 		ini_write_real("progress", "level_number", level_number);
-		ini_write_real("progress", "progress_level", 0);
+		// ini_write_real("progress", "progress_level", 0);
 		ini_close();
 	}
 	

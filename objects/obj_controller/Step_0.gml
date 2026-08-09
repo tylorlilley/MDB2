@@ -105,6 +105,7 @@ with (obj_key) {
 	if (shine_timer == 0) { reset_shine_timer(); }
 	sway_timer++;
 	if (sway_timer > 32) { sway_timer = -(irandom(60) + 60); }
+	float_timer = (float_timer + 1) % (4 * FLOAT_OFFSET_PERIOD_FRAMES);
 }
 with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }

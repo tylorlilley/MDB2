@@ -2,13 +2,16 @@ cutscene_timer++;
 
 // TODO: Don't read these from player, read them itself
 with (obj_player) {
+	// Capture Inputs for This Frame
+	reset_controls();
 	update_controls();
 	other.key_right = key_right;
 	other.key_left = key_left;
 	other.key_up = key_up;
 	other.key_down = key_down;
-	reset_controls();
 	
+	// Replace Real With Scripted Input for Player
+	reset_controls();
 	if (other.cutscene_timer > 8) {
 		key_right = true;
 		key_up = (state != PLAYER_STATES.WIN || (other.cutscene_timer > other.cutscene_timer_max && transition_timer == 0));

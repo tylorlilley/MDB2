@@ -575,7 +575,7 @@ update_player_state = function() {
 						grid_move_to(_prev_x, y);
 					}
 					else if (transition_timer < 14) { image_index = 2; } // + (transition_timer % 2); }
-					else if (transition_timer == 1) { image_index = 0; start_cape_win(); }
+					else if (transition_timer == 1) { image_index = 0; win_loops++; start_cape_win(); }
 				}
 				break;
 			}
@@ -610,7 +610,7 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.WIN: {
-				if (visible && (key_up || key_jump) && prev_state == PLAYER_STATES.WIN) {
+				if (visible && (key_up || key_jump) && win_loops > 0) {
 					visible = false;
 					play_sound(snd_impact);
 					with (obj_door) { image_index = 2; } // create_particles(8 + irandom(8)); }
@@ -622,7 +622,9 @@ update_player_state = function() {
 						global.controller.y = y;
 					}
 				}
-				else { start_winning(); }
+				else {
+					start_winning();
+				}
 				break;
 			}
 			case PLAYER_STATES.LAND: {

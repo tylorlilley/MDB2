@@ -8,10 +8,7 @@ room_world = _data.world;
 room_title = _data.title;
 global.world_tint = c_white;
 build_background(room_world);
-
-var _cutscene_room = false;
-with (obj_cutscene_manager) { _cutscene_room = true; }
-if (!_cutscene_room) { play_music(room_world); }
+if (!is_cutscene_room()) { play_music(room_world); }
 
 if (instance_exists(obj_bg_dirt)) {
 	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE, _dirt_grid = create_object_grid(_cols, _rows);

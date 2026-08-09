@@ -284,7 +284,7 @@ is_blocked_on_left = function(_ignored_objects = []) {
 	for (var _i = 0; _i < array_length(_wall_objects); _i++) {
 		if (!would_be_killed_by(_wall_objects[_i])) { return true; }
 	}
-	return (x <= ((global.original_controls) ? (GRID_SIZE * 2) : GRID_SIZE));
+	return (x <= GRID_SIZE); //((global.original_controls) ? (GRID_SIZE * 2) : GRID_SIZE));
 }
 
 is_blocked_on_right = function(_ignored_objects = []) {
@@ -294,7 +294,7 @@ is_blocked_on_right = function(_ignored_objects = []) {
 	}
 
 	var _max_x = (room_width - GRID_SIZE - sprite_get_width(sprite_index));
-	if (global.original_controls) { _max_x -= GRID_SIZE; }
+	//if (global.original_controls) { _max_x -= GRID_SIZE; }
 	return (x >= _max_x);
 }
 
