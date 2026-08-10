@@ -41,7 +41,7 @@ for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order);
 	
 	// Create the Static Area Manager
 	if (_obj_index == obj_wood) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = STATIC_AREA_DEPTH; }
-	else if (_i == 0) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = BACKGROUND_DEPTH; }
+	else if (_i == 0) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = BACKGROUND_DEPTH; has_own_surface = true; }
 	else if (_i == 1) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = STATIC_AREA_IN_FRONT_OF_TREE_DEPTH; }
 	else if (_i == array_length(global.static_area_object_index_depth_order)-3) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = OUTLINE_DEPTH; }
 	

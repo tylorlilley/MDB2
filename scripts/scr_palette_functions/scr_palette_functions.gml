@@ -250,7 +250,7 @@ global.portal_color_palettes = [
 	PALETTES.TRASH_LIGHT
 ];
 function get_portal_palette(_portal_color) {
-	if (_portal_color > array_length(global.portal_color_palettes)) { return PALETTES.GRAY_LIGHT; }
+	if (_portal_color >= array_length(global.portal_color_palettes)) { return PALETTES.GRAY_LIGHT; }
 
 	return global.portal_color_palettes[_portal_color];
 }

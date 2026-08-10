@@ -160,6 +160,7 @@ create_walk_particles = function(_particle_amount = 1) {
 
 powerfall_on = function(_other = noone) {
 	get_damaged();
+	if (is_a(obj_player)) { play_sound(damaged_sound); }
 	global.controller.start_screen_shake();
 	if (is_connected) {
 		var _connected_instances = get_connected_instances([id]);
@@ -178,13 +179,12 @@ powerfly_into = function(_other = noone) {
 get_damaged = function() {
 	if (instance_exists(creator)) { creator.part_damaged(id); }
 	if (!instance_exists(id)) { return; } // Guard in case destroyed by part_damaged in creator
-	play_sound(damaged_sound);
 	
 	// Hanlde invulnerable objects explicitly
-	if (hits <= 0) { return; }
+	if (hits <= 0) { play_sound(damaged_sound); return; }
 	
 	hits--;
-	if (hits > 0) { create_particles(2) }
+	if (hits > 0) { play_sound(damaged_sound); create_particles(2) }
 	else { instance_destroy(); }
 }
 
