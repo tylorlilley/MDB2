@@ -34,7 +34,7 @@
 #macro VISUAL_OBJECT_DEPTH 44 // Tree; Designed to slot between obj_bridge and obj_wood so it appears over the wood/leaf and under the other tiles.
 #macro STATIC_AREA_DEPTH 50 // Lowest Depth, works upward from BG Dirt
 //--- Background Surface Area Manager
-#macro BACKGROUND_DEPTH 100
+#macro BACKGROUND_DEPTH 90
 
 // Global Variables
 global.static_area_object_index_depth_order = [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_sand, obj_bridge, obj_wood, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block];
@@ -52,6 +52,7 @@ global.world_tint = c_white;
 global.world_tint_strength = 0;
 global.mask_portals = true;
 global.border_alpha = 0.5;
+global.static_area_surface = noone;
 
 // Debug Variables
 level_number = 0;
@@ -80,10 +81,8 @@ palettes_init();
 // Graphic Variables
 depth = STATIC_AREA_DEPTH;
 static_area_object_indexes_to_draw = [];
-
 transition_surface = noone;
 screen_shake_timer = 0;
-static_area_surface = noone;
 
 // Timers
 transition_timer = 0;
@@ -132,7 +131,7 @@ reset_room = function() {
 transition_room = function(_new_room, _randomize_room_seed = true) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed, true);	
-	if (surface_exists(static_area_surface)) { surface_free(static_area_surface); static_area_surface = noone; }
+	if (surface_exists(global.static_area_surface)) { surface_free(global.static_area_surface); global.static_area_surface = noone; }
 	initialize_room(_new_room);
 	audio_stop_sound(snd_player_fall);
 	room_goto(_new_room);

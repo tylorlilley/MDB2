@@ -1,18 +1,17 @@
 depth = 0;
 static_area_objects = [];
-static_area_surface = noone;
 
 draw_static_areas = function() {
 	// Regenerate Surface if Room Size has Changed
-	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); static_area_surface = noone; }
+	if (surface_exists(global.static_area_surface) && (surface_get_width(global.static_area_surface) != room_width || surface_get_height(global.static_area_surface) != room_height)) { surface_free(global.static_area_surface); global.static_area_surface = noone; }
 	
 	for (var _i = 0; _i < array_length(static_area_objects); _i++) {
 		var _object_index = static_area_objects[_i];
 		if (!instance_exists(_object_index)) { continue; }
 		
 		// Set up Surface to Draw On
-		if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
-		if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SETTING SURFACE"); continue; }
+		if (!surface_exists(global.static_area_surface)) { global.static_area_surface = surface_create(room_width, room_height); }
+		if (!surface_set_target(global.static_area_surface)) { show_debug_message("ERROR SETTING SURFACE"); continue; }
 		draw_clear_alpha(c_black, 0);
 		
 		// Set Palette and Draw Tiles to Surface
@@ -34,7 +33,7 @@ draw_static_areas = function() {
 		surface_reset_target();
 		shader_reset();
 		gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
-		draw_surface(static_area_surface, 0, 0);
+		draw_surface(global.static_area_surface, 0, 0);
 		gpu_set_blendmode(bm_normal);
 		shader_set(shd_palettizer);
 		shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);

@@ -40,9 +40,10 @@ for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order);
 	var _obj_index = global.static_area_object_index_depth_order[_i];
 	
 	// Create the Static Area Manager
-	if (_i == 0 && !instance_exists(_static_area_manager)) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = BACKGROUND_DEPTH; }
-	else if (_i <= array_length(global.static_area_object_index_depth_order) - 3 && !instance_exists(_static_area_manager)) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = STATIC_AREA_DEPTH; }
-	else if (_i == array_length(global.static_area_object_index_depth_order) && !instance_exists(_static_area_manager)) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = OUTLINE_DEPTH; }
+	if (_obj_index == obj_wood) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = VISUAL_OBJECT_DEPTH+1; }
+	else if (_i == 0) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = BACKGROUND_DEPTH; }
+	else if (_i == 1) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = STATIC_AREA_DEPTH; }
+	else if (_i == array_length(global.static_area_object_index_depth_order)-3) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = OUTLINE_DEPTH; }
 	
 	// Set up Static Area Types
 	with (_obj_index) {

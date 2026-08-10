@@ -91,14 +91,14 @@ part_destroyed = function(_inst) {
 		var _array_index_to_remove =  array_get_index(_remove_from_array, _inst);
 		if (_array_index_to_remove > 0) {
 			array_delete(_remove_from_array, _array_index_to_remove, 1);
-	
-			// Destroy All Leaves When Trunk is Destroyed
-			if (array_length(trunk) == 0) {
-				for (var _i = 0; _i < array_length(leaves); _i++) {
-					with (leaves[_i]) { creator = noone; instance_destroy(); }
-				}
-				instance_destroy();
-			}
 		}
-	}	
+	}
+
+	// Destroy All Leaves When Trunk is Destroyed
+	if (array_length(trunk) == 0) {
+		for (var _i = 0; _i < array_length(leaves); _i++) {
+			with (leaves[_i]) { creator = noone; instance_destroy(); }
+		}
+		instance_destroy();
+	}
 }
