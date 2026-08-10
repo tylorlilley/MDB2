@@ -22,7 +22,6 @@ deal_damage = function() {
 	y_transition_timer = 4;
 	virtual_y -= 2;
 	parent_deal_damage();
-	play_sound(snd_player_idle_yell);
 }
 
 game_object_step = function() { }

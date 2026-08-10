@@ -268,7 +268,7 @@ start_laddering = function() {
 
 should_start_laddering = function() {
 	var _auto_grab = global.original_controls && ((is_grounded_state() && !is_on_ground()) || is_fall_state());
-	var _should_ladder = ((key_up || key_down || _auto_grab) && can_start_laddering());
+	var _should_ladder = ((key_up || key_down || _auto_grab) && can_ladder_at(x, y));
 	
 	return _should_ladder;
 }
@@ -337,9 +337,14 @@ can_be_damaged_by_object = function(_inst) {
 	return ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (object_index != obj_player && _inst.is_robot_lethal));
 }
 
+get_destroyed_by_object = function() {
+	if (can_be_controlled) { play_sound(snd_player_idle_yell); }
+	if (instance_exists(id)) { instance_destroy(); }
+}
+
 get_damaged_by_object = function(_inst) {
 	if (can_be_damaged_by_object(_inst)) {
-		if (instance_exists(id)) { instance_destroy(); }
+		get_destroyed_by_object();
 		_inst.deal_damage();
 	}
 }
@@ -435,12 +440,12 @@ walk_on_ground_objects = function() {
 }
 	
 // Positional Functions
-get_closest_ladder = function() {
-	var _closest_ladder = noone, _ladder_objects = instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
+get_ladder_at = function(_x = x, _y = y) {
+	var _closest_ladder = noone, _ladder_objects = instances_at_grid_position(_x, _y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
 	
 	for (var _i = 0; _i < array_length(_ladder_objects); _i++) {
 		var _ladder = _ladder_objects[_i];
-		if (x == _ladder.x) { _closest_ladder = _ladder; }
+		if (_x == _ladder.x) { _closest_ladder = _ladder; }
 	}
 	
 	return _closest_ladder;
@@ -461,7 +466,7 @@ can_ladder_up = function(_closest_ladder) {
 	return (
 		instance_exists(_closest_ladder) &&
 		x == _closest_ladder.x &&
-		(y > _closest_ladder.y || at_grid_position(x, _closest_ladder.y-sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder))
+		(y > _closest_ladder.y || can_ladder_at(x, y - sprite_get_height(sprite_index)))
 	);
 }
 
@@ -469,12 +474,14 @@ can_ladder_down = function(_closest_ladder) {
 	return (
 		instance_exists(_closest_ladder) &&
 		x == _closest_ladder.x &&
-		(!is_on_ground() || at_grid_position(x, y + sprite_get_height(sprite_index), sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder))
+		(!is_on_ground() || can_ladder_at(x, y + sprite_get_height(sprite_index)))
 	);
 }
 
-can_start_laddering = function() {
-	return (!is_crushed_state() && at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder));
+can_ladder_at = function(_x = x, _y = y) {
+	if (is_crushed_state()) { return false; }
+	
+	return (instance_exists(get_ladder_at(_x, _y)));
 }
 
 can_start_climbing = function() {
@@ -558,24 +565,16 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.WIN: {
-				if ((key_up || key_jump) && prev_state == PLAYER_STATES.WIN) { transition_timer = 0; }
+				if ((key_up || key_jump) && prev_state == PLAYER_STATES.WIN && win_loops > 0) { transition_timer = 0; }
 				else if (visible) {
 					if (transition_timer == 51) { image_index = 0; cape_image_index = 0; }
 					else if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); virtual_y -= 2; }
 					else if (transition_timer == 28) { image_index = 0; cape_image_index = 0; virtual_y += 2; }
 					else if (transition_timer == 24) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); virtual_y -= 2; }
 					else if (transition_timer == 20) { image_index = 0; cape_image_index = 0; virtual_y += 2; }
-					else if (transition_timer == 14) {
-						image_index = 3;
-						cape_image_index = 0;
-						play_sound(snd_key);
-						var _prev_x = x;
-						grid_move_to(x + (get_left_value() * GRID_SIZE), y);
-						//create_particles(4 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
-						grid_move_to(_prev_x, y);
-					}
-					else if (transition_timer < 14) { image_index = 2; } // + (transition_timer % 2); }
-					else if (transition_timer == 1) { image_index = 0; win_loops++; start_cape_win(); }
+					else if (transition_timer == 14) { image_index = 3; cape_image_index = 0; play_sound(snd_key); }
+					else if (transition_timer == 1) { image_index = 0; win_loops++; }
+					else if (transition_timer < 14) { image_index = 2; }
 				}
 				break;
 			}
@@ -877,7 +876,7 @@ update_player_state = function() {
 			case PLAYER_STATES.LADDER_UP:
 			case PLAYER_STATES.LADDER_DOWN: {
 				// Decide New State Based on Player Input
-				var _closest_ladder = get_closest_ladder();
+				var _closest_ladder = get_ladder_at(x, y);
 				if (instance_exists(_closest_ladder)) {
 					if (key_up || key_down) { is_up = key_up; }
 					var _ladder_speed = (global.original_controls) ? 2 : 1;
@@ -1373,7 +1372,7 @@ update_player_collisions_at_position = function() {
 	}
 	
 	// Destroy if Inside Solid
-	if (is_inside_solid() && !is_ladder_state()) { instance_destroy(); }
+	if (is_inside_solid() && !is_ladder_state()) { get_destroyed_by_object(); }
 		
 	if (!instance_exists(id)) { exit; }
 	

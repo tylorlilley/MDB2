@@ -10,3 +10,5 @@ is_solid_from_left = true;
 is_climbable = true;
 
 step_sound = noone;
+
+has_darker_particles = false;

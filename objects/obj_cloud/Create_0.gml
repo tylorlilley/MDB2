@@ -7,7 +7,6 @@ destroyed_sound = snd_pop;
 hits = 1;
 has_square_shape = true;
 main_palette = PALETTES.GRAY_LIGHT;
-particle_palette = PALETTES.GRAY_LIGHT;
 main_sprite = spr_cloud_area;
 outline_sprite = spr_cloud_outline;
 particle_frequency = 4;

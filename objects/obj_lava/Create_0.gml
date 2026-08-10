@@ -23,12 +23,13 @@ particle_frequency = 8;
 connection_object_index = obj_static_area;
 bubble_timer = irandom(256*4) + 32;
 
+has_darker_particles = true;
+
 // Overriden Functions
 parent_deal_damage = deal_damage;
 deal_damage = function() { 
 	parent_deal_damage();
 	play_sound(snd_step_lava);
-	if (can_be_controlled) { play_sound(snd_player_idle_yell); }
 	create_particles(4);
 }
 

@@ -2,14 +2,16 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	// Draw HUD Bars
 	if (!classic_levels) {
 		draw_set_valign(fa_top)
-		draw_set_alpha(global.border_alpha);
+		draw_set_alpha(0.45); //global.border_alpha);
 		draw_set_color(c_black);
 		draw_rectangle(0, 0, SCREEN_WIDTH, 16, false);
+		/*
 		if (global.original_controls) {
 			draw_rectangle(0, GRID_SIZE*2, GRID_SIZE, SCREEN_HEIGHT-GRID_SIZE, false);
 			draw_rectangle(SCREEN_WIDTH-GRID_SIZE, GRID_SIZE*2, SCREEN_WIDTH, SCREEN_HEIGHT-GRID_SIZE, false);
 			draw_rectangle(0, SCREEN_HEIGHT-GRID_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 		}
+		*/
 	}
 
 	// Draw Winning Spotlight

@@ -13,3 +13,4 @@ main_palette = PALETTES.BROWN;
 main_sprite = spr_bridge;
 outline_sprite = noone;
 particle_frequency = 1;
+has_darker_particles = true;

@@ -2,7 +2,7 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 	var _grid_width = abs(_w) div 8, _grid_height = abs(_h) div  8;
 	var _returned_instances = [], _max_x = room_width div 8, _max_y = room_height div 8, _min_x = 0, _min_y = 0;
 	if (_ignore_outside_border) {
-		var _border_size = (global.original_controls) ? 2 : 1;
+		var _border_size = 1; //(global.original_controls) ? 2 : 1;
 		_max_x -= _border_size;
 		_max_y -= _border_size-1;
 		_min_x += _border_size;

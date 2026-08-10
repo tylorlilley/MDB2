@@ -21,7 +21,7 @@
 #macro PORTAL_DEPTH 8
 #macro SWITCH_DEPTH 9 //4
 #macro STATIC_OBJECT_DEPTH 10
-#macro GEAR_DEPTH 11
+#macro GEAR_DEPTH 5 // 11
 
 #macro STATIC_AREA_DEPTH 50 // Lowest Depth, works upward from BG Dirt
 #macro VISUAL_OBJECT_DEPTH 51 // Tree
@@ -57,7 +57,7 @@ surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(true);
+window_set_fullscreen(false);
 
 // Set Up Game Audio
 frame_sounds = [];

@@ -230,8 +230,6 @@
     {"name":"inst_TR006DA1","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
     {"name":"inst_TR006DA2","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
     {"name":"inst_TR006DA3","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
-    {"name":"inst_TR006DA4","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
-    {"name":"inst_TR006DA5","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
     {"name":"inst_TR006DA6","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
     {"name":"inst_TR006DA7","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
     {"name":"inst_TR006DA8","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
@@ -1210,6 +1208,8 @@
     {"name":"inst_28BBE1A","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
     {"name":"inst_3BC109CB","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
     {"name":"inst_1062E32E","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
+    {"name":"inst_TR006DA5","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
+    {"name":"inst_TR006DA4","path":"rooms/rm_mdb_4_4/rm_mdb_4_4.yy",},
   ],
   "isDnd":false,
   "layers":[
