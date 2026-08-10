@@ -34,7 +34,6 @@ initialize_solids = function() {
 				creator = other;
 				main_palette = other.leaf_palette;
 				particle_palette = other.leaf_palette;
-				depth = other.depth + 1;
 			}
 			array_push(leaves, _leaf);
 		}
@@ -55,7 +54,6 @@ initialize_solids = function() {
 				creator = other;
 				visual_origin_x =  other.x + _trunk_x;
 				visual_origin_y =  other.y + _trunk_y;
-				depth = other.depth + 1;
 				if (y == _trunk_y_top) { 
 					main_sprite = spr_wood_tree_top;
 					fuzzing_sprite = noone;
@@ -89,7 +87,7 @@ part_destroyed = function(_inst) {
 	
 	if (_remove_from_array != undefined) {
 		var _array_index_to_remove =  array_get_index(_remove_from_array, _inst);
-		if (_array_index_to_remove > 0) {
+		if (_array_index_to_remove >= 0) {
 			array_delete(_remove_from_array, _array_index_to_remove, 1);
 		}
 	}

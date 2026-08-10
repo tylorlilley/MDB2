@@ -34,7 +34,7 @@ last_y = undefined;
 
 // Boolean Ability Flags
 can_be_controlled = true;
-can_power_up = true
+can_power_up = true;
 can_climb = true;
 can_ladder = true;
 can_push_objects = !global.original_controls;

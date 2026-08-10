@@ -1,13 +1,13 @@
 event_inherited();
 
 // New Variables
-masked_palette = get_world_palette(object_index);
 activation_timer = 0;
 activated = false;
 masked = global.mask_portals;
 
 // Visual Object Overides
 depth = PORTAL_DEPTH;
+masked_palette = get_world_palette(object_index);
 original_palette = (masked) ? masked_palette : get_portal_palette(portal_color);
 main_palette = original_palette;
 particle_palette  = original_palette;

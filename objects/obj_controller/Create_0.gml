@@ -31,8 +31,9 @@
 #macro SWITCH_DEPTH 9
 #macro PORTAL_DEPTH 10
 //--- Static Area Surface Area Manager
-#macro VISUAL_OBJECT_DEPTH 44 // Tree; Designed to slot between obj_bridge and obj_wood so it appears over the wood/leaf and under the other tiles.
-#macro STATIC_AREA_DEPTH 50 // Lowest Depth, works upward from BG Dirt
+#macro STATIC_AREA_IN_FRONT_OF_TREE_DEPTH 44 // Lowest Depth, works upward from BG Dirt
+#macro VISUAL_OBJECT_DEPTH 45 // Tree; Designed to slot between obj_bridge and obj_wood so it appears over the wood/leaf and under the other tiles.
+#macro STATIC_AREA_DEPTH 80 // Lowest Depth, works upward from BG Dirt
 //--- Background Surface Area Manager
 #macro BACKGROUND_DEPTH 90
 
@@ -113,7 +114,7 @@ initialize_room = function(_new_room) {
 		ini_open("mdb.ini");
 		ini_write_real("progress", "current_level", _new_room);
 		ini_write_real("progress", "level_number", level_number);
-		ini_write_real("progress", "progress_level", 1);
+		ini_write_real("progress", "progress_level", 0);
 		ini_close();
 	}
 	

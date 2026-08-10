@@ -170,8 +170,8 @@ reset_controls = function() {
 function determine_gamepad() {
 	var _gp_num = gamepad_get_device_count();
 	global.gamepad = noone;
-	for (var i = 0; i < _gp_num; i++;) {
-	    if (gamepad_is_connected(i)) { global.gamepad = i; break; }
+	for (var _i = 0; _i < _gp_num; _i++) {
+	    if (gamepad_is_connected(_i)) { global.gamepad = _i; break; }
 	}
 	return global.gamepad;
 }

@@ -178,12 +178,13 @@ powerfly_into = function(_other = noone) {
 get_damaged = function() {
 	if (instance_exists(creator)) { creator.part_damaged(id); }
 	if (!instance_exists(id)) { return; } // Guard in case destroyed by part_damaged in creator
+	play_sound(damaged_sound);
 	
 	// Hanlde invulnerable objects explicitly
-	if (hits <= 0) { play_sound(damaged_sound); return; }
+	if (hits <= 0) { return; }
 	
 	hits--;
-	if (hits > 0) { play_sound(damaged_sound); create_particles(2) }
+	if (hits > 0) { create_particles(2) }
 	else { instance_destroy(); }
 }
 
