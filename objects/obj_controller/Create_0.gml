@@ -114,7 +114,7 @@ initialize_room = function(_new_room) {
 		ini_open("mdb.ini");
 		ini_write_real("progress", "current_level", _new_room);
 		ini_write_real("progress", "level_number", level_number);
-		// ini_write_real("progress", "progress_level", 0);
+		ini_write_real("progress", "progress_level", 1);
 		ini_close();
 	}
 	

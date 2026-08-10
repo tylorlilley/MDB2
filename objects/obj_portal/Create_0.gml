@@ -1,7 +1,7 @@
 event_inherited();
 
 // New Variables
-masked_palette = PALETTES.INDIGO_DARK;
+masked_palette = get_world_palette(object_index);
 activation_timer = 0;
 activated = false;
 masked = global.mask_portals;

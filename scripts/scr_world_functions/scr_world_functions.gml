@@ -18,7 +18,7 @@ function get_world_palette(_object_index) {
 				case WORLDS.FOREST: { return PALETTES.BACKGROUND_ROCK; }
 				case WORLDS.FACTORY: { return PALETTES.TRASH_DARKEST; }
 				case WORLDS.FORTRESS: { return PALETTES.GRAY_DARK; }
-				default: { return PALETTES.BACKGROUND_DIRT; }
+				default: { return PALETTES.BACKGROUND_DIRT; } // Cotton Candy has DIRT BG? Used in 5_2
 			}
 		}
 		case obj_sand: {
@@ -33,19 +33,53 @@ function get_world_palette(_object_index) {
 		case obj_rock: {
 			switch (global.controller.room_world) {
 				case WORLDS.BEACH: { return PALETTES.BROWN; }
-				default: { return PALETTES.ROCK; }
+				case WORLDS.FOREST: { return PALETTES.ROCK; }
+				case WORLDS.FACTORY: { return PALETTES.MAGENTA; }
+				case WORLDS.FORTRESS: { return PALETTES.BRICK; }
+				default: { return PALETTES.MARBLE; }
 			}
 		}
 		case obj_brick: {
+			// Any palette you assign needs to support two sahdes of darker palettes for this object
 			switch (global.controller.room_world) {
+				case WORLDS.BEACH: { return PALETTES.GRAY_LIGHT; } // TODO: Make different, but this ruins t3 cutscene?
 				case WORLDS.FOREST: { return PALETTES.BRICK; }
-				case WORLDS.FACTORY: { return PALETTES.BROWN_DARK; }
-				default: { return PALETTES.GRAY_LIGHT; }
+				case WORLDS.FACTORY: { return PALETTES.BROWN; }
+				case WORLDS.FORTRESS: { return PALETTES.GRAY_LIGHT; }
+				default: { return PALETTES.YELLOW; }
+			}
+		}
+		case obj_portal: {
+			// This returns the initial masked portal palette color only
+			switch (global.controller.room_world) {
+				case WORLDS.BEACH: { return PALETTES.TRASH; } // TODO: Make different, but this ruins t3 cutscene?
+				case WORLDS.FOREST: { return PALETTES.PURPLE_DARK; }
+				case WORLDS.FACTORY: { return PALETTES.INDIGO_DARK; }
+				case WORLDS.FORTRESS: { return PALETTES.BLUE_DARK; }
+				default: { return PALETTES.PINK; }
 			}
 		}
 	}
 	return undefined;
 }
+
+global.portal_color_palettes = [
+	PALETTES.BLUE,
+	PALETTES.PURPLE,
+	PALETTES.INDIGO,
+	PALETTES.PURPLE_DARK,
+	PALETTES.PINK,
+	PALETTES.BLUE_LIGHT,
+	PALETTES.MAGENTA,
+	PALETTES.SAND,
+	PALETTES.GREEN_DARK,
+	PALETTES.YELLOW_DARK,
+	PALETTES.RED,
+	PALETTES.YELLOW,
+	PALETTES.ROCK,
+	PALETTES.TRASH_LIGHT
+];
+
 
 function build_background(_world) {
 	global.world_tint = c_white;
