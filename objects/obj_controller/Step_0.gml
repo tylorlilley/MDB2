@@ -1,6 +1,7 @@
 // Resolve Switch Presses From Previous Frame
 with (obj_switch) { prev_pressed = pressed; }
 with (obj_switch_block_outline) { solid_obj.main_palette = main_palette; }
+blocked_switch_colors = [false, false, false];
 
 // Update Switch Graphics and Sound
 /*
@@ -9,7 +10,6 @@ with (obj_switch) {
 	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
 	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
 }
-blocked_switch_colors = [false, false, false];
 */
 
 // Handle Dynamic Game Object Step
@@ -64,7 +64,7 @@ with (obj_lava) {
 	anim_timer++;
 	anim_timer = anim_timer % (sprite_get_number(outline_sprite) * 8);
 	
-	if (bubble_timer > 0 && !is_connected_above) {
+	if (bubble_timer > 0 && !connected_above) {
 		bubble_timer--;
 		if (bubble_timer == 0) {
 			bubble_timer = irandom(256*6) + 256 + 128;
@@ -198,11 +198,11 @@ else if (transition_timer > 0) {
 }
 
 // Create Win Sparkles
-var _winning_player_x = noone, _door_open = true;
+var _winning_player_x = undefined, _door_open = true;
 with (obj_door) { if (image_index >= 2) { _door_open = false; } }
 if (instance_number(obj_cutscene_manager) == 0) {
 	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
-	if (_winning_player_x != noone && _door_open && irandom(2) == 0) {
+	if (_winning_player_x != undefined && _door_open && irandom(2) == 0) {
 		create_particles(1, PARTICLE_TYPES.CONFETTI, PALETTES.GRAY_LIGHT, _winning_player_x+8, -2);
 	}
 }

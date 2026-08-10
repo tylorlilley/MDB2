@@ -19,19 +19,19 @@ initialize_static_area = function() {
 	has_square_shape = false;
 	connection_object_index = object_index;
 
-	is_connected_above = noone;
-	is_connected_below = noone;
-	is_connected_on_left = noone;
-	is_connected_on_right = noone;
-	is_connected_top_right = noone;
-	is_connected_top_left = noone;
-	is_connected_bottom_right = noone;
-	is_connected_bottom_left = noone;
+	connected_above = noone;
+	connected_below = noone;
+	connected_on_left = noone;
+	connected_on_right = noone;
+	connected_top_right = noone;
+	connected_top_left = noone;
+	connected_bottom_right = noone;
+	connected_bottom_left = noone;
 
-	is_connected_far_top = noone;
-	is_connected_far_bottom = noone;
-	is_connected_on_far_left = noone;
-	is_connected_on_far_right = noone;
+	connected_far_top = noone;
+	connected_far_bottom = noone;
+	connected_on_far_left = noone;
+	connected_on_far_right = noone;
 }
 
 connected_to = function(_inst) { return _inst.object_index == object_index && _inst.creator == creator; }
@@ -44,37 +44,37 @@ get_connected_instance = function(_array) {
 }
 
 update_connections = function(_grid = global.controller.game_object_grid) {
-	is_connected_above = get_connected_instance(instances_at_grid_position(x, y-8, 8, 8, connection_object_index, false, _grid));
-	is_connected_below = get_connected_instance(instances_at_grid_position(x, y+8, 8, 8, connection_object_index, false, _grid));
-	is_connected_on_left = get_connected_instance(instances_at_grid_position(x-8, y, 8, 8, connection_object_index, false, _grid));
-	is_connected_on_right = get_connected_instance(instances_at_grid_position(x+8, y, 8, 8, connection_object_index, false, _grid));
+	connected_above = get_connected_instance(instances_at_grid_position(x, y-8, 8, 8, connection_object_index, false, _grid));
+	connected_below = get_connected_instance(instances_at_grid_position(x, y+8, 8, 8, connection_object_index, false, _grid));
+	connected_on_left = get_connected_instance(instances_at_grid_position(x-8, y, 8, 8, connection_object_index, false, _grid));
+	connected_on_right = get_connected_instance(instances_at_grid_position(x+8, y, 8, 8, connection_object_index, false, _grid));
 
-	is_connected_top_right = get_connected_instance(instances_at_grid_position(x+8, y-8, 8, 8, connection_object_index, false, _grid));
-	is_connected_top_left = get_connected_instance(instances_at_grid_position(x-8, y-8, 8, 8, connection_object_index, false, _grid));
-	is_connected_bottom_right = get_connected_instance(instances_at_grid_position(x+8, y+8, 8, 8, connection_object_index, false, _grid));
-	is_connected_bottom_left = get_connected_instance(instances_at_grid_position(x-8, y+8, 8, 8, connection_object_index, false, _grid));
+	connected_top_right = get_connected_instance(instances_at_grid_position(x+8, y-8, 8, 8, connection_object_index, false, _grid));
+	connected_top_left = get_connected_instance(instances_at_grid_position(x-8, y-8, 8, 8, connection_object_index, false, _grid));
+	connected_bottom_right = get_connected_instance(instances_at_grid_position(x+8, y+8, 8, 8, connection_object_index, false, _grid));
+	connected_bottom_left = get_connected_instance(instances_at_grid_position(x-8, y+8, 8, 8, connection_object_index, false, _grid));
 		
-	is_connected_far_top = get_connected_instance(instances_at_grid_position(x, y-16, 8, 8, connection_object_index, false, _grid));
-	is_connected_far_bottom = get_connected_instance(instances_at_grid_position(x, y+16, 8, 8, connection_object_index, false, _grid));
-	is_connected_on_far_left = get_connected_instance(instances_at_grid_position(x-16, y, 8, 8, connection_object_index, false, _grid));
-	is_connected_on_far_right = get_connected_instance(instances_at_grid_position(x+16, y, 8, 8, connection_object_index, false, _grid));
+	connected_far_top = get_connected_instance(instances_at_grid_position(x, y-16, 8, 8, connection_object_index, false, _grid));
+	connected_far_bottom = get_connected_instance(instances_at_grid_position(x, y+16, 8, 8, connection_object_index, false, _grid));
+	connected_on_far_left = get_connected_instance(instances_at_grid_position(x-16, y, 8, 8, connection_object_index, false, _grid));
+	connected_on_far_right = get_connected_instance(instances_at_grid_position(x+16, y, 8, 8, connection_object_index, false, _grid));
 
 	update_outline_offsets();
 }
 
 update_connected_graphics = function() {
-	with (is_connected_above) { update_connections(); }
-	with (is_connected_below) { update_connections(); }
-	with (is_connected_on_left) { update_connections(); }
-	with (is_connected_on_right) { update_connections(); }
-	with (is_connected_top_right) { update_connections(); }
-	with (is_connected_top_left) { update_connections(); }
-	with (is_connected_bottom_right) { update_connections(); }
-	with (is_connected_bottom_left) { update_connections(); }
-	with (is_connected_far_top) { update_connections(); }
-	with (is_connected_far_bottom) { update_connections(); }
-	with (is_connected_on_far_left) { update_connections(); }
-	with (is_connected_on_far_right) { update_connections(); }
+	with (connected_above) { update_connections(); }
+	with (connected_below) { update_connections(); }
+	with (connected_on_left) { update_connections(); }
+	with (connected_on_right) { update_connections(); }
+	with (connected_top_right) { update_connections(); }
+	with (connected_top_left) { update_connections(); }
+	with (connected_bottom_right) { update_connections(); }
+	with (connected_bottom_left) { update_connections(); }
+	with (connected_far_top) { update_connections(); }
+	with (connected_far_bottom) { update_connections(); }
+	with (connected_on_far_left) { update_connections(); }
+	with (connected_on_far_right) { update_connections(); }
 	with (obj_ladder) { update_connections(); }
 }
 
@@ -82,79 +82,79 @@ update_outline_offsets = function() {
 	outline_x_offset = undefined;
 	outline_y_offset = undefined;
 	
-	if (!is_connected_above && !is_connected_on_left && is_connected_below && is_connected_on_right) { // Top Left Corner
+	if (!connected_above && !connected_on_left && connected_below && connected_on_right) { // Top Left Corner
 		outline_x_offset = 0;
 		outline_y_offset = 0;
-		if (has_square_shape && !is_connected_on_far_right && !is_connected_far_bottom) {
+		if (has_square_shape && !connected_on_far_right && !connected_far_bottom) {
 			outline_x_offset = 24;
 			outline_y_offset = 16;
 		}
 	}
-	else if (!is_connected_above && is_connected_on_left && is_connected_below && !is_connected_on_right) { // Top Right Corner
+	else if (!connected_above && connected_on_left && connected_below && !connected_on_right) { // Top Right Corner
 		outline_x_offset = 16;
 		outline_y_offset = 0;
-		if (has_square_shape && !is_connected_on_far_left && !is_connected_far_bottom) {
+		if (has_square_shape && !connected_on_far_left && !connected_far_bottom) {
 			outline_x_offset = 32;
 			outline_y_offset = 16;
 		}
 	}
-	else if (!is_connected_below && !is_connected_on_left && is_connected_above && is_connected_on_right) { // Bottom Left Corner
+	else if (!connected_below && !connected_on_left && connected_above && connected_on_right) { // Bottom Left Corner
 		outline_x_offset = 0;
 		outline_y_offset = 16;
-		if (has_square_shape && !is_connected_on_far_right && !is_connected_far_top) {
+		if (has_square_shape && !connected_on_far_right && !connected_far_top) {
 			outline_x_offset = 24;
 			outline_y_offset = 24;
 		}
 	}
-	else if (!is_connected_below && is_connected_on_left && is_connected_above && !is_connected_on_right) { // Bottom Right Corner
+	else if (!connected_below && connected_on_left && connected_above && !connected_on_right) { // Bottom Right Corner
 		outline_x_offset = 16;
 		outline_y_offset = 16;
-		if (has_square_shape && !is_connected_on_far_left && !is_connected_far_top) {
+		if (has_square_shape && !connected_on_far_left && !connected_far_top) {
 			outline_x_offset = 32;
 			outline_y_offset = 24;
 		}
 	}
-	else if (!is_connected_above && is_connected_on_left && is_connected_below && is_connected_on_right) { // Top Side
+	else if (!connected_above && connected_on_left && connected_below && connected_on_right) { // Top Side
 		outline_x_offset = 8;
 		outline_y_offset = 0;
 	}
-	else if (!is_connected_below && is_connected_on_left && is_connected_above && is_connected_on_right) { // Bottom Side
+	else if (!connected_below && connected_on_left && connected_above && connected_on_right) { // Bottom Side
 		outline_x_offset = 8;
 		outline_y_offset = 16;
 	}
-	else if (is_connected_below && !is_connected_on_left && is_connected_above && is_connected_on_right) { // Left Side
+	else if (connected_below && !connected_on_left && connected_above && connected_on_right) { // Left Side
 		outline_x_offset = 0;
 		outline_y_offset = 8;
 	}
-	else if (is_connected_below && is_connected_on_left && is_connected_above && !is_connected_on_right) { // Right Side
+	else if (connected_below && connected_on_left && connected_above && !connected_on_right) { // Right Side
 		outline_x_offset = 16;
 		outline_y_offset = 8;
 	}
-	else if (is_connected_below && !is_connected_on_left && is_connected_above && !is_connected_on_right) { // Bridge From Right to Left
+	else if (connected_below && !connected_on_left && connected_above && !connected_on_right) { // Bridge From Right to Left
 		outline_x_offset = 0;
 		outline_y_offset = 24;
 	}
-	else if (!is_connected_below && is_connected_on_left && !is_connected_above && is_connected_on_right) { // Bridge From Left to Right
+	else if (!connected_below && connected_on_left && !connected_above && connected_on_right) { // Bridge From Left to Right
 		outline_x_offset = 8;
 		outline_y_offset = 24;
 	}
-	else if (is_connected_below && !is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Peninsula With Bottom
+	else if (connected_below && !connected_on_left && !connected_above && !connected_on_right) { // Peninsula With Bottom
 		outline_x_offset = 0;
 		outline_y_offset = 32;
 	}
-	else if (!is_connected_below && !is_connected_on_left && is_connected_above && !is_connected_on_right) { // Peninsula With Top
+	else if (!connected_below && !connected_on_left && connected_above && !connected_on_right) { // Peninsula With Top
 		outline_x_offset = 8;
 		outline_y_offset = 32;
 	}
-	else if (!is_connected_below && !is_connected_on_left && !is_connected_above && is_connected_on_right) { // Peninsula With Right
+	else if (!connected_below && !connected_on_left && !connected_above && connected_on_right) { // Peninsula With Right
 		outline_x_offset = 16;
 		outline_y_offset = 32;
 	}
-	else if (!is_connected_below && is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Peninsula With Left
+	else if (!connected_below && connected_on_left && !connected_above && !connected_on_right) { // Peninsula With Left
 		outline_x_offset = 24;
 		outline_y_offset = 32;
 	}
-	else if (!is_connected_below && !is_connected_on_left && !is_connected_above && !is_connected_on_right) { // Alone
+	else if (!connected_below && !connected_on_left && !connected_above && !connected_on_right) { // Alone
 		outline_x_offset = 16;
 		outline_y_offset = 24;
 	}
@@ -162,9 +162,9 @@ update_outline_offsets = function() {
 
 get_animated_sprite_image_index = function(_sprite) {
 	if (!animated) { return 0; }
-	var total_animation_frames = sprite_get_number(_sprite);
+	var _total_animation_frames = sprite_get_number(_sprite);
 	
-	return ((anim_timer div 8) + positional_animation_offset) % total_animation_frames;
+	return ((anim_timer div 8) + positional_animation_offset) % _total_animation_frames;
 }
 
 draw_static_area_fill = function() {
@@ -194,10 +194,10 @@ draw_static_area_outline = function() {
 	}
 	
 	// Draw Inner Outline Images
-	if (!is_connected_top_right && is_connected_above && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (!is_connected_top_left && is_connected_above && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (!is_connected_bottom_right && is_connected_below && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!connected_top_right && connected_above && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!connected_top_left && connected_above && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!connected_bottom_right && connected_below && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!connected_bottom_left && connected_below && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, 1); }
 }
 
 draw_static_area_mask = function() {
@@ -259,10 +259,10 @@ draw_static_area_tile = function() {
 	
 	// Additionally Draw Inner Corners
 	if (outline_sprite != noone) {
-		if (!is_connected_top_right && is_connected_above && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!is_connected_top_left && is_connected_above && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!is_connected_bottom_right && is_connected_below && is_connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!is_connected_bottom_left && is_connected_below && is_connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		if (!connected_top_right && connected_above && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		if (!connected_top_left && connected_above && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		if (!connected_bottom_right && connected_below && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
+		if (!connected_bottom_left && connected_below && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
 	}
 
 	gpu_set_blendmode(bm_normal);

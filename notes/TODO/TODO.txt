@@ -1,8 +1,7 @@
 // TODO:
 - Refactor Create Code
 - Refactor depth value being used for non-depth drawing purposes
-- Refactor player death vs robot death sound and explosion
-- Break BG Dirt Drawing and Outline/Switchblock drawing out into draw events at different depths. Tree should draw over it's wood/leaf, but under other static objects like ground
+
 - Add Yes/No confirm to starting new game
 - Settings Page
 - Controls Page
@@ -58,6 +57,7 @@ Push sounds when pushing a block and it stops moving due to running into somethi
 -- Implemented but figure out if this makes sense or matches the original cadence
 
 // FUTURE IDEAS
+Make gears destroy robots instead of being blocked by them
 Horizontal ladders?
 Crates/Bubbles with things in them
 Moveable Platforms

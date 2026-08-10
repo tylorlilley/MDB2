@@ -213,26 +213,30 @@ function translate_palette_to_uniform_values(_palette) {
 	);
 }
 
+global.switch_type_palettes = [PALETTES.RED, PALETTES.BLUE, PALETTES.YELLOW];
 function get_switch_palette(_switch_color) {
-	return [PALETTES.RED, PALETTES.BLUE, PALETTES.YELLOW][_switch_color];
+	return global.switch_type_palettes[_switch_color];
 }
 
+global.portal_color_palettes = [
+	PALETTES.BLUE,
+	PALETTES.PURPLE,
+	PALETTES.BLUE_DARK,
+	PALETTES.PURPLE_DARK,
+	PALETTES.PINK,
+	PALETTES.BLUE_LIGHT,
+	PALETTES.SAND,
+	PALETTES.GREEN_DARK,
+	PALETTES.YELLOW_DARK,
+	PALETTES.RED,
+	PALETTES.YELLOW,
+	PALETTES.ROCK,
+	PALETTES.TRASH_LIGHT
+];
 function get_portal_palette(_portal_color) {
-	return [
-			PALETTES.BLUE,
-			PALETTES.PURPLE,
-			PALETTES.BLUE_DARK,
-			PALETTES.PURPLE_DARK,
-			PALETTES.PINK,
-			PALETTES.BLUE_LIGHT,
-			PALETTES.SAND,
-			PALETTES.GREEN_DARK,
-			PALETTES.YELLOW_DARK,
-			PALETTES.RED,
-			PALETTES.YELLOW,
-			PALETTES.ROCK,
-			PALETTES.TRASH_LIGHT
-		][_portal_color];
+	if (_portal_color > array_length(global.portal_color_palettes)) { return PALETTES.GRAY_LIGHT; }
+
+	return global.portal_color_palettes[_portal_color];
 }
 
 function get_darker_palette(_palette_index) {

@@ -9,27 +9,35 @@
 #macro TRANSITION_DELAY 40
 #macro TRANSITION_HOLD 12
 
-#macro PARTICLE_DEPTH -2
-#macro WATER_DEPTH -1
-#macro PLAYER_DEPTH 0
-#macro CAPE_DEPTH 1
-#macro DYNAMIC_OBJECT_DEPTH 2
-#macro KEY_DEPTH 3
-#macro CRATE_DEPTH 5
-#macro LADDER_DEPTH 6
-//#macro SWITCH_BLOCK_DEPTH 7 // TODO: Draw these behind dynamic objects drawn by controller
-#macro PORTAL_DEPTH 8
-#macro SWITCH_DEPTH 9 //4
-#macro STATIC_OBJECT_DEPTH 10
-#macro GEAR_DEPTH 5 // 11
+// --- Particles
+#macro PARTICLE_DEPTH -100
 
+// -- Liquids
+#macro WATER_DEPTH -50
+
+// -- Player
+#macro PLAYER_DEPTH -20
+#macro CAPE_DEPTH -19
+
+// -- Static Objects
+#macro KEY_DEPTH -11
+#macro LADDER_DEPTH -10
+
+//--- Outline Surface Area Manager
+#macro OUTLINE_DEPTH 0
+//--- Dynamic Objects
+#macro GEAR_DEPTH 5
+#macro CRATE_DEPTH 8
+#macro SWITCH_DEPTH 9
+#macro PORTAL_DEPTH 10
+//--- Static Area Surface Area Manager
+#macro VISUAL_OBJECT_DEPTH 44 // Tree; Designed to slot between obj_bridge and obj_wood so it appears over the wood/leaf and under the other tiles.
 #macro STATIC_AREA_DEPTH 50 // Lowest Depth, works upward from BG Dirt
-#macro VISUAL_OBJECT_DEPTH 51 // Tree
-
-//#macro BACKGROUND_DEPTH 100
+//--- Background Surface Area Manager
+#macro BACKGROUND_DEPTH 100
 
 // Global Variables
-global.static_area_object_index_depth_order = [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_wood, obj_sand, obj_bridge, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block];
+global.static_area_object_index_depth_order = [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_sand, obj_bridge, obj_wood, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block];
 global.controller = id;
 global.gamepad = noone;
 global.original_controls = true;
@@ -143,45 +151,6 @@ create_object_grid = function(_cols, _rows) {
 	    }
 	}
 	return _game_object_grid;
-}
-
-draw_static_areas = function() {
-	// Regenerate Surface if Room Size has Changed
-	if (surface_exists(static_area_surface) && (surface_get_width(static_area_surface) != room_width || surface_get_height(static_area_surface) != room_height)) { surface_free(static_area_surface); static_area_surface = noone; }
-	
-	for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order); _i++) {
-		var _object_index = global.static_area_object_index_depth_order[_i];
-		if (!instance_exists(_object_index)) { continue; }
-		
-		// Set up Surface to Draw On
-		if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
-		if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SETTING SURFACE"); continue; }
-		draw_clear_alpha(c_black, 0);
-		
-		// Set Palette and Draw Tiles to Surface
-		var _last_palette = undefined;
-		with (_object_index) {
-			if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
-			draw_static_area_fill();
-		}
-		_last_palette = undefined;
-		with (_object_index) {
-			if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
-			draw_static_area_outline();
-		}
-		gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
-		with (_object_index) { draw_static_area_mask(); }
-		gpu_set_blendmode(bm_normal);
-		
-		// Draw Surface to Application Surface
-		surface_reset_target();
-		shader_reset();
-		gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
-		draw_surface(static_area_surface, 0, 0);
-		gpu_set_blendmode(bm_normal);
-		shader_set(shd_palettizer);
-		shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
-	}
 }
 
 transition_room(target_room); //rm_test_terrain

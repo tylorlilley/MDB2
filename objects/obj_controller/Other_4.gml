@@ -35,16 +35,25 @@ with (obj_dynamic_object) {
 }
 
 // Set Up Palettes and Visual Variables
+var _static_area_manager = noone;
 for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order); _i++) {
 	var _obj_index = global.static_area_object_index_depth_order[_i];
+	
+	// Create the Static Area Manager
+	if (_i == 0 && !instance_exists(_static_area_manager)) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = BACKGROUND_DEPTH; }
+	else if (_i <= array_length(global.static_area_object_index_depth_order) - 3 && !instance_exists(_static_area_manager)) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = STATIC_AREA_DEPTH; }
+	else if (_i == array_length(global.static_area_object_index_depth_order) && !instance_exists(_static_area_manager)) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = OUTLINE_DEPTH; }
+	
+	// Set up Static Area Types
 	with (_obj_index) {
-		depth = STATIC_AREA_DEPTH - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
+		depth = _static_area_manager.depth - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
 		if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 		if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
 		if (_obj_index != obj_bg_dirt) { update_connections(); } // TODO: Base this on something else
 		main_palette = get_world_palette(object_index) ?? main_palette;
 		particle_palette = (has_darker_particles) ? get_darker_palette(main_palette) : main_palette;
 	}
+	array_push(_static_area_manager.static_area_objects, _obj_index);
 }
 with (obj_switch_block_outline) { if (begin_off) { toggle_solid(); } }
 with (obj_switch_block) { update_connections(); }

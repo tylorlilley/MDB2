@@ -553,8 +553,6 @@
     {"name":"inst_490DB59F","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
     {"name":"inst_11610052","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
     {"name":"inst_6F625900","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
-    {"name":"inst_1FFCAD78","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
-    {"name":"inst_6E785D0","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -1106,8 +1104,6 @@
         {"$GMRInstance":"v4","%Name":"inst_490DB59F","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_490DB59F","objectId":{"name":"obj_spikes","path":"objects/obj_spikes/obj_spikes.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":232.0,"y":232.0,},
         {"$GMRInstance":"v4","%Name":"inst_11610052","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_11610052","objectId":{"name":"obj_spikes","path":"objects/obj_spikes/obj_spikes.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":248.0,"y":232.0,},
         {"$GMRInstance":"v4","%Name":"inst_6F625900","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6F625900","objectId":{"name":"obj_spikes","path":"objects/obj_spikes/obj_spikes.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":264.0,"y":232.0,},
-        {"$GMRInstance":"v4","%Name":"inst_1FFCAD78","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_1FFCAD78","objectId":{"name":"obj_robot","path":"objects/obj_robot/obj_robot.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":128.0,"y":200.0,},
-        {"$GMRInstance":"v4","%Name":"inst_6E785D0","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6E785D0","objectId":{"name":"obj_ladder","path":"objects/obj_ladder/obj_ladder.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":208.0,"y":216.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_mdb_3_4",

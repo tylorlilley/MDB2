@@ -83,16 +83,22 @@ part_damaged = function(_inst) {
 }
 
 part_destroyed = function(_inst) {
-	var _remove_from_array = noone
+	var _remove_from_array = undefined;
 	if (_inst.object_index == obj_leaf) { _remove_from_array = leaves; }
 	if (_inst.object_index == obj_wood) { _remove_from_array = trunk; }
-	array_delete(_remove_from_array, array_get_index(_remove_from_array, _inst), 1);
 	
-	// Destroy All Leaves When Trunk is Destroyed
-	if (array_length(trunk) == 0) {
-		for (var _i = 0; _i < array_length(leaves); _i++) {
-			with (leaves[_i]) { creator = noone; instance_destroy(); }
+	if (_remove_from_array != undefined) {
+		var _array_index_to_remove =  array_get_index(_remove_from_array, _inst);
+		if (_array_index_to_remove > 0) {
+			array_delete(_remove_from_array, _array_index_to_remove, 1);
+	
+			// Destroy All Leaves When Trunk is Destroyed
+			if (array_length(trunk) == 0) {
+				for (var _i = 0; _i < array_length(leaves); _i++) {
+					with (leaves[_i]) { creator = noone; instance_destroy(); }
+				}
+				instance_destroy();
+			}
 		}
-		instance_destroy();
-	}
+	}	
 }

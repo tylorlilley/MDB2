@@ -1,0 +1,1 @@
+draw_static_areas();

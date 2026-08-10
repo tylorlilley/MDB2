@@ -1,5 +1,5 @@
 function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object, _ignore_outside_border = true, _grid = global.controller.game_object_grid) {
-	var _grid_width = abs(_w) div 8, _grid_height = abs(_h) div  8;
+	var _grid_width = abs(_w) div 8, _grid_height = abs(_h) div  8, _single_cell_query = (_grid_width == 1 && _grid_height == 1);
 	var _returned_instances = [], _max_x = room_width div 8, _max_y = room_height div 8, _min_x = 0, _min_y = 0;
 	if (_ignore_outside_border) {
 		var _border_size = 1; //(global.original_controls) ? 2 : 1;
@@ -17,7 +17,7 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
                 continue;
             }
 			
-			var _instances_at_grid_position = _grid[_checked_x][_checked_y], _single_cell_query = (_grid_width == 1 && _grid_height == 1);
+			var _instances_at_grid_position = _grid[_checked_x][_checked_y];
 			for (var _i = 0; _i < array_length(_instances_at_grid_position); _i++) {
 				var _inst = _instances_at_grid_position[_i];
 				if (instance_exists(_inst) && id != _inst && _inst.is_a(_object_index) && (_single_cell_query || !array_contains(_returned_instances, _inst))) {
@@ -161,6 +161,7 @@ enum PARTICLE_TYPES {
 	PUFF,
 	SPARK
 }
+global.particle_type_sprites = [spr_particle_debris, spr_particle_sparkle, undefined, spr_particle_leaf, spr_particle_confetti, spr_particle_debris, spr_particle_debris];
 
 function create_particles(_total_particles, _particle_type = undefined, _particle_palette = undefined, _x_pos = undefined, _y_pos = undefined, _death_sprite = undefined) {
 	if (_total_particles <= 0) { exit; }
@@ -170,7 +171,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 	_particle_type ??= particle_type;
 	_particle_palette ??= particle_palette ?? get_darker_palette(main_palette);
 	
-	var _particle_sprite = [spr_particle_debris, spr_particle_sparkle, (_death_sprite ?? sprite_index), spr_particle_leaf, spr_particle_confetti, spr_particle_debris, spr_particle_debris][_particle_type];
+	var _particle_sprite = global.particle_type_sprites[_particle_type] ?? (_death_sprite ?? sprite_index);
 	var  _horizontal_direction = (irandom(1) == 0) ? 1 : -1;
 	for (var _i = 0; _i < _total_particles; _i++) {
 		var _particle = instance_create(_x_pos, _y_pos, obj_particle);

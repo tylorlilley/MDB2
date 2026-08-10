@@ -86,9 +86,9 @@ player_state_to_string = function(_state) {
 	return _player_state_string;
 }
 
-cape_state_to_string = function() {
+cape_state_to_string = function(_cape_state) {
 	var _cape_state_string = "UNKNOWN STATE"
-	switch (cape_state) {
+	switch (_cape_state) {
 		case CAPE_STATES.STAND: { _cape_state_string = "Stand"; break; }
 		case CAPE_STATES.CROUCH: { _cape_state_string = "Crouch"; break; }
 		case CAPE_STATES.FLUTTER: { _cape_state_string = "Fluttering"; break; }
@@ -168,9 +168,9 @@ reset_controls = function() {
 }
 
 function determine_gamepad() {
-	var gp_num = gamepad_get_device_count();
+	var _gp_num = gamepad_get_device_count();
 	global.gamepad = noone;
-	for (var i = 0; i < gp_num; i++;) {
+	for (var i = 0; i < _gp_num; i++;) {
 	    if (gamepad_is_connected(i)) { global.gamepad = i; break; }
 	}
 	return global.gamepad;
@@ -437,7 +437,7 @@ walk_on_ground_objects = function() {
 	
 // Positional Functions
 get_ladder_at = function(_x = x, _y = y) {
-	if (!can_ladder) { return !noone; }
+	if (!can_ladder) { return noone; }
 	
 	var _closest_ladder = noone, _ladder_objects = instances_at_grid_position(_x, _y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
 	
@@ -479,7 +479,7 @@ can_ladder_down = function(_closest_ladder) {
 can_ladder_at = function(_x = x, _y = y) {
 	if (is_crushed_state()) { return false; }
 	
-	return (instance_exists(get_ladder_at(_x, _y)));
+	return (instance_exists(get_ladder_at(_x, _y)) && at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder));
 }
 
 can_start_climbing = function() {
@@ -853,9 +853,9 @@ update_player_state = function() {
 							if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; }
 						}
-						if (state =- PLAYER_STATES.POWERFALL) {
+						if (state == PLAYER_STATES.POWERFALL) {
 							play_sound(snd_player_powerfall);
-							if (fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
+							//if (fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
 						}
 						
 					}
@@ -923,13 +923,13 @@ update_player_state = function() {
 	y_transition_speed = undefined;
 	x_transition_speed = undefined;
 	
-	var _speed_index = clamp(0, (transition_timer-1), (transition_timer-1));
+	var _speed_index = clamp((transition_timer-1), 0, (transition_timer-1));
 	if (is_hop_up_state()) { y_transition_speed = hop_up_speeds[_speed_index]; }
 	else if (is_hop_down_state()) { y_transition_speed = hop_down_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.RECOIL) { y_transition_speed = recoil_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.CLIMB) {
 		y_transition_speed = climb_y_speeds[_speed_index];
-		x_transition_speed = climb_x_sppeds[_speed_index] * get_left_value();
+		x_transition_speed = climb_x_speeds[_speed_index] * get_left_value();
 	}
 }
 

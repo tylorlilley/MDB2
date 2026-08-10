@@ -101,6 +101,7 @@
     {"id":{"name":"obj_sign","path":"objects/obj_sign/obj_sign.yy",},},
     {"id":{"name":"obj_spawner","path":"objects/obj_spawner/obj_spawner.yy",},},
     {"id":{"name":"obj_spikes","path":"objects/obj_spikes/obj_spikes.yy",},},
+    {"id":{"name":"obj_static_area_manager","path":"objects/obj_static_area_manager/obj_static_area_manager.yy",},},
     {"id":{"name":"obj_static_area","path":"objects/obj_static_area/obj_static_area.yy",},},
     {"id":{"name":"obj_static_object","path":"objects/obj_static_object/obj_static_object.yy",},},
     {"id":{"name":"obj_switch_block_blue","path":"objects/obj_switch_block_blue/obj_switch_block_blue.yy",},},
