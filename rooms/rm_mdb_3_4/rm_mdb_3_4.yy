@@ -553,8 +553,7 @@
     {"name":"inst_490DB59F","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
     {"name":"inst_11610052","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
     {"name":"inst_6F625900","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
-    {"name":"inst_615E202C","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
-    {"name":"inst_6D9D5F24","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
+    {"name":"inst_45716850","path":"rooms/rm_mdb_3_4/rm_mdb_3_4.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -1106,12 +1105,7 @@
         {"$GMRInstance":"v4","%Name":"inst_490DB59F","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_490DB59F","objectId":{"name":"obj_spikes","path":"objects/obj_spikes/obj_spikes.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":232.0,"y":232.0,},
         {"$GMRInstance":"v4","%Name":"inst_11610052","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_11610052","objectId":{"name":"obj_spikes","path":"objects/obj_spikes/obj_spikes.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":248.0,"y":232.0,},
         {"$GMRInstance":"v4","%Name":"inst_6F625900","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6F625900","objectId":{"name":"obj_spikes","path":"objects/obj_spikes/obj_spikes.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":264.0,"y":232.0,},
-        {"$GMRInstance":"v4","%Name":"inst_615E202C","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_615E202C","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"properties":[
-            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"propertyId":{"name":"linked_portal","path":"objects/obj_portal/obj_portal.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"inst_6D9D5F24",},
-          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":112.0,"y":136.0,},
-        {"$GMRInstance":"v4","%Name":"inst_6D9D5F24","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6D9D5F24","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"properties":[
-            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_portal","path":"objects/obj_portal/obj_portal.yy",},"propertyId":{"name":"linked_portal","path":"objects/obj_portal/obj_portal.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"inst_615E202C",},
-          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":64.0,"y":88.0,},
+        {"$GMRInstance":"v4","%Name":"inst_45716850","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_45716850","objectId":{"name":"obj_robot","path":"objects/obj_robot/obj_robot.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":80.0,"y":200.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_mdb_3_4",
