@@ -53,7 +53,11 @@ with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_pa
 with (obj_dynamic_object) {
 	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }
 }
-with (obj_player) { is_left = !other.classic_levels; }
+with (obj_player) {
+	if (object_index == obj_player) { is_left = other.classic_levels; }
+	if (object_index == obj_mirror_player) { is_left = !other.classic_levels; }
+	// Robots use the variable definitions to set is_left for each room
+}
 with (obj_door) {
 	if (global.room_keys == 0) { image_index = 1; }
 }

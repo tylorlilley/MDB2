@@ -114,17 +114,6 @@ part_damaged = function() { }
 
 update_virtual_y_offset = function() { }
 
-// Partcile Effect Functions
-enum PARTICLE_TYPES {
-	DEBRIS,
-	SPARKLE,
-	CORPSE,
-	LEAF,
-	CONFETTI,
-	PUFF,
-	SPARK
-}
-
 reset_shine_timer = function() {
 	shine_timer = 120 + irandom(16);
 }
@@ -188,13 +177,14 @@ powerfly_into = function(_other = noone) {
 
 get_damaged = function() {
 	if (instance_exists(creator)) { creator.part_damaged(id); }
+	if (!instance_exists(id)) { return; } // Guard in case destroyed by part_damaged in creator
+	
+	// Hanlde invulnerable objects explicitly
+	if (hits <= 0) { play_sound(damaged_sound); return; }
+	
 	hits--;
-	if (hits == 0) { instance_destroy(); }
-	else {
-		if (hits > 0) { create_particles(2); }
-		play_sound(damaged_sound);
-	}
-	if (hits < 0) { hits = 0; }
+	if (hits > 0) { play_sound(damaged_sound); create_particles(2) }
+	else { instance_destroy(); }
 }
 
 get_connected_instances = function(_connected_instances) {

@@ -3,12 +3,14 @@ with (obj_switch) { prev_pressed = pressed; }
 with (obj_switch_block_outline) { solid_obj.main_palette = main_palette; }
 
 // Update Switch Graphics and Sound
+/*
 with (obj_switch) {
 	if (global.controller.blocked_switch_colors[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
 	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
 	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
 }
 blocked_switch_colors = [false, false, false];
+*/
 
 // Handle Dynamic Game Object Step
 var _dynamic_instances = [];

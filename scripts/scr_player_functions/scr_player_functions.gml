@@ -50,9 +50,9 @@ enum CAPE_STATES
 	WIN
 }
 
-player_state_to_string = function(state) {
+player_state_to_string = function(_state) {
 	var _player_state_string = "UNKNOWN STATE"
-	switch (state) {
+	switch (_state) {
 		case PLAYER_STATES.STAND: { _player_state_string = "Stand"; break; }
 		case PLAYER_STATES.LOOK_UP: { _player_state_string = "Looking Up"; break; }
 		case PLAYER_STATES.WALK_FORWARD: { _player_state_string = "Walk"; break; }
@@ -333,17 +333,13 @@ get_left_and_right_objects = function(_get_above = false, _impact_fragile = fals
 	return _returned_objects;
 }
 
-can_be_damaged_by_object = function(_inst) {
-	return ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (object_index != obj_player && _inst.is_robot_lethal));
-}
-
 get_destroyed_by_object = function() {
-	if (can_be_controlled) { play_sound(snd_player_idle_yell); }
+	play_sound(damaged_sound);
 	if (instance_exists(id)) { instance_destroy(); }
 }
 
 get_damaged_by_object = function(_inst) {
-	if (can_be_damaged_by_object(_inst)) {
+	if (would_be_damaged_by(_inst)) {
 		get_destroyed_by_object();
 		_inst.deal_damage();
 	}
@@ -441,6 +437,8 @@ walk_on_ground_objects = function() {
 	
 // Positional Functions
 get_ladder_at = function(_x = x, _y = y) {
+	if (!can_ladder) { return !noone; }
+	
 	var _closest_ladder = noone, _ladder_objects = instances_at_grid_position(_x, _y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_ladder);
 	
 	for (var _i = 0; _i < array_length(_ladder_objects); _i++) {
@@ -452,7 +450,7 @@ get_ladder_at = function(_x = x, _y = y) {
 }
 
 get_climbed_object = function() {
-	if (is_under_ceiling() || (!key_jump && !key_up && !global.original_controls) || (global.original_controls && y <= 24)) { return noone; }
+	if (!can_climb || is_under_ceiling() || (!key_jump && !key_up && !global.original_controls) || (global.original_controls && y <= 24)) { return noone; }
 	var _diagonal_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects();
 	if (array_length(_diagonal_ceiling_objects) > 0) { return noone; }
 	
@@ -511,7 +509,7 @@ update_player_state = function() {
 	// Reset Timers
 	if (!is_ladder_state()) { is_up = false; }
 	if (!is_fall_state() && fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
-	if (state != PLAYER_STATES.STAND) { idle_timer = 0; idle_cycle = 0; }
+	if (state != PLAYER_STATES.STAND) { idle_timer = 0; idle_loops = 0; }
 	if (state != PLAYER_STATES.CROUCH && state != PLAYER_STATES.POWERCROUCH) { crouch_timer = 0; }
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
 	if (state != PLAYER_STATES.FLY && state != PLAYER_STATES.POWERFLY) { fly_timer = 0; }
@@ -855,7 +853,7 @@ update_player_state = function() {
 							if (fall_timer >= 8 && state == PLAYER_STATES.FALL) { state = PLAYER_STATES.TUMBLE; }
 							if (fall_timer >= 12 && state == PLAYER_STATES.TUMBLE) { state = PLAYER_STATES.POWERFALL; }
 						}
-						if (state = PLAYER_STATES.POWERFALL) {
+						if (state =- PLAYER_STATES.POWERFALL) {
 							play_sound(snd_player_powerfall);
 							if (fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
 						}
@@ -924,29 +922,14 @@ update_player_state = function() {
 	// Update transition speeds
 	y_transition_speed = undefined;
 	x_transition_speed = undefined;
-	if (is_hop_up_state()) {
-		var _speed = [0, 0, -1, -1, -1, -1, -2, -2];
-		y_transition_speed = _speed[transition_timer-1];
-	}
-	else if (is_hop_down_state()) {
-		var _speed = [2, 2, 1, 1, 1, 1, 0, 0];
-		y_transition_speed = _speed[transition_timer-1];
-	}
-	else if (state == PLAYER_STATES.RECOIL) {
-		var _speed = [0, 0, -2, -2, -2, -2, -4, -4];
-		y_transition_speed = _speed[transition_timer-1];
-	}
+	
+	var _speed_index = clamp(0, (transition_timer-1), (transition_timer-1));
+	if (is_hop_up_state()) { y_transition_speed = hop_up_speeds[_speed_index]; }
+	else if (is_hop_down_state()) { y_transition_speed = hop_down_speeds[_speed_index]; }
+	else if (state == PLAYER_STATES.RECOIL) { y_transition_speed = recoil_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.CLIMB) {
-		y_transition_speed = 0;
-		x_transition_speed = 0;
-		var _y_speed = [0, 0, 0, 0, 0, 0, 0, 0,
-					   0, 0, 0, -2, 0, -2, 0, 0,
-					   0, 0, 0, 0, -1, -1, -1, -1];
-		var _x_speed = [0, 0, 0, 0, 0, 0, 0, 0,
-					   1, 1, 1, 1, 0, 0, 0, 2,
-					   0, 2, 0, 0, 0, 0, 0, 0];
-		y_transition_speed = _y_speed[transition_timer-1];
-		x_transition_speed = _x_speed[transition_timer-1] * get_left_value();
+		y_transition_speed = climb_y_speeds[_speed_index];
+		x_transition_speed = climb_x_sppeds[_speed_index] * get_left_value();
 	}
 }
 
@@ -1280,12 +1263,12 @@ update_player_graphics = function() {
 		
 		// Update Images for Idle Animations
 		if (sprite_index == spr_player_idle && state == PLAYER_STATES.STAND) {
-			if (idle_timer >= 12 && idle_cycle == 0) { idle_timer = 0; idle_cycle++; }
-			else if (idle_timer >= 13 && idle_cycle == 1) { idle_timer = 0; idle_cycle++; }
-			else if (idle_timer >= 14 && idle_cycle == 2) { idle_timer = 0; idle_cycle++; }
-			else if (idle_timer >= 16 && idle_cycle == 3) { idle_timer = 0; idle_cycle++; }
-			else if (idle_timer >= 18 && idle_cycle == 4) { idle_timer = 0; idle_cycle++; }
-			else if (idle_timer >= 24 && idle_cycle == 5) { idle_timer = 0; idle_cycle = 0; }
+			if (idle_timer >= 12 && idle_loops == 0) { idle_timer = 0; idle_loops++; }
+			else if (idle_timer >= 13 && idle_loops == 1) { idle_timer = 0; idle_loops++; }
+			else if (idle_timer >= 14 && idle_loops == 2) { idle_timer = 0; idle_loops++; }
+			else if (idle_timer >= 16 && idle_loops == 3) { idle_timer = 0; idle_loops++; }
+			else if (idle_timer >= 18 && idle_loops == 4) { idle_timer = 0; idle_loops++; }
+			else if (idle_timer >= 24 && idle_loops == 5) { idle_timer = 0; idle_loops = 0; }
 		
 			if (idle_timer >= 0 && idle_timer < 12) { image_index = 0; }
 			else if (idle_timer >= 12 && idle_timer < 14) { image_index = 1; }
@@ -1346,7 +1329,7 @@ update_player_collisions_at_position = function() {
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
 			if (instance_exists(_inst)) {
-				if (!can_be_damaged_by_object(_inst)) { _safe = true; }
+				if (!would_be_damaged_by(_inst)) { _safe = true; }
 			}
 		}
 		if (!_safe) {

@@ -17,10 +17,10 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
                 continue;
             }
 			
-			var _instances_at_grid_position = _grid[_checked_x][_checked_y];
+			var _instances_at_grid_position = _grid[_checked_x][_checked_y], _single_cell_query = (_grid_width == 1 && _grid_height == 1);
 			for (var _i = 0; _i < array_length(_instances_at_grid_position); _i++) {
 				var _inst = _instances_at_grid_position[_i];
-				if (instance_exists(_inst) && id != _inst && _inst.is_a(_object_index) && !array_contains(_returned_instances, _inst)) {
+				if (instance_exists(_inst) && id != _inst && _inst.is_a(_object_index) && (_single_cell_query || !array_contains(_returned_instances, _inst))) {
 					array_push(_returned_instances, _inst);
 				}
 			}
@@ -77,7 +77,7 @@ function get_objects_at(_x_pos, _y_pos, _width, _height, _pred, _ignored_objects
 	for (var _i = 0; _i < array_length(_potential_objects); _i++)
 	{
 		var _inst = _potential_objects[_i];
-		if (_inst.is_a(_object_index) && !array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
+		if (!array_contains(_ignored_objects, _inst) && _pred(_inst, _ignored_objects)) { array_push(_static_objects, _inst); }
 	}
 	
 	return _static_objects;
@@ -151,7 +151,18 @@ function audio_play_sound_panned(_snd, _x) {
 	return audio_play_sound_at(_snd, dsin(_ang) * SOUND_PAN_RADIUS, dcos(_ang) * SOUND_PAN_RADIUS, 0, SOUND_PAN_RADIUS, SOUND_PAN_RADIUS, 1, false, 1);
 }
 
-function create_particles(_total_particles, _particle_type = undefined, _particle_palette = undefined, _x_pos = undefined, _y_pos = undefined) {
+// Partcile Effect Functions
+enum PARTICLE_TYPES {
+	DEBRIS,
+	SPARKLE,
+	CORPSE,
+	LEAF,
+	CONFETTI,
+	PUFF,
+	SPARK
+}
+
+function create_particles(_total_particles, _particle_type = undefined, _particle_palette = undefined, _x_pos = undefined, _y_pos = undefined, _death_sprite = undefined) {
 	if (_total_particles <= 0) { exit; }
 	
 	_x_pos ??= x+sprite_get_width(sprite_index)/2;
@@ -159,12 +170,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 	_particle_type ??= particle_type;
 	_particle_palette ??= particle_palette ?? get_darker_palette(main_palette);
 	
-	var _particle_sprite = spr_particle_debris;
-	if (_particle_type == PARTICLE_TYPES.LEAF) { _particle_sprite = spr_particle_leaf; }
-	if (_particle_type == PARTICLE_TYPES.SPARKLE) { _particle_sprite = spr_particle_sparkle; }
-	if (_particle_type == PARTICLE_TYPES.CONFETTI) { _particle_sprite = spr_particle_confetti; }
-	if (_particle_type == PARTICLE_TYPES.CORPSE) { _particle_sprite = death_sprite; }
-
+	var _particle_sprite = [spr_particle_debris, spr_particle_sparkle, (_death_sprite ?? sprite_index), spr_particle_leaf, spr_particle_confetti, spr_particle_debris, spr_particle_debris][_particle_type];
 	var  _horizontal_direction = (irandom(1) == 0) ? 1 : -1;
 	for (var _i = 0; _i < _total_particles; _i++) {
 		var _particle = instance_create(_x_pos, _y_pos, obj_particle);

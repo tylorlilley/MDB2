@@ -2,7 +2,7 @@
 - Refactor Create Code
 - Refactor depth value being used for non-depth drawing purposes
 - Refactor player death vs robot death sound and explosion
-- Break BG Dirt Drawing and Outline/Switchblock drawing out into draw events at different depths
+- Break BG Dirt Drawing and Outline/Switchblock drawing out into draw events at different depths. Tree should draw over it's wood/leaf, but under other static objects like ground
 - Add Yes/No confirm to starting new game
 - Settings Page
 - Controls Page

@@ -6,11 +6,13 @@ can_power_up = false;
 can_push_objects = false;
 can_be_controlled = false;
 can_be_crushed = false;
+can_ladder = false;
+can_climb = false;
 has_cape = false;
-death_sound = snd_robot_die;
 
 // Game Object Overrides
 is_player_lethal = true;
+damaged_sound = snd_robot_die;
 
 // Visual Object Overrides
 sprite_index = spr_robot_walk;
@@ -73,7 +75,7 @@ update_controls = function() {
 	if (!is_on_ground()) { walk_timer = 0; }
 	else {
 		// Update Facing Direction
-		if (_blocked_on_right && _blocked_on_left) { is_left = true; } // OLD GAME: is_left = true;
+		if (_blocked_on_right && _blocked_on_left) { is_left = is_left; } // OLD GAME: is_left = true;
 		else if (is_left && _blocked_on_left) { is_left = false; }
 		else if (!is_left && _blocked_on_right) { is_left = true; }
 		if (is_left != _prev_is_left && is_grounded_state()) { turn_pending = true; turn_hold = max(x_transition_timer, y_transition_timer); turn_timer = 4; }
@@ -106,8 +108,7 @@ update_player_graphics = function() {
 	
 	// Assign Sprite Based on State
 	var _image_index = image_index, _carried_objects = get_carried_objects()
-	if (state == PLAYER_STATES.FALL) { sprite_index = spr_robot_fall; }
-	else if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.WALK_FORWARD) {
+	if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.WALK_FORWARD) {
 		 if (turn_timer > 0) {
 			turn_pending = false;
 			sprite_index = spr_robot_turn;
@@ -119,6 +120,8 @@ update_player_graphics = function() {
 			sprite_index = (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk;
 		}
 	}
+	else { sprite_index = spr_robot_fall; }
+	
 	image_index = (state == PLAYER_STATES.STAND) ? 0 : _image_index;
 }
 

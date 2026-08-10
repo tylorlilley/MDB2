@@ -45,12 +45,15 @@ if (state == TITLE_STATES.MAIN_MENU) {
 
 				_x_offset += _shake_x;
 				_y_offset += _shake_y;
-			
-				if (menu_pos == 1) {
+				
+				// Additionally Draw Player Cape for Cursor
+				if (menu_pos == MENU_OPTIONS.START_GAME) {
 					set_shader_palette(PALETTES.GRAY_LIGHT);
 					draw_sprite_swaying(spr_cape_fall, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1-4, c_white, 1, 15);
 				}
-				set_shader_palette(_cursor_palette)
+				
+				// Draw Cursor
+				set_shader_palette(_cursor_palette);
 				draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
 			}
 			

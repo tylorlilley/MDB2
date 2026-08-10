@@ -1,0 +1,154 @@
+1_1
+- Sand
+- Bridge??
+- Walk off Edge
+- Ladders
+-- Fall off Bottom
+-- Step Onto Ledge / Can't Step Off
+
+1_2
+- Clouds (Same as Sand)
+- Rocks
+
+1_3
+- Portals (One Way, Infinite Loop)
+
+1_4
+- Multiple Portals (One Way)
+- Making Stairs with Sand?
+
+1_5
+- Many Portals
+- Dead End Portals
+
+1_6
+- You Can Go Back Through Portals
+
+1_7
+- Red Switch On
+- Red Switch Off
+- Switch Block On
+- Switch Block Off
+- Switch Blocks Don't Break
+
+1_8
+- You Can Break the Door
+- You Can Die Off Bottom of Screen
+
+2_1
+Tree
+Leaf (Same as Sand and Cloud)
+You can Break Switches
+
+2_2
+Log
+
+2_3
+??
+
+2_4
+Blue Switch
+Blue Blocks On
+Blue Blocks Off
+One-way Switch
+
+2_5
+Lava
+Two One Way Switches
+
+2_6
+Three-Hit Brick Blocks
+Switch Blocks Over Regular Blocks
+
+2_7
+??
+
+2_8
+Go through Portal and then move past it again
+
+3_1
+Trap Self with Switches
+Gear Block
+Spikes
+
+3_2
+I guess some portal traps
+
+3_3
+??
+
+3_4
+Multiple Gear Blocks
+Gear Blocks + Switch Interaction
+
+3_5
+True Two Color Switches
+
+3_6
+Robot Walk
+Robot Hits Switches
+Player Dies Inside Solid Switches
+
+3_7
+Three Switches
+Brick Block - but this isn't needed to win?
+
+3_8
+Switches on Destructible Switches
+Switches UNDER blocks they turn on
+
+4_1
+Robots Kill Players
+Robots Destroyed by Switches
+
+4_2
+Player Falls on Robots
+Robots Bump Against Each Other
+
+4_3
+Gold Robots
+Robots Fall
+Robots Use Portals
+Robots Die in Lava
+
+4_4
+You can stand on switches to hold them down
+
+4_5
+You can move under a falling robot??
+
+4_6
+?? (hold switches down)
+
+4_7
+Robots can walk on spikes?
+Gears can crush robots?
+
+4_8
+??
+
+5_1
+??
+
+5_2
+Tough Clouds (Same as Rock)
+Hide Portal Offscreen
+
+5_3
+Reforming Clouds
+
+5_4
+NO keys??
+
+5_5
+??
+
+5_6
+Falling Robots
+
+5_7
+??
+
+5_8
+??
+

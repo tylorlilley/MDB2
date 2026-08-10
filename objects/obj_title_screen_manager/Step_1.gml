@@ -45,11 +45,11 @@ switch (state) {
 		// Update Menu Position
 		if (text_shake_timer == 0) {
 			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room == noone), _menu_change = 0;
-			var _min_menu_pos = (progress_level == 0) ? 1 : 0, _max_menu_pos = 4;
+			var _min_menu_pos = (progress_level == 0) ? MENU_OPTIONS.START_GAME : MENU_OPTIONS.START_CLASSIC, _max_menu_pos = MENU_OPTIONS.SETTINGS;
 			if (key_up && !key_down) { _menu_change = -1; }
 			else if (key_down && ! key_up) { _menu_change = 1; }
 			menu_pos += _menu_change;
-			if (menu_pos == 2 && _skip_continue) { menu_pos += _menu_change; }
+			if (menu_pos == MENU_OPTIONS.LOAD_GAME && _skip_continue) { menu_pos += _menu_change; }
 			if (menu_pos > _max_menu_pos || menu_pos < _min_menu_pos) { 
 				menu_pos = clamp(menu_pos, _min_menu_pos, _max_menu_pos);
 				audio_play_sound(snd_solid_invulnerable, 2, false);
@@ -62,14 +62,14 @@ switch (state) {
 		}
 		
 		// Make Menu Selection
-		var _next_level = (menu_pos == 0) ? rm_old_w1_1 : rm_mdb_1_1;
-		if (menu_pos == 2) { _next_level = saved_room; }
+		var _next_level = (menu_pos == MENU_OPTIONS.START_CLASSIC) ? rm_old_w1_1 : rm_mdb_1_1;
+		if (menu_pos == MENU_OPTIONS.LOAD_GAME) { _next_level = saved_room; }
 		
 		if (global.controller.transition_timer == 0 && (key_jump || key_restart)) {
 			switch (menu_pos) {
-				case 0:
-				case 1:
-				case 2: {
+				case MENU_OPTIONS.START_CLASSIC:
+				case MENU_OPTIONS.START_GAME:
+				case MENU_OPTIONS.LOAD_GAME: {
 					// Go To Next Room
 					with (obj_player) {
 						global.controller.x = x;
@@ -77,8 +77,8 @@ switch (state) {
 					}
 					global.controller.target_room = _next_level;
 					global.controller.transition_timer = TRANSITION_DELAY-1;
-					if (menu_pos == 0) { global.controller.classic_levels = true; }
-					if (menu_pos == 2) { global.controller.level_number = level_number; }
+					if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_levels = true; } // TODO: move this into room info array to fix loading to a classic level
+					if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
 					audio_stop_sound(bgm_title);
 					
 					break;

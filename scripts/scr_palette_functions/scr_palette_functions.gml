@@ -214,30 +214,25 @@ function translate_palette_to_uniform_values(_palette) {
 }
 
 function get_switch_palette(_switch_color) {
-	switch (_switch_color) {
-		case SWITCH_COLORS.RED: { return PALETTES.RED; }
-		case SWITCH_COLORS.BLUE: { return PALETTES.BLUE; }
-		case SWITCH_COLORS.YELLOW: { return PALETTES.YELLOW; }
-	}
+	return [PALETTES.RED, PALETTES.BLUE, PALETTES.YELLOW][_switch_color];
 }
 
 function get_portal_palette(_portal_color) {
-	switch (_portal_color) {
-		case PORTAL_COLORS.ONE: { return PALETTES.BLUE; }
-		case PORTAL_COLORS.TWO: { return PALETTES.PURPLE; }
-		case PORTAL_COLORS.THREE: { return PALETTES.BLUE_DARK; }
-		case PORTAL_COLORS.FOUR: { return PALETTES.PURPLE_DARK; }
-		case PORTAL_COLORS.FIVE: { return PALETTES.PINK; }
-		case PORTAL_COLORS.SIX: { return PALETTES.BLUE_LIGHT; }
-		case PORTAL_COLORS.SEVEN: { return PALETTES.SAND; }
-		case PORTAL_COLORS.EIGHT: { return PALETTES.GREEN_DARK; }
-		case PORTAL_COLORS.NINE: { return PALETTES.YELLOW_DARK; }
-		case PORTAL_COLORS.TEN: { return PALETTES.RED; }
-		case PORTAL_COLORS.ELEVEN: { return PALETTES.YELLOW; }
-		case PORTAL_COLORS.TWELVE: { return PALETTES.ROCK; }
-		case PORTAL_COLORS.THIRTEEN: { return PALETTES.TRASH_LIGHT; }
-		default: { return PALETTES.GRAY_LIGHT; }
-	}
+	return [
+			PALETTES.BLUE,
+			PALETTES.PURPLE,
+			PALETTES.BLUE_DARK,
+			PALETTES.PURPLE_DARK,
+			PALETTES.PINK,
+			PALETTES.BLUE_LIGHT,
+			PALETTES.SAND,
+			PALETTES.GREEN_DARK,
+			PALETTES.YELLOW_DARK,
+			PALETTES.RED,
+			PALETTES.YELLOW,
+			PALETTES.ROCK,
+			PALETTES.TRASH_LIGHT
+		][_portal_color];
 }
 
 function get_darker_palette(_palette_index) {

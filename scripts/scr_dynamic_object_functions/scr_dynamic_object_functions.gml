@@ -38,7 +38,7 @@ get_float_offset = function() {
 	// Get Offset From Ground Objects
 	var _y_offset = 999;
 	if (is_grounded_state()) {
-		_ground_objects = get_ground_objects();
+		var _ground_objects = get_ground_objects();
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
 			if (instance_exists(_inst) && _inst.is_a(obj_dynamic_object)) {
@@ -272,17 +272,14 @@ is_under_ceiling = function(_ignored_objects = []) {
 	return (array_length(get_ceiling_objects(_ignored_objects)) > 0);
 }
 
-// True if _inst kills self on contact. Same condition as get_damaged_by_object, so a walker
-// never treats as a wall something it would simply die to - MDB-V3's movement tested
-// obj_solid only, and obj_enemy/obj_lethal are not under obj_solid.
-would_be_killed_by = function(_inst) {
-	return ((object_index == obj_player && _inst.is_player_lethal) || (_inst.is_a(obj_robot) && _inst.is_robot_lethal));
+would_be_damaged_by = function(_inst) {
+	return ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (is_a(obj_robot) && _inst.is_robot_lethal));
 }
 
 is_blocked_on_left = function(_ignored_objects = []) {
 	var _wall_objects = get_left_wall_objects(_ignored_objects);
 	for (var _i = 0; _i < array_length(_wall_objects); _i++) {
-		if (!would_be_killed_by(_wall_objects[_i])) { return true; }
+		if (!would_be_damaged_by(_wall_objects[_i])) { return true; }
 	}
 	return (x <= GRID_SIZE); //((global.original_controls) ? (GRID_SIZE * 2) : GRID_SIZE));
 }
@@ -290,7 +287,7 @@ is_blocked_on_left = function(_ignored_objects = []) {
 is_blocked_on_right = function(_ignored_objects = []) {
 	var _wall_objects = get_right_wall_objects(_ignored_objects);
 	for (var _i = 0; _i < array_length(_wall_objects); _i++) {
-		if (!would_be_killed_by(_wall_objects[_i])) { return true; }
+		if (!would_be_damaged_by(_wall_objects[_i])) { return true; }
 	}
 
 	var _max_x = (room_width - GRID_SIZE - sprite_get_width(sprite_index));

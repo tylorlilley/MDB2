@@ -12,6 +12,7 @@ enum WORLDS {
 
 function get_world_palette(_object_index) {
 	switch (_object_index) {
+		// NO line for obj_wood; this breaks log's variable definition palette steting
 		case obj_bg_dirt: {
 			switch (global.controller.room_world) {
 				case WORLDS.FOREST: { return PALETTES.BACKGROUND_ROCK; }

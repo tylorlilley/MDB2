@@ -40,7 +40,7 @@ cursor_palettes = [
 // State Variables
 state = TITLE_STATES.BEGIN;
 prev_state = state;
-menu_pos = 0;
+menu_pos = MENU_OPTIONS.START_CLASSIC;
 
 // Camera Variables
 camera_x = camera_get_view_x(view_camera[0]);
