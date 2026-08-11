@@ -12,5 +12,3 @@ is_climbable = true;
 step_sound = noone;
 
 has_darker_particles = false;
-
-mark_manager_for_redraw = function() { if (instance_exists(manager)) { manager.should_redraw = true; } }

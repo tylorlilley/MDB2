@@ -4,7 +4,7 @@ static_area_surface = undefined;
 
 redraw_static_area_surface = function() {
 	// Create Static Area Surface
-	static_area_surface ??= surface_create(room_width, room_height);
+	if (!surface_exists(static_area_surface)) { surface_create(room_width, room_height); }
 	if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SETTING STATIC AREA SURFACE"); exit; }
 	draw_clear_alpha(c_black, 0);
 		
@@ -15,7 +15,7 @@ redraw_static_area_surface = function() {
 		
 		// Clear Surface
 		if (!surface_exists(global.static_area_scratch_surface)) { global.static_area_scratch_surface = surface_create(room_width, room_height); }
-		if (!surface_set_target(global.static_area_scratch_surface)) { show_debug_message("ERROR SETTING GLOBAL SCRATCH SURFACE"); exit; }
+		if (!surface_set_target(global.static_area_scratch_surface)) { show_debug_message("ERROR SETTING GLOBAL SCRATCH SURFACE"); surface_reset_target(); exit; }
 		draw_clear_alpha(c_black, 0);
 		
 		// Set Palette and Draw Tiles to Surface

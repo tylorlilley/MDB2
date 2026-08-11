@@ -19,6 +19,7 @@ toggle_solid = function(_create_particles = false) {
 	if (instance_exists(solid_obj)) { 
 		solid_obj.grid_remove();
 		solid_obj.mark_manager_for_redraw();
+		if (!instance_exists(solid_obj.manager)) { solid_obj.manager = manager; }
 		instance_deactivate_object(solid_obj);
 		should_draw = true;
 		mark_manager_for_redraw();
@@ -27,6 +28,7 @@ toggle_solid = function(_create_particles = false) {
 		instance_activate_object(solid_obj);
 		solid_obj.grid_add();
 		solid_obj.mark_manager_for_redraw();
+		if (!instance_exists(solid_obj.manager)) { solid_obj.manager = manager; }
 		should_draw = false;
 		mark_manager_for_redraw();
 	}

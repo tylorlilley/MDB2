@@ -4,6 +4,8 @@ image_speed = 0;
 
 manager = noone;
 
+mark_manager_for_redraw = function() { if (instance_exists(manager)) { manager.should_redraw = true; } }
+
 grid_add = function(_grid_to_add = global.controller.game_object_grid) {
 	if (!instance_exists(id)) { return false; }
 	
