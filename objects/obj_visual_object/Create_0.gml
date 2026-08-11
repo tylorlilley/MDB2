@@ -2,7 +2,7 @@ depth = VISUAL_OBJECT_DEPTH;
 image_blend = global.world_tint;
 image_speed = 0;
 
-main_palette = undefined;
+if (!variable_instance_exists(id, "main_palette")) { main_palette = undefined; }
 particle_palette = undefined;
 
 manager = noone;

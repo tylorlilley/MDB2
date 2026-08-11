@@ -8,6 +8,7 @@ has_gravity = false;
 sprite_index = spr_gear;
 depth = GEAR_DEPTH;
 main_palette = PALETTES.GRAY_LIGHT;
+particle_palette = PALETTES.GRAY_LIGHT;
 particle_frequency = 0;
 	
 // Sound Variables

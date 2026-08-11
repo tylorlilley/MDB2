@@ -110,10 +110,20 @@ with (obj_switch) {
 	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
 }
 with (obj_key) {
+	// Update Timers
 	if (shine_timer == 0) { reset_shine_timer(); }
 	sway_timer++;
 	if (sway_timer > 32) { sway_timer = -(irandom(60) + 60); }
 	float_timer = (float_timer + 1) % (4 * FLOAT_OFFSET_PERIOD_FRAMES);
+	
+	// Update Key Stack
+	if (visible) {
+		var _keys_at_position = []
+		with (global.controller) { _keys_at_position = instances_at_grid_position_exact(other.x, other.y, sprite_get_width(other.sprite_index), sprite_get_height(other.sprite_index), obj_key, false); }
+		keys_to_draw = min(5, array_length(_keys_at_position));
+
+		if (keys_to_draw > 1) { visible = grid_array_first(_keys_at_position).id == id; }
+	}
 }
 with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
@@ -171,7 +181,7 @@ with (obj_portal) {
 
 // Game Object End Step
 with (obj_player) {
-	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (!is_a(obj_robot) && y >= room_height && is_fall_state()) || (y + sprite_get_height(sprite_index) <= 0 && is_fly_state())) {
+	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (y >= room_height && is_fall_state()) || (!is_a(obj_robot) && y + sprite_get_height(sprite_index) <= 0 && is_fly_state())) {
 		ring_out_timer++;
 	}
 	else { ring_out_timer = 0; }
