@@ -1,15 +1,6 @@
 // Inherit the parent event
 event_inherited();
 
-// Visual Object Overrides
-main_palette = PALETTES.RED;
-main_sprite = spr_lava_old_1;
-outline_sprite = spr_lava_outline;
-outline_mask_sprite = spr_lava_outline_mask;
-particle_frequency = 8;
-has_darker_particles = true;
-connection_object_index = obj_static_area;
-
 // Gameplay Variables
 hits = 0;
 is_climbable = false;
@@ -27,9 +18,10 @@ fuzzing_sprite = undefined;
 	
 // Visual Drawing Variables
 animated = true;
-has_square_shape = true;
+has_square_shape = false;
 has_darker_particles = false;
-particle_frequency = 4;
+particle_frequency = 8;
+connection_object_index = obj_static_area;
 	
 // Sound Variables
 step_sound = snd_step_lava;

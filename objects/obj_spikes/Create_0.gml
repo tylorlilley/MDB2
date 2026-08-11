@@ -1,22 +1,22 @@
 event_inherited();
 
-// Game Object Overrides
+// Gameplay Variables
 hits = 0;
+has_gravity = false;
 is_player_lethal = true;
 is_powered_player_lethal = true;
 is_climbable = true;
-has_gravity = false;
 
-step_sound = snd_step_metal;
-damaged_sound = snd_solid_invulnerable;
-
-// Visual Object Overrides
+// Visual Drawing Variables
 original_palette = PALETTES.GRAY_LIGHT;
 main_palette = PALETTES.GRAY_LIGHT;
 particle_frequency = 0;
-
-// New Variables
 shine_timer = 0;
+	
+// Sound Variables
+step_sound = snd_step_metal;
+damaged_sound = snd_solid_invulnerable;
+destroyed_sound = snd_explosion;
 
 // Function Overrides
 parent_deal_damage = deal_damage;

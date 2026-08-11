@@ -1,14 +1,21 @@
 event_inherited();
 
-sprite_index = spr_crate;
+// Gameplay Variables
+hits = 1;
+is_pushable = true;
+
+// Visual Drawing Variables
 depth = CRATE_DEPTH;
 main_palette = PALETTES.BROWN;
 particle_palette = PALETTES.BROWN_DARK;
-
-is_pushable = true;
-
+particle_frequency = 1;
+	
+// Sound Variables
 step_sound = snd_step_wood;
+damaged_sound = snd_solid_crack;
+destroyed_sound = snd_explosion;
 
+// Overidden Functions
 parent_can_be_pushed_left = can_be_pushed_left;
 parent_can_be_pushed_right = can_be_pushed_right;
 

@@ -1,6 +1,7 @@
 event_inherited();
 
 // GameMaker Engine Overrides
+main_palette = PALETTES.BROWN;
 visible = false;
 
 // New Variables

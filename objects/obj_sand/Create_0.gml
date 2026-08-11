@@ -4,7 +4,7 @@ event_inherited();
 hits = 1;
 
 // Sprite Variables
-main_palette = PALETTES.GRAY_LIGHT;
+main_palette = PALETTES.SAND;
 main_sprite = spr_sand;
 outline_sprite = spr_sand_outline;
 outline_mask_sprite = undefined;

@@ -18,5 +18,5 @@ particle_frequency = 0;
 	
 // Sound Variables
 step_sound = snd_step_bubble;
-damaged_sound = snd_solid_invulnerable;
+damaged_sound = snd_solid_crack;
 destroyed_sound = snd_explosion;

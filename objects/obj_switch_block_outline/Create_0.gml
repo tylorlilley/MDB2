@@ -24,11 +24,11 @@ particle_frequency = 0;
 // Sound Variables
 step_sound = undefined;
 damaged_sound = undefined;
+destroyed_sound = undefined;
 
 // New Variables
 solid_obj = obj_switch_block;
 begin_off = false;
-destroyed_sound = undefined;
 
 // New Functions
 toggle_solid = function(_create_particles = false) {

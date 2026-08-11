@@ -13,7 +13,7 @@ main_palette = PALETTES.GRAY;
 main_sprite = undefined;
 outline_sprite = spr_cloud_outline;
 outline_mask_sprite = undefined;
-fuzzing_sprite = spr_metal_fuzzing;
+fuzzing_sprite = undefined;
 	
 // Visual Drawing Variables
 should_draw = false;
