@@ -184,6 +184,7 @@ get_damaged = function() {
 	if (hits <= 0) { play_sound(damaged_sound); return; }
 	
 	hits--;
+	manager.should_redraw = true;
 	if (hits > 0) { play_sound(damaged_sound); create_particles(2) }
 	else { instance_destroy(); }
 }

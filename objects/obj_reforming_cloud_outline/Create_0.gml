@@ -26,14 +26,17 @@ connected_to = function(_inst) { return _inst.object_index == object_index && _i
 
 reform_cloud = function() {
 	create_cloud();
-	refresh_cloud_graphics();
+	solid_obj.update_connections();
+	solid_obj.update_connected_graphics();
 	solid_obj.create_walk_particles(2);
 	solid_obj.fuzzing_image_index = irandom(sprite_get_number(solid_obj.fuzzing_sprite)-1);
 	solid_obj.outline_sprite = spr_cloud_outline;
+	
 	play_sound(snd_reforming_cloud);
 	main_sprite = noone;
 	outline_sprite = spr_cloud_outline;
 	should_draw = false;
+	manager.should_redraw = true;
 }
 
 create_cloud = function() {
@@ -43,12 +46,8 @@ create_cloud = function() {
 		solid_obj.main_palette = main_palette;
 		solid_obj.particle_palette = main_palette;
 		solid_obj.creator = id;
+		solid_obj.manager.should_redraw = true;
 	}
-}
-
-refresh_cloud_graphics = function() {
-	solid_obj.update_connections();
-	solid_obj.update_connected_graphics();
 }
 
 start_reform_timer = function() {

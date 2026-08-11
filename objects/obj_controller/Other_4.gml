@@ -35,27 +35,11 @@ with (obj_dynamic_object) {
 }
 
 // Set Up Palettes and Visual Variables
-var _static_area_manager = noone;
-for (var _i = 0; _i < array_length(global.static_area_object_index_depth_order); _i++) {
-	var _obj_index = global.static_area_object_index_depth_order[_i];
-	
-	// Create the Static Area Manager
-	if (_obj_index == obj_wood) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = STATIC_AREA_DEPTH; }
-	else if (_i == 0) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = BACKGROUND_DEPTH; has_own_surface = true; }
-	else if (_i == 1) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = STATIC_AREA_IN_FRONT_OF_TREE_DEPTH; }
-	else if (_i == array_length(global.static_area_object_index_depth_order)-3) { _static_area_manager = instance_create(x, y, obj_static_area_manager); _static_area_manager.depth = OUTLINE_DEPTH; }
-	
-	// Set up Static Area Types
-	with (_obj_index) {
-		depth = _static_area_manager.depth - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
-		if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
-		if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
-		if (_obj_index != obj_bg_dirt) { update_connections(); } // TODO: Base this on something else
-		main_palette = get_world_palette(object_index) ?? main_palette;
-		particle_palette = (has_darker_particles) ? get_darker_palette(main_palette) : main_palette;
-	}
-	array_push(_static_area_manager.static_area_objects, _obj_index);
-}
+connect_static_areas_to_manager([obj_bg_dirt], BACKGROUND_DEPTH);
+connect_static_areas_to_manager([obj_metal, obj_tile, obj_brick, obj_rock, obj_sand, obj_bridge, obj_wood, obj_leaf, obj_cloud], STATIC_AREA_DEPTH);
+connect_static_areas_to_manager([obj_lava, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block], OUTLINE_DEPTH);
+with (obj_static_area_manager) { redraw_static_area_surface(); }
+
 with (obj_switch_block_outline) { if (begin_off) { toggle_solid(); } }
 with (obj_switch_block) { update_connections(); }
 with (obj_visual_object) { image_blend = global.world_tint; }

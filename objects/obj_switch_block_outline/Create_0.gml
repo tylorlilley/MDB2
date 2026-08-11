@@ -18,13 +18,17 @@ is_climbable = false;
 toggle_solid = function(_create_particles = false) {
 	if (instance_exists(solid_obj)) { 
 		solid_obj.grid_remove();
+		solid_obj.manager.should_redraw = true;
 		instance_deactivate_object(solid_obj);
 		should_draw = true;
+		manager.should_redraw = true;
 	}
 	else {
 		instance_activate_object(solid_obj);
 		solid_obj.grid_add();
+		solid_obj.manager.should_redraw = true;
 		should_draw = false;
+		manager.should_redraw = true;
 	}
 	if (_create_particles) {
 		//if (irandom(3) == 0) { create_particles(1, PARTICLE_TYPES.SPARKLE, get_lighter_palette(main_palette)); }

@@ -1,6 +1,11 @@
 // Resolve Switch Presses From Previous Frame
 with (obj_switch) { prev_pressed = pressed; }
-with (obj_switch_block_outline) { solid_obj.main_palette = main_palette; }
+with (obj_switch_block_outline) {
+	if (solid_obj.main_palette != main_palette) {
+		solid_obj.main_palette = main_palette;
+		solid_obj.manager.should_redraw = true;
+	}
+}
 blocked_switch_colors = [false, false, false];
 
 // Update Switch Graphics and Sound
@@ -63,6 +68,7 @@ with (obj_water) {
 with (obj_lava) {
 	anim_timer++;
 	anim_timer = anim_timer % (sprite_get_number(outline_sprite) * 8);
+	if (anim_timer % 8 == 0) { manager.should_redraw = true; }
 	
 	if (bubble_timer > 0 && !connected_above) {
 		bubble_timer--;
@@ -136,6 +142,7 @@ with (obj_reforming_cloud_outline) {
 		image_alpha = (240-reform_timer) / 240;
 		reform_timer--;
 		if (reform_timer == 0) { reform_cloud(); }
+		manager.should_redraw = true;
 	}
 
 }

@@ -3,6 +3,8 @@ event_inherited();
 scr_static_area_functions();
 initialize_static_area();
 
+manager = noone;
+
 is_solid_from_above = true;
 is_solid_from_below = true;
 is_solid_from_right = true;

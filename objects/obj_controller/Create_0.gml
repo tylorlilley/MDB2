@@ -30,15 +30,13 @@
 #macro CRATE_DEPTH 8
 #macro SWITCH_DEPTH 9
 #macro PORTAL_DEPTH 10
+#macro VISUAL_OBJECT_DEPTH 11 // Door, Tree Nubs
 //--- Static Area Surface Area Manager
-#macro STATIC_AREA_IN_FRONT_OF_TREE_DEPTH 44 // Lowest Depth, works upward from BG Dirt
-#macro VISUAL_OBJECT_DEPTH 45 // Tree; Designed to slot between obj_bridge and obj_wood so it appears over the wood/leaf and under the other tiles.
-#macro STATIC_AREA_DEPTH 80 // Lowest Depth, works upward from BG Dirt
+#macro STATIC_AREA_DEPTH 30 // Lowest Depth, works upward from obj_metal
 //--- Background Surface Area Manager
-#macro BACKGROUND_DEPTH 90
+#macro BACKGROUND_DEPTH 50
 
 // Global Variables
-global.static_area_object_index_depth_order = [obj_bg_dirt, obj_metal, obj_tile, obj_brick, obj_rock, obj_sand, obj_bridge, obj_wood, obj_lava, obj_leaf, obj_cloud, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block];
 global.controller = id;
 global.gamepad = noone;
 global.original_controls = true;
@@ -131,8 +129,7 @@ reset_room = function() {
 
 transition_room = function(_new_room, _randomize_room_seed = true) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
-	random_set_seed(room_seed, true);	
-	if (surface_exists(global.static_area_surface)) { surface_free(global.static_area_surface); global.static_area_surface = noone; }
+	random_set_seed(room_seed, true);
 	initialize_room(_new_room);
 	audio_stop_sound(snd_player_fall);
 	room_goto(_new_room);
@@ -151,6 +148,30 @@ create_object_grid = function(_cols, _rows) {
 	    }
 	}
 	return _game_object_grid;
+}
+
+connect_static_areas_to_manager = function(_obj_index_array, _depth) {
+	var _static_area_manager = instance_create(x, y, obj_static_area_manager);
+	_static_area_manager.depth = _depth;
+	
+	for (var _i = 0; _i < array_length(_obj_index_array); _i++) {
+		var _obj_index = _obj_index_array[_i];
+	
+		// Set up Static Area Types
+		with (_obj_index) {
+			depth = _static_area_manager.depth - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
+			if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
+			if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
+			if (_obj_index != obj_bg_dirt) { update_connections(); } // TODO: Base this on something else
+			main_palette = get_world_palette(object_index) ?? main_palette;
+			particle_palette = (has_darker_particles) ? get_darker_palette(main_palette) : main_palette;
+			manager = _static_area_manager;
+		}
+	
+		array_push(_static_area_manager.static_area_objects, _obj_index);
+	}
+	
+	return _static_area_manager;
 }
 
 transition_room(target_room); //rm_test_terrain
