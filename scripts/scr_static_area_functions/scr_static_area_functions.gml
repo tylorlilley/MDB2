@@ -32,6 +32,10 @@ initialize_static_area = function() {
 	connected_far_bottom = noone;
 	connected_on_far_left = noone;
 	connected_on_far_right = noone;
+	
+	with (obj_static_area_manager) {
+		if (array_contains(static_area_objects, other.object_index)) { other.manager = id; }
+	}
 }
 
 connected_to = function(_inst) { return _inst.object_index == object_index && _inst.creator == creator; }

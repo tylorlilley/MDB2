@@ -28,12 +28,12 @@ redraw_static_area_surface = function() {
 		with (_object_index) { draw_static_area_mask(); }
 		gpu_set_blendmode(bm_normal);
 	}
-	
+
+	surface_reset_target();
 	should_redraw = false;
 }
 
 draw_static_area_surface_to_application_surface = function() {
-	surface_reset_target();
 	shader_reset();
 	gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
 	draw_surface(static_area_surface, 0, 0);

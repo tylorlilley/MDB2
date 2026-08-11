@@ -23,17 +23,14 @@
 #macro KEY_DEPTH -11
 #macro LADDER_DEPTH -10
 
-//--- Outline Surface Area Manager
 #macro OUTLINE_DEPTH 0
 //--- Dynamic Objects
 #macro GEAR_DEPTH 5
 #macro CRATE_DEPTH 8
 #macro SWITCH_DEPTH 9
 #macro PORTAL_DEPTH 10
-#macro VISUAL_OBJECT_DEPTH 11 // Door, Tree Nubs
-//--- Static Area Surface Area Manager
 #macro STATIC_AREA_DEPTH 30 // Lowest Depth, works upward from obj_metal
-//--- Background Surface Area Manager
+#macro VISUAL_OBJECT_DEPTH 40 // Door, Tree Nubs
 #macro BACKGROUND_DEPTH 50
 
 // Global Variables
@@ -51,7 +48,6 @@ global.world_tint = c_white;
 global.world_tint_strength = 0;
 global.mask_portals = true;
 global.border_alpha = 0.5;
-global.static_area_surface = noone;
 
 // Debug Variables
 level_number = 0;
