@@ -18,7 +18,7 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	draw_set_alpha(1);
 	var _winning_player_x = undefined;
 	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
-	if (_winning_player_x != undefined) {
+	if (!is_undefined(_winning_player_x)) {
 		// Create Spotlight Graphics
 		if (!surface_exists(transition_surface)) { transition_surface = surface_create(SCREEN_WIDTH, SCREEN_HEIGHT); }
 		surface_set_target(transition_surface);

@@ -130,7 +130,7 @@ transition_room = function(_new_room, _randomize_room_seed = true) {
 	if (_randomize_room_seed) { room_seed = randomize(); }
 	random_set_seed(room_seed, true);
 	initialize_room(_new_room);
-	audio_stop_sound(snd_player_fall);
+	stop_sound(snd_player_fall);
 	room_goto(_new_room);
 }
 
@@ -159,7 +159,7 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth) {
 		// Set up Static Area Types
 		with (_obj_index) {
 			depth = _static_area_manager.depth - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
-			if (fuzzing_sprite != undefined) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
+			if (!is_undefined(fuzzing_sprite)) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 			if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
 			if (_obj_index != obj_bg_dirt) { update_connections(); } // TODO: Base this on something else
 			main_palette = get_world_palette(object_index) ?? main_palette;

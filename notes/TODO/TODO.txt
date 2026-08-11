@@ -1,7 +1,6 @@
 // TODO:
 - Refactor Create Code
 - Refactor depth value being used for non-depth drawing purposes
-- Move Classic variable flag to room table in world functions
 
 - Add Yes/No confirm to starting new game
 - Settings Page

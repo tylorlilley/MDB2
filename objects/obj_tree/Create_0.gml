@@ -85,7 +85,7 @@ part_destroyed = function(_inst) {
 	if (_inst.object_index == obj_leaf) { _remove_from_array = leaves; }
 	if (_inst.object_index == obj_wood) { _remove_from_array = trunk; }
 	
-	if (_remove_from_array != undefined) {
+	if (!is_undefined(_remove_from_array)) {
 		var _array_index_to_remove =  array_get_index(_remove_from_array, _inst);
 		if (_array_index_to_remove >= 0) {
 			array_delete(_remove_from_array, _array_index_to_remove, 1);

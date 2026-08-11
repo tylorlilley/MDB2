@@ -27,7 +27,7 @@ if (state == TITLE_STATES.MAIN_MENU) {
 		for (var _i = 0; _i < array_length(option_strings); _i++) {
 			// Skip Menu Options that Are Not Unlocked
 			if (_i == 0 && progress_level == 0) { continue; }
-			if (_i == 2 && saved_room == undefined) { continue; }
+			if (_i == 2 && saved_room == -1) { continue; }
 			
 			// Setup Cursor Sprite and Position
 			var _y_offset = _i * 14, _x_offset = 0, _option_string = option_strings[_i], _selected = (menu_pos == _i);

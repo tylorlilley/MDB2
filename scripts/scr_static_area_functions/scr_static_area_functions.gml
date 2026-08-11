@@ -174,28 +174,28 @@ get_animated_sprite_image_index = function(_sprite) {
 }
 
 draw_static_area_fill = function() {
-	if (!should_draw || (main_sprite == undefined && fuzzing_sprite == undefined)) { return; }
+	if (!should_draw || (is_undefined(main_sprite) && is_undefined(fuzzing_sprite))) { return; }
 	
 	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0);
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8);
 	
-	//if (main_sprite != undefined && sprite_get_width(main_sprite) == 8) { _main_left = 0; }
-	//if (main_sprite != undefined && sprite_get_height(main_sprite) == 8) { _main_top = 0; }
+	//if (!is_undefined(main_sprite) && sprite_get_width(main_sprite) == 8) { _main_left = 0; }
+	//if (!is_undefined(main_sprit) && sprite_get_height(main_sprite) == 8) { _main_top = 0; }
 	
 	var _damage_based_main_sprite_image_index = ((hits - 1 <= 0) ? 0 : hits - 1);
 	var _main_sprite_image_index = (animated) ? get_animated_sprite_image_index(main_sprite) : _damage_based_main_sprite_image_index;
 	
-	if (main_sprite != undefined) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (fuzzing_sprite != undefined) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!is_undefined(main_sprite)) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!is_undefined(fuzzing_sprite)) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
 }
 
 draw_static_area_outline = function() {
-	if (!should_draw || outline_sprite == undefined) { return; }
+	if (!should_draw || is_undefined(outline_sprite)) { return; }
 	
 	var _outline_sprite_image_index = get_animated_sprite_image_index(outline_sprite);
 	
 	// Draw Outer Outline
-	if (outline_x_offset != undefined && outline_y_offset != undefined) {
+	if (!is_undefined(outline_x_offset) && !is_undefined(outline_y_offset)) {
 		draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, image_blend, 1);
 	}
 	
@@ -209,7 +209,7 @@ draw_static_area_outline = function() {
 draw_static_area_mask = function() {
 	if (!should_draw) { return; }
 	
-	if (outline_sprite == undefined || outline_x_offset == undefined || outline_y_offset == undefined) {
+	if (is_undefined(outline_sprite) || is_undefined(outline_x_offset) || is_undefined(outline_y_offset)) {
 		// Apply Alpha to Interior Tiles with No Outline clipping
 		if (image_alpha < 1) {
 			draw_set_alpha(image_alpha);
@@ -223,53 +223,4 @@ draw_static_area_mask = function() {
 		var _outline_mask_sprite_image_index = (animated) ? get_animated_sprite_image_index(_outline_mask_sprite) : 1;
 		draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, c_white, image_alpha);
 	}
-}
-
-/*
-draw_static_area_tile = function() {
-	if (!should_draw) { return; }
-	
-	// Calculate Outline Position
-	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0);
-	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8), _outline_mask_sprite = (outline_mask_sprite == undefined ? outline_sprite : outline_mask_sprite);
-	if (main_sprite != undefined && sprite_get_width(main_sprite) == 8) { _main_left = 0; }
-	if (main_sprite != undefined && sprite_get_height(main_sprite) == 8) { _main_top = 0; }
-	var _anim_frames = (animated) ? sprite_get_number(outline_sprite) : 1;
-	var _column_phase = (((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4;
-	var _anim_image_index = (animated) ? ((anim_timer div 8) + _column_phase * 2) % _anim_frames : 0;
-
-	var _main_sprite_image_index = (animated) ? (_anim_image_index % sprite_get_number(main_sprite)) : ((hits - 1 <= 0) ? 0 : hits - 1);
-	//if (main_sprite == spr_reforming_cloud) { _main_sprite_image_index = image_index; }
-	var _outine_sprite_image_index = (animated) ? _anim_image_index : 0;
-	var _outline_mask_sprite_image_index = (animated) ? _anim_image_index : 1;
-	var _has_outline = outline_sprite != undefined && (outline_x_offset != undefined && outline_x_offset != undefined);
-	
-	if (_has_outline) {
-		// Draw Main Image, Clipped to This Tile's Own Outline Shape
-		var _mask_image_index = (animated) ? _anim_image_index : min(1, sprite_get_number(_outline_mask_sprite) - 1);
-		set_shader_palette();
-		set_shader_clip(_outline_mask_sprite, _mask_image_index, outline_x_offset, outline_y_offset, x, y, 8, 8);
-		if (main_sprite != undefined) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (fuzzing_sprite != undefined) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		
-		// Draw the Outline Itself, Unclipped
-		set_shader_clip();
-		draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, image_blend, image_alpha);
-	}
-	else {
-		// Draw Without Considering Outline
-		set_shader_palette(main_palette);
-		if (main_sprite != undefined) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (fuzzing_sprite != undefined) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-	}
-	
-	// Additionally Draw Inner Corners
-	if (outline_sprite != undefined) {
-		if (!connected_top_right && connected_above && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!connected_top_left && connected_above && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!connected_bottom_right && connected_below && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-		if (!connected_bottom_left && connected_below && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outine_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, image_alpha); }
-	}
-
-	gpu_set_blendmode(bm_normal);
 }

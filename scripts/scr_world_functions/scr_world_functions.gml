@@ -330,7 +330,7 @@ function play_world_music(_world) {
 		case WORLDS.SKY_4:
 		case WORLDS.NIGHT: { _sound_to_play = bgm_w5; break; }
 	}
-	if (_sound_to_play != undefined && !audio_is_playing(_sound_to_play)) { audio_play_sound(_sound_to_play, 100, true); }
+	if (!is_undefined(_sound_to_play) && !audio_is_playing(_sound_to_play)) { play_global_sound(_sound_to_play, true); }
 }
 
 function is_cutscene_room(_room = room) {

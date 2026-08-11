@@ -44,7 +44,7 @@ switch (state) {
 	case TITLE_STATES.MAIN_MENU: {
 		// Update Menu Position
 		if (text_shake_timer == 0) {
-			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room != -1), _menu_change = 0;
+			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room == -1), _menu_change = 0;
 			var _min_menu_pos = (progress_level == 0) ? MENU_OPTIONS.START_GAME : MENU_OPTIONS.START_CLASSIC, _max_menu_pos = MENU_OPTIONS.SETTINGS;
 			if (key_up && !key_down) { _menu_change = -1; }
 			else if (key_down && ! key_up) { _menu_change = 1; }
@@ -52,10 +52,10 @@ switch (state) {
 			if (menu_pos == MENU_OPTIONS.LOAD_GAME && _skip_continue) { menu_pos += _menu_change; }
 			if (menu_pos > _max_menu_pos || menu_pos < _min_menu_pos) { 
 				menu_pos = clamp(menu_pos, _min_menu_pos, _max_menu_pos);
-				audio_play_sound(snd_solid_invulnerable, 2, false);
+				if !(audio_is_playing(snd_solid_invulnerable)) { play_global_sound(snd_solid_invulnerable); } // TODO: // This fires constantly?
 			}
 			if (menu_pos != _prev_menu_pos) {
-				audio_play_sound(snd_player_ladder_step, 2, false);
+				play_global_sound(snd_player_ladder_step);
 				text_shake_timer = 8;
 				cursor_sway_timer = 0;
 			}
@@ -79,7 +79,7 @@ switch (state) {
 					global.controller.transition_timer = TRANSITION_DELAY-1;
 					if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
 					if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
-					audio_stop_sound(bgm_title);
+					stop_sound(bgm_title);
 					
 					break;
 				}

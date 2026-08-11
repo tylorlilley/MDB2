@@ -1,4 +1,4 @@
-if (y > room_height || (destroyed_by_object_index != undefined && (place_meeting(x, y, destroyed_by_object_index) && vspeed > 0))) { instance_destroy(); }
+if (y > room_height || (!is_undefined(destroyed_by_object_index) && (place_meeting(x, y, destroyed_by_object_index) && vspeed > 0))) { instance_destroy(); }
 else {
 	image_angle += image_rotation * (0.5) * abs(vspeed);
 

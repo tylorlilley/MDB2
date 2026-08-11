@@ -144,13 +144,6 @@ function draw_text_outlined(_x, _y, _text, _text_color = C_WHITE, _outline_color
 	draw_text(_x, _y, _text);
 }
 
-
-function audio_play_sound_panned(_snd, _x) {
-	var _pan = ((clamp(_x, 0, room_width) / room_width) * 2 - 1) * SOUND_PAN_STRENGTH;
-	var _ang = _pan * SOUND_PAN_MAX_ANGLE;
-	return audio_play_sound_at(_snd, dsin(_ang) * SOUND_PAN_RADIUS, dcos(_ang) * SOUND_PAN_RADIUS, 0, SOUND_PAN_RADIUS, SOUND_PAN_RADIUS, 1, false, 1);
-}
-
 // Partcile Effect Functions
 enum PARTICLE_TYPES {
 	DEBRIS,

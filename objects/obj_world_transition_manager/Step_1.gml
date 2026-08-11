@@ -1,3 +1,3 @@
 event_inherited();
 
-if (cutscene_timer == 24) { audio_play_sound(bgm_transition, 100, false); }
+if (cutscene_timer == 24) { play_global_sound(bgm_transition, false); }

@@ -38,8 +38,8 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
 		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff / x_transition_timer);
 		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff / y_transition_timer);
-		if (y_transition_speed != undefined) { _y_speed = y_transition_speed; }
-		if (x_transition_speed != undefined) { _x_speed = x_transition_speed; }
+		_y_speed = y_transition_speed ?? _y_speed;
+		_x_speed = x_transition_speed ?? _x_speed;
 		if (abs(_x_speed) > 0 && abs(_x_speed) < 1) { _x_speed = (x_transition_timer % 2 == 0) ? sign(_x_speed) : 0; }
 		if (abs(_y_speed) > 0 && abs(_y_speed) < 1) { _y_speed = (y_transition_timer % 2 == 0) ?  sign(_y_speed) : 0; }
 		virtual_x += _x_speed;
@@ -209,7 +209,7 @@ var _winning_player_x = undefined, _door_open = true;
 with (obj_door) { if (image_index >= 2) { _door_open = false; } }
 if (instance_number(obj_cutscene_manager) == 0) {
 	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
-	if (_winning_player_x != undefined && _door_open && irandom(2) == 0) {
+	if (!is_undefined(_winning_player_x) && _door_open && irandom(2) == 0) {
 		create_particles(1, PARTICLE_TYPES.CONFETTI, PALETTES.GRAY_LIGHT, _winning_player_x+8, -2);
 	}
 }
