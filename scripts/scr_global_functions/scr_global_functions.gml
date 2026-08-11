@@ -154,7 +154,6 @@ enum PARTICLE_TYPES {
 	PUFF,
 	SPARK
 }
-global.particle_type_sprites = [spr_particle_debris, spr_particle_sparkle, undefined, spr_particle_leaf, spr_particle_confetti, spr_particle_debris, spr_particle_debris];
 
 function create_particles(_total_particles, _particle_type = undefined, _particle_palette = undefined, _x_pos = undefined, _y_pos = undefined, _death_sprite = undefined) {
 	if (_total_particles <= 0) { exit; }
@@ -164,7 +163,8 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 	_particle_type ??= particle_type;
 	_particle_palette ??= particle_palette ?? get_darker_palette(main_palette);
 	
-	var _particle_sprite = global.particle_type_sprites[_particle_type] ?? (_death_sprite ?? sprite_index);
+	static _particle_type_sprites = [spr_particle_debris, spr_particle_sparkle, undefined, spr_particle_leaf, spr_particle_confetti, spr_particle_debris, spr_particle_debris];
+	var _particle_sprite = _particle_type_sprites[_particle_type] ?? (_death_sprite ?? sprite_index);
 	var  _horizontal_direction = (irandom(1) == 0) ? 1 : -1;
 	for (var _i = 0; _i < _total_particles; _i++) {
 		var _particle = instance_create(_x_pos, _y_pos, obj_particle);

@@ -12,127 +12,120 @@ enum WORLDS {
 
 
 function room_data(_room = room) {
-	static _default = { rm: undefined, world: WORLDS.BEACH, title: "Default Title" };
-	static _index = undefined;
-
-	var _defs = [
-		{ rm: rm_new_0_1,  world: WORLDS.BEACH,  title: "The Amazing Digital Tutorial", is_cutscene: false, is_classic: false },
-		{ rm: rm_new_1_1,  world: WORLDS.BEACH,  title: "Back Below the Pier", is_cutscene: false, is_classic: false },
-		{ rm: rm_new_1_2,  world: WORLDS.BEACH,  title: "One Way Up", is_cutscene: false, is_classic: false },
-		{ rm: rm_new_1_3,  world: WORLDS.BEACH,  title: "Many Ways Down", is_cutscene: false, is_classic: false },
+	static _default = { world: WORLDS.BEACH, title: "Default Title" };
+	static _room_data = {
+		rm_new_0_1: {world: WORLDS.BEACH,  title: "The Amazing Digital Tutorial", is_cutscene: false, is_classic: false },
+		rm_new_1_1: { world: WORLDS.BEACH,  title: "Back Below the Pier", is_cutscene: false, is_classic: false },
+		rm_new_1_2: { world: WORLDS.BEACH,  title: "One Way Up", is_cutscene: false, is_classic: false },
+		rm_new_1_3: { world: WORLDS.BEACH,  title: "Many Ways Down", is_cutscene: false, is_classic: false },
 			
 		// MDB World 1
-		{ rm: rm_mdb_1_1, world: WORLDS.BEACH,  title: "Under the Pier", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_1_2, world: WORLDS.BEACH,  title: "Rock Bottom", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_1_3, world: WORLDS.BEACH,  title: "Quicksand", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_1_4, world: WORLDS.BEACH,  title: "Dropping In", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_1_5, world: WORLDS.BEACH,  title: "Sandy Sinkholes", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_1_6, world: WORLDS.BEACH,  title: "Digging for Gold", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_1_7, world: WORLDS.BEACH,  title: "Ancient Ruins", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_1_8, world: WORLDS.BEACH,  title: "Thieves' Hideout", is_cutscene: false, is_classic: false },
+		rm_mdb_1_1: { world: WORLDS.BEACH,  title: "Under the Pier", is_cutscene: false, is_classic: false },
+		rm_mdb_1_2: { world: WORLDS.BEACH,  title: "Rock Bottom", is_cutscene: false, is_classic: false },
+		rm_mdb_1_3: { world: WORLDS.BEACH,  title: "Quicksand", is_cutscene: false, is_classic: false },
+		rm_mdb_1_4: { world: WORLDS.BEACH,  title: "Dropping In", is_cutscene: false, is_classic: false },
+		rm_mdb_1_5: { world: WORLDS.BEACH,  title: "Sandy Sinkholes", is_cutscene: false, is_classic: false },
+		rm_mdb_1_6: { world: WORLDS.BEACH,  title: "Digging for Gold", is_cutscene: false, is_classic: false },
+		rm_mdb_1_7: { world: WORLDS.BEACH,  title: "Ancient Ruins", is_cutscene: false, is_classic: false },
+		rm_mdb_1_8: { world: WORLDS.BEACH,  title: "Thieves' Hideout", is_cutscene: false, is_classic: false },
 			
 		// MDB World 2
-		{ rm: rm_mdb_2_1, world: WORLDS.FOREST,  title: "Wooden Gate", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_2_2, world: WORLDS.FOREST,  title: "The Elder Tree", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_2_3, world: WORLDS.FOREST,  title: "Tree Fort", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_2_4, world: WORLDS.FOREST,  title: "The Forest Mystery", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_2_5, world: WORLDS.FOREST,  title: "Volcanic Interlude", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_2_6, world: WORLDS.FOREST,  title: "Controlled Burn", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_2_7, world: WORLDS.FOREST,  title: "Bamboo Rhapsody", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_2_8, world: WORLDS.FOREST,  title: "Firewood", is_cutscene: false, is_classic: false },
+		rm_mdb_2_1: { world: WORLDS.FOREST,  title: "Wooden Gate", is_cutscene: false, is_classic: false },
+		rm_mdb_2_2: { world: WORLDS.FOREST,  title: "The Elder Tree", is_cutscene: false, is_classic: false },
+		rm_mdb_2_3: { world: WORLDS.FOREST,  title: "Tree Fort", is_cutscene: false, is_classic: false },
+		rm_mdb_2_4: { world: WORLDS.FOREST,  title: "The Forest Mystery", is_cutscene: false, is_classic: false },
+		rm_mdb_2_5: { world: WORLDS.FOREST,  title: "Volcanic Interlude", is_cutscene: false, is_classic: false },
+		rm_mdb_2_6: { world: WORLDS.FOREST,  title: "Controlled Burn", is_cutscene: false, is_classic: false },
+		rm_mdb_2_7: { world: WORLDS.FOREST,  title: "Bamboo Rhapsody", is_cutscene: false, is_classic: false },
+		rm_mdb_2_8: { world: WORLDS.FOREST,  title: "Firewood", is_cutscene: false, is_classic: false },
 			
 		// MDB World 3
-		{ rm: rm_mdb_3_1, world: WORLDS.FACTORY,  title: "Seeing Red", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_3_2, world: WORLDS.FACTORY,  title: "Circular Logic", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_3_3, world: WORLDS.FACTORY,  title: "Trash Compactor", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_3_4, world: WORLDS.FACTORY,  title: "Grinding Gears", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_3_5, world: WORLDS.FACTORY,  title: "Mounting Tension", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_3_6, world: WORLDS.FACTORY,  title: "Factory Worker", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_3_7, world: WORLDS.FACTORY,  title: "Primary Colors", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_3_8, world: WORLDS.FACTORY,  title: "Switch Switching", is_cutscene: false, is_classic: false },
+		rm_mdb_3_1: { world: WORLDS.FACTORY,  title: "Seeing Red", is_cutscene: false, is_classic: false },
+		rm_mdb_3_2: { world: WORLDS.FACTORY,  title: "Circular Logic", is_cutscene: false, is_classic: false },
+		rm_mdb_3_3: { world: WORLDS.FACTORY,  title: "Trash Compactor", is_cutscene: false, is_classic: false },
+		rm_mdb_3_4: { world: WORLDS.FACTORY,  title: "Grinding Gears", is_cutscene: false, is_classic: false },
+		rm_mdb_3_5: { world: WORLDS.FACTORY,  title: "Mounting Tension", is_cutscene: false, is_classic: false },
+		rm_mdb_3_6: { world: WORLDS.FACTORY,  title: "Factory Worker", is_cutscene: false, is_classic: false },
+		rm_mdb_3_7: { world: WORLDS.FACTORY,  title: "Primary Colors", is_cutscene: false, is_classic: false },
+		rm_mdb_3_8: { world: WORLDS.FACTORY,  title: "Switch Switching", is_cutscene: false, is_classic: false },
 			
 		// MDB World 4
-		{ rm: rm_mdb_4_1, world: WORLDS.FORTRESS,  title: "Rank and File", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_4_2, world: WORLDS.FORTRESS,  title: "Extra Lives", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_4_3, world: WORLDS.FORTRESS,  title: "Key Creations", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_4_4, world: WORLDS.FORTRESS,  title: "Lava Tubes", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_4_5, world: WORLDS.FORTRESS,  title: "The Dying Tree", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_4_6, world: WORLDS.FORTRESS,  title: "Follow the Leader", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_4_7, world: WORLDS.FORTRESS,  title: "Chutes and Ladders", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_4_8, world: WORLDS.FORTRESS,  title: "Mission Control", is_cutscene: false, is_classic: false },
+		rm_mdb_4_1: { world: WORLDS.FORTRESS,  title: "Rank and File", is_cutscene: false, is_classic: false },
+		rm_mdb_4_2: { world: WORLDS.FORTRESS,  title: "Extra Lives", is_cutscene: false, is_classic: false },
+		rm_mdb_4_3: { world: WORLDS.FORTRESS,  title: "Key Creations", is_cutscene: false, is_classic: false },
+		rm_mdb_4_4: { world: WORLDS.FORTRESS,  title: "Lava Tubes", is_cutscene: false, is_classic: false },
+		rm_mdb_4_5: { world: WORLDS.FORTRESS,  title: "The Dying Tree", is_cutscene: false, is_classic: false },
+		rm_mdb_4_6: { world: WORLDS.FORTRESS,  title: "Follow the Leader", is_cutscene: false, is_classic: false },
+		rm_mdb_4_7: { world: WORLDS.FORTRESS,  title: "Chutes and Ladders", is_cutscene: false, is_classic: false },
+		rm_mdb_4_8: { world: WORLDS.FORTRESS,  title: "Mission Control", is_cutscene: false, is_classic: false },
 			
 		// MDB World 5
-		{ rm: rm_mdb_5_1, world: WORLDS.SKY,  title: "Head in the Clouds", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_5_2, world: WORLDS.SKY,  title: "Flying Too Close", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_5_3, world: WORLDS.SKY_3,  title: "Setting Sun", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_5_4, world: WORLDS.SKY_3,  title: "Stairway to Heaven", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_5_5, world: WORLDS.SKY_3,  title: "The Storm Rolls In", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_5_6, world: WORLDS.NIGHT,  title: "Darkness Falls", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_5_7, world: WORLDS.NIGHT,  title: "Torrential Downpour", is_cutscene: false, is_classic: false },
-		{ rm: rm_mdb_5_8, world: WORLDS.NIGHT,  title: "Hot Pursuit", is_cutscene: false, is_classic: false },
+		rm_mdb_5_1: { world: WORLDS.SKY,  title: "Head in the Clouds", is_cutscene: false, is_classic: false },
+		rm_mdb_5_2: { world: WORLDS.SKY,  title: "Flying Too Close", is_cutscene: false, is_classic: false },
+		rm_mdb_5_3: { world: WORLDS.SKY_3,  title: "Setting Sun", is_cutscene: false, is_classic: false },
+		rm_mdb_5_4: { world: WORLDS.SKY_3,  title: "Stairway to Heaven", is_cutscene: false, is_classic: false },
+		rm_mdb_5_5: { world: WORLDS.SKY_3,  title: "The Storm Rolls In", is_cutscene: false, is_classic: false },
+		rm_mdb_5_6: { world: WORLDS.NIGHT,  title: "Darkness Falls", is_cutscene: false, is_classic: false },
+		rm_mdb_5_7: { world: WORLDS.NIGHT,  title: "Torrential Downpour", is_cutscene: false, is_classic: false },
+		rm_mdb_5_8: { world: WORLDS.NIGHT,  title: "Hot Pursuit", is_cutscene: false, is_classic: false },
 			
 		// Classic World 1
-		{ rm: rm_old_w1_1, world: WORLDS.BEACH,  title: "Island Shore", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w1_2, world: WORLDS.BEACH,  title: "Rock Bottom", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w1_3, world: WORLDS.BEACH,  title: "Quicksand", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w1_4, world: WORLDS.BEACH,  title: "Castle Crasher", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w1_5, world: WORLDS.BEACH,  title: "Sandy Sinkholes", is_cutscene: false, is_classic: true }, // OG: "Sandy Sink Holes"
-		{ rm: rm_old_w1_6, world: WORLDS.BEACH,  title: "Dig, Dig, Dig", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w1_7, world: WORLDS.BEACH,  title: "Ancient Ruins", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w1_8, world: WORLDS.BEACH,  title: "Far Fortress", is_cutscene: false, is_classic: true },
+		rm_old_w1_1: { world: WORLDS.BEACH,  title: "Island Shore", is_cutscene: false, is_classic: true },
+		rm_old_w1_2: { world: WORLDS.BEACH,  title: "Rock Bottom", is_cutscene: false, is_classic: true },
+		rm_old_w1_3: { world: WORLDS.BEACH,  title: "Quicksand", is_cutscene: false, is_classic: true },
+		rm_old_w1_4: { world: WORLDS.BEACH,  title: "Castle Crasher", is_cutscene: false, is_classic: true },
+		rm_old_w1_5: { world: WORLDS.BEACH,  title: "Sandy Sinkholes", is_cutscene: false, is_classic: true }, // OG: "Sandy Sink Holes"
+		rm_old_w1_6: { world: WORLDS.BEACH,  title: "Dig, Dig, Dig", is_cutscene: false, is_classic: true },
+		rm_old_w1_7: { world: WORLDS.BEACH,  title: "Ancient Ruins", is_cutscene: false, is_classic: true },
+		rm_old_w1_8: { world: WORLDS.BEACH,  title: "Far Fortress", is_cutscene: false, is_classic: true },
 			
 		// Classic World 2
-		{ rm: rm_old_w2_1, world: WORLDS.FOREST,  title: "Forest Shrine", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w2_2, world: WORLDS.FOREST,  title: "Forest Floor", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w2_3, world: WORLDS.FOREST,  title: "The Great Elder Tree", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w2_4, world: WORLDS.FOREST,  title: "Firewood", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w2_5, world: WORLDS.FOREST,  title: "Wooden Gate", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w2_6, world: WORLDS.FOREST,  title: "The Forest Mystery", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w2_7, world: WORLDS.FOREST,  title: "Bamboo Leaf Rhapsody", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w2_8, world: WORLDS.FOREST,  title: "Sacred Forest Orchard", is_cutscene: false, is_classic: true },
+		rm_old_w2_1: { world: WORLDS.FOREST,  title: "Forest Shrine", is_cutscene: false, is_classic: true },
+		rm_old_w2_2: { world: WORLDS.FOREST,  title: "Forest Floor", is_cutscene: false, is_classic: true },
+		rm_old_w2_3: { world: WORLDS.FOREST,  title: "The Great Elder Tree", is_cutscene: false, is_classic: true },
+		rm_old_w2_4: { world: WORLDS.FOREST,  title: "Firewood", is_cutscene: false, is_classic: true },
+		rm_old_w2_5: { world: WORLDS.FOREST,  title: "Wooden Gate", is_cutscene: false, is_classic: true },
+		rm_old_w2_6: { world: WORLDS.FOREST,  title: "The Forest Mystery", is_cutscene: false, is_classic: true },
+		rm_old_w2_7: { world: WORLDS.FOREST,  title: "Bamboo Leaf Rhapsody", is_cutscene: false, is_classic: true },
+		rm_old_w2_8: { world: WORLDS.FOREST,  title: "Sacred Forest Orchard", is_cutscene: false, is_classic: true },
 			
 		// Classic World 3
-		{ rm: rm_old_w3_1, world: WORLDS.FACTORY,  title: "Spike Factory", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w3_2, world: WORLDS.FACTORY,  title: "Switching Switches", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w3_3, world: WORLDS.FACTORY,  title: "Circular Logic", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w3_4, world: WORLDS.FACTORY,  title: "Breaking Stuff", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w3_5, world: WORLDS.FACTORY,  title: "Clickety Clack", is_cutscene: false, is_classic: true }, // OG: "Clickity Clack"
-		{ rm: rm_old_w3_6, world: WORLDS.FACTORY,  title: "Factory Worker", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w3_7, world: WORLDS.FACTORY,  title: "Sacred Golden Switch", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w3_8, world: WORLDS.FACTORY,  title: "Primary Colors", is_cutscene: false, is_classic: true },
+		rm_old_w3_1: { world: WORLDS.FACTORY,  title: "Spike Factory", is_cutscene: false, is_classic: true },
+		rm_old_w3_2: { world: WORLDS.FACTORY,  title: "Switching Switches", is_cutscene: false, is_classic: true },
+		rm_old_w3_3: { world: WORLDS.FACTORY,  title: "Circular Logic", is_cutscene: false, is_classic: true },
+		rm_old_w3_4: { world: WORLDS.FACTORY,  title: "Breaking Stuff", is_cutscene: false, is_classic: true },
+		rm_old_w3_5: { world: WORLDS.FACTORY,  title: "Clickety Clack", is_cutscene: false, is_classic: true }, // OG: "Clickity Clack"
+		rm_old_w3_6: { world: WORLDS.FACTORY,  title: "Factory Worker", is_cutscene: false, is_classic: true },
+		rm_old_w3_7: { world: WORLDS.FACTORY,  title: "Sacred Golden Switch", is_cutscene: false, is_classic: true },
+		rm_old_w3_8: { world: WORLDS.FACTORY,  title: "Primary Colors", is_cutscene: false, is_classic: true },
 			
 		// Classic World 4
-		{ rm: rm_old_w4_1, world: WORLDS.FORTRESS,  title: "Patrol the Labyrinth", is_cutscene: false, is_classic: true }, // OG: Patroling the Labyrinth
-		{ rm: rm_old_w4_2, world: WORLDS.FORTRESS,  title: "Living Key Soldiers", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w4_3, world: WORLDS.FORTRESS,  title: "The Barracks", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w4_4, world: WORLDS.FORTRESS,  title: "Follow the Leader", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w4_5, world: WORLDS.FORTRESS,  title: "The Dying Magic Tree", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w4_6, world: WORLDS.FORTRESS,  title: "Frozen Magma Fortress", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w4_7, world: WORLDS.FORTRESS,  title: "Life Preservers", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w4_8, world: WORLDS.FORTRESS,  title: "Sidekick Soldier Assistant", is_cutscene: false, is_classic: true },
+		rm_old_w4_1: { world: WORLDS.FORTRESS,  title: "Patrol the Labyrinth", is_cutscene: false, is_classic: true }, // OG: Patroling the Labyrinth
+		rm_old_w4_2: { world: WORLDS.FORTRESS,  title: "Living Key Soldiers", is_cutscene: false, is_classic: true },
+		rm_old_w4_3: { world: WORLDS.FORTRESS,  title: "The Barracks", is_cutscene: false, is_classic: true },
+		rm_old_w4_4: { world: WORLDS.FORTRESS,  title: "Follow the Leader", is_cutscene: false, is_classic: true },
+		rm_old_w4_5: { world: WORLDS.FORTRESS,  title: "The Dying Magic Tree", is_cutscene: false, is_classic: true },
+		rm_old_w4_6: { world: WORLDS.FORTRESS,  title: "Frozen Magma Fortress", is_cutscene: false, is_classic: true },
+		rm_old_w4_7: { world: WORLDS.FORTRESS,  title: "Life Preservers", is_cutscene: false, is_classic: true },
+		rm_old_w4_8: { world: WORLDS.FORTRESS,  title: "Sidekick Soldier Assistant", is_cutscene: false, is_classic: true },
 			
 		// Classic World 5
-		{ rm: rm_old_w5_1, world: WORLDS.SKY,  title: "Nimbus Cubs", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w5_2, world: WORLDS.SKY_2,  title: "Warp Whiplash", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w5_3, world: WORLDS.SKY_3,  title: "Tangerine Dreams", is_cutscene: false, is_classic: true },
-		{ rm: rm_old_w5_4, world: WORLDS.SKY_4,  title: "Dusk Bowl", is_cutscene: false, is_classic: true },
+		rm_old_w5_1: { world: WORLDS.SKY,  title: "Nimbus Cubs", is_cutscene: false, is_classic: true },
+		rm_old_w5_2: { world: WORLDS.SKY_2,  title: "Warp Whiplash", is_cutscene: false, is_classic: true },
+		rm_old_w5_3: { world: WORLDS.SKY_3,  title: "Tangerine Dreams", is_cutscene: false, is_classic: true },
+		rm_old_w5_4: { world: WORLDS.SKY_4,  title: "Dusk Bowl", is_cutscene: false, is_classic: true },
 			
 		// World Transition Cutscenes
-		{ rm: rm_intro, world: WORLDS.BEACH,  title: "Intro", is_cutscene: true , is_classic: false },
-		{ rm: rm_intro_eih, world: WORLDS.BEACH,  title: "EIH Intro", is_cutscene: true, is_classic: false },
-		{ rm: rm_title, world: WORLDS.BEACH,  title: "Intro", is_cutscene: true, is_classic: false },
-		{ rm: rm_controller, world: WORLDS.BEACH,  title: "Controller", is_cutscene: true, is_classic: false },
-		{ rm: rm_t1, world: WORLDS.BEACH,  title: "From Beach to Forest", is_cutscene: true, is_classic: false },
-		{ rm: rm_t2, world: WORLDS.FOREST,  title: "From Forest to Factory", is_cutscene: true, is_classic: false },
-		{ rm: rm_t3, world: WORLDS.BEACH,  title: "From Factory to Fortress", is_cutscene: true, is_classic: false },
-	];
+		rm_intro: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true , is_classic: false },
+		rm_intro_eih: { world: WORLDS.BEACH,  title: "EIH Intro", is_cutscene: true, is_classic: false },
+		rm_title: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true, is_classic: false },
+		rm_controller: { world: WORLDS.BEACH,  title: "Controller", is_cutscene: true, is_classic: false },
+		rm_t1: { world: WORLDS.BEACH,  title: "From Beach to Forest", is_cutscene: true, is_classic: false },
+		rm_t2: { world: WORLDS.FOREST,  title: "From Forest to Factory", is_cutscene: true, is_classic: false },
+		rm_t3: { world: WORLDS.BEACH,  title: "From Factory to Fortress", is_cutscene: true, is_classic: false },
+	};
 
-	_index = {};
-	for (var _i = 0; _i < array_length(_defs); _i++) {
-		_index[$ room_get_name(_defs[_i].rm)] = _defs[_i];
-	}
-
-	return _index[$ room_get_name(_room)] ?? _default;
+	return _room_data[$ _room] ?? _default;
 }
 
 
