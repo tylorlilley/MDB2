@@ -1,23 +1,40 @@
 initialize_static_area = function() {
-	depth = STATIC_AREA_DEPTH;
+	// Game Maker Variables
+	//depth = STATIC_AREA_DEPTH;
 	visible = false;
-	should_draw = true;
 	
-	creator = noone;
+	// Sprite Variables
 	main_sprite = spr_box_16x16;
 	outline_sprite = undefined;
 	outline_mask_sprite = undefined;
 	fuzzing_sprite = undefined;
 	
+	// Visual Drawing Variables
+	should_draw = true;
+	animated = false;
+	has_square_shape = false;
+	has_darker_particles = false;
+	particle_frequency = 0;
 	outline_x_offset = undefined;
 	outline_y_offset = undefined;
 	visual_origin_x = x;
 	visual_origin_y = y;
 	positional_animation_offset = 0;
-	animated = false;
-	has_square_shape = false;
-	connection_object_index = object_index;
+	
+	// Sound Variables
+	step_sound = undefined;
+	damaged_sound = undefined;
+	destroyed_sound = undefined;
+	
+	// Gameplay Variables
+	is_solid_from_above = true;
+	is_solid_from_below = true;
+	is_solid_from_right = true;
+	is_solid_from_left = true;
+	is_climbable = true;
 
+	// Visual Connector Variables
+	connection_object_index = object_index;
 	connected_above = noone;
 	connected_below = noone;
 	connected_on_left = noone;
@@ -26,12 +43,13 @@ initialize_static_area = function() {
 	connected_top_left = noone;
 	connected_bottom_right = noone;
 	connected_bottom_left = noone;
-
 	connected_far_top = noone;
 	connected_far_bottom = noone;
 	connected_on_far_left = noone;
 	connected_on_far_right = noone;
 	
+	// Creator and Manager Variables
+	creator = noone;
 	manager = noone;
 	with (obj_static_area_manager) {
 	    for (var _i = 0; _i < array_length(static_area_objects); _i++) {

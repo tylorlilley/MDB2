@@ -182,24 +182,6 @@ function get_world_palette(_object_index) {
 	return undefined;
 }
 
-global.portal_color_palettes = [
-	PALETTES.BLUE,
-	PALETTES.PURPLE,
-	PALETTES.INDIGO,
-	PALETTES.PURPLE_DARK,
-	PALETTES.PINK,
-	PALETTES.BLUE_LIGHT,
-	PALETTES.MAGENTA,
-	PALETTES.SAND,
-	PALETTES.GREEN_DARK,
-	PALETTES.YELLOW_DARK,
-	PALETTES.RED,
-	PALETTES.YELLOW,
-	PALETTES.ROCK,
-	PALETTES.TRASH_LIGHT
-];
-
-
 function build_world_background(_world) {
 	global.world_tint = c_white;
 	global.world_tint_strength = 0;

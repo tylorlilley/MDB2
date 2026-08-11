@@ -1,20 +1,7 @@
 // Inherit the parent event
 event_inherited();
 
-// Game Object Overrides
-hits = 0;
-is_climbable = false;
-is_connected = true;
-is_player_lethal = true;
-is_powered_player_lethal = true;
-is_robot_lethal = true;
-
-step_sound = snd_step_lava;
-damaged_sound = snd_step_lava;
-
 // Visual Object Overrides
-depth = STATIC_AREA_DEPTH+1;
-animated = true;
 main_palette = PALETTES.RED;
 main_sprite = spr_lava_old_1;
 outline_sprite = spr_lava_outline;
@@ -22,6 +9,32 @@ outline_mask_sprite = spr_lava_outline_mask;
 particle_frequency = 8;
 has_darker_particles = true;
 connection_object_index = obj_static_area;
+
+// Gameplay Variables
+hits = 0;
+is_climbable = false;
+is_connected = true;
+is_player_lethal = true;
+is_powered_player_lethal = true;
+is_robot_lethal = true;
+
+// Sprite Variables
+main_palette = PALETTES.RED;
+main_sprite = spr_lava_old_1;
+outline_sprite = spr_lava_outline;
+outline_mask_sprite = spr_lava_outline_mask;
+fuzzing_sprite = undefined;
+	
+// Visual Drawing Variables
+animated = true;
+has_square_shape = true;
+has_darker_particles = false;
+particle_frequency = 4;
+	
+// Sound Variables
+step_sound = snd_step_lava;
+damaged_sound = snd_step_lava;
+destroyed_sound = snd_explosion;
 
 // New Variables
 anim_timer = 0;

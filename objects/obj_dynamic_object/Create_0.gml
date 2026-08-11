@@ -25,7 +25,4 @@ is_climbable = true;
 has_gravity = true;
 contents = noone;
 
-particle_frequency = 0;
-step_sound = undefined;
-
 scr_dynamic_object_functions();

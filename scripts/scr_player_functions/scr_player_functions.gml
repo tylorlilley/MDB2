@@ -917,6 +917,17 @@ update_player_state = function() {
 		// Reset Controls
 		reset_controls();
 	}
+	
+	// Define Speed Arrays
+	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
+	static hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
+	static recoil_speeds = [0, 0, -2, -2, -2, -2, -4, -4];
+	static climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
+					  0, 0, 0, -2, 0, -2, 0, 0,
+					  0, 0, 0, 0, -1, -1, -1, -1];
+	static climb_x_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
+					  1, 1, 1, 1, 0, 0, 0, 2,
+					  0, 2, 0, 0, 0, 0, 0, 0];
 
 	// Update transition speeds
 	y_transition_speed = undefined;

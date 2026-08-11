@@ -1,20 +1,36 @@
 event_inherited();
 
-// Create Solid Metal Area
-solid_obj = obj_switch_block;
-begin_off = false;
-//depth = SWITCH_BLOCK_DEPTH;
-
-// Solid Area Variables
-main_sprite = undefined;
-outline_sprite = spr_switch_block_off_outline;
-
+// Gameplay Variables
+hits = 0;
 is_solid_from_above = false;
 is_solid_from_below = false;
 is_solid_from_right = false;
 is_solid_from_left = false;
 is_climbable = false;
 
+// Sprite Variables
+main_palette = PALETTES.GRAY;
+main_sprite = undefined;
+outline_sprite = spr_switch_block_off_outline;
+outline_mask_sprite = undefined;
+fuzzing_sprite = undefined;
+	
+// Visual Drawing Variables
+animated = false;
+has_square_shape = false;
+has_darker_particles = false;
+particle_frequency = 0;
+	
+// Sound Variables
+step_sound = undefined;
+damaged_sound = undefined;
+
+// New Variables
+solid_obj = obj_switch_block;
+begin_off = false;
+destroyed_sound = undefined;
+
+// New Functions
 toggle_solid = function(_create_particles = false) {
 	if (instance_exists(solid_obj)) { 
 		solid_obj.grid_remove();

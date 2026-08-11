@@ -1,14 +1,22 @@
 event_inherited();
 
-// Game Object Overrides
-main_palette = PALETTES.SAND;
-particle_palette = PALETTES.SAND;
+// Gameplay Variables
+hits = 1;
 
-// Static Area Overrides
+// Sprite Variables
+main_palette = PALETTES.GRAY_LIGHT;
 main_sprite = spr_sand;
 outline_sprite = spr_sand_outline;
+outline_mask_sprite = undefined;
 fuzzing_sprite = spr_sand_fuzzing;
+	
+// Visual Drawing Variables
+animated = false;
 has_square_shape = true;
-
-step_sound = snd_step_sand;
+has_darker_particles = false;
 particle_frequency = 4;
+	
+// Sound Variables
+step_sound = snd_step_sand;
+damaged_sound = snd_solid_crack;
+destroyed_sound = snd_explosion;

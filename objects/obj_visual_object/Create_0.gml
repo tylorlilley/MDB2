@@ -2,6 +2,9 @@ depth = VISUAL_OBJECT_DEPTH;
 image_blend = global.world_tint;
 image_speed = 0;
 
+main_palette = undefined;
+particle_palette = undefined;
+
 manager = noone;
 
 mark_manager_for_redraw = function() { if (instance_exists(manager)) { manager.should_redraw = true; } }

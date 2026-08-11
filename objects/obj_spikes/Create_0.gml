@@ -14,6 +14,8 @@ damaged_sound = snd_solid_invulnerable;
 original_palette = PALETTES.GRAY_LIGHT;
 main_palette = PALETTES.GRAY_LIGHT;
 particle_frequency = 0;
+
+// New Variables
 shine_timer = 0;
 
 // Function Overrides

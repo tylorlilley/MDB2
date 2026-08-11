@@ -1,29 +1,48 @@
 event_inherited();
 
-// Create Solid AREA
-solid_obj = noone;
-reform_timer = 0;
-
-main_palette = PALETTES.GRAY;
-main_sprite = undefined;
-outline_sprite = spr_cloud_outline;
-should_draw = false;
-has_square_shape = true;
-
-// Solid Area Variables
+// Gameplay Variables
+hits = 0;
 is_solid_from_above = false;
 is_solid_from_below = false;
 is_solid_from_right = false;
 is_solid_from_left = false;
 is_climbable = false;
 
+// Sprite Variables
+main_palette = PALETTES.GRAY;
+main_sprite = undefined;
+outline_sprite = spr_cloud_outline;
+outline_mask_sprite = undefined;
+fuzzing_sprite = spr_metal_fuzzing;
+	
+// Visual Drawing Variables
+should_draw = false;
+animated = false;
+has_square_shape = true;
+has_darker_particles = false;
+particle_frequency = 0;
+	
+// Sound Variables
+step_sound = undefined;
+damaged_sound = undefined;
+destroyed_sound = undefined;
+
+// New Variables
 drawn_x_scale = 1;
 drawn_y_scale = 1;
+solid_obj = noone;
+reform_timer = 0;
 
-// Override Functions
-
+// Overriden Functions
 connected_to = function(_inst) { return _inst.object_index == object_index && _inst.reform_timer == reform_timer; }
 
+part_damaged = function(_inst) {
+	solid_obj = noone;
+	start_reform_timer();
+	with (_inst) { instance_destroy(); }
+}
+
+// New Functions
 reform_cloud = function() {
 	create_cloud();
 	solid_obj.update_connections();
@@ -61,10 +80,4 @@ start_reform_timer = function() {
 	image_angle = irandom(3) * 90;
 	drawn_x_scale = (irandom(1)) == 0 ? -1 : 1;
 	drawn_y_scale = (irandom(1)) == 0 ? -1 : 1;
-}
-
-part_damaged = function(_inst) {
-	solid_obj = noone;
-	start_reform_timer();
-	with (_inst) { instance_destroy(); }
 }

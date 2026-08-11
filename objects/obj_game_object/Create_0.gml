@@ -26,8 +26,10 @@ is_robot_lethal = false;
 
 hits = 1;
 shine_timer = 0;
-destroyed_sound = snd_explosion;
-damaged_sound = snd_solid_crack;
+destroyed_sound = undefined;
+damaged_sound = undefined;
+step_sound = undefined;
+particle_frequency = 0;
 virtual_y_offset = 0;
 
 scr_game_object_functions();

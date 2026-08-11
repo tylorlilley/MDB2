@@ -60,17 +60,6 @@ idle_loops = 0;
 win_loops = 0;
 step_index = 1;
 
-// Speed Arrays
-hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
-hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
-recoil_speeds = [0, 0, -2, -2, -2, -2, -4, -4];
-climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
-				  0, 0, 0, -2, 0, -2, 0, 0,
-				  0, 0, 0, 0, -1, -1, -1, -1];
-climb_x_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
-				  1, 1, 1, 1, 0, 0, 0, 2,
-				  0, 2, 0, 0, 0, 0, 0, 0];
-
 // Functions
 scr_player_functions();
 

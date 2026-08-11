@@ -8,8 +8,8 @@
   "name":"obj_spikes",
   "overriddenProperties":[],
   "parent":{
-    "name":"Static Areas",
-    "path":"folders/Objects/Static Areas.yy",
+    "name":"Game Objects",
+    "path":"folders/Objects/Game Objects.yy",
   },
   "parentObjectId":{
     "name":"obj_dynamic_object",
