@@ -12,7 +12,7 @@ enum WORLDS {
 
 
 function room_data(_room = room) {
-	static _default = { world: WORLDS.BEACH, title: "Default Title" };
+	static _default = { world: WORLDS.BEACH, title: "Default Title", is_cutscene: false, is_classic: false };
 	static _room_data = {
 		rm_new_0_1: {world: WORLDS.BEACH,  title: "The Amazing Digital Tutorial", is_cutscene: false, is_classic: false },
 		rm_new_1_1: { world: WORLDS.BEACH,  title: "Back Below the Pier", is_cutscene: false, is_classic: false },
@@ -125,7 +125,7 @@ function room_data(_room = room) {
 		rm_t3: { world: WORLDS.BEACH,  title: "From Factory to Fortress", is_cutscene: true, is_classic: false },
 	};
 
-	return _room_data[$ _room] ?? _default;
+	return _room_data[$ room_get_name(_room)] ?? _default;
 }
 
 
