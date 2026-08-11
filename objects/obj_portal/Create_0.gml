@@ -11,7 +11,7 @@ masked_palette = get_world_palette(object_index);
 original_palette = (masked) ? masked_palette : get_portal_palette(portal_color);
 main_palette = original_palette;
 particle_palette  = original_palette;
-player_palette = noone;
+player_palette = undefined;
 
 // Functions
 assign_portal_color = function() {

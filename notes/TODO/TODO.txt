@@ -11,13 +11,9 @@
 - Ending Cutscene + Credits
 
 // VISUALS:
-Add a darker brick palette so making brick palette darker on destroy works
-darker brick color in general?
-factory rock more green?
-factory and forest sand too close?
+Draw tree nubs on wood level from wood
 Should Gear spin always one way for up and one for down? Should  they spin slower? Move slower?
-Make the portal mask color different per world?
-Fuzzing palette on bricks different than pure black for cracks? Better adjust palette as damaged?
+Fuzzing palette on bricks different than pure black for cracks?
 swooshier leaves?
 
 // FACTORY LEVELS

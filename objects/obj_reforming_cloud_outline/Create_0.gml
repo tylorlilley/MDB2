@@ -5,7 +5,7 @@ solid_obj = noone;
 reform_timer = 0;
 
 main_palette = PALETTES.GRAY;
-main_sprite = noone;
+main_sprite = undefined;
 outline_sprite = spr_cloud_outline;
 should_draw = false;
 has_square_shape = true;
@@ -34,7 +34,7 @@ reform_cloud = function() {
 	solid_obj.mark_manager_for_redraw();
 	
 	play_sound(snd_reforming_cloud);
-	main_sprite = noone;
+	main_sprite = undefined;
 	outline_sprite = spr_cloud_outline;
 	should_draw = false;
 	mark_manager_for_redraw();

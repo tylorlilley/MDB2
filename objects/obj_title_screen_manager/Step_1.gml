@@ -44,7 +44,7 @@ switch (state) {
 	case TITLE_STATES.MAIN_MENU: {
 		// Update Menu Position
 		if (text_shake_timer == 0) {
-			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room == noone), _menu_change = 0;
+			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room != -1), _menu_change = 0;
 			var _min_menu_pos = (progress_level == 0) ? MENU_OPTIONS.START_GAME : MENU_OPTIONS.START_CLASSIC, _max_menu_pos = MENU_OPTIONS.SETTINGS;
 			if (key_up && !key_down) { _menu_change = -1; }
 			else if (key_down && ! key_up) { _menu_change = 1; }
@@ -77,7 +77,7 @@ switch (state) {
 					}
 					global.controller.target_room = _next_level;
 					global.controller.transition_timer = TRANSITION_DELAY-1;
-					if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_levels = true; } // TODO: move this into room info array to fix loading to a classic level
+					if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
 					if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
 					audio_stop_sound(bgm_title);
 					

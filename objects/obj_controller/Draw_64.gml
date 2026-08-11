@@ -1,6 +1,6 @@
 if (instance_number(obj_cutscene_manager) == 0) {
 	// Draw HUD Bars
-	if (!classic_levels) {
+	if (!classic_level) {
 		draw_set_valign(fa_top)
 		draw_set_alpha(0.45); //global.border_alpha);
 		draw_set_color(c_black);
@@ -35,7 +35,7 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	
 	// Draw Level Text and Key Amounts
 	//var _float_offset = get_float_value(float_timer, 1, 4 * FLOAT_OFFSET_PERIOD_FRAMES);
-	var _float_offset = 0, _text_y_pos = _float_offset + ((classic_levels) ? 4 : 0), _key_pos = _float_offset + ((classic_levels) ? 3 : -1), _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
+	var _float_offset = 0, _text_y_pos = _float_offset + ((classic_level) ? 4 : 0), _key_pos = _float_offset + ((classic_level) ? 3 : -1), _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
 	var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
 	
 	draw_set_alpha(1);

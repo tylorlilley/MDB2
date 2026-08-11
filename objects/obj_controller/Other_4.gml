@@ -6,9 +6,10 @@ display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
 var _data = room_data();
 room_world = _data.world;
 room_title = _data.title;
+classic_level =  _data.is_classic;
 global.world_tint = c_white;
-build_background(room_world);
-if (!is_cutscene_room()) { play_music(room_world); }
+build_world_background(room_world);
+if (!is_cutscene_room()) { play_world_music(room_world); }
 
 if (instance_exists(obj_bg_dirt)) {
 	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE, _dirt_grid = create_object_grid(_cols, _rows);
@@ -49,8 +50,8 @@ with (obj_dynamic_object) {
 	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }
 }
 with (obj_player) {
-	if (object_index == obj_player) { is_left = other.classic_levels; }
-	if (object_index == obj_mirror_player) { is_left = !other.classic_levels; }
+	if (object_index == obj_player) { is_left = other.classic_level; }
+	if (object_index == obj_mirror_player) { is_left = !other.classic_level; }
 	// Robots use the variable definitions to set is_left for each room
 }
 with (obj_door) {

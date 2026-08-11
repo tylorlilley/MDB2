@@ -9,6 +9,6 @@ is_solid_from_right = true;
 is_solid_from_left = true;
 is_climbable = true;
 
-step_sound = noone;
+step_sound = undefined;
 
 has_darker_particles = false;

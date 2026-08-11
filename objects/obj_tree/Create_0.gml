@@ -56,8 +56,8 @@ initialize_solids = function() {
 				visual_origin_y =  other.y + _trunk_y;
 				if (y == _trunk_y_top) { 
 					main_sprite = spr_wood_tree_top;
-					fuzzing_sprite = noone;
-					outline_sprite = noone;
+					fuzzing_sprite = undefined;
+					outline_sprite = undefined;
 				}
 				else { main_sprite = spr_wood_vertical; }
 			}
@@ -68,8 +68,8 @@ initialize_solids = function() {
 			var _trunk = trunk[_i];
 			with (_trunk) {
 				main_sprite = spr_wood_tree_bottom;
-				fuzzing_sprite = noone;
-				outline_sprite = noone;
+				fuzzing_sprite = undefined;
+				outline_sprite = undefined;
 			}
 			y = _trunk.y + 8 - sprite_get_height(sprite_index);
 		}

@@ -21,13 +21,13 @@ initialize_solids = function() {
 				
 				if (x == _trunk_x_left) {
 					main_sprite = (other.is_left) ? spr_wood_log_hole_left : spr_wood_log_end_left;
-					fuzzing_sprite = noone;
-					outline_sprite = noone;
+					fuzzing_sprite = undefined;
+					outline_sprite = undefined;
 				}
 				else if (x == _trunk_x_right-8) {
 					main_sprite = (other.is_left) ? spr_wood_log_end_right : spr_wood_log_hole_right;
-					fuzzing_sprite = noone;
-					outline_sprite = noone;
+					fuzzing_sprite = undefined;
+					outline_sprite = undefined;
 				}
 				else { main_sprite = spr_wood_horizontal; }
 			}

@@ -256,7 +256,7 @@ start_falling = function(_is_dazed = false) {
 	grid_move_down(2); // If this fails, we still proceed with setting the fall state as the ultimate state fallback
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 	fall_timer = 0;
-	audio_stop_sound(fall_sound);
+	if (fall_sound != undefined) { audio_stop_sound(fall_sound); }
 	fall_sound = audio_play_sound_panned(snd_player_fall, x);
 }
 
@@ -272,7 +272,6 @@ should_start_laddering = function() {
 	
 	return _should_ladder;
 }
-
 
 start_turning = function() {
 	if (state == PLAYER_STATES.TURN) { prev_state = PLAYER_STATES.STAND; }
@@ -508,7 +507,7 @@ update_player_state = function() {
 
 	// Reset Timers
 	if (!is_ladder_state()) { is_up = false; }
-	if (!is_fall_state() && fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
+	if (!is_fall_state() && fall_sound != undefined) { audio_stop_sound(fall_sound); fall_sound = undefined; }
 	if (state != PLAYER_STATES.STAND) { idle_timer = 0; idle_loops = 0; }
 	if (state != PLAYER_STATES.CROUCH && state != PLAYER_STATES.POWERCROUCH) { crouch_timer = 0; }
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
@@ -855,7 +854,7 @@ update_player_state = function() {
 						}
 						if (state == PLAYER_STATES.POWERFALL) {
 							play_sound(snd_player_powerfall);
-							//if (fall_sound != noone) { audio_stop_sound(fall_sound); fall_sound = noone; }
+							//if (fall_sound != undefined) { audio_stop_sound(fall_sound); fall_sound = undefined; }
 						}
 						
 					}

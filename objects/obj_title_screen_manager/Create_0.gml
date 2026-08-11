@@ -54,7 +54,7 @@ cursor_sway_timer = -(irandom(60) + 60);
 
 // Loaded Variables
 ini_open("mdb.ini");
-saved_room = ini_read_real("progress", "current_level", noone); // TODO: reset to undefined after credits
+saved_room = ini_read_real("progress", "current_level", -1); // TODO: reset to undefined after credits
 progress_level = ini_read_real("progress", "progress_level", 0); // TODO: increase by 1 after credits
 level_number = ini_read_real("progress", "level_number", 0); // TODO: Add this to room values information map instead
 ini_close();

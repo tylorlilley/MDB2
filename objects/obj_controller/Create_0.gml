@@ -53,7 +53,7 @@ global.static_area_scratch_surface = undefined;
 
 // Debug Variables
 level_number = 0;
-classic_levels = false;
+classic_level = false;
 show_debug_gui = false;
 draw_game_object_grid = false;
 
@@ -78,7 +78,7 @@ palettes_init();
 // Graphic Variables
 depth = STATIC_AREA_DEPTH;
 static_area_object_indexes_to_draw = [];
-transition_surface = noone;
+transition_surface = undefined;
 screen_shake_timer = 0;
 
 // Timers
@@ -159,7 +159,7 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth) {
 		// Set up Static Area Types
 		with (_obj_index) {
 			depth = _static_area_manager.depth - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
-			if (fuzzing_sprite != noone) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
+			if (fuzzing_sprite != undefined) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 			if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
 			if (_obj_index != obj_bg_dirt) { update_connections(); } // TODO: Base this on something else
 			main_palette = get_world_palette(object_index) ?? main_palette;

@@ -108,7 +108,7 @@ function draw_sprite_swaying(_sprite_index, _image_index, _sway_value, _x, _y, _
 }
 
 function set_shader_palette(_palette_to_use = undefined) {
-	if (is_undefined(_palette_to_use)) { _palette_to_use = main_palette; }
+	_palette_to_use ??= main_palette;
 	shader_set_uniform_f_array(global.u_replacement_colors, global.palette_uniform_values[_palette_to_use]);
 }
 

@@ -18,7 +18,7 @@ state = PLAYER_STATES.STAND;
 prev_state = PLAYER_STATES.STAND;
 air_walk = false;
 climbed_inst = noone;
-fall_sound = noone;
+fall_sound = undefined;
 
 // Palette and Visual Variables
 depth = PLAYER_DEPTH;

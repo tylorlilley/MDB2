@@ -4,7 +4,7 @@ static_area_surface = undefined;
 
 redraw_static_area_surface = function() {
 	// Create Static Area Surface
-	if (!surface_exists(static_area_surface)) { surface_create(room_width, room_height); }
+	if (!surface_exists(static_area_surface)) { static_area_surface = surface_create(room_width, room_height); }
 	if (!surface_set_target(static_area_surface)) { show_debug_message("ERROR SETTING STATIC AREA SURFACE"); exit; }
 	draw_clear_alpha(c_black, 0);
 		

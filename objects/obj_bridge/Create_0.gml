@@ -11,6 +11,6 @@ is_solid_from_below = false;
 hits = 1;
 main_palette = PALETTES.BROWN;
 main_sprite = spr_bridge;
-outline_sprite = noone;
+outline_sprite = undefined;
 particle_frequency = 1;
 has_darker_particles = true;
