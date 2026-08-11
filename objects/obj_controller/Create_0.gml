@@ -49,6 +49,7 @@ global.world_tint = c_white;
 global.world_tint_strength = 0;
 global.mask_portals = true;
 global.border_alpha = 0.5;
+global.static_area_scratch_surface = undefined;
 
 // Debug Variables
 level_number = 0;
@@ -100,6 +101,7 @@ initialize_room = function(_new_room) {
 	global.room_keys = 0;
 	global.room_portals = 0;
 	global.keys_collected = 0;
+	if (surface_exists(global.static_area_scratch_surface)) { surface_free(global.static_area_scratch_surface); global.static_area_scratch_surface = undefined; }
 	
 	// If Leaving Non-Cutscene Room for a New Room
 	if (!is_cutscene_room() && _new_room != room) {
