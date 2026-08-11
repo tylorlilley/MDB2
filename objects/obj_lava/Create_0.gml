@@ -19,7 +19,7 @@ fuzzing_sprite = undefined;
 // Visual Drawing Variables
 animated = true;
 has_square_shape = false;
-has_darker_particles = false;
+has_darker_particles = true;
 particle_frequency = 8;
 connection_object_index = obj_static_area;
 	

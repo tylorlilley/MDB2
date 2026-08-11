@@ -8,12 +8,12 @@
   "name":"obj_bubble",
   "overriddenProperties":[],
   "parent":{
-    "name":"Game Objects",
-    "path":"folders/Objects/Game Objects.yy",
+    "name":"Sequel Objects",
+    "path":"folders/Objects/Game Objects/Sequel Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_game_object",
+    "path":"objects/obj_game_object/obj_game_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

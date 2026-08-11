@@ -18,7 +18,7 @@ step_sound = snd_step_metal;
 damaged_sound = snd_solid_invulnerable;
 destroyed_sound = snd_explosion;
 
-// Function Overrides
+// Overidden Function
 parent_deal_damage = deal_damage;
 
 deal_damage = function() { 

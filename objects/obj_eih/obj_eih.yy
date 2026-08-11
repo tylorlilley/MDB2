@@ -14,8 +14,8 @@
     "path":"folders/Objects/Cutscenes/EIH.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_game_object",
+    "path":"objects/obj_game_object/obj_game_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

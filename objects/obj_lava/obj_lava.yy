@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_water_outline",
-    "path":"sprites/spr_water_outline/spr_water_outline.yy",
+    "name":"spr_editor_lava",
+    "path":"sprites/spr_editor_lava/spr_editor_lava.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_8x8",

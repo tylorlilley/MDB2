@@ -1,19 +1,25 @@
 event_inherited();
 
+// Gameplay Variables
+hits = 0;
+has_gravity = false;
+
+// Visual Drawing Variables
 sprite_index = spr_gear;
 depth = GEAR_DEPTH;
 main_palette = PALETTES.GRAY_LIGHT;
-particle_palette = PALETTES.GRAY_LIGHT;
-
-has_gravity = false;
-
+particle_frequency = 0;
+	
+// Sound Variables
 step_sound = snd_step_metal;
 damaged_sound = snd_solid_invulnerable;
+destroyed_sound = snd_explosion;
 
-hits = 0;
-gear_timer = 0;
+// New Variables
 gear_dir = 0;
+gear_timer = 0;
 
+// Overriden Functions
 parent_powerfall_on = powerfall_on;
 parent_powerfly_into = powerfly_into;
 
@@ -39,13 +45,6 @@ powerfly_into = function(_other) {
 	}
 }
 
-start_gear_move = function(_gear_timer) {
-	if (_gear_timer > 0) { if (!grid_move_down(2)) { return false; } }
-	else { if (!grid_move_up(2)) { return false; } }
-	gear_timer = _gear_timer;
-	return true;
-}
-
 game_object_step = function() {
 	if (gear_timer == 0) { image_angle = 0; return; }
 
@@ -57,4 +56,12 @@ game_object_step = function() {
 	if (abs(gear_timer) == 4) {
 		if (!start_gear_move(_dir * 4)) { gear_timer = 0; image_angle = 0; }
 	}
+}
+
+// New Functions
+start_gear_move = function(_gear_timer) {
+	if (_gear_timer > 0) { if (!grid_move_down(2)) { return false; } }
+	else { if (!grid_move_up(2)) { return false; } }
+	gear_timer = _gear_timer;
+	return true;
 }

@@ -1,14 +1,14 @@
 event_inherited();
 
-// New Variables
-pressed = false;
-
 // Game Maker Variable Overrides
 depth = SWITCH_DEPTH;
 sprite_index = spr_switch;
 image_index = 0;
 
-// Functions
+// New Variables
+pressed = false;
+
+// New Functions
 get_pressing_objects = function() {
 	var _possible_instances = instances_at_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_dynamic_object);
 	var _pressing_instances = [];

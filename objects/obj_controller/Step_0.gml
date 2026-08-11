@@ -171,9 +171,7 @@ with (obj_portal) {
 
 // Game Object End Step
 with (obj_player) {
-	if (is_a(obj_robot)) { continue; }
-	
-	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (y >= room_height && is_fall_state()) || (y + sprite_get_height(sprite_index) <= 0 && is_fly_state())) {
+	if ((x + sprite_get_width(sprite_index) <= 0) || (x >= room_width) || (!is_a(obj_robot) && y >= room_height && is_fall_state()) || (y + sprite_get_height(sprite_index) <= 0 && is_fly_state())) {
 		ring_out_timer++;
 	}
 	else { ring_out_timer = 0; }

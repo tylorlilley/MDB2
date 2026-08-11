@@ -1,5 +1,6 @@
 // Inherit the parent event
-// TODO: WATER
+
+// TODO: Clean this up
 
 event_inherited();
 image_alpha = 0.5;

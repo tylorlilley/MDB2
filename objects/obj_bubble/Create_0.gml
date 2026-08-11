@@ -1,5 +1,7 @@
 event_inherited();
 
+// TODO: Clean this up
+
 is_fragile = true;
 is_solid_from_above = true;
 is_solid_from_below = true;

@@ -6,6 +6,7 @@ is_pushable = true;
 
 // Visual Drawing Variables
 depth = CRATE_DEPTH;
+sprite_index = spr_crate;
 main_palette = PALETTES.BROWN;
 particle_palette = PALETTES.BROWN_DARK;
 particle_frequency = 1;

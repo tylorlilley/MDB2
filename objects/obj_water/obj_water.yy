@@ -9,12 +9,12 @@
   "name":"obj_water",
   "overriddenProperties":[],
   "parent":{
-    "name":"Static Areas",
-    "path":"folders/Objects/Static Areas.yy",
+    "name":"Sequel Objects",
+    "path":"folders/Objects/Game Objects/Sequel Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_object",
-    "path":"objects/obj_static_object/obj_static_object.yy",
+    "name":"obj_static_area",
+    "path":"objects/obj_static_area/obj_static_area.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

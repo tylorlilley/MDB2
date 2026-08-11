@@ -20,8 +20,8 @@ is_solid_from_above = true;
 is_solid_from_below = true;
 is_solid_from_right = true;
 is_solid_from_left = true;
-
 is_climbable = true;
+
 has_gravity = true;
 contents = noone;
 

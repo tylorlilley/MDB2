@@ -9,7 +9,7 @@ image_index = 1;
 leaves = [];
 trunk = [];
 
-// Functions
+// New Functions
 initialize_solids = function() {
 	// Create Leaves
 	var _visual_x_offset = 32, _visual_y_offset = 64;
@@ -76,6 +76,7 @@ initialize_solids = function() {
 	}
 }
 
+// Overriden Functions
 part_damaged = function(_inst) {
 	if (_inst.object_index == obj_wood) { image_index = 0; }
 }

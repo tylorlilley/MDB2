@@ -8,8 +8,8 @@
   "name":"obj_crate_gold",
   "overriddenProperties":[],
   "parent":{
-    "name":"Game Objects",
-    "path":"folders/Objects/Game Objects.yy",
+    "name":"Sequel Objects",
+    "path":"folders/Objects/Game Objects/Sequel Objects.yy",
   },
   "parentObjectId":{
     "name":"obj_crate",

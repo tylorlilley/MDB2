@@ -4,6 +4,7 @@ event_inherited();
 depth = LADDER_DEPTH;
 main_palette = PALETTES.GRAY_LIGHT;
 
+// Overidden Functions
 update_connections = function() {
 	// Set Graphic Based on Adjacent Ladders and Solid Areas
 	image_index = 0;

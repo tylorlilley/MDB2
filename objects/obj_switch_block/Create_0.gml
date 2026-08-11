@@ -4,7 +4,7 @@ event_inherited();
 hits = 0;
 
 // Sprite Variables
-main_palette = PALETTES.METAL;
+main_palette = PALETTES.GRAY;
 main_sprite = spr_switch_block;
 outline_sprite = spr_switch_block_on_outline;
 outline_mask_sprite = undefined;
