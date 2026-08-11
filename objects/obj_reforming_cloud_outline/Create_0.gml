@@ -31,12 +31,13 @@ reform_cloud = function() {
 	solid_obj.create_walk_particles(2);
 	solid_obj.fuzzing_image_index = irandom(sprite_get_number(solid_obj.fuzzing_sprite)-1);
 	solid_obj.outline_sprite = spr_cloud_outline;
+	solid_obj.mark_manager_for_redraw();
 	
 	play_sound(snd_reforming_cloud);
 	main_sprite = noone;
 	outline_sprite = spr_cloud_outline;
 	should_draw = false;
-	manager.should_redraw = true;
+	mark_manager_for_redraw();
 }
 
 create_cloud = function() {
@@ -46,7 +47,6 @@ create_cloud = function() {
 		solid_obj.main_palette = main_palette;
 		solid_obj.particle_palette = main_palette;
 		solid_obj.creator = id;
-		solid_obj.manager.should_redraw = true;
 	}
 }
 

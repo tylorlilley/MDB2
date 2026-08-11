@@ -25,10 +25,11 @@
 
 #macro OUTLINE_DEPTH 0
 //--- Dynamic Objects
-#macro GEAR_DEPTH 5
-#macro CRATE_DEPTH 8
-#macro SWITCH_DEPTH 9
-#macro PORTAL_DEPTH 10
+#macro GEAR_DEPTH 6
+#macro CRATE_DEPTH 7
+#macro SWITCH_DEPTH 8
+#macro PORTAL_DEPTH 9
+#macro DOOR_DEPTH 10
 #macro STATIC_AREA_DEPTH 30 // Lowest Depth, works upward from obj_metal
 #macro VISUAL_OBJECT_DEPTH 40 // Door, Tree Nubs
 #macro BACKGROUND_DEPTH 50

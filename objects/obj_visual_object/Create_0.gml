@@ -2,6 +2,8 @@ depth = VISUAL_OBJECT_DEPTH;
 image_blend = global.world_tint;
 image_speed = 0;
 
+manager = noone;
+
 grid_add = function(_grid_to_add = global.controller.game_object_grid) {
 	if (!instance_exists(id)) { return false; }
 	

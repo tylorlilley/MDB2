@@ -1,3 +1,3 @@
 event_inherited();
-manager.should_redraw = true;
+mark_manager_for_redraw();
 update_connected_graphics();

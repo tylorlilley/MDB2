@@ -184,7 +184,7 @@ get_damaged = function() {
 	if (hits <= 0) { play_sound(damaged_sound); return; }
 	
 	hits--;
-	if (is_a(obj_static_area)) { manager.should_redraw = true; }
+	mark_manager_for_redraw();
 	if (hits > 0) { play_sound(damaged_sound); create_particles(2) }
 	else { instance_destroy(); }
 }

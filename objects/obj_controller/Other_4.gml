@@ -34,15 +34,16 @@ with (obj_dynamic_object) {
 	}
 }
 
-// Set Up Palettes and Visual Variables
+/// Set Up Palettes and Visual Variables
+// Static Area Objects
+with (obj_visual_object) { image_blend = global.world_tint; }
+with (obj_switch_block_outline) { if (begin_off) { toggle_solid(); } }
+with (obj_switch_block) { update_connections(); }
 connect_static_areas_to_manager([obj_bg_dirt], BACKGROUND_DEPTH);
 connect_static_areas_to_manager([obj_metal, obj_tile, obj_brick, obj_rock, obj_sand, obj_bridge, obj_wood, obj_leaf, obj_cloud], STATIC_AREA_DEPTH);
 connect_static_areas_to_manager([obj_lava, obj_reforming_cloud_outline, obj_switch_block_outline, obj_switch_block], OUTLINE_DEPTH);
-with (obj_static_area_manager) { redraw_static_area_surface(); }
 
-with (obj_switch_block_outline) { if (begin_off) { toggle_solid(); } }
-with (obj_switch_block) { update_connections(); }
-with (obj_visual_object) { image_blend = global.world_tint; }
+// Other Objects
 with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
 with (obj_dynamic_object) {
 	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }

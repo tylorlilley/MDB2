@@ -3,7 +3,6 @@ initialize_static_area = function() {
 	visible = false;
 	should_draw = true;
 	
-	manager = noone;
 	creator = noone;
 	main_sprite = spr_box_16x16;
 	outline_sprite = noone;
@@ -33,8 +32,11 @@ initialize_static_area = function() {
 	connected_on_far_left = noone;
 	connected_on_far_right = noone;
 	
+	manager = noone;
 	with (obj_static_area_manager) {
-		if (array_contains(static_area_objects, other.object_index)) { other.manager = id; }
+	    for (var _i = 0; _i < array_length(static_area_objects); _i++) {
+	        if (other.is_a(static_area_objects[_i])) { other.manager = id; break; }
+	    }
 	}
 }
 
