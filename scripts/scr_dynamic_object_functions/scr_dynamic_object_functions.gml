@@ -21,7 +21,7 @@ get_switch_offset = function() {
 		for (var _i = 0; _i < array_length(_potential_objects); _i++) {
 			var _inst = _potential_objects[_i], _image_index_offset;
 			switch (_inst.image_index) {
-				case 0: { _image_index_offset = -4; break; }
+				case 0: { _image_index_offset = -2; break; } // -4
 				case 1: { _image_index_offset = -3; break; }
 				case 2: { _image_index_offset = -2; break; }
 			}
@@ -343,12 +343,12 @@ draw_dynamic_object = function() {
 // Step Function
 game_object_step = function() {
 	if (has_gravity) {
+		do_switch_collisions();
+			
 		if (transition_timer == 0) {
 			if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.SURFACE) { fall_timer = 0; }
 			if ( state != PLAYER_STATES.SWIM) { swim_timer = 0; }
 			
-			do_dynamic_object_collisions();
-		
 			switch (state) {
 				case PLAYER_STATES.STAND: {
 					if (is_fully_submerged()) {
@@ -439,11 +439,12 @@ game_object_step = function() {
 }
 
 // Collision Functions
-do_dynamic_object_collisions = function() {
-	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y + GRID_SIZE, sprite_get_width(sprite_index), GRID_SIZE);
+do_switch_collisions = function() {
+	if (transition_timer > 0 && !is_grounded_state()) { return; }
+	
+	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y + GRID_SIZE, sprite_get_width(sprite_index), GRID_SIZE, obj_switch);
 	for (var _i = 0; _i < array_length(_fully_overlapping_switches); _i++) {
 		var _inst = _fully_overlapping_switches[_i];
-		
-		if (_inst.is_a(obj_switch)) { _inst.press_switch(); }
+		_inst.press_switch();
 	}
 }

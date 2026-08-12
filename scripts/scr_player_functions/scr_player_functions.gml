@@ -1369,6 +1369,8 @@ do_player_collisions = function() {
 		
 	if (!instance_exists(id)) { exit; }
 	
+	do_switch_collisions();
+	
 	// Hanlde Water
 	if (is_fully_submerged()) {
 		switch (state) {
@@ -1428,5 +1430,4 @@ do_player_collisions = function() {
 			}
 		}
 	}
-	do_dynamic_object_collisions();
 }

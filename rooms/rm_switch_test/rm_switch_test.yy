@@ -269,6 +269,7 @@
     {"name":"inst_47FE3533","path":"rooms/rm_switch_test/rm_switch_test.yy",},
     {"name":"inst_71A437C3","path":"rooms/rm_switch_test/rm_switch_test.yy",},
     {"name":"inst_3F26597A","path":"rooms/rm_switch_test/rm_switch_test.yy",},
+    {"name":"inst_5E023D95","path":"rooms/rm_switch_test/rm_switch_test.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -540,6 +541,7 @@
         {"$GMRInstance":"v4","%Name":"inst_47FE3533","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_47FE3533","objectId":{"name":"obj_switch_block_outline_red_off","path":"objects/obj_switch_block_outline_red_off/obj_switch_block_outline_red_off.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":112.0,"y":192.0,},
         {"$GMRInstance":"v4","%Name":"inst_71A437C3","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_71A437C3","objectId":{"name":"obj_switch_block_outline_red_off","path":"objects/obj_switch_block_outline_red_off/obj_switch_block_outline_red_off.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":112.0,"y":200.0,},
         {"$GMRInstance":"v4","%Name":"inst_3F26597A","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_3F26597A","objectId":{"name":"obj_switch_block_outline_red_off","path":"objects/obj_switch_block_outline_red_off/obj_switch_block_outline_red_off.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":104.0,"y":200.0,},
+        {"$GMRInstance":"v4","%Name":"inst_5E023D95","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5E023D95","objectId":{"name":"obj_crate","path":"objects/obj_crate/obj_crate.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":240.0,"y":176.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_switch_test",
