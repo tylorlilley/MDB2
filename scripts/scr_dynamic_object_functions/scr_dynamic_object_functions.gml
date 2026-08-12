@@ -346,6 +346,8 @@ game_object_step = function() {
 		if (transition_timer == 0) {
 			if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.SURFACE) { fall_timer = 0; }
 			if ( state != PLAYER_STATES.SWIM) { swim_timer = 0; }
+			
+			do_dynamic_object_collisions();
 		
 			switch (state) {
 				case PLAYER_STATES.STAND: {
@@ -433,5 +435,15 @@ game_object_step = function() {
 				is_left = !is_left;
 			}
 		}
+	}
+}
+
+// Collision Functions
+do_dynamic_object_collisions = function() {
+	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y + GRID_SIZE, sprite_get_width(sprite_index), GRID_SIZE);
+	for (var _i = 0; _i < array_length(_fully_overlapping_switches); _i++) {
+		var _inst = _fully_overlapping_switches[_i];
+		
+		if (_inst.is_a(obj_switch)) { _inst.press_switch(); }
 	}
 }

@@ -1,5 +1,4 @@
 // Resolve Switch Presses From Previous Frame
-with (obj_switch) { prev_pressed = pressed; }
 with (obj_switch_block_outline) {
 	if (solid_obj.main_palette != main_palette) {
 		solid_obj.main_palette = main_palette;
@@ -7,7 +6,7 @@ with (obj_switch_block_outline) {
 	}
 }
 blocked_switch_colors = [false, false, false];
-toggled_switch_colors = [false, false, false];
+pressed_switch_colors = [false, false, false];
 
 // Update Switch Graphics and Sound
 /*
@@ -87,37 +86,30 @@ with (obj_game_object) {
 	}
 }
 
-// Detect Switch Presses
+// Handle Switch Updates
 with (obj_switch) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
-	else if (!pressed && array_length(get_pressing_objects()) > 0) { press_switch(); }
+	else if (other.pressed_switch_colors[switch_color]) {
+		if (other.blocked_switch_colors[switch_color]) {
+			// Set all switches of the pressed color to the middle, blocked state
+			if (image_index != 1) { play_sound(snd_soft_thud); }
+			image_index = 1;
+		}
+		else {
+			// Toggle all switches of the pressed color
+				pressed = !pressed;
+				image_index = 2;
+				play_sound(snd_switch);
+		}
+	}
+	else {
+		// Release previously blocked switches to previous state
+		if (image_index == 1) { play_sound(snd_soft_thud); }
+		image_index = (pressed) ? 2 : 0;
+	}
 }
-
-// Toggle Pressed Switches
-/*
-for (var _i = 0; _i < array_length(pending_switch_colors); _i++) {
-	var _c = pending_switch_colors[_i];
-	with (obj_switch) { if (switch_color == _c) { pressed = !pressed; } }
-	with (obj_switch_block_outline) { if (switch_color == _c) { toggle_solid(true); } }
-	with (obj_switch_block_outline) { if (switch_color == _c) { solid_obj.update_connections(); } }
-}
-pending_switch_colors = [];
-*/
-
-// Update Switch Graphics and Sound
-for (var _color = 0; _color < array_length(toggled_switch_colors); _color++) {
-	if (!toggled_switch_colors[_color] || blocked_switch_colors[_color]) { continue; }
-	
-	play_sound(snd_switch);
-	with (obj_switch) { if (switch_color == _color) { pressed = !pressed; } }
-	with (obj_switch_block_outline) { if (switch_color == _color) { toggle_solid(true); } }
-	with (obj_switch_block_outline) { if (switch_color == _color) { solid_obj.update_connections(); } }
-}
-with (obj_switch) {
-	if (global.controller.blocked_switch_colors[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
-	else if (pressed) { image_index = 2; }
-	else { if (image_index == 1) { play_sound(snd_soft_thud); } image_index = 0; }
-}
+with (obj_switch_block_outline) { if (other.pressed_switch_colors[switch_color] && !other.blocked_switch_colors[switch_color]) { toggle_solid(true); } }
+with (obj_switch_block_outline) { if (other.pressed_switch_colors[switch_color] && !other.blocked_switch_colors[switch_color]) { solid_obj.update_connections(); } }
 with (obj_key) {
 	// Update Timers
 	if (shine_timer == 0) { reset_shine_timer(); }

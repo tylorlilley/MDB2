@@ -1,2 +1,0 @@
-
-is_fixed = false;

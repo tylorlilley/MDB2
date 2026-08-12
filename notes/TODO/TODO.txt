@@ -1,7 +1,7 @@
 // TODO:
 - Refactor Create Code
 - Refactor depth value being used for non-depth drawing purposes
-- Switch happens on same frame - should landing on a switch block kill you?
+- Switch happens on same frame - landing on a switch block kills you? Breaks 3_8
 
 - Add Yes/No confirm to starting new game
 - Settings Page

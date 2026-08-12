@@ -4,7 +4,7 @@ display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 // Load Room Data
 var _data = room_data();
-room_world = _data.world;
+room_world = _data.world ?? WORLDS.BEACH;
 room_title = _data.title;
 classic_level =  _data.is_classic;
 global.world_tint = c_white;

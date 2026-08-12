@@ -88,11 +88,11 @@ float_timer = 0;
 
 // Gameplay Variables
 blocked_switch_colors = [false, false, false];
-toggled_switch_colors = [false, false, false];
+pressed_switch_colors = [false, false, false];
 game_object_grid = [];
 pending_switch_colors = [];
 room_seed = random_get_seed();
-target_room = rm_intro//(irandom(100) == 0) ? rm_intro_eih : rm_intro;
+target_room = (irandom(100) == 0) ? rm_intro_eih : rm_intro;
 
 initialize_room = function(_new_room) {
 	play_sound(snd_fade_in);
@@ -174,4 +174,4 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth) {
 	return _static_area_manager;
 }
 
-transition_room(target_room); //rm_test_terrain
+transition_room(target_room); //target_room

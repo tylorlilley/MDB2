@@ -579,7 +579,7 @@ update_player_state = function() {
 	}
 	
 	// Get Destroyed From Solids
-	update_player_collisions_at_position();
+	do_player_collisions();
 	if (!instance_exists(id)) { exit; }
 	
 	// While Not Transitioning
@@ -1331,7 +1331,7 @@ draw_cape_graphics = function() {
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_draw_x_scale(), 1, 0, image_blend, 1);
 }
 
-update_player_collisions_at_position = function() {
+do_player_collisions = function() {
 	// Get Destroyed From Lethal Objects
 	if (is_grounded_state()) {
 		// Destroy if Standing on Lethal Object and No Other Solids
@@ -1428,12 +1428,5 @@ update_player_collisions_at_position = function() {
 			}
 		}
 	}
-	var _fully_overlapping_switches = instances_at_grid_position_exact(x, y + GRID_SIZE, sprite_get_width(sprite_index), GRID_SIZE);
-	for (var _i = 0; _i < array_length(_fully_overlapping_switches); _i++) {
-		var _inst = _fully_overlapping_switches[_i];
-		
-		if (_inst.is_a(obj_switch) && !_inst.pressed) {
-			_inst.press_switch();
-		}
-	}
+	do_dynamic_object_collisions();
 }
