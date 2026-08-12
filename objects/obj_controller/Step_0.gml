@@ -1,21 +1,13 @@
-// Resolve Switch Presses From Previous Frame
+// Set up Switch Blocks for this Frame
 with (obj_switch_block_outline) {
+	// Refresh Flashing Switch Blocks
 	if (solid_obj.main_palette != main_palette) {
 		solid_obj.main_palette = main_palette;
 		solid_obj.mark_manager_for_redraw();
 	}
 }
-blocked_switch_colors = [false, false, false];
-pressed_switch_colors = [false, false, false];
-
-// Update Switch Graphics and Sound
-/*
-with (obj_switch) {
-	if (global.controller.blocked_switch_colors[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
-	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
-	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
-}
-*/
+blocked_switch_colors = [[], [], []];
+pressed_switch_colors = [[], [], []];
 
 // Handle Dynamic Game Object Step
 var _dynamic_instances = [];
@@ -88,18 +80,20 @@ with (obj_game_object) {
 
 // Handle Switch Updates
 with (obj_switch) {
-	if (!is_fully_on_ground()) { instance_destroy(); }
-	else if (other.pressed_switch_colors[switch_color]) {
-		if (other.blocked_switch_colors[switch_color]) {
+	var _pressed_switches = other.pressed_switch_colors[switch_color], _blocked_switches = other.blocked_switch_colors[switch_color];
+	var _pressed_switch = array_length(_pressed_switches) > 0, _blocked_switch = array_length(_blocked_switches) > 0;
+
+	if (_pressed_switch) {
+		if (_blocked_switch) {
 			// Set all switches of the pressed color to the middle, blocked state
 			if (image_index != 1) { play_sound(snd_soft_thud); }
 			image_index = 1;
 		}
 		else {
 			// Toggle all switches of the pressed color
-				pressed = !pressed;
-				image_index = 2;
-				play_sound(snd_switch);
+			pressed = !pressed;
+			image_index = (pressed) ? 2 : 0;
+			if (array_contains(_pressed_switches, id)) { play_sound(snd_switch); }
 		}
 	}
 	else {
@@ -107,9 +101,10 @@ with (obj_switch) {
 		if (image_index == 1) { play_sound(snd_soft_thud); }
 		image_index = (pressed) ? 2 : 0;
 	}
+	if (!is_fully_on_ground()) { instance_destroy(); }
 }
-with (obj_switch_block_outline) { if (other.pressed_switch_colors[switch_color] && !other.blocked_switch_colors[switch_color]) { toggle_solid(true); } }
-with (obj_switch_block_outline) { if (other.pressed_switch_colors[switch_color] && !other.blocked_switch_colors[switch_color]) { solid_obj.update_connections(); } }
+with (obj_switch_block_outline) { if (array_length(other.pressed_switch_colors[switch_color]) > 0 && array_length(other.blocked_switch_colors[switch_color]) == 0) { toggle_solid(true); } }
+with (obj_switch_block_outline) { if (array_length(other.pressed_switch_colors[switch_color]) > 0 && array_length(other.blocked_switch_colors[switch_color]) == 0) { solid_obj.update_connections(); } }
 with (obj_key) {
 	// Update Timers
 	if (shine_timer == 0) { reset_shine_timer(); }

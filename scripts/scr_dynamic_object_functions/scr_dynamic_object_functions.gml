@@ -21,7 +21,7 @@ get_switch_offset = function() {
 		for (var _i = 0; _i < array_length(_potential_objects); _i++) {
 			var _inst = _potential_objects[_i], _image_index_offset;
 			switch (_inst.image_index) {
-				case 0: { _image_index_offset = -2; break; } // -4
+				case 0: { _image_index_offset = -4; break; }
 				case 1: { _image_index_offset = -3; break; }
 				case 2: { _image_index_offset = -2; break; }
 			}
@@ -345,7 +345,7 @@ game_object_step = function() {
 	if (has_gravity) {
 		do_switch_collisions();
 			
-		if (transition_timer == 0) {
+		if (transition_timer == 0 && x_transition_timer == 0) {
 			if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.SURFACE) { fall_timer = 0; }
 			if ( state != PLAYER_STATES.SWIM) { swim_timer = 0; }
 			

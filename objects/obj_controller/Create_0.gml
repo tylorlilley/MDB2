@@ -87,10 +87,10 @@ frame_timer = 0;
 float_timer = 0;
 
 // Gameplay Variables
-blocked_switch_colors = [false, false, false];
-pressed_switch_colors = [false, false, false];
+blocked_switch_colors = [[], [], []];
+pressed_switch_colors = [[], [], []];
+pressed_switches = [];
 game_object_grid = [];
-pending_switch_colors = [];
 room_seed = random_get_seed();
 target_room = (irandom(100) == 0) ? rm_intro_eih : rm_intro;
 

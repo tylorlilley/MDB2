@@ -393,8 +393,8 @@ damage_objects = function(_damage_above = false) {
 	}
 }
 
-powerfall_on_ground_objects = function() { damage_objects(false); }
-powerfly_into_ceiling_objects = function() { damage_objects(true); }
+powerfall_on_ground_objects = function() { do_player_object_collisions(); damage_objects(false); }
+powerfly_into_ceiling_objects = function() { do_player_object_collisions(); damage_objects(true); }
 
 fall_on_ground_objects = function() {
 	var _ground_objects = get_left_and_right_objects(false, true);
@@ -579,8 +579,9 @@ update_player_state = function() {
 	}
 	
 	// Get Destroyed From Solids
-	do_player_collisions();
+	do_player_lethal_collisions();
 	if (!instance_exists(id)) { exit; }
+	do_player_object_collisions();
 	
 	// While Not Transitioning
 	if (instance_exists(id) && transition_timer == 0) {
@@ -1331,7 +1332,7 @@ draw_cape_graphics = function() {
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_draw_x_scale(), 1, 0, image_blend, 1);
 }
 
-do_player_collisions = function() {
+do_player_lethal_collisions = function() {
 	// Get Destroyed From Lethal Objects
 	if (is_grounded_state()) {
 		// Destroy if Standing on Lethal Object and No Other Solids
@@ -1368,7 +1369,9 @@ do_player_collisions = function() {
 	if (is_inside_solid() && !is_ladder_state()) { get_destroyed_by_object(); }
 		
 	if (!instance_exists(id)) { exit; }
-	
+}
+
+do_player_object_collisions = function() {
 	do_switch_collisions();
 	
 	// Hanlde Water
