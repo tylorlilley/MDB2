@@ -7,6 +7,7 @@ with (obj_switch_block_outline) {
 	}
 }
 blocked_switch_colors = [false, false, false];
+toggled_switch_colors = [false, false, false];
 
 // Update Switch Graphics and Sound
 /*
@@ -75,8 +76,8 @@ with (obj_lava) {
 		if (bubble_timer == 0) {
 			bubble_timer = irandom(256*6) + 256 + 128;
 			var _lava_bubble = create_particles(1, PARTICLE_TYPES.DEBRIS, PALETTES.RED_DARK);
-			_lava_bubble.vspeed -= 1.125;
-			_lava_bubble.destroyed_by = obj_lava;
+			_lava_bubble.vspeed -= 1;
+			_lava_bubble.destroyed_y = _lava_bubble.y + sprite_get_height(_lava_bubble.sprite_index);
 		}
 	}
 }
@@ -106,8 +107,9 @@ pending_switch_colors = [];
 // Update Switch Graphics and Sound
 with (obj_switch) {
 	if (global.controller.blocked_switch_colors[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
-	else if (pressed) { if (!prev_pressed) { play_sound(snd_switch); } image_index = 2; }
-	else { if (image_index != 0) { play_sound(snd_soft_thud); } image_index = 0; }
+	else if (!pressed && global.controller.toggled_switch_colors[switch_color]) { toggle_switch_color(switch_color); image_index = 2; }
+	else if (pressed) { image_index = 2; }
+	else { if (image_index == 1) { play_sound(snd_soft_thud); } image_index = 0; }
 }
 with (obj_key) {
 	// Update Timers

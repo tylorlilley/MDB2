@@ -13,6 +13,7 @@ has_cape = false;
 // Game Object Overrides
 is_player_lethal = true;
 damaged_sound = snd_robot_die;
+destroyed_sound = snd_explosion;
 
 // Visual Object Overrides
 sprite_index = spr_robot_walk;
@@ -86,6 +87,7 @@ update_controls = function() {
 	
 		walk_timer++;
 		walk_timer = walk_timer % 8;
+		if (state == PLAYER_STATES.TURN && transition_timer == 0) { walk_timer = 0; }
 		// Update State
 		if (walk_timer == 0) {
 			var _freeze_on_top_of_robot = false, _ground_objects = get_ground_objects(get_list_of_controllable_players());

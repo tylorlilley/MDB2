@@ -84,10 +84,11 @@ enum PORTAL_COLORS {
 #macro C_RED            make_color_rgb(223, 23, 0)
 #macro C_RED_LIGHT      make_color_rgb(222, 116, 105) //make_color_rgb(255, 199, 207)
 
-#macro C_BRICK_DARKEST    make_color_rgb(39, 9, 7)
-#macro C_BRICK_DARK       make_color_rgb(77, 37, 31)
-#macro C_BRICK            make_color_rgb(160, 67, 53)
-#macro C_BRICK_LIGHT      make_color_rgb(214, 121, 106)
+
+#macro C_BRICK_DARKEST       make_color_rgb(38, 21, 21 )//make_color_rgb(39, 9, 7) make_color_rgb(77, 37, 31)
+#macro C_BRICK_DARK         make_color_rgb(72, 48, 44)//make_color_rgb(160, 67, 53)
+#macro C_BRICK      make_color_rgb(151, 94, 83) // make_color_rgb(214, 121, 106) 
+#macro C_BRICK_LIGHT make_color_rgb(214, 121, 106) 
 
 #macro C_GREEN_DARKEST  make_color_rgb(0, 71, 0)
 #macro C_GREEN_DARK     make_color_rgb(23, 135, 0)
@@ -103,6 +104,11 @@ enum PORTAL_COLORS {
 #macro C_PURPLE_DARK       make_color_rgb(127, 0, 199)
 #macro C_PURPLE            make_color_rgb(175, 7, 207)
 #macro C_PURPLE_LIGHT      make_color_rgb(199, 95, 255)
+
+#macro C_ORANGE_DARKEST       make_color_rgb(126, 62, 8)
+#macro C_ORANGE_DARK       make_color_rgb(166, 86, 24)
+#macro C_ORANGE            make_color_rgb(226, 113, 18)
+#macro C_ORANGE_LIGHT      make_color_rgb(239, 149, 84)
 
 #macro C_INDIGO_DARKEST      make_color_rgb(51, 15, 105)
 #macro C_INDIGO_DARK       make_color_rgb(67, 0, 167)
@@ -138,6 +144,9 @@ enum PALETTES {
 	PINK_LIGHT,
 	PINK,
 	PINK_DARK,
+	ORANGE_LIGHT,
+	ORANGE,
+	ORANGE_DARK,
 	BRICK,
 	BRICK_DARK,
 	BRICK_DARKEST,
@@ -182,6 +191,7 @@ function palettes_init() {
 		[C_WHITE, C_PURPLE_LIGHT, C_PURPLE, C_PURPLE_DARK, C_PURPLE_DARKEST],
 		[C_WHITE, C_INDIGO_LIGHT, C_INDIGO, C_INDIGO_DARK, C_INDIGO_DARKEST],
 		[C_WHITE, C_PINK_LIGHT, C_PINK, C_PINK_DARK, C_PINK_DARKEST],
+		[C_WHITE, C_ORANGE_LIGHT, C_ORANGE, C_ORANGE_DARK, C_ORANGE_DARKEST],
 		[C_BRICK_LIGHT, C_BRICK, C_BRICK_DARK, C_NEAR_BLACK, C_BLACK],
 		[C_ROCK_LIGHT, C_ROCK, C_ROCK_DARK, C_NEAR_BLACK],
 		[C_MAGENTA_LIGHT, C_MAGENTA, C_MAGENTA_DARK, C_NEAR_BLACK],

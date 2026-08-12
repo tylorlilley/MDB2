@@ -404,7 +404,7 @@ fall_on_ground_objects = function() {
 		if (!instance_exists(_inst)) { continue; }
 
 		_inst.fall_on(fall_timer);
-		get_damaged_by_object(_inst);
+		//get_damaged_by_object(_inst);
 	}
 }
 
@@ -430,7 +430,7 @@ walk_on_ground_objects = function() {
 		if (!instance_exists(_inst)) { continue; }
 		
 		_inst.walk_on();
-		get_damaged_by_object(_inst);
+		//get_damaged_by_object(_inst);
 	}
 }
 	

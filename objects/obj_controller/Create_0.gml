@@ -63,7 +63,7 @@ surface_resize(application_surface, _window_width, _window_height);
 window_set_size(_window_width, _window_height);
 window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 window_enable_borderless_fullscreen(true);
-window_set_fullscreen(false);
+window_set_fullscreen(true);
 
 // Set Up Game Audio
 frame_sounds = [];
@@ -88,6 +88,7 @@ float_timer = 0;
 
 // Gameplay Variables
 blocked_switch_colors = [false, false, false];
+toggled_switch_colors = [false, false, false];
 game_object_grid = [];
 pending_switch_colors = [];
 room_seed = random_get_seed();

@@ -9,4 +9,4 @@ image_speed = 0.25;
 // Physics Variables
 image_rotation = 0;
 terminal_velocity = 8;
-destroyed_by_object_index = undefined;
+destroyed_y = room_height + sprite_get_height(sprite_index);

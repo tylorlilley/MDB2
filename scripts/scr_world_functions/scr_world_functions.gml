@@ -174,7 +174,7 @@ function get_world_palette(_object_index) {
 				case WORLDS.BEACH: { return PALETTES.TRASH; } // TODO: Make different, but this ruins t3 cutscene?
 				case WORLDS.FOREST: { return PALETTES.PURPLE_DARK; }
 				case WORLDS.FACTORY: { return PALETTES.INDIGO_DARK; }
-				case WORLDS.FORTRESS: { return PALETTES.BLUE_DARK; }
+				case WORLDS.FORTRESS: { return PALETTES.TRASH_DARK; }
 				default: { return PALETTES.PINK; }
 			}
 		}

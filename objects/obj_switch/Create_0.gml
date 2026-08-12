@@ -23,9 +23,10 @@ get_pressing_objects = function() {
 press_switch = function() {
 	var _toggle_blocks = true;
 	with (obj_switch) {
-		if (id != other.id && switch_color == other.switch_color && pressed != other.pressed && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; global.controller.blocked_switch_colors[switch_color] = true; }
+		if (id != other.id && switch_color == other.switch_color && pressed != other.pressed && array_length(get_pressing_objects()) > 0) { _toggle_blocks = false; global.controller.blocked_switch_colors[other.switch_color] = true; }
 	}
-	if (_toggle_blocks) { toggle_switch_color(switch_color); }
+	 global.controller.toggled_switch_colors[other.switch_color] = _toggle_blocks;
+	//if (_toggle_blocks) { toggle_switch_color(switch_color); }
 	
 /*
 	if (_toggle_blocks && !array_contains(global.controller.pending_switch_colors, switch_color)) {
@@ -35,6 +36,9 @@ press_switch = function() {
 }
 
 toggle_switch_color = function(_color) {
+	play_sound(snd_switch);
+	global.controller.blocked_switch_colors[_color] = false;
+	global.controller.toggled_switch_colors[_color] = false;
 	with (obj_switch) { if (switch_color == _color) { pressed = !pressed; } }
 	with (obj_switch_block_outline) { if (switch_color == _color) { toggle_solid(true); } }
 	with (obj_switch_block_outline) { if (switch_color == _color) { solid_obj.update_connections(); } }
