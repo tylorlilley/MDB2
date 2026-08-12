@@ -105,9 +105,16 @@ pending_switch_colors = [];
 */
 
 // Update Switch Graphics and Sound
+for (var _color = 0; _color < array_length(toggled_switch_colors); _color++) {
+	if (!toggled_switch_colors[_color] || blocked_switch_colors[_color]) { continue; }
+	
+	play_sound(snd_switch);
+	with (obj_switch) { if (switch_color == _color) { pressed = !pressed; } }
+	with (obj_switch_block_outline) { if (switch_color == _color) { toggle_solid(true); } }
+	with (obj_switch_block_outline) { if (switch_color == _color) { solid_obj.update_connections(); } }
+}
 with (obj_switch) {
 	if (global.controller.blocked_switch_colors[switch_color]) { if (image_index != 1) { play_sound(snd_soft_thud); } image_index = 1; }
-	else if (!pressed && global.controller.toggled_switch_colors[switch_color]) { toggle_switch_color(switch_color); image_index = 2; }
 	else if (pressed) { image_index = 2; }
 	else { if (image_index == 1) { play_sound(snd_soft_thud); } image_index = 0; }
 }

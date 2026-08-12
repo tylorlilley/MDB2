@@ -122,7 +122,7 @@ function room_data(_room = room) {
 		rm_controller: { world: WORLDS.BEACH,  title: "Controller", is_cutscene: true, is_classic: false },
 		rm_t1: { world: WORLDS.BEACH,  title: "From Beach to Forest", is_cutscene: true, is_classic: false },
 		rm_t2: { world: WORLDS.FOREST,  title: "From Forest to Factory", is_cutscene: true, is_classic: false },
-		rm_t3: { world: WORLDS.BEACH,  title: "From Factory to Fortress", is_cutscene: true, is_classic: false },
+		rm_t3: { world: WORLDS.FORTRESS,  title: "From Factory to Fortress", is_cutscene: true, is_classic: false },
 	};
 
 	return _room_data[$ room_get_name(_room)] ?? _default;
@@ -161,7 +161,7 @@ function get_world_palette(_object_index) {
 		case obj_brick: {
 			// Any palette you assign needs to support two sahdes of darker palettes for this object
 			switch (global.controller.room_world) {
-				case WORLDS.BEACH: { return PALETTES.GRAY_LIGHT; } // TODO: Make different, but this ruins t3 cutscene?
+				case WORLDS.BEACH: { return PALETTES.GRAY_LIGHT; } // TODO: Make different
 				case WORLDS.FOREST: { return PALETTES.BRICK; }
 				case WORLDS.FACTORY: { return PALETTES.BROWN; }
 				case WORLDS.FORTRESS: { return PALETTES.GRAY_LIGHT; }
@@ -171,10 +171,10 @@ function get_world_palette(_object_index) {
 		case obj_portal: {
 			// This returns the initial masked portal palette color only
 			switch (global.controller.room_world) {
-				case WORLDS.BEACH: { return PALETTES.TRASH; } // TODO: Make different, but this ruins t3 cutscene?
+				case WORLDS.BEACH: { return PALETTES.TRASH; }
 				case WORLDS.FOREST: { return PALETTES.PURPLE_DARK; }
 				case WORLDS.FACTORY: { return PALETTES.INDIGO_DARK; }
-				case WORLDS.FORTRESS: { return PALETTES.TRASH_DARK; }
+				case WORLDS.FORTRESS: { return PALETTES.ORANGE_DARK; }
 				default: { return PALETTES.PINK; }
 			}
 		}

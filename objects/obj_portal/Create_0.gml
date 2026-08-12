@@ -33,7 +33,7 @@ deactivate_portal = function(_player_palette) {
 		activated = false;
 		play_sound(snd_warp);
 		create_particles(1+irandom(2), PARTICLE_TYPES.SPARKLE, main_palette);
-		create_particles(1+irandom(2), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
+		create_particles(1+irandom(2), PARTICLE_TYPES.SPARKLE, player_palette);
 	}
 }
 
