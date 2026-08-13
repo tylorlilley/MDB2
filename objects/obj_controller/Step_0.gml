@@ -61,7 +61,10 @@ with (obj_robot) {
 
 // Handle Static Object Step
 with (obj_dynamic_object) {
-	if (is_carrying_key() && shine_timer == 0) { reset_shine_timer(); }
+	if (is_carrying_key()) {
+		shine_timer++;
+		if (shine_timer == 0) { reset_shine_timer(); }
+	}
 }
 with (obj_water) {
 	anim_timer++;
@@ -83,11 +86,6 @@ with (obj_lava) {
 				_lava_bubble.creator = id;
 			}
 		}
-	}
-}
-with (obj_game_object) {
-	if (shine_timer > 0) {
-		shine_timer--;
 	}
 }
 
@@ -120,6 +118,7 @@ with (obj_switch_block_outline) { if (array_length(other.pressed_switch_colors[s
 with (obj_switch_block_outline) { if (array_length(other.pressed_switch_colors[switch_color]) > 0 && array_length(other.blocked_switch_colors[switch_color]) == 0) { solid_obj.update_connections(); } }
 with (obj_key) {
 	// Update Timers
+	shine_timer++;
 	if (shine_timer == 0) { reset_shine_timer(); }
 	sway_timer++;
 	if (sway_timer > 32) { sway_timer = -(irandom(60) + 60); }
@@ -137,11 +136,12 @@ with (obj_key) {
 with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else if (image_index == 0) {
+		shine_timer++;
 		if (shine_timer == 0) { reset_shine_timer(); }
 		
 		if (global.room_keys == global.keys_collected) {
-			create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
-			create_particles(8 + irandom(8), PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT);
+			create_particles(6 + irandom(6), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
+			create_particles(6 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW);
 			image_index = 1;
 			play_sound(snd_door_unlock);
 			global.controller.start_screen_shake();

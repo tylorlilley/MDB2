@@ -9,4 +9,10 @@ else {
 		else if (image_index == 2) { hspeed -= _sway_speed * 2; vspeed -= 0.5; }
 		else if (image_index == 1 || image_index == 3) { vspeed -= 0.25; }
 	}
+	
+	decay_timer++;
+	if (decay_trigger > 0 && decay_timer >= decay_trigger) {
+		image_alpha -= 1/decay_trigger;
+		if (image_alpha <= 0) { instance_destroy(); }
+	}
 }

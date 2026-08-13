@@ -51,12 +51,17 @@ initialize_static_area = function() {
 	// Creator and Manager Variables
 	creator = noone;
 	manager = noone;
+
+
 	with (obj_static_area_manager) {
 	    for (var _i = 0; _i < array_length(static_area_objects); _i++) {
 	        if (other.is_a(static_area_objects[_i])) { other.manager = id; break; }
 	    }
 	}
 }
+
+// Functions
+mark_manager_for_redraw = function() { if (instance_exists(manager)) { manager.should_redraw = true; } }
 
 connected_to = function(_inst) { return _inst.object_index == object_index && _inst.creator == creator; }
 

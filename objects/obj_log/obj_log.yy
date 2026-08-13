@@ -6,7 +6,9 @@
   ],
   "managed":true,
   "name":"obj_log",
-  "overriddenProperties":[],
+  "overriddenProperties":[
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_visual_object","path":"objects/obj_visual_object/obj_visual_object.yy",},"propertyId":{"name":"main_palette","path":"objects/obj_visual_object/obj_visual_object.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"PALETTES.BROWN",},
+  ],
   "parent":{
     "name":"Game Objects",
     "path":"folders/Objects/Game Objects.yy",
@@ -30,7 +32,6 @@
   "physicsStartAwake":true,
   "properties":[
     {"$GMObjectProperty":"v2","%Name":"is_left","filters":[],"listItems":[],"multiselect":false,"name":"is_left","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
-    {"$GMObjectProperty":"v2","%Name":"main_palette","filters":[],"listItems":[],"multiselect":false,"name":"main_palette","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"PALETTES.BROWN","varType":4,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

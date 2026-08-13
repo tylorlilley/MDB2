@@ -7,7 +7,16 @@ visible = false;
 // New Variables
 trunk = [];
 
-// Functions
+// Overidden Functions
+part_damaged = function(_inst) { } // Do Nothing
+
+part_destroyed = function(_inst) {
+	array_delete(trunk, array_get_index(trunk, _inst), 1);
+	
+	if (array_length(trunk) == 0) { instance_destroy(); }
+}
+
+// New Functions
 initialize_solids = function() {
 	var _trunk_x_left = x, _trunk_x_right = x + sprite_get_width(sprite_index);
 	for (var _trunk_x = _trunk_x_left; _trunk_x < _trunk_x_right; _trunk_x += 8) {
@@ -34,12 +43,4 @@ initialize_solids = function() {
 			}
 		}
 	}
-}
-
-part_damaged = function(_inst) { } // Do Nothing
-
-part_destroyed = function(_inst) {
-	array_delete(trunk, array_get_index(trunk, _inst), 1);
-	
-	if (array_length(trunk) == 0) { instance_destroy(); }
 }

@@ -25,20 +25,19 @@ parent_powerfall_on = powerfall_on;
 parent_powerfly_into = powerfly_into;
 
 powerfall_on = function(_other) {
-	shine_timer = 2;
 	parent_powerfall_on(_other);
-	start_gear_move(8);
-	if (instance_exists(_other)) {
-		gear_dir = (_other.is_left) ? -1 : 1;
-		if (_other.x < x) { gear_dir = -1; }
-		if (_other.x > x) { gear_dir = 1; }
-	}
+	start_gear_damaged(_other, 8);
 }
 
 powerfly_into = function(_other) {
-	shine_timer = 2;
 	parent_powerfly_into(_other);
-	start_gear_move(-8);
+	start_gear_damaged(_other, -8);
+}
+
+start_gear_damaged = function(_other, _gear_timer) {
+	shine_timer = 2;
+	create_particles(4 + irandom(2), PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW, x+sprite_get_width(sprite_index)/2, y);
+	start_gear_move(_gear_timer);
 	if (instance_exists(_other)) {
 		gear_dir = (_other.is_left) ? 1 : -1;
 		if (_other.x < x) { gear_dir = -1; }

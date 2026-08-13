@@ -304,6 +304,7 @@
     {"id":{"name":"bg_forest_leaves_1","path":"sprites/bg_forest_leaves_1/bg_forest_leaves_1.yy",},},
     {"id":{"name":"bg_forest_leaves","path":"sprites/bg_forest_leaves/bg_forest_leaves.yy",},},
     {"id":{"name":"bg_forest_trees","path":"sprites/bg_forest_trees/bg_forest_trees.yy",},},
+    {"id":{"name":"bg_mdb","path":"sprites/bg_mdb/bg_mdb.yy",},},
     {"id":{"name":"bg_sky_2","path":"sprites/bg_sky_2/bg_sky_2.yy",},},
     {"id":{"name":"bg_sky_3","path":"sprites/bg_sky_3/bg_sky_3.yy",},},
     {"id":{"name":"bg_sky_4","path":"sprites/bg_sky_4/bg_sky_4.yy",},},

@@ -155,18 +155,20 @@ enum PARTICLE_TYPES {
 	SPARK
 }
 
-function create_particles(_total_particles, _particle_type = undefined, _particle_palette = undefined, _x_pos = undefined, _y_pos = undefined, _death_sprite = undefined) {
+function create_particles(_total_particles, _particle_type = undefined, _particle_palettes = undefined, _x_pos = undefined, _y_pos = undefined, _death_sprite = undefined) {
 	if (_total_particles <= 0) { exit; }
 	
 	_x_pos ??= x+sprite_get_width(sprite_index)/2;
 	_y_pos ??= y+sprite_get_height(sprite_index)/2;
 	_particle_type ??= particle_type;
-	_particle_palette ??= particle_palette ?? get_darker_palette(main_palette);
+	_particle_palettes ??= particle_palette ?? get_darker_palette(main_palette);
 	
 	static _particle_type_sprites = [spr_particle_debris, spr_particle_sparkle, undefined, spr_particle_leaf, spr_particle_confetti, spr_particle_debris, spr_particle_debris];
 	var _particle_sprite = _particle_type_sprites[_particle_type] ?? (_death_sprite ?? sprite_index);
 	var  _horizontal_direction = (irandom(1) == 0) ? 1 : -1;
 	for (var _i = 0; _i < _total_particles; _i++) {
+		var _particle_palette = is_array(_particle_palettes) ? _particle_palettes[_i % array_length(_particle_palettes)] : _particle_palettes;
+		
 		var _particle = instance_create(_x_pos, _y_pos, obj_particle);
 		with (_particle) {
 			main_palette = _particle_palette;
@@ -190,7 +192,15 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 				image_xscale = (irandom(1) == 0) ? -1 : 1;
 				image_yscale = (irandom(1) == 0) ? -1 : 1;
 				image_speed = (_particle_type == PARTICLE_TYPES.SPARKLE) ? 1 : 0;
-				if (_particle_type == PARTICLE_TYPES.SPARKLE) { vspeed = (-random(6)) + 1; }
+				if (_particle_type == PARTICLE_TYPES.SPARKLE) {
+					//image_alpha = 0.85;
+					var _angle_per_particle = ((360 / _total_particles) * _i) + -20 + random(40), _velocity = 2.5// + random(1);
+					var _x_speed = lengthdir_x(_velocity, _angle_per_particle), _y_speed = lengthdir_y(_velocity, _angle_per_particle);
+					hspeed = _x_speed;
+					vspeed = _y_speed; //- 0.125;
+					gravity = 0.0;
+					decay_trigger = 6;
+				}
 			}
 			else if (_particle_type == PARTICLE_TYPES.LEAF) {
 				if (irandom(1) == 0) { main_palette = get_darker_palette(main_palette); }

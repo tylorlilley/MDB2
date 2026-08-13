@@ -611,8 +611,7 @@ update_player_state = function() {
 				if (visible && (key_up || key_jump) && win_loops > 0) {
 					visible = false;
 					play_sound(snd_impact);
-					with (obj_door) { image_index = 2; } // create_particles(8 + irandom(8)); }
-					// TODO: Do this in controller instead of player?
+					with (obj_door) { image_index = 2; }
 					if (room == rm_intro) { global.controller.transition_room(room_next(room)); }
 					else {
 						global.controller.transition_timer = 1;
@@ -1322,7 +1321,7 @@ draw_cape_graphics = function() {
 		state != PLAYER_STATES.CRUSHED_STAND &&
 		state != PLAYER_STATES.CRUSHED_FORWARD) {
 		if (state != PLAYER_STATES.LAND || image_index > 0) {
-			_cape_x += get_draw_x_scale() * -GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
+			_cape_x += get_left_value() * -GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
 		}
 	}
 	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
@@ -1330,7 +1329,7 @@ draw_cape_graphics = function() {
 	else if (is_ladder_state()) { _cape_y += 1; }
 	
 	set_shader_palette(PALETTES.GRAY_LIGHT);
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_draw_x_scale(), 1, 0, image_blend, 1);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_left_value(), 1, 0, image_blend, 1);
 }
 
 do_player_lethal_collisions = function() {
@@ -1402,7 +1401,7 @@ do_player_object_collisions = function() {
 	}
 	
 	// Collide with Full Overlaps
-	if (transition_timer != 0) { exit; }
+	if (transition_timer != 0 && state != PLAYER_STATES.CLIMB) { exit; }
 	var _fully_overlapping_instances = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
 	for (var _i = 0; _i < array_length(_fully_overlapping_instances); _i++) {
 		var _inst = _fully_overlapping_instances[_i];

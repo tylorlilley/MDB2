@@ -1,13 +1,11 @@
+// Game Maker Variables
 depth = VISUAL_OBJECT_DEPTH;
 image_blend = global.world_tint;
 image_speed = 0;
 
+// New Variables
 if (!variable_instance_exists(id, "main_palette")) { main_palette = undefined; }
-particle_palette = undefined;
-
-manager = noone;
-
-mark_manager_for_redraw = function() { if (instance_exists(manager)) { manager.should_redraw = true; } }
+particle_palette = main_palette;
 
 grid_add = function(_grid_to_add = global.controller.game_object_grid) {
 	if (!instance_exists(id)) { return false; }

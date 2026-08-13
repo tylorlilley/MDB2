@@ -331,22 +331,14 @@ get_left_value = function() {
 	return ((is_left) ? -1 : 1);
 }
 
-get_draw_is_left = function() {
-	return ((turn_pending) ? !is_left : is_left);
-}
-
-get_draw_x_scale = function() {
-	return ((get_draw_is_left()) ? -1 : 1); 
-}
-
 get_x_draw_offset = function() {
-	return ((get_draw_is_left()) ? sprite_get_width(sprite_index) : 0);
+	return ((is_left) ? sprite_get_width(sprite_index) : 0);
 }
 
 // Draw Function
 draw_dynamic_object = function() {
 	set_shader_palette((shine_timer == 1) ? PALETTES.ALL_WHITE : main_palette);
-	draw_sprite_with_center_rotation(sprite_index, image_index, virtual_x + get_x_draw_offset(), virtual_y+virtual_y_offset, get_draw_x_scale(), 1, image_angle, image_blend, image_alpha);
+	draw_sprite_with_center_rotation(sprite_index, image_index, virtual_x + get_x_draw_offset(), virtual_y+virtual_y_offset, get_left_value(), 1, image_angle, image_blend, image_alpha);
 }
 
 // Step Function

@@ -47,7 +47,7 @@ with (obj_switch_block) { update_connections(); }
 // Other Objects
 with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
 with (obj_dynamic_object) {
-	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; }
+	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; reset_shine_timer(); }
 }
 with (obj_player) {
 	if (object_index == obj_player) { is_left = other.classic_level; }

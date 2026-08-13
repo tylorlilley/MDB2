@@ -1,10 +1,9 @@
 // Inherit the parent event
 event_inherited();
-reset_shine_timer();
 
 // Visual Object Overrides
 original_palette = PALETTES.YELLOW;
-particle_palette = original_palette;
+particle_palette =  PALETTES.YELLOW_LIGHT;
 main_palette = original_palette;
 
 // Dynamic Object Overrides

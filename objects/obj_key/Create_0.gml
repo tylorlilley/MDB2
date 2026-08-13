@@ -4,6 +4,10 @@ event_inherited();
 // Visual Drawing Variables
 depth = KEY_DEPTH;
 main_palette = PALETTES.YELLOW;
+particle_palette = PALETTES.YELLOW;
+particle_type = PARTICLE_TYPES.SPARKLE;
+particles_min = 6;
+particles_max = 12;
 global.room_keys++;
 reset_shine_timer();
 
