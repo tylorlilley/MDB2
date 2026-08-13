@@ -16,6 +16,7 @@ y_transition_speed = undefined;
 fall_timer = 0;
 swim_timer = 0;
 
+can_carry_objects = false;
 is_solid_from_above = true;
 is_solid_from_below = true;
 is_solid_from_right = true;

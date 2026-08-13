@@ -25,7 +25,7 @@ connection_object_index = obj_static_area;
 	
 // Sound Variables
 step_sound = snd_step_lava;
-damaged_sound = snd_step_lava;
+damaged_sound = snd_lava_destroy;
 destroyed_sound = snd_explosion;
 
 // New Variables
@@ -36,7 +36,7 @@ bubble_timer = irandom(256*4) + 32;
 parent_deal_damage = deal_damage;
 deal_damage = function() { 
 	parent_deal_damage();
-	play_sound(snd_step_lava);
+	play_sound(snd_lava_destroy);
 	create_particles(4);
 }
 

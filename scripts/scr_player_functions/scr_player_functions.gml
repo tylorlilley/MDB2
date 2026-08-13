@@ -538,6 +538,7 @@ update_player_state = function() {
 			case PLAYER_STATES.CLIMB: {
 				if (transition_timer == 20) {
 					if (!grid_move_up(1)) { start_fallback_state(); }
+					else { do_player_object_collisions(); }
 				}
 				else if (transition_timer == 18) {
 					if (grid_move_horizontal(get_left_value())) {
@@ -1420,9 +1421,9 @@ do_player_object_collisions = function() {
 			}
 		}
 		else if (_inst.is_a(obj_portal) && _inst.activated) {
-			_inst.deactivate_portal(original_palette);
+			_inst.deactivate_portal(get_darker_palette(particle_palette));
 			if (instance_exists(_inst.linked_portal)) {
-				_inst.linked_portal.deactivate_portal(original_palette);
+				_inst.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
 				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 				virtual_x = x;
 				virtual_y = y;

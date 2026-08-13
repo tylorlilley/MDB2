@@ -265,6 +265,7 @@
     {"id":{"name":"snd_gear","path":"sounds/snd_gear/snd_gear.yy",},},
     {"id":{"name":"snd_impact","path":"sounds/snd_impact/snd_impact.yy",},},
     {"id":{"name":"snd_key","path":"sounds/snd_key/snd_key.yy",},},
+    {"id":{"name":"snd_lava_destroy","path":"sounds/snd_lava_destroy/snd_lava_destroy.yy",},},
     {"id":{"name":"snd_level_clear","path":"sounds/snd_level_clear/snd_level_clear.yy",},},
     {"id":{"name":"snd_player_die","path":"sounds/snd_player_die/snd_player_die.yy",},},
     {"id":{"name":"snd_player_fall","path":"sounds/snd_player_fall/snd_player_fall.yy",},},

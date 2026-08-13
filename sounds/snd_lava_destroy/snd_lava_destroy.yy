@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_step_lava",
+  "%Name":"snd_lava_destroy",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.16297053,
+  "duration":0.79106575,
   "exportDir":"",
-  "name":"snd_step_lava",
+  "name":"snd_lava_destroy",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_step_lava.wav",
-  "volume":0.15,
+  "soundFile":"snd_lava_destroy.wav",
+  "volume":0.5,
 }

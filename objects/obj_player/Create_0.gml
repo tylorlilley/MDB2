@@ -37,6 +37,7 @@ can_be_controlled = true;
 can_power_up = true;
 can_climb = true;
 can_ladder = true;
+can_carry_objects = !global.original_controls;
 can_push_objects = !global.original_controls;
 can_be_crushed = !global.original_controls;
 

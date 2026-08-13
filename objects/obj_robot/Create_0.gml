@@ -90,11 +90,14 @@ update_controls = function() {
 		if (state == PLAYER_STATES.TURN && transition_timer == 0) { walk_timer = 0; }
 		// Update State
 		if (walk_timer == 0) {
-			var _freeze_on_top_of_robot = false, _ground_objects = get_ground_objects(get_list_of_controllable_players());
+			var _freeze_on_top_of_robot = false
+			/*
+			var _ground_objects = get_ground_objects(get_list_of_controllable_players());
 			for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 				var _inst = _ground_objects[_i];
 				if (_inst.is_a(obj_robot) && _inst.is_left == is_left) { _freeze_on_top_of_robot = true;  break; }
 			}
+			*/
 			
 			/*
 			if (!_freeze_on_top_of_robot) {
@@ -127,7 +130,7 @@ update_player_graphics = function() {
 	*/
 	
 	// Assign Sprite Based on State
-	var _image_index = image_index, _carried_objects = get_carried_objects()
+	var _image_index = image_index; // _carried_objects = get_carried_objects()
 	if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.WALK_FORWARD) {
 		/*
 		 if (turn_timer > 0) {
@@ -141,7 +144,7 @@ update_player_graphics = function() {
 			sprite_index = (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk;
 		}
 		*/
-		sprite_index = (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk;
+		sprite_index = spr_robot_walk; // (array_length(_carried_objects) > 0) ? spr_robot_carry : spr_robot_walk;
 	}
 	else if (state == PLAYER_STATES.TURN) { sprite_index = spr_robot_turn; }
 	else { sprite_index = spr_robot_fall; }

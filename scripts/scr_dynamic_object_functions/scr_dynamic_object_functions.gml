@@ -21,7 +21,7 @@ get_switch_offset = function() {
 		for (var _i = 0; _i < array_length(_potential_objects); _i++) {
 			var _inst = _potential_objects[_i], _image_index_offset;
 			switch (_inst.image_index) {
-				case 0: { _image_index_offset = -4; break; }
+				case 0: { _image_index_offset = -2; break; } // -4
 				case 1: { _image_index_offset = -3; break; }
 				case 2: { _image_index_offset = -2; break; }
 			}
@@ -106,10 +106,12 @@ is_floating_state = function() {
 grid_move_up = function(_speed) {
 	if (is_under_ceiling() || _speed == 0) { return false; }
 	
-	var _carried_objects = get_carried_objects();
-	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-		var _inst = _carried_objects[_i];
-		_inst.grid_move_up(_speed);
+	if (can_carry_objects) {
+		var _carried_objects = get_carried_objects();
+		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+			var _inst = _carried_objects[_i];
+			_inst.grid_move_up(_speed);
+		}
 	}
 
 	return grid_move_up_direct(_speed);
@@ -118,10 +120,12 @@ grid_move_up = function(_speed) {
 grid_move_down = function(_speed) {
 	if (is_on_ground() || _speed == 0) { return false; }
 	
-	var _carried_objects = get_carried_objects();
-	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-		var _inst = _carried_objects[_i];
-		_inst.grid_move_down(_speed);
+	if (can_carry_objects) {
+		var _carried_objects = get_carried_objects();
+		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+			var _inst = _carried_objects[_i];
+			_inst.grid_move_down(_speed);
+		}
 	}
 	
 	return grid_move_down_direct(_speed);
@@ -130,10 +134,12 @@ grid_move_down = function(_speed) {
 grid_move_left = function(_speed) {
 	if (is_blocked_on_left() || _speed == 0) { return false; }
 	
-	var _carried_objects = get_carried_objects(false);
-	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-		var _inst = _carried_objects[_i];
-		_inst.grid_move_left(_speed);
+	if (can_carry_objects) {
+		var _carried_objects = get_carried_objects(false);
+		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+			var _inst = _carried_objects[_i];
+			_inst.grid_move_left(_speed);
+		}
 	}
 	grid_move_to(x - GRID_SIZE, y);
 	x_transition_timer += abs(GRID_SIZE / _speed);
@@ -144,11 +150,14 @@ grid_move_left = function(_speed) {
 grid_move_right = function(_speed) {
 	if (is_blocked_on_right() || _speed == 0) { return false; }
 	
-	var _carried_objects = get_carried_objects(true);
-	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-		var _inst = _carried_objects[_i];
-		_inst.grid_move_right(_speed);
+	if (can_carry_objects) {
+		var _carried_objects = get_carried_objects(true);
+		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+			var _inst = _carried_objects[_i];
+			_inst.grid_move_right(_speed);
+		}
 	}
+	
 	grid_move_to(x + GRID_SIZE, y);
 	x_transition_timer += abs(GRID_SIZE / _speed);
 	

@@ -10,3 +10,4 @@ image_speed = 0.25;
 image_rotation = 0;
 terminal_velocity = 8;
 destroyed_y = room_height + sprite_get_height(sprite_index);
+creator = noone;

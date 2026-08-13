@@ -1,7 +1,6 @@
 // TODO:
 - Refactor Create Code
 - Refactor depth value being used for non-depth drawing purposes
-- Switch happens on same frame - landing on a switch block kills you? Breaks 3_8
 
 - Add Yes/No confirm to starting new game
 - Settings Page
@@ -11,23 +10,37 @@
 - Ending Cutscene + Credits
 
 // VISUALS:
+Brick Palette?
 Draw tree nubs on wood level from wood
 Should Gear spin always one way for up and one for down? Should  they spin slower? Move slower?
 Fuzzing palette on bricks different than pure black for cracks?
 swooshier leaves?
 
+// FOREST LEVELS
+2_4 - too hard
+2_5 - too easy; introduces lava early?
+2_7 - too easy
+2_8 - too hard?
+
 // FACTORY LEVELS
 Test gear/portal interaction?
 
-- Sawmill
+- more levels with spikes not at bottom
+- spikes where switch blocks save movement
+- Sawmill level?
+- Turning switches on/off to move gears under them level?
 - Add Gears to Trash
 - More Confusing Circular Logic
 - Move Mounting Tension Earlier?
 - primary colors too easy didnt need brick?
-- Replace 3_8; it is the only level that relies on the bounceback under a switch NOT killing the player, and the only one with switches on switch blocks
+- Replace 3_8? We tweaked it so it works but is it good enough?
 
 // FORTRESS LEVELS
-- Replace 4_1; it (and maybe 4_5 tbd) are the only levels that rely on the old game switches being on the NEXT frame
+- Replace 4_1
+4_2 - doesn't require using robots as extra lives?
+4_3 - Introduce too many concepts at once
+4_4 - extra gold robots are too distracting?
+- 4_5 - no need to destroy tree if you go left first?
 
 // TECH DEBT:
 
@@ -64,3 +77,19 @@ Scrolling rooms
 wrap-around screen movements (horizontal or vertical)
 Hidden Idols buried in specific spots in many levels as an extra layer of secrets to uncover
 - maybe a room that spawns idol if all robots are killed when that is hard to go out of your way to do?
+
+// MECHANICAL ORDER
+- When is standing on switches to keep them pressed as a concept introduced?
+
+walking, no player interaction (3_6)
++ destroyed by switches?
++ player interaction without falling (4_1)
++ robots can fall
++ can powerfall on robots
++ robots can portal?
++ gold_robots?
++ robots carrying robots?
++ robots die to lava
++ robots don't die to spikes
+
+When is standin

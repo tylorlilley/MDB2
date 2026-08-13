@@ -1,4 +1,4 @@
-if (y > destroyed_y) { instance_destroy(); }
+if (y > destroyed_y && (!instance_exists(creator) || place_meeting(x, y, creator.object_index))) { instance_destroy(); }
 else {
 	image_angle += image_rotation * (0.5) * abs(vspeed);
 
