@@ -7,6 +7,7 @@ enum WORLDS {
 	SKY_2,
 	SKY_3,
 	SKY_4,
+	SKY_5,
 	NIGHT
 }
 
@@ -63,7 +64,7 @@ function room_data(_room = room) {
 		rm_mdb_5_1: { world: WORLDS.SKY,  title: "Head in the Clouds", is_cutscene: false, is_classic: false },
 		rm_mdb_5_2: { world: WORLDS.SKY,  title: "Flying Too Close", is_cutscene: false, is_classic: false },
 		rm_mdb_5_3: { world: WORLDS.SKY_3,  title: "Setting Sun", is_cutscene: false, is_classic: false },
-		rm_mdb_5_4: { world: WORLDS.SKY_3,  title: "Stairway to Heaven", is_cutscene: false, is_classic: false },
+		rm_mdb_5_4: { world: WORLDS.SKY_5,  title: "Stairway to Heaven", is_cutscene: false, is_classic: false },
 		rm_mdb_5_5: { world: WORLDS.SKY_3,  title: "The Storm Rolls In", is_cutscene: false, is_classic: false },
 		rm_mdb_5_6: { world: WORLDS.NIGHT,  title: "Darkness Falls", is_cutscene: false, is_classic: false },
 		rm_mdb_5_7: { world: WORLDS.NIGHT,  title: "Torrential Downpour", is_cutscene: false, is_classic: false },
@@ -113,7 +114,7 @@ function room_data(_room = room) {
 		rm_old_w5_1: { world: WORLDS.SKY,  title: "Nimbus Cubs", is_cutscene: false, is_classic: true },
 		rm_old_w5_2: { world: WORLDS.SKY_2,  title: "Warp Whiplash", is_cutscene: false, is_classic: true },
 		rm_old_w5_3: { world: WORLDS.SKY_3,  title: "Tangerine Dreams", is_cutscene: false, is_classic: true },
-		rm_old_w5_4: { world: WORLDS.SKY_4,  title: "Dusk Bowl", is_cutscene: false, is_classic: true },
+		rm_old_w5_4: { world: WORLDS.SKY_5,  title: "Dusk Bowl", is_cutscene: false, is_classic: true },
 			
 		// World Transition Cutscenes
 		rm_intro: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true , is_classic: false },
@@ -191,6 +192,7 @@ function build_world_background(_world) {
 		case WORLDS.SKY_2:
 		case WORLDS.SKY_3:
 		case WORLDS.SKY_4:
+		case WORLDS.SKY_5:
 		case WORLDS.NIGHT: {
 			global.border_alpha = 0.5;
 			
@@ -198,7 +200,8 @@ function build_world_background(_world) {
 			var _sprite = (_world == WORLDS.NIGHT) ? bg_stars : bg_sky;
 			if (_world == WORLDS.SKY_2) { _sprite = bg_sky_2; }
 			if (_world == WORLDS.SKY_3) { _sprite = bg_sky_3; global.world_tint = make_colour_rgb(255, 169, 128); global.world_tint_strength = 0.42; }
-			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_3; global.world_tint = make_colour_rgb(148, 54, 44); global.world_tint_strength = 0.42; }
+			if (_world == WORLDS.SKY_4) { _sprite = bg_sky_4; global.world_tint = make_colour_rgb(148, 54, 44); global.world_tint_strength = 0.42; }
+			if (_world == WORLDS.SKY_5) { _sprite = bg_sky_4; global.world_tint = C_BLACK; global.world_tint_strength = 0.9; }
 			if (_world == WORLDS.NIGHT) { _sprite = bg_stars; global.border_alpha = 0.6; global.world_tint = C_PURPLE_DARK; global.world_tint_strength = 0.42; }
 			
 			// BG Sky Layer
@@ -303,6 +306,7 @@ function play_world_music(_world) {
 		case WORLDS.SKY_2:
 		case WORLDS.SKY_3:
 		case WORLDS.SKY_4:
+		case WORLDS.SKY_5:
 		case WORLDS.NIGHT: { _sound_to_play = bgm_w5; break; }
 	}
 	if (!is_undefined(_sound_to_play) && !audio_is_playing(_sound_to_play)) { play_global_sound(_sound_to_play, true); }

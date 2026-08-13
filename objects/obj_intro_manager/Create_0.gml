@@ -19,6 +19,3 @@ part_destroyed = function(_inst) {
 		}
 	}
 }
-
-// New Variables
-bgm = undefined;

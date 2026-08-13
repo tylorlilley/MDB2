@@ -4,8 +4,8 @@ reset_shine_timer();
 
 // Visual Object Overrides
 original_palette = PALETTES.YELLOW;
+particle_palette = original_palette;
 main_palette = original_palette;
-particle_palette = get_darker_palette(PALETTES.YELLOW);
 
 // Dynamic Object Overrides
 contents = obj_key;

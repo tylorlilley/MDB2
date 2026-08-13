@@ -24,6 +24,7 @@ main_palette = original_palette;
 
 // New Variables
 walk_timer = 0;
+should_walk = true;
 /*
 turn_timer = 0;
 turn_hold = 0;
@@ -75,7 +76,7 @@ update_controls = function() {
 	var _blocked_on_right = is_blocked_on_right(), _blocked_on_left = is_blocked_on_left(), _prev_is_left = is_left;
 	
 	// Update Walk Timer
-	if (!is_on_ground()) { walk_timer = 0; }
+	if (!is_on_ground()) { walk_timer = 0; should_walk = true; }
 	else {
 		// Update Facing Direction
 		/*
@@ -84,10 +85,11 @@ update_controls = function() {
 		else if (!is_left && _blocked_on_right) { is_left = true; }
 		if (is_left != _prev_is_left && is_grounded_state()) { turn_pending = true; turn_hold = max(x_transition_timer, y_transition_timer); turn_timer = 4; }
 		*/
-	
-		walk_timer++;
-		walk_timer = walk_timer % 8;
-		if (state == PLAYER_STATES.TURN && transition_timer == 0) { walk_timer = 0; }
+		
+		walk_timer = (walk_timer + 1) % 4;
+		//walk_timer++;
+		//walk_timer = walk_timer % 4;
+		//if (state == PLAYER_STATES.TURN && transition_timer == 0) { walk_timer = 0; }
 		// Update State
 		if (walk_timer == 0) {
 			var _freeze_on_top_of_robot = false
@@ -111,10 +113,13 @@ update_controls = function() {
 			}
 			*/
 
-			if (_freeze_on_top_of_robot || (_blocked_on_right && _blocked_on_left)) { key_left = false; key_right = false; }
-			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; }
-			else if (!is_left && _blocked_on_right) { key_left = true; key_right = false; }
-			else { key_left = is_left; key_right = !is_left; }
+			if (_freeze_on_top_of_robot || (_blocked_on_right && _blocked_on_left)) { key_left = false; key_right = false; should_walk = true; }
+			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; should_walk = true }
+			else if (!is_left && _blocked_on_right) { key_left = true; key_right = false; should_walk = true; }
+			else if (should_walk) { key_left = is_left; key_right = !is_left; should_walk = false; }
+			else {
+				key_left = false; key_right = false; should_walk = true;
+				}
 		}
 	}	
 }

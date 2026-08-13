@@ -48,13 +48,16 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 		transition_timer = max(transition_timer, _new_transition_timer);
 	}
 }
+
+/*
+// Have Collding Robots Turn Around
 with (obj_robot) {
-	// Have Robots that Moved Forward into Other Robots Turn Around
-	if (state == PLAYER_STATES.WALK_FORWARD && walk_timer == 0) {
+	if (state == PLAYER_STATES.WALK_FORWARD && transition_timer == 0 && walk_timer == 0) {
 		var _blocking_robots = get_relative_objects((is_left) ? -8 : 8, 0, always_true, [], obj_robot);
-		if (array_length(_blocking_robots) > 0) { start_turning(); }
+		if (array_length(_blocking_robots) > 0) { start_turning(); walk_timer += 4; }
 	}
 }
+*/
 
 // Handle Static Object Step
 with (obj_dynamic_object) {

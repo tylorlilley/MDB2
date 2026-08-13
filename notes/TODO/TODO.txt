@@ -1,6 +1,7 @@
 // TODO:
 - Refactor Create Code
 - Refactor depth value being used for non-depth drawing purposes
+- Check Key Corner and Portal Corner interactions
 
 - Add Yes/No confirm to starting new game
 - Settings Page
@@ -41,6 +42,10 @@ Test gear/portal interaction?
 4_3 - Introduce too many concepts at once
 4_4 - extra gold robots are too distracting?
 - 4_5 - no need to destroy tree if you go left first?
+4_7 - can complete without pushing gear into blue block if timing things on the left with the yellow switch
+4_8 - does not give chase at the end
+
+5_5 unsolvable
 
 // TECH DEBT:
 
