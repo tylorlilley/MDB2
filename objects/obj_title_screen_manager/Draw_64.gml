@@ -101,8 +101,8 @@ else if (state == TITLE_STATES.SETTINGS_MENU) {
 			
 			// Determine selection string
 			var _selected_string = "";
-			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _selected_string = full_screen_strings[full_screen_option]; }
-			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _selected_string = "x" + string(screen_scale_option); }
+			if (_i == SETTINGS_OPTIONS.FULL_SCREEN) { _selected_string = full_screen_strings[full_screen_option]; }
+			else if (_i == SETTINGS_OPTIONS.SCREEN_SCALE) { _selected_string = "x" + string(screen_scale_option); }
 			
 			// Draw Menu Option
 			if (_i < SETTINGS_OPTIONS.SKIP_THIS) { _option_string +=  ": " + _selected_string; }
