@@ -31,14 +31,14 @@ option_strings = [
 	"SETTINGS",
 ]
 settings_strings = [
-	"SCREEN TYPE",
-	"SCREEN SCALE",
+	"SCREEN",
+	"SCALE",
 	"",
-	"SAVE AND RETURN"
+	"RETURN TO MENU"
 ];
 full_screen_strings = [
-	"FULL SCREEN",
-	"BOARDERLESS FULL SCREEN",
+	"FULL",
+	"BORDERLESS",
 	"WINDOWED"
 ];
 cursor_sprites = [

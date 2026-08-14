@@ -52,7 +52,9 @@ switch (state) {
 			if (key_up && !key_down) { _menu_change = -1; }
 			else if (key_down && ! key_up) { _menu_change = 1; }
 			menu_pos += _menu_change;
-			if (menu_pos == MENU_OPTIONS.LOAD_GAME && _skip_continue) { menu_pos += _menu_change; }
+			
+			if (state == TITLE_STATES.MAIN_MENU && menu_pos == MENU_OPTIONS.LOAD_GAME && _skip_continue) { menu_pos += _menu_change; }
+			if (state == TITLE_STATES.SETTINGS_MENU && menu_pos == SETTINGS_OPTIONS.SKIP_THIS) { menu_pos += _menu_change; }
 			if (menu_pos > _max_menu_pos || menu_pos < _min_menu_pos) { 
 				menu_pos = clamp(menu_pos, _min_menu_pos, _max_menu_pos);
 				if !(audio_is_playing(snd_solid_invulnerable)) { play_global_sound(snd_solid_invulnerable); } // TODO: // This fires constantly?
@@ -100,14 +102,13 @@ switch (state) {
 		}
 		else if (state == TITLE_STATES.SETTINGS_MENU) {
 			var _menu_change = 0, _min_option_pos = 0, _current_option_pos = 0, _max_option_pos = 0;
-			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _max_option_pos = FULL_SCREEN_OPTIONS.WINDOWED; _current_option_pos = full_screen_option; }
-			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _max_option_pos = max_scaling_size; _current_option_pos = screen_scale_option; }
+			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _min_option_pos = FULL_SCREEN_OPTIONS.FULL_SCREEN; _max_option_pos = FULL_SCREEN_OPTIONS.WINDOWED; _current_option_pos = full_screen_option; }
+			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _min_option_pos = 1; _max_option_pos = max_scaling_size; _current_option_pos = screen_scale_option; }
 			var _prev_menu_pos = _current_option_pos;
 			
 			// Change menu options
 			if (key_left && !key_right) { _menu_change = -1; }
 			else if (key_right && ! key_left) { _menu_change = 1; }
-			if (menu_pos == SETTINGS_OPTIONS.SKIP_THIS) { _current_option_pos += _menu_change; }
 			_current_option_pos += _menu_change;
 			if (_current_option_pos > _max_option_pos || _current_option_pos < _min_option_pos) { 
 				_current_option_pos = clamp(_current_option_pos, _min_option_pos, _max_option_pos);
@@ -124,9 +125,8 @@ switch (state) {
 				update_screen_size(full_screen_option, screen_scale_option);
 
 				ini_open("mdb.ini");
-				progress_level = ini_write_real("progress", "progress_level", 1);
-				full_screen_option = ini_write_real("settings", "full_screen", full_screen_option);
-				screen_scale_option = ini_write_real("settings", "screen_scale", screen_scale_option);
+				ini_write_real("settings", "full_screen", full_screen_option);
+				ini_write_real("settings", "screen_scale", screen_scale_option);
 				ini_close();
 			}
 			

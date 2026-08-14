@@ -40,7 +40,7 @@ enum FULL_SCREEN_OPTIONS {
 	WINDOWED
 }
 ini_open("mdb.ini");
-var _full_screen_option = ini_write_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN), _screen_scale_option = ini_write_real("settings", "screen_scale", get_maximum_screen_scale());
+var _full_screen_option = ini_write_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN), _screen_scale_option = ini_write_real("settings", "screen_scale", get_maximum_screen_scale()-1);
 ini_close();
 
 // Global Variables
