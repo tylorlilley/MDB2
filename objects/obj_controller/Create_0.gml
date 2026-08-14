@@ -171,34 +171,57 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth) {
 	return _static_area_manager;
 }
 
-function read_window_options() {
+read_window_options = function() {
+	window_fullscreen_pending = false;
+	
 	ini_open("mdb.ini");
 	window_fullscreen_setting = ini_read_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
 	window_scale_setting = ini_read_real("settings", "screen_scale", get_maximum_screen_scale()-1);
 	ini_close();
 }
 
-function write_window_options() {
+write_window_options = function() {
 	ini_open("mdb.ini");
 	ini_write_real("settings", "full_screen", window_fullscreen_setting);
 	ini_write_real("settings", "screen_scale", window_scale_setting);
 	ini_close();
 }
 
-function update_window_fullscreen() {
-	window_set_fullscreen(window_fullscreen_setting == FULL_SCREEN_OPTIONS.FULL_SCREEN);
-	window_enable_borderless_fullscreen(window_fullscreen_setting == FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
-	screen_resize_timer = 12;
+update_window_fullscreen = function() {
+	var _should_be_windowed = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED);
+    var _should_be_borderless = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
+
+    screen_resize_timer = 12;
+	
+    // Swapping between exclusive and borderless: the flag is only read on the way in
+    if (_should_be_borderless && window_get_fullscreen() && !window_fullscreen_pending) {
+		// Swap from exclusive full to windowed so we can swap to borderless full in 12 frames
+		var _window_width = SCREEN_WIDTH * window_scale_setting, _window_height = SCREEN_HEIGHT * window_scale_setting, _display_width = display_get_width(), _display_height = display_get_height();
+        window_fullscreen_pending = true;
+        window_set_fullscreen(false);
+		window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
+    }
+	else {
+		// Swap to windowed or exclusive fullscreen
+		window_fullscreen_pending = false;
+	    window_enable_borderless_fullscreen(_should_be_borderless);
+	    window_set_fullscreen(!_should_be_windowed);
+	}
 }
 
-function update_window_size() {
+update_window_size = function() {
 	var _window_width = SCREEN_WIDTH * window_scale_setting, _window_height = SCREEN_HEIGHT * window_scale_setting, _display_width = display_get_width(), _display_height = display_get_height();
-	surface_resize(application_surface, _window_width, _window_height);
+
 	window_set_size(_window_width, _window_height);
 	window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 }
 
+return_to_title = function() {
+	play_title_music();
+	transition_room(rm_title);
+}
+
 // Read Window Size Properties
-read_window_options();
+read_window_options();	
 update_window_fullscreen();
 transition_room(target_room);

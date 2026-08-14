@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"bgm_credits",
+  "%Name":"bgm_mdb_credits",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -12,7 +12,7 @@
   "conversionMode":0,
   "duration":194.3249,
   "exportDir":"",
-  "name":"bgm_credits",
+  "name":"bgm_mdb_credits",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"bgm_credits.wav",
+  "soundFile":"bgm_mdb_credits.wav",
   "volume":0.5,
 }

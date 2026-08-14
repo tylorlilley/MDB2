@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"bgm_w3",
+  "%Name":"bgm_mdb_transition",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":147.06653,
+  "duration":6.4045806,
   "exportDir":"",
-  "name":"bgm_w3",
+  "name":"bgm_mdb_transition",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"bgm_w3.wav",
-  "volume":0.3,
+  "soundFile":"bgm_mdb_transition.wav",
+  "volume":0.5,
 }

@@ -11,7 +11,10 @@ else { frame_sounds = []; }
 // Do Screen Resize
 if (screen_resize_timer > 0) {
 	screen_resize_timer--;
-	if (screen_resize_timer == 0) { update_window_size(); }
+	if (screen_resize_timer == 0) {
+		if (window_fullscreen_pending) { update_window_fullscreen(); }
+		else { update_window_size(); }
+	}
 }
 
 // Do Screenshake

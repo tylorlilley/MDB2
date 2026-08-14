@@ -105,8 +105,9 @@ else if (state == TITLE_STATES.SETTINGS_MENU) {
 			else if (_i == SETTINGS_OPTIONS.SCREEN_SCALE) { _selected_string = "x" + string(_controller.window_scale_setting); }
 			
 			// Draw Menu Option
+			var _unselected_color = (_i == SETTINGS_OPTIONS.SCREEN_SCALE && _controller.window_fullscreen_setting != FULL_SCREEN_OPTIONS.WINDOWED) ? C_GRAY_DARK : C_GRAY_LIGHT;
 			if (_i < SETTINGS_OPTIONS.SKIP_THIS) { _option_string +=  ": " + _selected_string; }
-			draw_text_outlined(_x_pos + _x_offset, _y_pos + _y_offset, _option_string, (_selected ? _selected_color : C_GRAY_LIGHT));
+			draw_text_outlined(_x_pos + _x_offset, _y_pos + _y_offset, _option_string, (_selected ? _selected_color : _unselected_color));
 		}
 	}
 }

@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"bgm_w1",
+  "%Name":"bgm_mdb_title",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":338.82355,
+  "duration":73.18184,
   "exportDir":"",
-  "name":"bgm_w1",
+  "name":"bgm_mdb_title",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"bgm_w1.wav",
+  "soundFile":"bgm_mdb_title.wav",
   "volume":0.5,
 }

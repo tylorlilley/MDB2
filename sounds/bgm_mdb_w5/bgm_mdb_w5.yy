@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"bgm_cutscene",
+  "%Name":"bgm_mdb_w5",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":142.46027,
+  "duration":127.66041,
   "exportDir":"",
-  "name":"bgm_cutscene",
+  "name":"bgm_mdb_w5",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"bgm_cutscene.wav",
+  "soundFile":"bgm_mdb_w5.wav",
   "volume":0.5,
 }

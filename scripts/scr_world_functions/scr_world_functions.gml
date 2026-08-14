@@ -120,6 +120,7 @@ function room_data(_room = room) {
 		rm_intro: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true , is_classic: false },
 		rm_intro_eih: { world: WORLDS.BEACH,  title: "EIH Intro", is_cutscene: true, is_classic: false },
 		rm_title: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true, is_classic: false },
+		rm_how_to_play: {  world: WORLDS.BEACH,  title: "How to Play", is_cutscene: true, is_classic: false },
 		rm_controller: { world: WORLDS.BEACH,  title: "Controller", is_cutscene: true, is_classic: false },
 		rm_t1: { world: WORLDS.BEACH,  title: "From Beach to Forest", is_cutscene: true, is_classic: false },
 		rm_t2: { world: WORLDS.FOREST,  title: "From Forest to Factory", is_cutscene: true, is_classic: false },
@@ -293,21 +294,26 @@ function build_world_background(_world) {
 	}
 }
 
+function play_title_music() {
+	var _sound_to_play = (global.controller.classic_level) ? bgm_old_title : bgm_mdb_title;
+	if (!audio_is_playing(_sound_to_play)) { play_global_sound(_sound_to_play, true); }
+}
+
 function play_world_music(_world) {
 	if (global.controller.show_debug_gui) { exit; }
 
 	var _sound_to_play = undefined;
 	switch (_world) {
-		case WORLDS.BEACH:{ _sound_to_play = bgm_w1; break; }
-		case WORLDS.FOREST: { _sound_to_play = bgm_w2; break; }
-		case WORLDS.FACTORY: { _sound_to_play = bgm_w3; break; }
-		case WORLDS.FORTRESS: { _sound_to_play = bgm_w4; break; }
+		case WORLDS.BEACH:{ _sound_to_play = (global.controller.classic_level) ? bgm_old_w1 : bgm_mdb_w1; break; }
+		case WORLDS.FOREST: { _sound_to_play = (global.controller.classic_level) ? bgm_old_w2 : bgm_mdb_w2; break; }
+		case WORLDS.FACTORY: { _sound_to_play = (global.controller.classic_level) ? bgm_old_w3 : bgm_mdb_w3; break; }
+		case WORLDS.FORTRESS: { _sound_to_play = (global.controller.classic_level) ? bgm_old_w4 : bgm_mdb_w4; break; }
 		case WORLDS.SKY:
 		case WORLDS.SKY_2:
 		case WORLDS.SKY_3:
 		case WORLDS.SKY_4:
 		case WORLDS.SKY_5:
-		case WORLDS.NIGHT: { _sound_to_play = bgm_w5; break; }
+		case WORLDS.NIGHT: { _sound_to_play = (global.controller.classic_level) ? bgm_old_w5 : bgm_mdb_w5; break; }
 	}
 	if (!is_undefined(_sound_to_play) && !audio_is_playing(_sound_to_play)) { play_global_sound(_sound_to_play, true); }
 }

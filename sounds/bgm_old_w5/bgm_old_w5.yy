@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"bgm_transition",
+  "%Name":"bgm_old_w5",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":6.4045806,
+  "duration":127.66041,
   "exportDir":"",
-  "name":"bgm_transition",
+  "name":"bgm_old_w5",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"bgm_transition.wav",
+  "soundFile":"bgm_old_w5.wav",
   "volume":0.5,
 }
