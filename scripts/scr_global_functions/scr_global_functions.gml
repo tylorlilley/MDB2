@@ -248,3 +248,21 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 		if (_total_particles == 1) { return _particle; }
 	}
 }
+
+function get_maximum_screen_scale() {
+	var _monitor_width = display_get_width(), _monitor_height = display_get_height(), _max_scale = 2;
+	while (_monitor_width >= (SCREEN_WIDTH*_max_scale) && _monitor_height >= (SCREEN_HEIGHT*_max_scale)) {
+		_max_scale++;
+		if (_max_scale > 100) { break; }
+	}
+	return _max_scale;
+}
+
+function update_screen_size(_full_screen_option, _screen_scale_option) {
+	var _window_width = SCREEN_WIDTH * _screen_scale_option, _window_height = SCREEN_HEIGHT * _screen_scale_option, _display_width = display_get_width(), _display_height = display_get_height();
+	surface_resize(application_surface, _window_width, _window_height);
+	window_set_size(_window_width, _window_height);
+	window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
+	window_enable_borderless_fullscreen(_full_screen_option == FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
+	window_set_fullscreen(_full_screen_option != FULL_SCREEN_OPTIONS.WINDOWED);
+}

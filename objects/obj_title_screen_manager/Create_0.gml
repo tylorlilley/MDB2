@@ -3,7 +3,8 @@ event_inherited();
 enum TITLE_STATES {
 	BEGIN,
 	PAN_OVER,
-	MAIN_MENU
+	MAIN_MENU,
+	SETTINGS_MENU,
 }
 
 enum MENU_OPTIONS {
@@ -14,6 +15,13 @@ enum MENU_OPTIONS {
 	SETTINGS,
 }
 
+enum SETTINGS_OPTIONS {
+	FULL_SCREEN,
+	SCREEN_SCALE,
+	SKIP_THIS,
+	RETURN,
+}
+
 /// New Variables
 option_strings = [
 	"START CLASSIC GAME",
@@ -22,6 +30,17 @@ option_strings = [
 	"VIEW CONTROLS",
 	"SETTINGS",
 ]
+settings_strings = [
+	"SCREEN TYPE",
+	"SCREEN SCALE",
+	"",
+	"SAVE AND RETURN"
+];
+full_screen_strings = [
+	"FULL SCREEN",
+	"BOARDERLESS FULL SCREEN",
+	"WINDOWED"
+];
 cursor_sprites = [
 	spr_player_classic,
 	spr_player_fall,
@@ -57,4 +76,9 @@ ini_open("mdb.ini");
 saved_room = ini_read_real("progress", "current_level", -1); // TODO: reset to undefined after credits
 progress_level = ini_read_real("progress", "progress_level", 0); // TODO: increase by 1 after credits
 level_number = ini_read_real("progress", "level_number", 0); // TODO: Add this to room values information map instead
+full_screen_option = ini_read_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
+screen_scale_option = ini_read_real("settings", "screen_scale", 4);
 ini_close();
+
+// Determine maximum window size
+max_scaling_size = get_maximum_screen_scale();

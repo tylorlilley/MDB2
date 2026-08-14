@@ -34,6 +34,15 @@
 #macro VISUAL_OBJECT_DEPTH 40 // Door, Tree Nubs
 #macro BACKGROUND_DEPTH 50
 
+enum FULL_SCREEN_OPTIONS {
+	FULL_SCREEN,
+	BORDERLESS_FULL_SCREEN,
+	WINDOWED
+}
+ini_open("mdb.ini");
+var _full_screen_option = ini_write_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN), _screen_scale_option = ini_write_real("settings", "screen_scale", get_maximum_screen_scale());
+ini_close();
+
 // Global Variables
 global.controller = id;
 global.gamepad = noone;
@@ -58,21 +67,17 @@ show_debug_gui = false;
 draw_game_object_grid = false;
 
 // Set Up Game Window
-var _window_width = SCREEN_WIDTH * SCREEN_SCALE_FACTOR, _window_height = SCREEN_HEIGHT * SCREEN_SCALE_FACTOR, _display_width = display_get_width(), _display_height = display_get_height();
-surface_resize(application_surface, _window_width, _window_height);
-window_set_size(_window_width, _window_height);
-window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
-window_enable_borderless_fullscreen(true);
-window_set_fullscreen(false);
+ini_open("mdb.ini");
+var _full_screen_option = ini_read_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN), _screen_scale_option = ini_read_real("settings", "screen_scale", get_maximum_screen_scale());
+ini_close();
+update_screen_size(_full_screen_option, _screen_scale_option);
 
 // Set Up Game Audio
 frame_sounds = [];
 audio_falloff_set_model(audio_falloff_none);
 audio_listener_position(0, 0, 0);
 audio_listener_orientation(0, 1, 0, 0, 0, 1); // forward = room +y, up = out of screen => room +x is listener right
-
 game_set_speed(30, gamespeed_fps);
-determine_gamepad(); // TODO: Poll This Constantly on Title Screen
 palettes_init();
 
 // Graphic Variables

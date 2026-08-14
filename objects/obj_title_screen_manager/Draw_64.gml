@@ -62,3 +62,51 @@ if (state == TITLE_STATES.MAIN_MENU) {
 		}
 	}
 }
+else if (state == TITLE_STATES.SETTINGS_MENU) {
+	if (prev_state != state) {
+		// Screen Flash on when Menu First Appears
+		draw_set_color(C_WHITE);
+		draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	}
+	else {
+		draw_set_font(ft_block_blueprint);
+		draw_set_halign(fa_left);
+		draw_set_valign(fa_top);
+
+		// Draw Each Menu Option
+		var _selected_color = ((cutscene_timer div 4) % 2 == 0) ? C_RED : C_WHITE;
+		for (var _i = 0; _i < array_length(settings_strings); _i++) {
+			// Skip Menu Options that Are Not Unlocked
+			// Setup Cursor Sprite and Position
+			var _y_offset = (_i + 1) * 14, _x_offset = 0, _option_string = settings_strings[_i], _selected = (menu_pos == _i);
+			var _cursor_sprite = cursor_sprites[MENU_OPTIONS.SETTINGS], _cursor_palette = cursor_palettes[MENU_OPTIONS.SETTINGS];
+			var _x_pos = SCREEN_MIDDLE_X-16, _y_pos = SCREEN_MIDDLE_Y+4;
+			
+			// Draw Cursor and Selected Option Effects
+			if (_selected) {
+				// Set Up Text Shake Values
+				var _shake_x = 0, _shake_y = 0;
+				if (text_shake_timer > 0) {
+					_shake_x += get_shake_value(text_shake_timer);
+					_shake_y += get_shake_value(text_shake_timer);
+				}
+
+				_x_offset += _shake_x;
+				_y_offset += _shake_y;
+				
+				// Draw Cursor
+				set_shader_palette(_cursor_palette);
+				draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
+			}
+			
+			// Determine selection string
+			var _selected_string = "";
+			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _selected_string = full_screen_strings[full_screen_option]; }
+			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _selected_string = "x" + string(screen_scale_option); }
+			
+			// Draw Menu Option
+			if (_i < SETTINGS_OPTIONS.SKIP_THIS) { _option_string +=  ": " + _selected_string; }
+			draw_text_outlined(_x_pos + _x_offset, _y_pos + _y_offset, _option_string, (_selected ? _selected_color : C_GRAY_LIGHT));
+		}
+	}
+}

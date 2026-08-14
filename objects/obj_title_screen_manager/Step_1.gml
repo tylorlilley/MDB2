@@ -1,4 +1,6 @@
 event_inherited();
+// Poll for Gamepad
+determine_gamepad();
 
 // Make Player Ignore Controls
 with (obj_player) {
@@ -41,11 +43,12 @@ switch (state) {
 	
 		break;
 	}
+	case TITLE_STATES.SETTINGS_MENU:
 	case TITLE_STATES.MAIN_MENU: {
 		// Update Menu Position
 		if (text_shake_timer == 0) {
 			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room == -1), _menu_change = 0;
-			var _min_menu_pos = (progress_level == 0) ? MENU_OPTIONS.START_GAME : MENU_OPTIONS.START_CLASSIC, _max_menu_pos = MENU_OPTIONS.SETTINGS;
+			var _min_menu_pos = (progress_level == 0) ? MENU_OPTIONS.START_GAME : MENU_OPTIONS.START_CLASSIC, _max_menu_pos = (state == TITLE_STATES.MAIN_MENU) ? MENU_OPTIONS.SETTINGS : SETTINGS_OPTIONS.RETURN;
 			if (key_up && !key_down) { _menu_change = -1; }
 			else if (key_down && ! key_up) { _menu_change = 1; }
 			menu_pos += _menu_change;
@@ -62,27 +65,76 @@ switch (state) {
 		}
 		
 		// Make Menu Selection
-		var _next_level = (menu_pos == MENU_OPTIONS.START_CLASSIC) ? rm_old_w1_1 : rm_mdb_1_1;
-		if (menu_pos == MENU_OPTIONS.LOAD_GAME) { _next_level = saved_room; }
+		if (state == TITLE_STATES.MAIN_MENU) {
+			var _next_level = (menu_pos == MENU_OPTIONS.START_CLASSIC) ? rm_old_w1_1 : rm_mdb_1_1;
+			if (menu_pos == MENU_OPTIONS.LOAD_GAME) { _next_level = saved_room; }
+			with (obj_player) { visible = (other.menu_pos > MENU_OPTIONS.START_GAME); }
 		
-		if (global.controller.transition_timer == 0 && (key_jump || key_restart)) {
-			switch (menu_pos) {
-				case MENU_OPTIONS.START_CLASSIC:
-				case MENU_OPTIONS.START_GAME:
-				case MENU_OPTIONS.LOAD_GAME: {
-					// Go To Next Room
-					with (obj_player) {
-						global.controller.x = x;
-						global.controller.y = y;
-					}
-					global.controller.target_room = _next_level;
-					global.controller.transition_timer = TRANSITION_DELAY-1;
-					if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
-					if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
-					stop_sound(bgm_title);
+			if (global.controller.transition_timer == 0 && (key_jump || key_restart)) {
+				switch (menu_pos) {
+					case MENU_OPTIONS.START_CLASSIC:
+					case MENU_OPTIONS.START_GAME:
+					case MENU_OPTIONS.LOAD_GAME: {
+						// Go To Next Room
+						with (obj_player) {
+							global.controller.x = x;
+							global.controller.y = y;
+						}
+						global.controller.target_room = _next_level;
+						global.controller.transition_timer = TRANSITION_DELAY-1;
+						if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
+						if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
+						stop_sound(bgm_title);
 					
-					break;
+						break;
+					}
+					case MENU_OPTIONS.SETTINGS: {
+						play_global_sound(snd_explosion);
+						state = TITLE_STATES.SETTINGS_MENU;
+						menu_pos = 0;
+					
+						break;
+					}
 				}
+			}
+		}
+		else if (state == TITLE_STATES.SETTINGS_MENU) {
+			var _menu_change = 0, _min_option_pos = 0, _current_option_pos = 0, _max_option_pos = 0;
+			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _max_option_pos = FULL_SCREEN_OPTIONS.WINDOWED; _current_option_pos = full_screen_option; }
+			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _max_option_pos = max_scaling_size; _current_option_pos = screen_scale_option; }
+			var _prev_menu_pos = _current_option_pos;
+			
+			// Change menu options
+			if (key_left && !key_right) { _menu_change = -1; }
+			else if (key_right && ! key_left) { _menu_change = 1; }
+			if (menu_pos == SETTINGS_OPTIONS.SKIP_THIS) { _current_option_pos += _menu_change; }
+			_current_option_pos += _menu_change;
+			if (_current_option_pos > _max_option_pos || _current_option_pos < _min_option_pos) { 
+				_current_option_pos = clamp(_current_option_pos, _min_option_pos, _max_option_pos);
+				if !(audio_is_playing(snd_solid_invulnerable)) { play_global_sound(snd_solid_invulnerable); }
+			}
+			if (_current_option_pos != _prev_menu_pos) {
+				play_global_sound(snd_player_ladder_step);
+				text_shake_timer = 8;
+				cursor_sway_timer = 0;
+				if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { full_screen_option = _current_option_pos; }
+				else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { screen_scale_option = _current_option_pos; }
+				
+				// Apply and Save Menu Choices
+				update_screen_size(full_screen_option, screen_scale_option);
+
+				ini_open("mdb.ini");
+				progress_level = ini_write_real("progress", "progress_level", 1);
+				full_screen_option = ini_write_real("settings", "full_screen", full_screen_option);
+				screen_scale_option = ini_write_real("settings", "screen_scale", screen_scale_option);
+				ini_close();
+			}
+			
+			// Handle Return Selection
+			if (global.controller.transition_timer == 0 && (key_jump || key_restart)) {
+				play_global_sound(snd_explosion);
+				state = TITLE_STATES.MAIN_MENU;
+				menu_pos = MENU_OPTIONS.SETTINGS;
 			}
 		}
 	}
