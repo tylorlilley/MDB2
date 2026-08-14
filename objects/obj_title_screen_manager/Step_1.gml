@@ -101,9 +101,9 @@ switch (state) {
 			}
 		}
 		else if (state == TITLE_STATES.SETTINGS_MENU) {
-			var _menu_change = 0, _min_option_pos = 0, _current_option_pos = 0, _max_option_pos = 0;
-			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _min_option_pos = FULL_SCREEN_OPTIONS.FULL_SCREEN; _max_option_pos = FULL_SCREEN_OPTIONS.WINDOWED; _current_option_pos = full_screen_option; }
-			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _min_option_pos = 1; _max_option_pos = max_scaling_size; _current_option_pos = screen_scale_option; }
+			var _controller = global.controller, _menu_change = 0, _min_option_pos = 0, _current_option_pos = 0, _max_option_pos = 0;
+			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _min_option_pos = FULL_SCREEN_OPTIONS.FULL_SCREEN; _max_option_pos = FULL_SCREEN_OPTIONS.WINDOWED; _current_option_pos = _controller.window_fullscreen_setting; }
+			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _min_option_pos = 1; _max_option_pos = max_scaling_size; _current_option_pos = _controller.window_scale_setting; }
 			var _prev_menu_pos = _current_option_pos;
 			
 			// Change menu options
@@ -118,16 +118,12 @@ switch (state) {
 				play_global_sound(snd_player_ladder_step);
 				text_shake_timer = 8;
 				cursor_sway_timer = 0;
-				if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { full_screen_option = _current_option_pos; }
-				else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { screen_scale_option = _current_option_pos; }
+				if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _controller.window_fullscreen_setting = _current_option_pos; }
+				else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _controller.window_scale_setting = _current_option_pos; }
 				
 				// Apply and Save Menu Choices
-				update_screen_size(full_screen_option, screen_scale_option);
-
-				ini_open("mdb.ini");
-				ini_write_real("settings", "full_screen", full_screen_option);
-				ini_write_real("settings", "screen_scale", screen_scale_option);
-				ini_close();
+				_controller.write_window_options();
+				_controller.update_window_fullscreen();
 			}
 			
 			// Handle Return Selection

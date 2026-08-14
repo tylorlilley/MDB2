@@ -74,7 +74,7 @@ else if (state == TITLE_STATES.SETTINGS_MENU) {
 		draw_set_valign(fa_top);
 
 		// Draw Each Menu Option
-		var _selected_color = ((cutscene_timer div 4) % 2 == 0) ? C_RED : C_WHITE;
+		var _selected_color = ((cutscene_timer div 4) % 2 == 0) ? C_RED : C_WHITE, _controller = global.controller;
 		for (var _i = 0; _i < array_length(settings_strings); _i++) {
 			// Skip Menu Options that Are Not Unlocked
 			// Setup Cursor Sprite and Position
@@ -101,8 +101,8 @@ else if (state == TITLE_STATES.SETTINGS_MENU) {
 			
 			// Determine selection string
 			var _selected_string = "";
-			if (_i == SETTINGS_OPTIONS.FULL_SCREEN) { _selected_string = full_screen_strings[full_screen_option]; }
-			else if (_i == SETTINGS_OPTIONS.SCREEN_SCALE) { _selected_string = "x" + string(screen_scale_option); }
+			if (_i == SETTINGS_OPTIONS.FULL_SCREEN) { _selected_string = full_screen_strings[_controller.window_fullscreen_setting]; }
+			else if (_i == SETTINGS_OPTIONS.SCREEN_SCALE) { _selected_string = "x" + string(_controller.window_scale_setting); }
 			
 			// Draw Menu Option
 			if (_i < SETTINGS_OPTIONS.SKIP_THIS) { _option_string +=  ": " + _selected_string; }

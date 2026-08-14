@@ -39,9 +39,6 @@ enum FULL_SCREEN_OPTIONS {
 	BORDERLESS_FULL_SCREEN,
 	WINDOWED
 }
-ini_open("mdb.ini");
-var _full_screen_option = ini_write_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN), _screen_scale_option = ini_write_real("settings", "screen_scale", get_maximum_screen_scale()-1);
-ini_close();
 
 // Global Variables
 global.controller = id;
@@ -66,12 +63,6 @@ classic_level = false;
 show_debug_gui = false;
 draw_game_object_grid = false;
 
-// Set Up Game Window
-ini_open("mdb.ini");
-var _full_screen_option = ini_read_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN), _screen_scale_option = ini_read_real("settings", "screen_scale", get_maximum_screen_scale());
-ini_close();
-update_screen_size(_full_screen_option, _screen_scale_option);
-
 // Set Up Game Audio
 frame_sounds = [];
 audio_falloff_set_model(audio_falloff_none);
@@ -87,6 +78,7 @@ transition_surface = undefined;
 screen_shake_timer = 0;
 
 // Timers
+screen_resize_timer = 0;
 transition_timer = 0;
 frame_timer = 0;
 float_timer = 0;
@@ -179,4 +171,34 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth) {
 	return _static_area_manager;
 }
 
-transition_room(target_room); //target_room
+function read_window_options() {
+	ini_open("mdb.ini");
+	window_fullscreen_setting = ini_read_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
+	window_scale_setting = ini_read_real("settings", "screen_scale", get_maximum_screen_scale()-1);
+	ini_close();
+}
+
+function write_window_options() {
+	ini_open("mdb.ini");
+	ini_write_real("settings", "full_screen", window_fullscreen_setting);
+	ini_write_real("settings", "screen_scale", window_scale_setting);
+	ini_close();
+}
+
+function update_window_fullscreen() {
+	window_set_fullscreen(window_fullscreen_setting == FULL_SCREEN_OPTIONS.FULL_SCREEN);
+	window_enable_borderless_fullscreen(window_fullscreen_setting == FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
+	screen_resize_timer = 12;
+}
+
+function update_window_size() {
+	var _window_width = SCREEN_WIDTH * window_scale_setting, _window_height = SCREEN_HEIGHT * window_scale_setting, _display_width = display_get_width(), _display_height = display_get_height();
+	surface_resize(application_surface, _window_width, _window_height);
+	window_set_size(_window_width, _window_height);
+	window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
+}
+
+// Read Window Size Properties
+read_window_options();
+update_window_fullscreen();
+transition_room(target_room);

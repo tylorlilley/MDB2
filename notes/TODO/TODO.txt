@@ -1,11 +1,8 @@
 // TODO:
-- Refactor Create Code
 - Refactor depth value being used for non-depth drawing purposes
-- Check Key Corner and Portal Corner interactions
 - Portal over lava - make portal take place before other interactions
 
 - Add Yes/No confirm to starting new game
-- Settings Page
 - Controls Page
 - Intro Cutscene
 - W4 - W5 Transition Cutscene

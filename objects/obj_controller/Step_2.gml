@@ -8,6 +8,12 @@ if (transition_timer <= TRANSITION_DELAY || transition_timer >= (TRANSITION_DELA
 }
 else { frame_sounds = []; }
 
+// Do Screen Resize
+if (screen_resize_timer > 0) {
+	screen_resize_timer--;
+	if (screen_resize_timer == 0) { update_window_size(); }
+}
+
 // Do Screenshake
 var _screen_x = 8, _screen_y =  8, _cam = view_camera[0];
 if (screen_shake_timer > 0) {
