@@ -1,3 +1,3 @@
-if (debug_enabled) {
+if (global.controller.debug_enabled) {
 	powerfall_on();
 }
