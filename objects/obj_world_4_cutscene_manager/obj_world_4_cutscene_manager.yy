@@ -1,21 +1,21 @@
 {
   "$GMObject":"",
-  "%Name":"obj_particle",
+  "%Name":"obj_world_4_cutscene_manager",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":1,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_particle",
+  "name":"obj_world_4_cutscene_manager",
   "overriddenProperties":[],
   "parent":{
-    "name":"Parents",
-    "path":"folders/Objects/Parents.yy",
+    "name":"Cutscenes",
+    "path":"folders/Objects/Cutscenes.yy",
   },
   "parentObjectId":{
-    "name":"obj_visual_object",
-    "path":"objects/obj_visual_object/obj_visual_object.yy",
+    "name":"obj_cutscene_manager",
+    "path":"objects/obj_cutscene_manager/obj_cutscene_manager.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -34,10 +34,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"spr_particle_debris",
-    "path":"sprites/spr_particle_debris/spr_particle_debris.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }

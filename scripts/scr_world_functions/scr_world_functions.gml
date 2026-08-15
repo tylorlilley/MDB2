@@ -127,9 +127,11 @@ function room_data(_room = room) {
 		rm_mdb_t1: { world: WORLDS.BEACH,  title: "Leaving Beach, Entering Forest", is_cutscene: true, is_classic: false },
 		rm_mdb_t2: { world: WORLDS.FOREST,  title: "Leaving Forest, Entering Factory", is_cutscene: true, is_classic: false },
 		rm_mdb_t3: { world: WORLDS.FORTRESS,  title: "Leaving Factory, Entering Fortress", is_cutscene: true, is_classic: false },
+		rm_mdb_t4: { world: WORLDS.BEACH,  title: "Leaving Fortress, Entering...?", is_cutscene: true, is_classic: false },
 		rm_old_t1: { world: WORLDS.BEACH,  title: "Leaving Beach, Entering Forest", is_cutscene: true, is_classic: true },
 		rm_old_t2: { world: WORLDS.FOREST,  title: "Leaving Forest, Entering Factory", is_cutscene: true, is_classic: true },
 		rm_old_t3: { world: WORLDS.FORTRESS,  title: "Leaving Factory, Entering Fortress", is_cutscene: true, is_classic: true },
+		rm_old_t4: { world: WORLDS.BEACH,  title: "Leaving Fortress, Entering...?", is_cutscene: true, is_classic: true },
 	};
 
 	return _room_data[$ room_get_name(_room)] ?? _default;

@@ -13,3 +13,5 @@ destroyed_y = room_height + sprite_get_height(sprite_index);
 creator = noone;
 decay_timer = 0;
 decay_trigger = 0;
+has_cape = false;
+particle_type = PARTICLE_TYPES.DEBRIS;

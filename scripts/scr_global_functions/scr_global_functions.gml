@@ -160,7 +160,7 @@ enum PARTICLE_TYPES {
 	SPARK
 }
 
-function create_particles(_total_particles, _particle_type = undefined, _particle_palettes = undefined, _x_pos = undefined, _y_pos = undefined, _death_sprite = undefined) {
+function create_particles(_total_particles, _particle_type = undefined, _particle_palettes = undefined, _x_pos = undefined, _y_pos = undefined, _death_sprite = undefined, _has_cape = false) {
 	if (_total_particles <= 0) { exit; }
 	
 	_x_pos ??= x+sprite_get_width(sprite_index)/2;
@@ -177,6 +177,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 		var _particle = instance_create(_x_pos, _y_pos, obj_particle);
 		with (_particle) {
 			main_palette = _particle_palette;
+			particle_type = _particle_type;
 			sprite_index = _particle_sprite;
 			depth = PARTICLE_DEPTH;
 			image_angle = 15 * image_rotation;
@@ -241,6 +242,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 				depth -= 1;
 				image_speed = 1;
 				image_rotation =  -_horizontal_direction;
+				has_cape = _has_cape;
 				
 				hspeed += _horizontal_direction;
 				hspeed /= 2;
