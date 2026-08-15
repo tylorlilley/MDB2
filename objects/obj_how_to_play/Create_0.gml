@@ -10,6 +10,7 @@ depth = global.controller.depth - 1;
 
 // Override Parent Variables
 cutscene_timer_max = 9999; // TODO: Update this at end?
+return_to_title = false;
 restarted = false;
 text_pos_timer = 0;
 next_text_trigger = FIRST_WAIT + DISPLAY_TIME + TEXT_WAIT;

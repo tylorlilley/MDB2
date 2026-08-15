@@ -21,3 +21,8 @@ if (((cutscene_timer div 16) % 2) == 0) {
 
 	draw_text_outlined(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 104, cancel_string);
 }
+
+if (return_to_title) {
+	draw_set_color(C_WHITE);
+	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+}

@@ -2,7 +2,7 @@
 draw_sprite_swaying(spr_title, ((cutscene_timer div 4) % 2), title_sway_timer, SCREEN_MIDDLE_X-sprite_get_width(spr_title)/2, 8, c_white, 1, 2);
 
 // Draw Any key Text
-if (state == TITLE_STATES.BEGIN && (cutscene_timer div 8) % 2 == 0) {
+if (state == TITLE_STATES.BEGIN && (cutscene_timer div 16) % 2 == 0) {
 	draw_set_color(C_BLACK);
 	draw_set_font(ft_pixel);
 	draw_set_halign(fa_center);

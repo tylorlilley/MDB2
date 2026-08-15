@@ -1,3 +1,5 @@
+if (creation_timer > 0) { exit; }
+
 if (instance_number(obj_cutscene_manager) == 0) {
 	// Draw HUD Bars
 	if (!classic_level) {
@@ -96,4 +98,9 @@ if (transition_timer > TRANSITION_DELAY) {
 		
 	// Draw Transition
 	draw_surface(transition_surface, 0, 0);
+}
+
+if (blank_screen) {
+	draw_set_color(C_WHITE);
+	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 }

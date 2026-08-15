@@ -1,3 +1,4 @@
+#macro GAME_TITLE "Mighty Dive Bomber"
 #macro GRID_SIZE 8
 #macro SCREEN_WIDTH 256
 #macro SCREEN_HEIGHT 240
@@ -82,6 +83,7 @@ screen_resize_timer = 0;
 transition_timer = 0;
 frame_timer = 0;
 float_timer = 0;
+creation_timer = 30;
 
 // Gameplay Variables
 blocked_switch_colors = [[], [], []];
@@ -176,7 +178,7 @@ read_window_options = function() {
 	
 	ini_open("mdb.ini");
 	window_fullscreen_setting = ini_read_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
-	window_scale_setting = ini_read_real("settings", "screen_scale", get_maximum_screen_scale()-1);
+	window_scale_setting = ini_read_real("settings", "screen_scale", get_maximum_screen_scale());
 	ini_close();
 }
 
@@ -190,14 +192,14 @@ write_window_options = function() {
 update_window_fullscreen = function() {
 	var _should_be_windowed = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED);
     var _should_be_borderless = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
-
+	var _window_width = SCREEN_WIDTH * window_scale_setting, _window_height = SCREEN_HEIGHT * window_scale_setting, _display_width = display_get_width(), _display_height = display_get_height();
+       
     screen_resize_timer = 12;
 	
     // Swapping between exclusive and borderless: the flag is only read on the way in
     if (_should_be_borderless && window_get_fullscreen() && !window_fullscreen_pending) {
 		// Swap from exclusive full to windowed so we can swap to borderless full in 12 frames
-		var _window_width = SCREEN_WIDTH * window_scale_setting, _window_height = SCREEN_HEIGHT * window_scale_setting, _display_width = display_get_width(), _display_height = display_get_height();
-        window_fullscreen_pending = true;
+		window_fullscreen_pending = true;
         window_set_fullscreen(false);
 		window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
     }
@@ -207,6 +209,8 @@ update_window_fullscreen = function() {
 	    window_enable_borderless_fullscreen(_should_be_borderless);
 	    window_set_fullscreen(!_should_be_windowed);
 	}
+
+	window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 }
 
 update_window_size = function() {
@@ -216,17 +220,18 @@ update_window_size = function() {
 	window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 }
 
-return_to_title = function() {
+return_to_title = function(_blank_screen) {
+	audio_stop_all();
 	play_title_music();
 	transition_room(rm_title);
 	screen_shake_timer = 0;
 	transition_timer = 0;
 	frame_timer = 0;
 	float_timer = 0;
+	blank_screen = true;
 }
 
 // Read Window Size Properties
 read_window_options();
 window_fullscreen_setting = FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN;
 update_window_fullscreen();
-transition_room(target_room);

@@ -119,12 +119,12 @@ function room_data(_room = room) {
 		// World Transition Cutscenes
 		rm_intro: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true , is_classic: false },
 		rm_intro_eih: { world: WORLDS.BEACH,  title: "EIH Intro", is_cutscene: true, is_classic: false },
-		rm_title: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true, is_classic: false },
+		rm_title: { world: WORLDS.BEACH,  title: "Mighty Dive Bomber", is_cutscene: true, is_classic: false },
 		rm_how_to_play: {  world: WORLDS.BEACH,  title: "How to Play", is_cutscene: true, is_classic: false },
 		rm_controller: { world: WORLDS.BEACH,  title: "Controller", is_cutscene: true, is_classic: false },
-		rm_t1: { world: WORLDS.BEACH,  title: "From Beach to Forest", is_cutscene: true, is_classic: false },
-		rm_t2: { world: WORLDS.FOREST,  title: "From Forest to Factory", is_cutscene: true, is_classic: false },
-		rm_t3: { world: WORLDS.FORTRESS,  title: "From Factory to Fortress", is_cutscene: true, is_classic: false },
+		rm_t1: { world: WORLDS.BEACH,  title: "Leaving Beach, Entering Forest", is_cutscene: true, is_classic: false },
+		rm_t2: { world: WORLDS.FOREST,  title: "Leaving Forest, Entering Factory", is_cutscene: true, is_classic: false },
+		rm_t3: { world: WORLDS.FORTRESS,  title: "Leaving Factory, Entering Fortress", is_cutscene: true, is_classic: false },
 	};
 
 	return _room_data[$ room_get_name(_room)] ?? _default;

@@ -27,3 +27,11 @@ if (screen_shake_timer > 0) {
 	}
 	camera_set_view_pos(_cam, _screen_x, _screen_y);
 }
+
+// Handle Initial Game Boot Sequence
+if (creation_timer > 0) {
+	creation_timer--;
+	if (creation_timer == 0) { transition_room(target_room); }
+}
+
+blank_screen = false;

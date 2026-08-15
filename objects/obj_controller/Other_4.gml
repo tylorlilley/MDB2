@@ -10,6 +10,7 @@ classic_level =  _data.is_classic;
 global.world_tint = c_white;
 build_world_background(room_world);
 if (!is_cutscene_room()) { play_world_music(room_world); }
+window_set_caption(GAME_TITLE + ": " + room_title);
 
 if (instance_exists(obj_bg_dirt)) {
 	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE, _dirt_grid = create_object_grid(_cols, _rows);

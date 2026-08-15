@@ -1,1 +1,3 @@
-powerfall_on();
+if (debug_enabled) {
+	powerfall_on();
+}

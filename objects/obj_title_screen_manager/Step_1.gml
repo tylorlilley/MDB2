@@ -52,24 +52,21 @@ switch (state) {
 		if (text_shake_timer == 0) {
 			// Determine Direction of Menu change
 			var _prev_menu_pos = menu_pos, _skip_continue = (saved_room == -1), _menu_change = 0;
-			var _min_menu_pos = (progress_level == 0) ? MENU_OPTIONS.START_GAME : MENU_OPTIONS.START_CLASSIC, _max_menu_pos = (state == TITLE_STATES.MAIN_MENU) ? MENU_OPTIONS.SETTINGS : SETTINGS_OPTIONS.RETURN;
+			var _min_menu_pos = (state == TITLE_STATES.MAIN_MENU && progress_level == 0) ? MENU_OPTIONS.START_GAME : MENU_OPTIONS.START_CLASSIC, _max_menu_pos = (state == TITLE_STATES.MAIN_MENU) ? MENU_OPTIONS.SETTINGS : SETTINGS_OPTIONS.RETURN;
 			if (key_up && !key_down) { _menu_change = -1; }
 			else if (key_down && ! key_up) { _menu_change = 1; }
-			menu_pos += _menu_change;
 			
 			// Clamp New Menu Position to Certain Optyions
-			if (_menu_change > 0) {
+			if (abs(_menu_change) > 0) {
 				var _should_skip = true;
 				while (_should_skip) {
 					_should_skip = false;
+					menu_pos += _menu_change;
 				
 					// Pass Over Certain Options
 					if (state == TITLE_STATES.MAIN_MENU && menu_pos == MENU_OPTIONS.LOAD_GAME && _skip_continue) { _should_skip = true; }
 					if (state == TITLE_STATES.SETTINGS_MENU && menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE && _controller.window_fullscreen_setting != FULL_SCREEN_OPTIONS.WINDOWED) { _should_skip = true; }
 					if (state == TITLE_STATES.SETTINGS_MENU && menu_pos == SETTINGS_OPTIONS.SKIP_THIS) { _should_skip = true; }
-				
-					// Increase Position
-					if (_should_skip) { menu_pos += _menu_change; }
 				}
 			}
 			
@@ -89,7 +86,7 @@ switch (state) {
 		
 		// Make Menu Selection
 		if (state == TITLE_STATES.MAIN_MENU) {
-			var _next_level = (menu_pos == MENU_OPTIONS.START_CLASSIC) ? rm_old_w1_1 : rm_mdb_1_1;
+			var _next_level = (menu_pos == MENU_OPTIONS.START_CLASSIC) ? rm_old_prelude : rm_mdb_prelude;
 			if (menu_pos == MENU_OPTIONS.LOAD_GAME) { _next_level = saved_room; }
 			if (menu_pos == MENU_OPTIONS.CONTROLS) { _next_level = rm_how_to_play; }
 			with (obj_player) { visible = (other.menu_pos > MENU_OPTIONS.START_GAME); }

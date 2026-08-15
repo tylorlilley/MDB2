@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"bgm_old_how_to_play.mp3",
-  "volume":0.3,
+  "volume":0.15,
 }

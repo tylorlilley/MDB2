@@ -132,16 +132,21 @@ function draw_sprite_with_center_rotation(_sprite_index, _image_index, _x, _y, _
 	draw_sprite_ext(_sprite_index, _image_index, _x + _sprite_x_center + lengthdir_x(_radius, _direction), _y + _sprite_y_center + lengthdir_y(_radius, _direction), _x_scale, _y_scale, _angle, _color, _alpha);
 }
 
-function draw_text_outlined(_x, _y, _text, _text_color = C_WHITE, _outline_color = C_BLACK) {
-	draw_set_color(_outline_color);
+function draw_text_outlined(_x, _y, _text, _color = C_WHITE, _sep = undefined, _w = undefined) {
+	draw_set_color(C_BLACK);
 	for (var _x_offset = -1; _x_offset < 2; _x_offset++) {
 		for (var _y_offset = -1; _y_offset < 4; _y_offset++) {
 			if (_x_offset == 0 && _y_offset == 0) { continue; }
-			draw_text(_x + _x_offset, _y + _y_offset, _text);
+			
+			if (is_undefined(_sep) || is_undefined(_w)) { draw_text(_x + _x_offset, _y + _y_offset, _text); }
+			else { draw_text_ext(_x + _x_offset, _y + _y_offset, _text, _sep, _w); }
 		}
 	}
-	draw_set_color(_text_color);
-	draw_text(_x, _y, _text);
+	
+	draw_set_color(_color);
+	if (is_undefined(_sep) || is_undefined(_w)) { draw_text(_x, _y, _text); }
+	else { draw_text_ext(_x, _y, _text, _sep, _w); }
+	
 }
 
 // Partcile Effect Functions
@@ -255,6 +260,6 @@ function get_maximum_screen_scale() {
 		_max_scale++;
 		if (_max_scale > 100) { break; }
 	}
-	return _max_scale;
+	return max(1, _max_scale-1);
 }
 

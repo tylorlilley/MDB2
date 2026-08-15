@@ -14,6 +14,7 @@ Draw tree nubs on wood level from wood
 Should Gear spin always one way for up and one for down? Should  they spin slower? Move slower?
 Fuzzing palette on bricks different than pure black for cracks?
 swooshier leaves?
+make old transitions match the old game?
 
 // FOREST LEVELS
 2_4 - too hard

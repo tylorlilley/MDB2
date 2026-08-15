@@ -3,7 +3,9 @@ if (room != rm_how_to_play) { instance_destroy(); exit; }
 event_inherited();
 
 if (key_left || key_right || key_up || key_down || key_jump || key_restart) {
-	global.controller.return_to_title();
+	return_to_title = true;
+	global.controller.return_to_title(true);
+	play_global_sound(snd_explosion);
 	/*
 	global.controller.target_room = rm_intro;
 	global.controller.transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD;
