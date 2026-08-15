@@ -1,6 +1,4 @@
 event_inherited();
-// Poll for Gamepad
-determine_gamepad();
 
 // Make Player Ignore Controls
 with (obj_player) {

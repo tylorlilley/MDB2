@@ -189,9 +189,9 @@ update_controls = function(_inverted = false) {
 	if (get_left_released()) { _new_left_value = false; }
 	if (get_right_released()) { _new_right_value = false; }
 	if (get_up_released()) { _new_up_value = false; }
-	if (get_right_released()) { _new_down_value = false; }
+	if (get_down_released()) { _new_down_value = false; }
 	if (get_jump_released()) { _new_jump_value = false; }
-	if (get_down_released()) { _new_restart_value = false; }
+	if (get_restart_released()) { _new_restart_value = false; }
 
 	// Cancel out opposite inputs in favor of currently moving direction
 	if (_new_left_value && _new_right_value) {

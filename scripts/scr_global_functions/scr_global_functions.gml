@@ -199,12 +199,12 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 				image_speed = (_particle_type == PARTICLE_TYPES.SPARKLE) ? 1 : 0;
 				if (_particle_type == PARTICLE_TYPES.SPARKLE) {
 					//image_alpha = 0.85;
-					var _angle_per_particle = ((360 / _total_particles) * _i) + -20 + random(40), _velocity = 2.5// + random(1);
+					var _angle_per_particle = ((360 / _total_particles) * _i) + -20 + random(40), _velocity = 3.5// + random(1);
 					var _x_speed = lengthdir_x(_velocity, _angle_per_particle), _y_speed = lengthdir_y(_velocity, _angle_per_particle);
 					hspeed = _x_speed;
 					vspeed = _y_speed; //- 0.125;
 					gravity = 0.0;
-					decay_trigger = 6;
+					decay_trigger = 5;
 				}
 			}
 			else if (_particle_type == PARTICLE_TYPES.LEAF) {

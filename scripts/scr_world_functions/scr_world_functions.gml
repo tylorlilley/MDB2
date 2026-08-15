@@ -108,7 +108,7 @@ function room_data(_room = room) {
 		rm_old_w4_5: { world: WORLDS.FORTRESS,  title: "The Dying Magic Tree", is_cutscene: false, is_classic: true },
 		rm_old_w4_6: { world: WORLDS.FORTRESS,  title: "Frozen Magma Fortress", is_cutscene: false, is_classic: true },
 		rm_old_w4_7: { world: WORLDS.FORTRESS,  title: "Life Preservers", is_cutscene: false, is_classic: true },
-		rm_old_w4_8: { world: WORLDS.FORTRESS,  title: "Sidekick Soldier Assistant", is_cutscene: false, is_classic: true },
+		rm_old_w4_8: { world: WORLDS.FORTRESS,  title: "Sidekick Assistant", is_cutscene: false, is_classic: true }, // OG: "Sidekick Soldier Assistant
 			
 		// Classic World 5
 		rm_old_w5_1: { world: WORLDS.SKY,  title: "Nimbus Cubs", is_cutscene: false, is_classic: true },

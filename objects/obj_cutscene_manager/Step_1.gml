@@ -9,7 +9,7 @@ with (obj_player) {
 	}
 }
 
-// Set Jump and Restart Based on Release Only
+// Set Input Keys
 key_left = get_left_pressed();
 key_right = get_right_pressed();
 key_up = get_up_pressed();
