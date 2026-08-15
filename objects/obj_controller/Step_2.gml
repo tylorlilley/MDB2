@@ -33,5 +33,8 @@ if (creation_timer > 0) {
 	creation_timer--;
 	if (creation_timer == 0) { transition_room(target_room); }
 }
-
 blank_screen = false;
+
+// Update Control Values
+global.last_gamepad_h_axis_value = gamepad_axis_value(global.gamepad, gp_axislh);
+global.last_gamepad_v_axis_value = gamepad_axis_value(global.gamepad, gp_axislv);

@@ -178,20 +178,20 @@ function determine_gamepad() {
 	
 update_controls = function(_inverted = false) {
 	// Accumulate Inputs
-	var _new_left_value = ((_inverted) ? key_right : key_left) || keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5;
-	var _new_right_value = ((_inverted) ? key_left : key_right) || keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5;
-	var _new_up_value = key_up || keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5;
-	var _new_down_value = key_down || keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5;
-	var _new_jump_value = key_jump || ((global.original_controls) ? false : (keyboard_check(ord("Z")) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3) || gamepad_button_check(global.gamepad, gp_face4)));
-	var _new_restart_value = key_restart || keyboard_check(ord("R")) || keyboard_check(vk_enter) || gamepad_button_check(global.gamepad, gp_start) || gamepad_button_check(global.gamepad, gp_select);
+	var _new_left_value = ((_inverted) ? key_right : key_left) || get_left_held();
+	var _new_right_value = ((_inverted) ? key_left : key_right) || get_right_held();
+	var _new_up_value = key_up || get_up_held();
+	var _new_down_value = key_down || get_down_held();
+	var _new_jump_value = key_jump || ((global.original_controls) ? false : get_jump_held());
+	var _new_restart_value = key_restart || get_restart_held();
 	
 	// Cancel out released inputs
-	if (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl)))) { _new_left_value = false; }
-	if (keyboard_check_released(vk_right) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padr)))) { _new_right_value = false; }
-	if (keyboard_check_released(vk_up) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padu)))) { _new_up_value = false; }
-	if (keyboard_check_released(vk_down) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padd)))) { _new_down_value = false; }
-	if (keyboard_check_released(ord("Z")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4)))) { _new_jump_value = false; }
-	if (keyboard_check_released(ord("R")) || keyboard_check_released(vk_enter) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select)))) { _new_restart_value = false; }
+	if (get_left_released()) { _new_left_value = false; }
+	if (get_left_released()) { _new_right_value = false; }
+	if (get_left_released()) { _new_up_value = false; }
+	if (get_left_released()) { _new_down_value = false; }
+	if (get_left_released()) { _new_jump_value = false; }
+	if (get_left_released()) { _new_restart_value = false; }
 
 	// Cancel out opposite inputs in favor of currently moving direction
 	if (_new_left_value && _new_right_value) {

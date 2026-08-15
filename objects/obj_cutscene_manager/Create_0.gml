@@ -11,5 +11,3 @@ key_up = false;
 key_down = false;
 key_jump = false;
 key_restart = false;
-gamepad_h_axis_value = 0;
-gamepad_v_axis_value = 0;

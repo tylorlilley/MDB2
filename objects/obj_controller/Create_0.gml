@@ -57,6 +57,8 @@ global.world_tint_strength = 0;
 global.mask_portals = true;
 global.border_alpha = 0.5;
 global.static_area_scratch_surface = undefined;
+global.last_gamepad_h_axis_value = 0;
+global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
 level_number = 0;
