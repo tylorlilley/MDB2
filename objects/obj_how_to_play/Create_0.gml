@@ -1,33 +1,36 @@
 event_inherited();
+play_global_sound(bgm_old_how_to_play);
+depth = global.controller.depth - 1;
 
-#macro cancel_string "PRESS ANY KEY TO RETURN"
+#macro cancel_string "PRESS ANY KEY TO END TUTORIAL"
 #macro FIRST_WAIT 48
 #macro PLAYER_WAIT 16
 #macro TEXT_WAIT 40
-#macro DISPLAY_TIME 180
+#macro DISPLAY_TIME 164
 
 // Override Parent Variables
 cutscene_timer_max = 9999; // TODO: Update this at end?
+restarted = false;
 text_pos_timer = 0;
 next_text_trigger = FIRST_WAIT + DISPLAY_TIME + TEXT_WAIT;
 text_pos = 0;
 text_box_strings = [
 	"Press LEFT or RIGHT to\nmove in that direction.",
 	"Press LEFT or RIGHT to\nclimb up walls one tile tall.",
-	"Press UP or DOWN to grab onto\na ladder while overlapping it.",
-	"Press UP or DOWN on a ladder\nto move in that direction.",
-	"Press LEFT or RIGHT while grounded\nto get off it in that direction.",
-	"You auto-grab ladders when\nyou exactly overlap them in midair.",
-	"Press DOWN to climb off\nthe bottom of midair ladders.",
-	"Fall a distance of 1 tile\nto land on the ground safely.",
-	"Fall for 2 or more tiles to dive\nbomb any tiles you land on.",
-	"Some types of tiles are destroyed\nafter fewer hits than others.",
+	"Fall a distance of one tile\nto safely land on the ground.",
+	"Fall two or more tiles to dive!\nYou damage tiles you dive into.",
+	"Press UP or DOWN to get on a\nladder you exactly overlap.",
+	"Press UP or DOWN while on a\nladder to move in that direction.",
+	"Press LEFT or RIGHT to get off\nabove an empty ground tile.",
+	"In midair, you automatically grab\nladders you exactly overlap.",
+	"Press DOWN to climb off the bottom\nof ladders above empty tiles.",
+	"Some tiles will only be destroyed\nafter they are hit multiple times.",
 	"Some types of tiles can't\nbe damaged at all.",
-	"Collect a key by\exactly overlapping it.",
+	"Exactly overlap a key\nto collect it.",
+	"Destroying tiles will also destroy\nany objects resting above them!",
+	"If you are stuck, press ENTER\nor START to restart the level.",
+	"You also restart the level if you\nfall off the bottom of the screen.",
 	"Unlock the level's door\nby collecting all the keys.",
-	"Exactly overlap the unlocked\ndoor to win the level",
-	"Destroying the tile under\nthe door will destroy it too",
-	"If you are stuck, press ENTER\nor START to restart the level",
-	"You also restart the level\nif you fall off the bottom of the screen",
+	"Exactly overlap the unlocked\ndoor to win the level.",
 	"Good luck, and happy dive bombing!"
 ];

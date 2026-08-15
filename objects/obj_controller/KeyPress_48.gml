@@ -1,1 +1,1 @@
-game_restart();
+if (debug_enabled) { game_restart(); }

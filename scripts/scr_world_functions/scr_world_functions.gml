@@ -300,8 +300,6 @@ function play_title_music() {
 }
 
 function play_world_music(_world) {
-	if (global.controller.show_debug_gui) { exit; }
-
 	var _sound_to_play = undefined;
 	switch (_world) {
 		case WORLDS.BEACH:{ _sound_to_play = (global.controller.classic_level) ? bgm_old_w1 : bgm_mdb_w1; break; }

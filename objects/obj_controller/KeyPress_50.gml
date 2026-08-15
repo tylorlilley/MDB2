@@ -1,1 +1,3 @@
-draw_game_object_grid = !draw_game_object_grid;
+if (debug_enabled) {
+	draw_game_object_grid = !draw_game_object_grid;
+}

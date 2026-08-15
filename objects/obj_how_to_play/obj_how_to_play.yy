@@ -17,7 +17,7 @@
     "name":"obj_cutscene_manager",
     "path":"objects/obj_cutscene_manager/obj_cutscene_manager.yy",
   },
-  "persistent":false,
+  "persistent":true,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
   "physicsFriction":0.2,

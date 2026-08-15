@@ -1,4 +1,5 @@
-if (global.controller.show_debug_gui) {
+/*
+if (global.controller.debug_enabled) {
 	player_state_string = player_state_to_string(state);
 	player_timer_string = "";
 	cape_state_string = cape_state_to_string(cape_state);
@@ -32,3 +33,4 @@ if (global.controller.show_debug_gui) {
 		((key_jump) ? "J" : "_")
 	);
 }
+*/

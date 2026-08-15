@@ -60,7 +60,7 @@ global.static_area_scratch_surface = undefined;
 // Debug Variables
 level_number = 0;
 classic_level = false;
-show_debug_gui = false;
+debug_enabled = true;
 draw_game_object_grid = false;
 
 // Set Up Game Audio
@@ -219,9 +219,14 @@ update_window_size = function() {
 return_to_title = function() {
 	play_title_music();
 	transition_room(rm_title);
+	screen_shake_timer = 0;
+	transition_timer = 0;
+	frame_timer = 0;
+	float_timer = 0;
 }
 
 // Read Window Size Properties
-read_window_options();	
+read_window_options();
+window_fullscreen_setting = FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN;
 update_window_fullscreen();
 transition_room(target_room);

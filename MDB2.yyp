@@ -258,6 +258,7 @@
     {"id":{"name":"bgm_mdb_w5","path":"sounds/bgm_mdb_w5/bgm_mdb_w5.yy",},},
     {"id":{"name":"bgm_old_credits","path":"sounds/bgm_old_credits/bgm_old_credits.yy",},},
     {"id":{"name":"bgm_old_cutscene","path":"sounds/bgm_old_cutscene/bgm_old_cutscene.yy",},},
+    {"id":{"name":"bgm_old_how_to_play","path":"sounds/bgm_old_how_to_play/bgm_old_how_to_play.yy",},},
     {"id":{"name":"bgm_old_title","path":"sounds/bgm_old_title/bgm_old_title.yy",},},
     {"id":{"name":"bgm_old_transition","path":"sounds/bgm_old_transition/bgm_old_transition.yy",},},
     {"id":{"name":"bgm_old_w1","path":"sounds/bgm_old_w1/bgm_old_w1.yy",},},
@@ -598,8 +599,8 @@
     {"roomId":{"name":"rm_test_terrain","path":"rooms/rm_test_terrain/rm_test_terrain.yy",},},
     {"roomId":{"name":"rm_robot_test","path":"rooms/rm_robot_test/rm_robot_test.yy",},},
     {"roomId":{"name":"rm_switch_test","path":"rooms/rm_switch_test/rm_switch_test.yy",},},
-    {"roomId":{"name":"rm_intro_eih","path":"rooms/rm_intro_eih/rm_intro_eih.yy",},},
     {"roomId":{"name":"rm_how_to_play","path":"rooms/rm_how_to_play/rm_how_to_play.yy",},},
+    {"roomId":{"name":"rm_intro_eih","path":"rooms/rm_intro_eih/rm_intro_eih.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

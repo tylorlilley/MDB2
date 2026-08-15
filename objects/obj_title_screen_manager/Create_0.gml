@@ -27,7 +27,7 @@ option_strings = [
 	"START CLASSIC GAME",
 	"START NEW GAME",
 	"CONTINUE GAME",
-	"VIEW CONTROLS",
+	"HOW TO PLAY",
 	"SETTINGS",
 ]
 settings_strings = [

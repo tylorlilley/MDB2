@@ -58,24 +58,25 @@ switch (state) {
 			menu_pos += _menu_change;
 			
 			// Clamp New Menu Position to Certain Optyions
-			var _should_skip = true;
-			while (_should_skip) {
-				_should_skip = false;
-				
-				// Pass Over Certain Options
-				if (state == TITLE_STATES.MAIN_MENU && menu_pos == MENU_OPTIONS.LOAD_GAME && _skip_continue) { _should_skip = true; }
-				if (state == TITLE_STATES.SETTINGS_MENU && menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE && _controller.window_fullscreen_setting != FULL_SCREEN_OPTIONS.WINDOWED) { _should_skip = true; }
-				if (state == TITLE_STATES.SETTINGS_MENU && menu_pos == SETTINGS_OPTIONS.SKIP_THIS) { _should_skip = true; }
-				
-				// Increase Position
-				if (_should_skip) { menu_pos += _menu_change; }
-				
-				// Clamp to Acceptable Values
-				if (menu_pos > _max_menu_pos || menu_pos < _min_menu_pos) { 
-					menu_pos = clamp(menu_pos, _min_menu_pos, _max_menu_pos);
-					if !(audio_is_playing(snd_solid_invulnerable)) { play_global_sound(snd_solid_invulnerable); }
+			if (_menu_change > 0) {
+				var _should_skip = true;
+				while (_should_skip) {
 					_should_skip = false;
+				
+					// Pass Over Certain Options
+					if (state == TITLE_STATES.MAIN_MENU && menu_pos == MENU_OPTIONS.LOAD_GAME && _skip_continue) { _should_skip = true; }
+					if (state == TITLE_STATES.SETTINGS_MENU && menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE && _controller.window_fullscreen_setting != FULL_SCREEN_OPTIONS.WINDOWED) { _should_skip = true; }
+					if (state == TITLE_STATES.SETTINGS_MENU && menu_pos == SETTINGS_OPTIONS.SKIP_THIS) { _should_skip = true; }
+				
+					// Increase Position
+					if (_should_skip) { menu_pos += _menu_change; }
 				}
+			}
+			
+			// Clamp to Acceptable Values
+			if (menu_pos > _max_menu_pos || menu_pos < _min_menu_pos) { 
+				menu_pos = clamp(menu_pos, _min_menu_pos, _max_menu_pos);
+				if !(audio_is_playing(snd_solid_invulnerable)) { play_global_sound(snd_solid_invulnerable); }
 			}
 			
 			// If cursor position changed, update menu position

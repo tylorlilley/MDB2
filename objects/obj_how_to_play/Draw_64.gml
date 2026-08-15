@@ -7,7 +7,7 @@ var _text_box_x = SCREEN_MIDDLE_X - (_text_box_width/2), _text_box_y = GRID_SIZE
 if (cutscene_timer > FIRST_WAIT && cutscene_timer < next_text_trigger - TEXT_WAIT) {
 	// Draw Textbox
 	draw_set_color(C_BLACK);
-	draw_rectangle(_text_box_x, _text_box_y, _text_box_x + _text_box_width - 1,  _text_box_y + _text_box_height - 1, false);
+	draw_rectangle(_text_box_x, _text_box_y, _text_box_x + _text_box_width ,  _text_box_y + _text_box_height, false);
 	
 	// Draw Text
 	draw_set_color(C_WHITE);
@@ -15,9 +15,9 @@ if (cutscene_timer > FIRST_WAIT && cutscene_timer < next_text_trigger - TEXT_WAI
 	draw_text(SCREEN_MIDDLE_X, _text_box_y + (_text_box_height/2), text_box_strings[text_pos]);
 }
 	
-if (((cutscene_timer div 8) % 2) == 0) {
+if (((cutscene_timer div 16) % 2) == 0) {
 	draw_set_color(C_BLACK);
 	draw_set_font(ft_pixel);
 
-	draw_text_outlined(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 96, cancel_string);
+	draw_text_outlined(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y + 104, cancel_string);
 }

@@ -1,1 +1,1 @@
-show_debug_gui = !show_debug_gui;
+//debug_enabled = !debug_enabled;
