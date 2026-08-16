@@ -555,7 +555,7 @@ update_player_state = function() {
 			}
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
-				if (global.original_controls && transition_timer <= 2) {
+				if (global.original_controls && transition_timer <= 2 && x_transition_timer == 0) {
 					transition_timer = 0;
 					y_transition_timer = 0;
 				}

@@ -63,7 +63,7 @@ global.last_gamepad_v_axis_value = 0;
 // Debug Variables
 level_number = 0;
 classic_level = false;
-debug_enabled = true;
+debug_enabled = false;
 draw_game_object_grid = false;
 
 // Set Up Game Audio

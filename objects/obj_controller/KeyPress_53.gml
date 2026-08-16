@@ -1,1 +1,1 @@
-//debug_enabled = !debug_enabled;
+debug_enabled = !debug_enabled;

@@ -1,22 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"obj_world_4_cutscene_manager",
+  "%Name":"obj_saucer",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":1,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":2,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_world_4_cutscene_manager",
+  "name":"obj_saucer",
   "overriddenProperties":[],
   "parent":{
-    "name":"Cutscenes",
-    "path":"folders/Objects/Cutscenes.yy",
+    "name":"Objects",
+    "path":"folders/Objects.yy",
   },
   "parentObjectId":{
-    "name":"obj_cutscene_manager",
-    "path":"objects/obj_cutscene_manager/obj_cutscene_manager.yy",
+    "name":"obj_visual_object",
+    "path":"objects/obj_visual_object/obj_visual_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -35,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_saucer",
+    "path":"sprites/spr_saucer/spr_saucer.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

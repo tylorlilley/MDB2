@@ -10,6 +10,17 @@ if (state == TITLE_STATES.BEGIN && (cutscene_timer div 16) % 2 == 0) {
 	draw_text_outlined(SCREEN_MIDDLE_X, 84, "PRESS ANY KEY TO BEGIN");
 }
 
+// Draw Version Text
+if (state >= TITLE_STATES.BEGIN) {
+	draw_set_alpha(0.33);
+	draw_set_color(C_BLACK);
+	draw_set_font(ft_pixel_small);
+	draw_set_halign(fa_right);
+	draw_set_valign(fa_top);
+	draw_text(SCREEN_WIDTH - 12, SCREEN_HEIGHT - 16, "v 0.MATT");
+	draw_set_alpha(1);
+}
+
 // Draw Main Menu
 if (state == TITLE_STATES.MAIN_MENU) {
 	if (prev_state != state) {
