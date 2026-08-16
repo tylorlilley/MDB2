@@ -106,7 +106,7 @@ initialize_room = function(_new_room) {
 	if (surface_exists(global.static_area_scratch_surface)) { surface_free(global.static_area_scratch_surface); global.static_area_scratch_surface = undefined; }
 	
 	// If Leaving Non-Cutscene Room for a New Room
-	if (!is_cutscene_room() && _new_room != room) {
+	if (!is_cutscene_room() && _new_room != room && _new_room != rm_title) {
 		level_number++;
 		
 		// Save Current Room
@@ -231,6 +231,8 @@ return_to_title = function(_blank_screen) {
 	frame_timer = 0;
 	float_timer = 0;
 	blank_screen = true;
+	level_number = 0;
+	classic_level = false;
 }
 
 // Read Window Size Properties
