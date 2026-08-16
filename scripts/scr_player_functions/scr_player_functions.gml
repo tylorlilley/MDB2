@@ -580,8 +580,6 @@ update_player_state = function() {
 	}
 	
 	// Get Destroyed From Solids
-	do_player_lethal_collisions();
-	if (!instance_exists(id)) { exit; }
 	do_player_object_collisions();
 	
 	// While Not Transitioning
@@ -1372,9 +1370,46 @@ do_player_lethal_collisions = function() {
 }
 
 do_player_object_collisions = function() {
+	// Collide with Full Overlaps
+	if (transition_timer != 0 && state != PLAYER_STATES.CLIMB) { exit; }
+	var _fully_overlapping_instances = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
+	for (var _i = 0; _i < array_length(_fully_overlapping_instances); _i++) {
+		var _inst = _fully_overlapping_instances[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (_inst.is_a(obj_key)) {
+			if (can_be_controlled) {
+				with (_inst) { instance_destroy(); }
+			}
+		}
+		else if (_inst.is_a(obj_door)) {
+			if (can_be_controlled && _inst.image_index > 0 && _inst.is_fully_on_ground() && state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
+				audio_stop_all();
+				start_winning();
+				play_global_sound(snd_level_clear);
+				exit;
+			}
+		}
+		else if (_inst.is_a(obj_portal) && _inst.activated) {
+			_inst.deactivate_portal(get_darker_palette(particle_palette));
+			if (instance_exists(_inst.linked_portal)) {
+				_inst.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
+				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
+				virtual_x = x;
+				virtual_y = y;
+				var _prev_x = x, _prev_y = y;
+				start_fallback_state();
+				grid_move_to(_prev_x, _prev_y);
+				transition_timer = 1;
+				exit;
+			}
+		}
+	}
 	do_switch_collisions();
+	do_player_lethal_collisions();
 	
-	// Hanlde Water
+	// Handle Water
+	/* TODO: What order in the collisions should the water happen?
 	if (is_fully_submerged()) {
 		switch (state) {
 			case PLAYER_STATES.LADDER:
@@ -1399,38 +1434,5 @@ do_player_object_collisions = function() {
 	else if (is_partially_submerged()) {
 		if (state == PLAYER_STATES.RECOIL) { state = PLAYER_STATES.SWIM; transition_timer = 4; }
 	}
-	
-	// Collide with Full Overlaps
-	if (transition_timer != 0 && state != PLAYER_STATES.CLIMB) { exit; }
-	var _fully_overlapping_instances = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
-	for (var _i = 0; _i < array_length(_fully_overlapping_instances); _i++) {
-		var _inst = _fully_overlapping_instances[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (_inst.is_a(obj_door)) {
-			if (can_be_controlled && _inst.image_index > 0 && _inst.is_fully_on_ground() && state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
-				audio_stop_all();
-				start_winning();
-				play_global_sound(snd_level_clear);
-			}
-		}
-		else if (_inst.is_a(obj_key)) {
-			if (can_be_controlled) {
-				with (_inst) { instance_destroy(); }
-			}
-		}
-		else if (_inst.is_a(obj_portal) && _inst.activated) {
-			_inst.deactivate_portal(get_darker_palette(particle_palette));
-			if (instance_exists(_inst.linked_portal)) {
-				_inst.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
-				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
-				virtual_x = x;
-				virtual_y = y;
-				var _prev_x = x, _prev_y = y;
-				start_fallback_state();
-				grid_move_to(_prev_x, _prev_y);
-				transition_timer = 1;
-			}
-		}
-	}
+	*/
 }

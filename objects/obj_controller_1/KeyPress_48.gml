@@ -1,0 +1,1 @@
+if (debug_enabled) { game_restart(); }
