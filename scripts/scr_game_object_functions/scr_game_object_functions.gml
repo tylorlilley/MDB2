@@ -67,7 +67,7 @@ is_inside_object = function(_object_index = obj_game_object, _pred = always_true
 
 get_inside_solids = function(_ignored_objects = []) {
 	return get_inside_objects(obj_game_object, function(_inst) {
-        return _inst.is_solid_from_all_sides();
+        return _inst.is_solid_from_all_sides() && treat_object_as_solid(_inst);
     }, _ignored_objects);
 }
 

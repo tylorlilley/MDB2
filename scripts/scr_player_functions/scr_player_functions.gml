@@ -538,7 +538,7 @@ update_player_state = function() {
 			case PLAYER_STATES.CLIMB: {
 				if (transition_timer == 20) {
 					if (!grid_move_up(1)) { start_fallback_state(); }
-					else { do_player_object_collisions(); }
+					//else { do_player_object_collisions(); }
 				}
 				else if (transition_timer == 18) {
 					if (grid_move_horizontal(get_left_value())) {
@@ -579,7 +579,7 @@ update_player_state = function() {
 		}
 	}
 	
-	// Get Destroyed From Solids
+	// Do Collisions Before Movement
 	do_player_object_collisions();
 	
 	// While Not Transitioning
@@ -917,6 +917,9 @@ update_player_state = function() {
 		reset_controls();
 	}
 	
+	// Do Collisions After Movement
+	do_player_object_collisions();
+	
 	// Define Speed Arrays
 	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
 	static hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
@@ -932,7 +935,7 @@ update_player_state = function() {
 	y_transition_speed = undefined;
 	x_transition_speed = undefined;
 	
-	var _speed_index = clamp((transition_timer-1), 0, (transition_timer-1));
+	var _speed_index = max(0, (transition_timer-1));
 	if (is_hop_up_state()) { y_transition_speed = hop_up_speeds[_speed_index]; }
 	else if (is_hop_down_state()) { y_transition_speed = hop_down_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.RECOIL) { y_transition_speed = recoil_speeds[_speed_index]; }
@@ -1330,7 +1333,7 @@ draw_cape_graphics = function() {
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_left_value(), 1, 0, image_blend, 1);
 }
 
-do_player_object_collisions = function() {
+do_player_object_collisions = function(_skip_portals = false) {
 	// Only Collide After Player has "Settled"
 	if (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20)) { exit; }
 	
@@ -1358,26 +1361,10 @@ do_player_object_collisions = function() {
 	}
 	
 	// Go Through Portals
-	for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
-		var _inst = _objects_at_position[_i];
-			if (!instance_exists(_inst) || !_inst.is_a(obj_portal)) { continue; }
-			
-		if (_inst.activated) {
-			_inst.deactivate_portal(get_darker_palette(particle_palette));
-			if (instance_exists(_inst.linked_portal)) {
-				_inst.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
-				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
-				virtual_x = x;
-				virtual_y = y;
-				var _prev_x = x, _prev_y = y;
-				start_fallback_state();
-				grid_move_to(_prev_x, _prev_y);
-				x_transition_timer = 0;
-				y_transition_Timer = 0;
-				transition_timer = 1;
-				exit;
-			}
-		}
+	if (!_skip_portals && do_portal_collisions(_objects_at_position)) {
+		do_player_object_collisions(false);
+        if (instance_exists(id) && state != PLAYER_STATES.WIN) { transition_timer = 1; }
+        exit;
 	}
 	
 	// Go Through Open Doors
@@ -1456,4 +1443,30 @@ do_player_object_collisions = function() {
 		if (state == PLAYER_STATES.RECOIL) { state = PLAYER_STATES.SWIM; transition_timer = 4; }
 	}
 	*/
+}
+
+do_portal_collisions = function(_objects_at_position) {
+	for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
+		var _inst = _objects_at_position[_i];
+			if (!instance_exists(_inst) || !_inst.is_a(obj_portal)) { continue; }
+			
+		if (_inst.activated) {
+			_inst.deactivate_portal(get_darker_palette(particle_palette));
+			if (instance_exists(_inst.linked_portal)) {
+				_inst.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
+				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
+				virtual_x = x;
+				virtual_y = y;
+				var _prev_x = x, _prev_y = y;
+				start_fallback_state();
+				grid_move_to(_prev_x, _prev_y);
+				x_transition_timer = 0;
+				y_transition_timer = 0;
+				transition_timer = 0;
+				return true;
+			}
+		}
+	}
+	
+	return false;
 }

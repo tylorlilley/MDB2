@@ -150,9 +150,12 @@ with (obj_door) {
 }
 with (obj_spawner) {
 	timer--;
-	if timer <= 0 {
-		var _inst = instance_create(x, y, spawned_obj);
-		_inst.is_left = is_left;
+	if (timer <= 0) {
+		if (instance_number(spawned_obj) > 32) { play_sound(snd_solid_invulnerable); }
+		else {
+			var _inst = instance_create(x, y, spawned_obj);
+			_inst.is_left = is_left;
+		}
 	    timer = frequency;
 	}
 }

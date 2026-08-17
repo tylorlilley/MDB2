@@ -8,7 +8,7 @@
 
 #macro TRANSITION_DURATION 24
 #macro TRANSITION_DELAY 40
-#macro TRANSITION_HOLD 12
+#macro TRANSITION_HOLD 32//12
 
 // --- Particles
 #macro PARTICLE_DEPTH -100
@@ -259,7 +259,7 @@ get_quip_text = function() {
 		"Well howdy pardner! Ifn' ya suck so bad at this, I'da hate to see ya at high noon!",
 		"Maybe give someone else a turn?",
 		"Try ask Vince, he's good at helping",
-		"If you need help call 614-747-0555 and ask for Tricky Dicky",
+		"For help call 614-747-0555 and ask for Tricky Dicky",
 		"If you go to gamefaqs.com someone probably typed out the solition for this",
 		"Tip: if you get stuck, you can always die",
 		"Scrunty mustard sauce",
@@ -267,8 +267,9 @@ get_quip_text = function() {
 		"Should we beat this one for you?",
 		"Autoskip level lockout will initiate after: TWO [2] more deaths",
 		"You were just pulling my leg with that one, right?",
-		"Man even Leni beat that level and she's not even five",
-		"I'm not trying to be mean-spirited at all, but you should really be better at this"
+		"Man even Leni beat that level and she doesn't even know any numbos yet",
+		"I'm not trying to be mean-spirited at all, but you should really be better at this",
+		"No one can say you didn't try."
 	]
 	
 	return _quip_text[irandom(array_length(_quip_text)-1)];
