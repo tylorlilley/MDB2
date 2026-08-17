@@ -61,9 +61,10 @@ global.last_gamepad_h_axis_value = 0;
 global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
+quips_enabled = false;
+debug_enabled = true;
 level_number = 0;
 classic_level = false;
-debug_enabled = true;
 draw_game_object_grid = false;
 
 // Set Up Game Audio

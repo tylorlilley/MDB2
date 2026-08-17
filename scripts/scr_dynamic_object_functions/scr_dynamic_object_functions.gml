@@ -439,7 +439,7 @@ game_object_step = function() {
 		}
 	}
 	
-	update_last_grid_position();
+	if (instance_exists(id)) { update_last_grid_position(); }
 }
 
 // Collision Functions

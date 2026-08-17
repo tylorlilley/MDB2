@@ -18,10 +18,7 @@ array_sort(_dynamic_instances, function(_a, _b) {
 });
 for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     var _inst = _dynamic_instances[_i];
-    if (instance_exists(_inst)) {
-		if (_inst.contents != noone) { _inst.contents.x = _inst.x; _inst.contents.y = y; }
-		_inst.game_object_step();
-	}
+    if (instance_exists(_inst)) { _inst.game_object_step(); }
 }
 for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     var _inst = _dynamic_instances[_i];
@@ -214,7 +211,7 @@ with (obj_cutscene_manager) { _controllable_player_exists = true; _transition_ma
 
 if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 1; }
 else if (transition_timer > 0) {
-	if (transition_timer == 1) {
+	if (transition_timer == 1 && quips_enabled) {
 		randomize();
 		latest_quip = (is_cutscene_room() || _controllable_player_exists) ? "" : get_quip_text();
 	}

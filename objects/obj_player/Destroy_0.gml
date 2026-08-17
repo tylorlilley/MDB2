@@ -23,6 +23,6 @@ if (can_be_controlled) {
 	}
 	*/
 	
-	global.controller.x = clamp(x, GRID_SIZE, room_width - GRID_SIZE);
-	global.controller.y = clamp(y, GRID_SIZE, room_height - GRID_SIZE);
+	global.controller.x = clamp(x, GRID_SIZE, room_width - GRID_SIZE*2);
+	global.controller.y = clamp(y, GRID_SIZE, room_height - GRID_SIZE*2);
 }
