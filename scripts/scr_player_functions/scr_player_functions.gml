@@ -1346,26 +1346,11 @@ do_player_object_collisions = function() {
 	if (is_inside_solid() && !is_ladder_state()) { get_destroyed_by_object(); }
 	if (!instance_exists(id)) { exit; }
 	
+	// Collect Keys
 	if (can_be_controlled) {
-		// Collect Keys
 		var _keys = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_key);
 		for (var _i = 0; _i < array_length(_keys); _i++) {
 			with (_keys[_i]) { instance_destroy(); }
-		}
-		
-		// Go Through Open Doors
-		if (state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
-			var _doors = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_door);
-			for (var _i = 0; _i < array_length(_doors); _i++) {
-				with (_doors[_i]) {
-					if (image_index > 0 && is_fully_on_ground()) {
-						audio_stop_all();
-						other.start_winning();
-						play_global_sound(snd_level_clear);
-						exit;
-					}
-				}
-			}
 		}
 	}
 	
@@ -1385,6 +1370,23 @@ do_player_object_collisions = function() {
 				grid_move_to(_prev_x, _prev_y);
 				transition_timer = 1;
 				exit;
+			}
+		}
+	}
+	
+	// Go Through Open Doors
+	if (can_be_controlled) {
+		if (state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
+			var _doors = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_door);
+			for (var _i = 0; _i < array_length(_doors); _i++) {
+				with (_doors[_i]) {
+					if (image_index > 0 && is_fully_on_ground()) {
+						audio_stop_all();
+						other.start_winning();
+						play_global_sound(snd_level_clear);
+						exit;
+					}
+				}
 			}
 		}
 	}
