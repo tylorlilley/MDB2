@@ -75,7 +75,6 @@ if (draw_game_object_grid) {
 	}
 }
 
-// Draw Transition
 if (transition_timer > TRANSITION_DELAY) {
 	// Determine Transition Parameters
 	var _max_scale = SCREEN_WIDTH, _camera = view_camera[0];
@@ -89,8 +88,13 @@ if (transition_timer > TRANSITION_DELAY) {
 	if (!surface_exists(transition_surface)) { transition_surface = surface_create(SCREEN_WIDTH, SCREEN_HEIGHT); }
 		
 	surface_set_target(transition_surface);
-	draw_set_color(c_black);
+	draw_set_color(C_BLACK);
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	draw_set_color(C_WHITE);
+	draw_set_font(ft_pixel);
+	draw_set_valign(fa_middle);
+	draw_set_halign(fa_center);
+	draw_text_ext(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y, latest_quip, 12, SCREEN_WIDTH - (GRID_SIZE*4));
 	gpu_set_blendequation(bm_eq_subtract);
 	draw_sprite_ext(((room == rm_intro_eih) ? spr_transition_circle : spr_transition_mask), 0, _fade_pos_x, _fade_pos_y, _max_scale*_scale, _max_scale*_scale, 0, c_white, 1);
 	gpu_set_blendequation(bm_eq_add);

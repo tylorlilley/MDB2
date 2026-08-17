@@ -1,1 +1,0 @@
-if (debug_enabled) { start_screen_shake(); }

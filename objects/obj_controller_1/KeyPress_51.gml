@@ -1,1 +1,0 @@
-if (debug_enabled) { global.original_controls = !global.original_controls; }

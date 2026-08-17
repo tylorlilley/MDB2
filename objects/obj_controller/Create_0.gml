@@ -117,7 +117,7 @@ initialize_room = function(_new_room) {
 		ini_close();
 	}
 	
-	target_room = room_next(_new_room);
+	if (_new_room != room) { latest_quip = ""; }
 	
 	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;
@@ -233,6 +233,45 @@ return_to_title = function(_blank_screen) {
 	blank_screen = true;
 	level_number = 0;
 	classic_level = false;
+}
+
+latest_quip = "";
+get_quip_text = function() {
+	static _quip_text = [
+		"Do something else.",
+		"Really, Matt? Really?",
+		"stop making him die",
+		"Gosh, you really effed it this time.",
+		"did you go to school?",
+		"pls try",
+		"im here with dr. mischevio and he is getting a little bit too excited about you dying a bunch",
+		"lives are unlimited",
+		"close, but no",
+		"Oops, I guess you have to try again",
+		"no cigar! just no cigar",
+		"Try moving to different spaces.",
+		"Shouldven't.",
+		"You need all of the keys and to go to the door.",
+		"Ya beefed it.",
+		"not everyone can be a winner.",
+		"You can cry if you want. You are allowed to. You are allowed to do it.",
+		"I hope you're better at other stuff.",
+		"Well howdy pardner! Ifn' ya suck so bad at this, I'da hate to see ya at high noon!",
+		"Maybe give someone else a turn?",
+		"Try ask Vince, he's good at helping",
+		"If you need help call 614-747-0555 and ask for Tricky Dicky",
+		"If you go to gamefaqs.com someone probably typed out the solition for this",
+		"Tip: if you get stuck, you can always die",
+		"Scrunty mustard sauce",
+		"Watch a tutorial to beat the level",
+		"Should we beat this one for you?",
+		"Autoskip level lockout will initiate after: TWO [2] more deaths",
+		"You were just pulling my leg with that one, right?",
+		"Man even Leni beat that level and she's not even five",
+		"I'm not trying to be mean-spirited at all, but you should really be better at this"
+	]
+	
+	return _quip_text[irandom(array_length(_quip_text)-1)];
 }
 
 // Read Window Size Properties

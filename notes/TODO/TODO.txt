@@ -1,3 +1,12 @@
+Take Notes on Screen?
+Colorblind Portals?
+Taunting Messages on Death?
+Fast Forward Button?
+Fewer Keys? Or use them as more of a guide?
+Rythm Game Level
+Interact to Go Through Portal
+Yes / No 
+
 // TODO:
 - Refactor depth value being used for non-depth drawing purposes
 - Rename can't be controlled?

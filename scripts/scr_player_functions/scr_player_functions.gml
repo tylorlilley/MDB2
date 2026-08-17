@@ -1330,8 +1330,69 @@ draw_cape_graphics = function() {
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_left_value(), 1, 0, image_blend, 1);
 }
 
-do_player_lethal_collisions = function() {
-	// Get Destroyed From Lethal Objects
+do_player_object_collisions = function() {
+	// Only Collide After Player has "Settled"
+	if (transition_timer != 0 && state != PLAYER_STATES.CLIMB) { exit; }
+	
+	// Destroy if Inside Lethal object
+	var _inside_objects = get_inside_objects(obj_dynamic_object);
+	for (var _i = 0; _i < array_length(_inside_objects); _i++) {
+		var _inst = _inside_objects[_i]
+		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
+	}
+	if (!instance_exists(id)) { exit; }
+	
+	// Destroy if Inside Solid
+	if (is_inside_solid() && !is_ladder_state()) { get_destroyed_by_object(); }
+	if (!instance_exists(id)) { exit; }
+	
+	if (can_be_controlled) {
+		// Collect Keys
+		var _keys = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_key);
+		for (var _i = 0; _i < array_length(_keys); _i++) {
+			with (_keys[_i]) { instance_destroy(); }
+		}
+		
+		// Go Through Open Doors
+		if (state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
+			var _doors = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_door);
+			for (var _i = 0; _i < array_length(_doors); _i++) {
+				with (_doors[_i]) {
+					if (image_index > 0 && is_fully_on_ground()) {
+						audio_stop_all();
+						other.start_winning();
+						play_global_sound(snd_level_clear);
+						exit;
+					}
+				}
+			}
+		}
+	}
+	
+	// Go Through Portals
+	var _portals = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_portal);
+	for (var _i = 0; _i < array_length(_portals); _i++) {
+		var _portal = _portals[_i];
+		if (_portal.activated) {
+			_portal.deactivate_portal(get_darker_palette(particle_palette));
+			if (instance_exists(_portal.linked_portal)) {
+				_portal.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
+				grid_move_to(_portal.linked_portal.x, _portal.linked_portal.y);
+				virtual_x = x;
+				virtual_y = y;
+				var _prev_x = x, _prev_y = y;
+				start_fallback_state();
+				grid_move_to(_prev_x, _prev_y);
+				transition_timer = 1;
+				exit;
+			}
+		}
+	}
+	
+	// Press Switches
+	do_switch_collisions();
+	
+	// Get Destroyed From Adjacent Lethal Objects
 	if (is_grounded_state()) {
 		// Destroy if Standing on Lethal Object and No Other Solids
 		var _ground_objects = get_left_and_right_objects(), _safe = false, _damaged = false;
@@ -1355,58 +1416,7 @@ do_player_lethal_collisions = function() {
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
 	}
-	
-	// Destroy if Inside Lethal object
-	var _inside_objects = get_inside_objects(obj_dynamic_object);
-	for (var _i = 0; _i < array_length(_inside_objects); _i++) {
-		var _inst = _inside_objects[_i]
-		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
-	}
-	
-	// Destroy if Inside Solid
-	if (is_inside_solid() && !is_ladder_state()) { get_destroyed_by_object(); }
-		
 	if (!instance_exists(id)) { exit; }
-}
-
-do_player_object_collisions = function() {
-	// Collide with Full Overlaps
-	if (transition_timer != 0 && state != PLAYER_STATES.CLIMB) { exit; }
-	var _fully_overlapping_instances = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
-	for (var _i = 0; _i < array_length(_fully_overlapping_instances); _i++) {
-		var _inst = _fully_overlapping_instances[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (_inst.is_a(obj_key)) {
-			if (can_be_controlled) {
-				with (_inst) { instance_destroy(); }
-			}
-		}
-		else if (_inst.is_a(obj_door)) {
-			if (can_be_controlled && _inst.image_index > 0 && _inst.is_fully_on_ground() && state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
-				audio_stop_all();
-				start_winning();
-				play_global_sound(snd_level_clear);
-				exit;
-			}
-		}
-		else if (_inst.is_a(obj_portal) && _inst.activated) {
-			_inst.deactivate_portal(get_darker_palette(particle_palette));
-			if (instance_exists(_inst.linked_portal)) {
-				_inst.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
-				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
-				virtual_x = x;
-				virtual_y = y;
-				var _prev_x = x, _prev_y = y;
-				start_fallback_state();
-				grid_move_to(_prev_x, _prev_y);
-				transition_timer = 1;
-				exit;
-			}
-		}
-	}
-	do_switch_collisions();
-	do_player_lethal_collisions();
 	
 	// Handle Water
 	/* TODO: What order in the collisions should the water happen?

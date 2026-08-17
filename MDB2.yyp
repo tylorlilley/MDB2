@@ -71,7 +71,6 @@
     {"id":{"name":"obj_bridge","path":"objects/obj_bridge/obj_bridge.yy",},},
     {"id":{"name":"obj_bubble","path":"objects/obj_bubble/obj_bubble.yy",},},
     {"id":{"name":"obj_cloud","path":"objects/obj_cloud/obj_cloud.yy",},},
-    {"id":{"name":"obj_controller_1","path":"objects/obj_controller_1/obj_controller_1.yy",},},
     {"id":{"name":"obj_controller","path":"objects/obj_controller/obj_controller.yy",},},
     {"id":{"name":"obj_crate_gold","path":"objects/obj_crate_gold/obj_crate_gold.yy",},},
     {"id":{"name":"obj_crate","path":"objects/obj_crate/obj_crate.yy",},},

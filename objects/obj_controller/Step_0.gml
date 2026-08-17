@@ -208,6 +208,11 @@ with (obj_cutscene_manager) { _controllable_player_exists = true; _transition_ma
 
 if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 1; }
 else if (transition_timer > 0) {
+	if (transition_timer == 1) {
+		randomize();
+		latest_quip = (is_cutscene_room() || _controllable_player_exists) ? "" : get_quip_text();
+	}
+	
 	transition_timer++;
 	
 	if (transition_timer == TRANSITION_DELAY) { play_sound(snd_fade_out); }
