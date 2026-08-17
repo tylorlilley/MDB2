@@ -393,8 +393,8 @@ damage_objects = function(_damage_above = false) {
 	}
 }
 
-powerfall_on_ground_objects = function() { do_player_object_collisions(); damage_objects(false); }
-powerfly_into_ceiling_objects = function() { do_player_object_collisions(); damage_objects(true); }
+powerfall_on_ground_objects = function() { damage_objects(false); } //do_player_object_collisions(); 
+powerfly_into_ceiling_objects = function() { damage_objects(true); } //do_player_object_collisions(); 
 
 fall_on_ground_objects = function() {
 	var _ground_objects = get_left_and_right_objects(false, true);
@@ -1332,7 +1332,7 @@ draw_cape_graphics = function() {
 
 do_player_object_collisions = function() {
 	// Only Collide After Player has "Settled"
-	if (transition_timer != 0 && state != PLAYER_STATES.CLIMB) { exit; }
+	if (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20)) { exit; }
 	
 	// Destroy if Inside Lethal object
 	var _inside_objects = get_inside_objects(obj_dynamic_object);
@@ -1347,27 +1347,33 @@ do_player_object_collisions = function() {
 	if (!instance_exists(id)) { exit; }
 	
 	// Collect Keys
+	var _objects_at_position = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
 	if (can_be_controlled) {
-		var _keys = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_key);
-		for (var _i = 0; _i < array_length(_keys); _i++) {
-			with (_keys[_i]) { instance_destroy(); }
+		for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
+			var _inst = _objects_at_position[_i];
+			if (!instance_exists(_inst) || !_inst.is_a(obj_key)) { continue; }
+			
+			with (_inst) { instance_destroy(); }
 		}
 	}
 	
 	// Go Through Portals
-	var _portals = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_portal);
-	for (var _i = 0; _i < array_length(_portals); _i++) {
-		var _portal = _portals[_i];
-		if (_portal.activated) {
-			_portal.deactivate_portal(get_darker_palette(particle_palette));
-			if (instance_exists(_portal.linked_portal)) {
-				_portal.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
-				grid_move_to(_portal.linked_portal.x, _portal.linked_portal.y);
+	for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
+		var _inst = _objects_at_position[_i];
+			if (!instance_exists(_inst) || !_inst.is_a(obj_portal)) { continue; }
+			
+		if (_inst.activated) {
+			_inst.deactivate_portal(get_darker_palette(particle_palette));
+			if (instance_exists(_inst.linked_portal)) {
+				_inst.linked_portal.deactivate_portal(get_darker_palette(particle_palette));
+				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 				virtual_x = x;
 				virtual_y = y;
 				var _prev_x = x, _prev_y = y;
 				start_fallback_state();
 				grid_move_to(_prev_x, _prev_y);
+				x_transition_timer = 0;
+				y_transition_Timer = 0;
 				transition_timer = 1;
 				exit;
 			}
@@ -1377,9 +1383,11 @@ do_player_object_collisions = function() {
 	// Go Through Open Doors
 	if (can_be_controlled) {
 		if (state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
-			var _doors = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), obj_door);
-			for (var _i = 0; _i < array_length(_doors); _i++) {
-				with (_doors[_i]) {
+			for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
+				var _inst = _objects_at_position[_i];
+				if (!instance_exists(_inst) || !_inst.is_a(obj_door)) { continue; }
+				
+				with (_inst) {
 					if (image_index > 0 && is_fully_on_ground()) {
 						audio_stop_all();
 						other.start_winning();
@@ -1419,6 +1427,7 @@ do_player_object_collisions = function() {
 		}
 	}
 	if (!instance_exists(id)) { exit; }
+
 	
 	// Handle Water
 	/* TODO: What order in the collisions should the water happen?

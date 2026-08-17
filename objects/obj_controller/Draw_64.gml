@@ -3,7 +3,6 @@ if (creation_timer > 0) { exit; }
 if (instance_number(obj_cutscene_manager) == 0) {
 	// Draw HUD Bars
 	if (!classic_level) {
-		draw_set_valign(fa_top)
 		draw_set_alpha(0.45); //global.border_alpha);
 		draw_set_color(c_black);
 		draw_rectangle(0, 0, SCREEN_WIDTH, 16, false);
@@ -44,6 +43,7 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	draw_set_font(ft_pixel);
 	draw_set_color(C_WHITE);
 	draw_set_halign(fa_left);
+	draw_set_valign(fa_top)
 	
 	draw_text_outlined(((global.original_controls) ? 12 : 4), _text_y_pos, string(_world) + "-" + string(_level) + ":");
 	draw_text_outlined(((global.original_controls) ? 44 : 36), _text_y_pos, room_title);

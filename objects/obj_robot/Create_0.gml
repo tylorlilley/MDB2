@@ -28,44 +28,7 @@ walk_timer = 0;
 should_walk = true;
 
 // Function Overrides
-parent_is_blocked_on_left = is_blocked_on_left;
-parent_is_blocked_on_right = is_blocked_on_right;
-parent_is_on_ground = is_on_ground;
-parent_is_inside_solid = is_inside_solid;
-parent_get_carried_objects = get_carried_objects;
-
-// Functions
-get_list_of_controllable_players = function() {
-	var _ignored_objects = []
-	with (obj_player) { if (can_be_controlled) { array_push(_ignored_objects, id); } }
-	return _ignored_objects;
-}
-
-is_inside_solid = function() {
-	return parent_is_inside_solid(get_list_of_controllable_players());
-}
-
-is_blocked_on_left = function() {
-	return parent_is_blocked_on_left(get_list_of_controllable_players());
-}
-
-is_blocked_on_right = function() {
-	return parent_is_blocked_on_right(get_list_of_controllable_players());
-}
-
-is_on_ground = function() {
-	return parent_is_on_ground(get_list_of_controllable_players());
-}
-
-// Modify Parent to Exclude Robots Facing the Same Direction
-get_carried_objects = function(_sort_x_by_negative = true) {
-	var _carried_objects = parent_get_carried_objects(_sort_x_by_negative), _modified_carried_objects = []
-	for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-		var _inst = _carried_objects[_i];
-		if (!_inst.is_a(obj_robot) || _inst.is_left == is_left) { array_push(_modified_carried_objects, _inst); }
-	}
-	return _modified_carried_objects;
-}
+treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst) && (!_inst.is_a(obj_player) || !_inst.can_be_controlled); }
 
 update_controls = function() {
 	// Check for turn around

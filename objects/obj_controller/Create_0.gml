@@ -117,7 +117,7 @@ initialize_room = function(_new_room) {
 		ini_close();
 	}
 	
-	if (_new_room != room) { latest_quip = ""; }
+	target_room = room_next(_new_room);
 	
 	// Create an Empty Game Object Grid that matches the Room Size
 	var _cols = room_get_info(_new_room).width div GRID_SIZE, _rows = room_get_info(_new_room).height div GRID_SIZE;

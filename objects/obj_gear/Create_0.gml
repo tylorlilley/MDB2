@@ -24,6 +24,8 @@ gear_timer = 0;
 parent_powerfall_on = powerfall_on;
 parent_powerfly_into = powerfly_into;
 
+treat_object_as_solid = function(_inst) { return !_inst.is_a(obj_player); }
+
 powerfall_on = function(_other) {
 	parent_powerfall_on(_other);
 	start_gear_damaged(_other, 8);

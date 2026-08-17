@@ -213,37 +213,37 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 
 get_ground_objects = function(_ignored_objects = []) {
 	return get_relative_objects(0, GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_above;
+        return _inst.is_solid_from_above && treat_object_as_solid(_inst);
     }, _ignored_objects);
 }
 
 get_left_wall_objects = function(_ignored_objects = []) {
 	return get_relative_objects(-GRID_SIZE, 0, function(_inst) {
-        return _inst.is_solid_from_right;
+        return _inst.is_solid_from_right && treat_object_as_solid(_inst);
     }, _ignored_objects);
 }
 
 get_right_wall_objects = function(_ignored_objects = []) {
 	return get_relative_objects(GRID_SIZE, 0, function(_inst) {
-        return _inst.is_solid_from_left;
+        return _inst.is_solid_from_left && treat_object_as_solid(_inst);
     }, _ignored_objects);
 }
 
 get_ceiling_objects = function(_ignored_objects = []) {
 	return get_relative_objects(0, -GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_below;
+        return _inst.is_solid_from_below && treat_object_as_solid(_inst);
     }, _ignored_objects);
 }
 
 get_left_ground_objects = function() {
 	return get_relative_objects(-GRID_SIZE, GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_above;
+        return _inst.is_solid_from_above && treat_object_as_solid(_inst);
     });
 }
 
 get_right_ground_objects = function() {
 	return get_relative_objects(GRID_SIZE, GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_above;
+        return _inst.is_solid_from_above && treat_object_as_solid(_inst);
     });
 }
 
@@ -287,21 +287,14 @@ would_be_damaged_by = function(_inst) {
 
 is_blocked_on_left = function(_ignored_objects = []) {
 	var _wall_objects = get_left_wall_objects(_ignored_objects);
-	for (var _i = 0; _i < array_length(_wall_objects); _i++) {
-		if (!would_be_damaged_by(_wall_objects[_i])) { return true; }
-	}
-	return (x <= GRID_SIZE); //((global.original_controls) ? (GRID_SIZE * 2) : GRID_SIZE));
+	return (x <= GRID_SIZE || array_length(_wall_objects) > 0); //((global.original_controls) ? (GRID_SIZE * 2) : GRID_SIZE));
 }
 
 is_blocked_on_right = function(_ignored_objects = []) {
 	var _wall_objects = get_right_wall_objects(_ignored_objects);
-	for (var _i = 0; _i < array_length(_wall_objects); _i++) {
-		if (!would_be_damaged_by(_wall_objects[_i])) { return true; }
-	}
-
 	var _max_x = (room_width - GRID_SIZE - sprite_get_width(sprite_index));
 	//if (global.original_controls) { _max_x -= GRID_SIZE; }
-	return (x >= _max_x);
+	return (x >= _max_x || array_length(_wall_objects) > 0);
 }
 
 fully_covered_by = function(_object_index) {

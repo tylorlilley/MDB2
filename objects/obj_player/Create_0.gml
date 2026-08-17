@@ -64,6 +64,8 @@ step_index = 1;
 // Functions
 scr_player_functions();
 
+treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst); }
+
 game_object_step = function() {
 	if (x > 0 && y > 0 && x < room_width && y < room_height) {
 		last_x = x;
