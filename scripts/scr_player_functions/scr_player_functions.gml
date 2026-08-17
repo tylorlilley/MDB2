@@ -1338,7 +1338,7 @@ do_player_object_collisions = function(_skip_portals = false) {
 	if (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20)) { exit; }
 	
 	// Destroy if Inside Lethal object
-	var _inside_objects = get_inside_objects(obj_dynamic_object);
+	var _inside_objects = get_inside_objects(obj_game_object);
 	for (var _i = 0; _i < array_length(_inside_objects); _i++) {
 		var _inst = _inside_objects[_i]
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
@@ -1389,9 +1389,11 @@ do_player_object_collisions = function(_skip_portals = false) {
 	// Press Switches
 	do_switch_collisions();
 	
+	/*
 	// Get Destroyed From Adjacent Lethal Objects
 	if (is_grounded_state()) {
 		// Destroy if Standing on Lethal Object and No Other Solids
+		
 		var _ground_objects = get_left_and_right_objects(), _safe = false, _damaged = false;
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
@@ -1413,7 +1415,9 @@ do_player_object_collisions = function(_skip_portals = false) {
 			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 		}
 	}
+	
 	if (!instance_exists(id)) { exit; }
+	*/
 
 	
 	// Handle Water
