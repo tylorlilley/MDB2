@@ -584,7 +584,7 @@
     {"roomId":{"name":"rm_old_w4_1","path":"rooms/rm_old_w4_1/rm_old_w4_1.yy",},},
     {"roomId":{"name":"rm_old_w4_2","path":"rooms/rm_old_w4_2/rm_old_w4_2.yy",},},
     {"roomId":{"name":"rm_old_w4_3","path":"rooms/rm_old_w4_3/rm_old_w4_3.yy",},},
-    {"roomId":{"name":"rm_old_w4_4","path":"rooms/rm_old_w4_4/rm_old_w4_4.yy",},},
+    {"roomId":{"name":"rm_mdb_4_4_modified","path":"rooms/rm_mdb_4_4_modified/rm_mdb_4_4_modified.yy",},},
     {"roomId":{"name":"rm_old_w4_5","path":"rooms/rm_old_w4_5/rm_old_w4_5.yy",},},
     {"roomId":{"name":"rm_old_w4_6","path":"rooms/rm_old_w4_6/rm_old_w4_6.yy",},},
     {"roomId":{"name":"rm_old_w4_7","path":"rooms/rm_old_w4_7/rm_old_w4_7.yy",},},
@@ -615,7 +615,7 @@
     {"roomId":{"name":"rm_switch_test","path":"rooms/rm_switch_test/rm_switch_test.yy",},},
     {"roomId":{"name":"rm_how_to_play","path":"rooms/rm_how_to_play/rm_how_to_play.yy",},},
     {"roomId":{"name":"rm_intro_eih","path":"rooms/rm_intro_eih/rm_intro_eih.yy",},},
-    {"roomId":{"name":"rm_mdb_4_4_modified","path":"rooms/rm_mdb_4_4_modified/rm_mdb_4_4_modified.yy",},},
+    {"roomId":{"name":"rm_old_w4_4","path":"rooms/rm_old_w4_4/rm_old_w4_4.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

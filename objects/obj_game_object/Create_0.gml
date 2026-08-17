@@ -29,8 +29,8 @@ is_player_lethal = false;
 is_powered_player_lethal = false;
 is_robot_lethal = false;
 creator = noone;
-last_x = x;
-last_y = y;
+last_grid_x = x;
+last_grid_y = y;
 
 // Functions
 scr_game_object_functions();

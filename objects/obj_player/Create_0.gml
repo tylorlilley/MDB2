@@ -28,9 +28,10 @@ main_palette = original_palette;
 particle_palette = PALETTES.BLUE;
 powered_palette = PALETTES.RED;
 death_sprite = spr_particle_player_dying;
-
-last_x = undefined;
-last_y = undefined;
+/*
+transition_focus_x = undefined;
+transition_focus_y = undefined;
+*/
 
 // Boolean Ability Flags
 can_be_controlled = true;
@@ -67,14 +68,17 @@ scr_player_functions();
 treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst); }
 
 game_object_step = function() {
+	/*
 	if (x > 0 && y > 0 && x < room_width && y < room_height) {
-		last_x = x;
-		last_y = y;
+		transition_focus_x = x;
+		transition_focus_y = y;
 	}
+	*/
 	
 	update_player_state();
 	
 	if (instance_exists(id)) {
+		update_last_grid_position();
 		update_player_graphics();
 		if (has_cape) { update_cape_graphics(); }
 	}

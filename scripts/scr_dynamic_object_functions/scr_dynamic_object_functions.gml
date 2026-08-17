@@ -89,7 +89,15 @@ update_virtual_y_offset = function() {
 spawn_contents = function() {
 	if (contents != noone) {
 		instance_activate_object(contents);
-		contents.grid_move_to(last_x, last_y);
+		contents.grid_move_to(last_grid_x, last_grid_y);
+	}
+}
+
+update_last_grid_position = function() {
+	// transition_timer is stale here - obj_controller recomputes it after all steps
+	if (x_transition_timer == 0 && y_transition_timer == 0) {
+		last_grid_x = x;
+		last_grid_y = y;
 	}
 }
 
@@ -430,6 +438,8 @@ game_object_step = function() {
 			}
 		}
 	}
+	
+	update_last_grid_position();
 }
 
 // Collision Functions

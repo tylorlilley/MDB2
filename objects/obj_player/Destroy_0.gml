@@ -16,8 +16,13 @@ stop_sound(fall_sound);
 fall_sound = undefined;
 if (can_be_controlled) {
 	global.controller.start_screen_shake();
-	if (!is_undefined(last_x) && !is_undefined(last_y)) {
-		global.controller.x = last_x;
-		global.controller.y = last_y;
+	/*
+	if (!is_undefined(transition_focus_x) && !is_undefined(transition_focus_y)) {
+		global.controller.x = transition_focus_x;
+		global.controller.y = transition_focus_y;
 	}
+	*/
+	
+	global.controller.x = clamp(x, GRID_SIZE, room_width - GRID_SIZE);
+	global.controller.y = clamp(y, GRID_SIZE, room_height - GRID_SIZE);
 }

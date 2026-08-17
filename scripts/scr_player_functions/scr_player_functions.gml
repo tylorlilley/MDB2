@@ -283,10 +283,10 @@ start_turning = function() {
 start_walking = function(_is_crushed = false) {
 	// First, walk on next object
 	var _prev_x = x, _prev_y = y;
-	grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y);
+	grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y, false);
 	walk_on_ground_objects();
 	if (!instance_exists(id)) { exit; }
-	grid_move_to(_prev_x, _prev_y);
+	grid_move_to(_prev_x, _prev_y, false);
 		
 	// Continue with Walking or Fall
 	var _speed = (_is_crushed) ? 0.5 : 2;
@@ -352,7 +352,7 @@ damage_objects = function(_damage_above = false) {
 		var _inst = _objects_to_damage[_i];
 		if (_inst.is_a(obj_static_area)) {
 			var _prev_y = y;
-			grid_move_to(x, y + (_damage_above ? -GRID_SIZE : GRID_SIZE));
+			grid_move_to(x, y + (_damage_above ? -GRID_SIZE : GRID_SIZE), false);
 			var _deeper_objects_to_damage = get_left_and_right_objects(_damage_above);
 			for (var _d = 0; _d < array_length(_deeper_objects_to_damage); _d++) {
 				var _deeper_inst = _deeper_objects_to_damage[_d];
@@ -360,7 +360,7 @@ damage_objects = function(_damage_above = false) {
 		
 				if (_deeper_inst.is_a(obj_static_area) && _deeper_inst.object_index == _inst.object_index && _deeper_inst.x == _inst.x && !array_contains(_objects_to_damage, _deeper_inst)) { array_push(_objects_to_damage, _deeper_inst); }
 			}
-			grid_move_to(x, _prev_y);
+			grid_move_to(x, _prev_y, false);
 		}
 	}
 	
@@ -483,9 +483,9 @@ can_ladder_at = function(_x = x, _y = y) {
 
 can_start_climbing = function() {
 	var _prev_y = y;
-	grid_move_to(x, y - GRID_SIZE);
+	grid_move_to(x, y - GRID_SIZE, false);
 	var _can_climb = instance_exists(get_climbed_object());
-	grid_move_to(x, _prev_y);
+	grid_move_to(x, _prev_y, false);
 	return _can_climb;
 }
 
@@ -632,9 +632,9 @@ update_player_state = function() {
 				var _can_walk = ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
 				var _horizontal_input = ((is_left && key_left) || (!is_left && key_right));
 				var _on_hop_height_ground = false, _prev_x = x, _prev_y = y;
-				grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y);
+				grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y, false);
 				_on_hop_height_ground = is_on_ground();
-				grid_move_to(_prev_x, _prev_y);
+				grid_move_to(_prev_x, _prev_y, false);
 
 				// Determine New State
 				if (should_start_laddering()) { start_laddering() }

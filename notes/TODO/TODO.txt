@@ -10,7 +10,6 @@ Yes / No
 // TODO:
 - Refactor depth value being used for non-depth drawing purposes
 - Rename can't be controlled?
-- Make Gears Crush Robots?
 
 - Add Yes/No confirm to starting new game and ESC buttons?
 - Game pause?

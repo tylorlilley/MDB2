@@ -269,7 +269,12 @@ get_quip_text = function() {
 		"You were just pulling my leg with that one, right?",
 		"Man even Leni beat that level and she doesn't even know any numbos yet",
 		"I'm not trying to be mean-spirited at all, but you should really be better at this",
-		"No one can say you didn't try."
+		"No one can say you didn't try.",
+		"egg?",
+		"Brought to you by the Carter Lilley Project",
+		"Peej waz here",
+		"And what exactly was the plan there?",
+		"This time, try utilizing a strategy",
 	]
 	
 	return _quip_text[irandom(array_length(_quip_text)-1)];
