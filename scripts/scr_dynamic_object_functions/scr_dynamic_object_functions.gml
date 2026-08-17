@@ -89,7 +89,7 @@ update_virtual_y_offset = function() {
 spawn_contents = function() {
 	if (contents != noone) {
 		instance_activate_object(contents);
-		contents.grid_move_to(x, y);
+		contents.grid_move_to(last_x, last_y);
 	}
 }
 

@@ -1,5 +1,7 @@
 // Solid Grid Functions
 grid_move_to = function(_new_x, _new_y) {
+	last_x = x;
+	last_y = y;
 	grid_remove();
 	x = _new_x;
 	y = _new_y;
