@@ -1,0 +1,1 @@
+if (global.controller.is_logic_frame()) { reset_controls(); }

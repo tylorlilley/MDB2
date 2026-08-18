@@ -1,3 +1,5 @@
+event_inherited();
+
 if (!global.controller.is_logic_frame()) { exit; }
 
 if (cutscene_timer >= INTERRUPTION_FRAME) {

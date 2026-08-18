@@ -1457,7 +1457,7 @@ do_portal_collisions = function(_objects_at_position) {
 				grid_move_to(_prev_x, _prev_y, false);
 				x_transition_timer = 0;
 				y_transition_timer = 0;
-				transition_timer = 0;
+				transition_timer = 4;
 				return true;
 			}
 		}

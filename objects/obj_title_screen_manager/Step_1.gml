@@ -16,9 +16,9 @@ if (state == TITLE_STATES.PAN_OVER) {
 	camera_set_view_pos(view_camera[0], camera_x, _view_y_pos);
 }
 
-if (!global.controller.is_logic_frame()) { exit; }
-
 event_inherited();
+
+if (!global.controller.is_logic_frame()) { exit; }
 
 // Make Player Ignore Controls
 with (obj_player) {
@@ -112,6 +112,7 @@ switch (state) {
 						if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
 						if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
 						stop_sound(bgm_mdb_title);
+						stop_sound(bgm_old_title);
 					
 						break;
 					}
