@@ -1,5 +1,5 @@
 // Reset Surface
-var _surface_size = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
+var _surface_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
 surface_resize(application_surface, SCREEN_WIDTH * _surface_scale, SCREEN_HEIGHT * _surface_scale);
 display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
 
