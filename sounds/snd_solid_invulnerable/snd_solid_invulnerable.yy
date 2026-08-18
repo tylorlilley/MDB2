@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"snd_solid_invulnerable.wav",
-  "volume":0.35,
+  "volume":0.5,
 }

@@ -89,6 +89,7 @@ Scrolling rooms
 wrap-around screen movements (horizontal or vertical)
 Hidden Idols buried in specific spots in many levels as an extra layer of secrets to uncover
 - maybe a room that spawns idol if all robots are killed when that is hard to go out of your way to do?
+- make player fall faster in non-original-controls instead of at a constant rate?
 
 // MECHANICAL ORDER
 - When is standing on switches to keep them pressed as a concept introduced?

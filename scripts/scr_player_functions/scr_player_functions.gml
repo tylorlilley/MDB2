@@ -915,6 +915,7 @@ update_player_state = function() {
 	do_player_object_collisions();
 	
 	// Define Speed Arrays
+	//static tumble_speeds = [2, 2, 3, 3];
 	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
 	static hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
 	static recoil_speeds = [0, 0, -2, -2, -2, -2, -4, -4];
@@ -933,6 +934,7 @@ update_player_state = function() {
 	if (is_hop_up_state()) { y_transition_speed = hop_up_speeds[_speed_index]; }
 	else if (is_hop_down_state()) { y_transition_speed = hop_down_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.RECOIL) { y_transition_speed = recoil_speeds[_speed_index]; }
+	//else if (state == PLAYER_STATES.TUMBLE) { y_transition_speed = tumble_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.CLIMB) {
 		y_transition_speed = climb_y_speeds[_speed_index];
 		x_transition_speed = climb_x_speeds[_speed_index] * get_left_value();

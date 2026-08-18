@@ -239,7 +239,7 @@ update_window_size = function() {
 	window_set_position((_display_width/2) - (_window_width/2),(_display_height/2) - (_window_height/2));
 }
 
-return_to_title = function(_blank_screen) {
+return_to_title = function() {
 	audio_stop_all();
 	play_title_music();
 	transition_room(rm_title);
@@ -248,7 +248,6 @@ return_to_title = function(_blank_screen) {
 	frame_timer = 0;
 	fps_timer = 0;
 	float_timer = 0;
-	blank_screen = true;
 	level_number = 0;
 	latest_quip = "";
 	classic_level = false;
@@ -305,7 +304,8 @@ get_quip_text = function() {
 		"That's rough, buddy.",
 		"Have a problem? Consult a doctor!",
 		"Scientists HATE this one weird trick: egg all their houses",
-		"Skip this level for  $5.99?"
+		"Skip this level for  $5.99?",
+		"wow"
 	]
 	
 	return _quip_text[irandom(array_length(_quip_text)-1)];
@@ -321,6 +321,18 @@ update_window_fps = function() {
 is_logic_frame = function() { return (fps_timer == 0); }
 
 get_frame_progress = function() { return fps_timer / fps_ratio; }
+
+set_gui_matrix = function(_scaled) {
+    matrix_set(matrix_world, _scaled ? matrix_build(0, 0, 0, 0, 0, 0, gui_scale, gui_scale, 1) : matrix_build_identity());
+}
+
+ensure_transition_surface = function() {
+    var _w = SCREEN_WIDTH * gui_scale, _h = SCREEN_HEIGHT * gui_scale;
+    if (surface_exists(transition_surface) && (surface_get_width(transition_surface) != _w || surface_get_height(transition_surface) != _h)) {
+        surface_free(transition_surface);
+    }
+    if (!surface_exists(transition_surface)) { transition_surface = surface_create(_w, _h); }
+}
 
 // Read Window Size Properties
 read_window_options();

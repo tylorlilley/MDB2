@@ -5,7 +5,7 @@ if (!global.controller.is_logic_frame()) { exit; }
 audio_stop_sound(bgm_mdb_w1);
 audio_stop_sound(bgm_old_w1);
 
-if (y > 1536 || get_restart_released() || get_jump_released()) {
+if (y > 1536 || key_restart_released || key_jump_released) {
 	audio_stop_sound(bgm_mdb_cutscene);
 	global.controller.transition_room(room_next(room));
 }

@@ -21,7 +21,7 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
 	if (!is_undefined(_winning_player_x)) {
 		// Create Spotlight Graphics
-		if (!surface_exists(transition_surface)) { transition_surface = surface_create(SCREEN_WIDTH, SCREEN_HEIGHT); }
+		ensure_transition_surface();
 		surface_set_target(transition_surface);
 		draw_set_color(c_black);
 		draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
@@ -31,7 +31,9 @@ if (instance_number(obj_cutscene_manager) == 0) {
 		surface_reset_target();
 		
 		// Draw Spotlight
+		set_gui_matrix(false);
 		draw_surface_ext(transition_surface, 0, 0, 1, 1, 0, c_white, 0.65);
+		set_gui_matrix(true);
 	}
 	
 	// Draw Level Text and Key Amounts
@@ -88,6 +90,7 @@ if (transition_timer > TRANSITION_DELAY) {
 	// Create Transition Graphics
 	if (!surface_exists(transition_surface)) { transition_surface = surface_create(SCREEN_WIDTH, SCREEN_HEIGHT); }
 		
+	ensure_transition_surface();
 	surface_set_target(transition_surface);
 	draw_set_color(C_BLACK);
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
@@ -104,12 +107,9 @@ if (transition_timer > TRANSITION_DELAY) {
 	surface_reset_target();
 		
 	// Draw Transition
+	set_gui_matrix(false);
 	draw_surface(transition_surface, 0, 0);
-}
-
-if (blank_screen) {
-	draw_set_color(C_WHITE);
-	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	set_gui_matrix(true);
 }
 
 if (debug_enabled) {
