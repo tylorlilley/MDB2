@@ -194,6 +194,10 @@ read_window_options = function() {
 	window_scale_setting = ini_read_real("settings", "screen_scale", get_maximum_screen_scale());
 	window_fps_setting = ini_read_real("settings", "fps", get_maximum_fps());
 	ini_close();
+	
+	clamp(window_fullscreen_setting, 0, FULL_SCREEN_OPTIONS.WINDOWED);
+	clamp(window_scale_setting, 1, get_maximum_screen_scale());
+	clamp(window_fps_setting, 30, get_maximum_fps());
 }
 
 write_window_options = function() {
@@ -314,6 +318,8 @@ update_window_fps = function() {
 }
 
 is_logic_frame = function() { return (fps_timer == 0); }
+
+get_frame_progress = function() { return fps_timer / fps_ratio; }
 
 // Read Window Size Properties
 read_window_options();

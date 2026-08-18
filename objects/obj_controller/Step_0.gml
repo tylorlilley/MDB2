@@ -35,16 +35,6 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     if (instance_exists(_inst)) { _inst.game_object_step(); }
 }
 
-/*
-// Have Collding Robots Turn Around
-with (obj_robot) {
-	if (state == PLAYER_STATES.WALK_FORWARD && transition_timer == 0 && walk_timer == 0) {
-		var _blocking_robots = get_relative_objects((is_left) ? -8 : 8, 0, always_true, [], obj_robot);
-		if (array_length(_blocking_robots) > 0) { start_turning(); walk_timer += 4; }
-	}
-}
-*/
-
 // Handle Static Object Step
 with (obj_dynamic_object) {
 	if (is_carrying_key()) {

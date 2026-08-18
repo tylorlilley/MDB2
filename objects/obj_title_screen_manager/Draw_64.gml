@@ -1,5 +1,7 @@
+var _interpolation_offset = global.controller.get_frame_progress();
+
 // Draw Title Sprite
-draw_sprite_swaying(spr_title, ((cutscene_timer div 4) % 2), title_sway_timer, SCREEN_MIDDLE_X-sprite_get_width(spr_title)/2, 8, c_white, 1, 2);
+draw_sprite_swaying(spr_title, ((cutscene_timer div 4) % 2), title_sway_timer + _interpolation_offset, SCREEN_MIDDLE_X-sprite_get_width(spr_title)/2, 8, c_white, 1, 2);
 
 // Draw Any key Text
 if (state == TITLE_STATES.BEGIN && (cutscene_timer div 16) % 2 == 0) {
@@ -60,12 +62,12 @@ if (state == TITLE_STATES.MAIN_MENU) {
 				// Additionally Draw Player Cape for Cursor
 				if (menu_pos == MENU_OPTIONS.START_GAME) {
 					set_shader_palette(PALETTES.GRAY_LIGHT);
-					draw_sprite_swaying(spr_cape_fall, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1-4, c_white, 1, 15);
+					draw_sprite_swaying(spr_cape_fall, 0, cursor_sway_timer + _interpolation_offset, _x_pos+_x_offset-20, _y_pos+_y_offset+1-4, c_white, 1, 15);
 				}
 				
 				// Draw Cursor
 				set_shader_palette(_cursor_palette);
-				draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
+				draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer + _interpolation_offset, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
 			}
 			
 			// Draw Menu Option
@@ -107,7 +109,7 @@ else if (state == TITLE_STATES.SETTINGS_MENU) {
 				
 				// Draw Cursor
 				set_shader_palette(_cursor_palette);
-				draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
+				draw_sprite_swaying(_cursor_sprite, 0, cursor_sway_timer + _interpolation_offset, _x_pos+_x_offset-20, _y_pos+_y_offset+1, c_white, 1, 15);
 			}
 			
 			// Determine selection string

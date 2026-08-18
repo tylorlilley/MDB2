@@ -26,9 +26,10 @@ draw_key_stack = function() {
 	// Sway Back and Forth
 	set_shader_palette((shine_timer == 1) ? PALETTES.ALL_WHITE : main_palette);
 	
-	var _offsets_for_total_keys = _draw_offsets[max(0, keys_to_draw-1)], _float_offset = get_float_value(float_timer, 0.75, 4 * FLOAT_OFFSET_PERIOD_FRAMES);
+	var _interpolation_offset = global.controller.get_frame_progress();
+	var _offsets_for_total_keys = _draw_offsets[max(0, keys_to_draw-1)], _float_offset = get_float_value(float_timer + _interpolation_offset, 0.75, 4 * FLOAT_OFFSET_PERIOD_FRAMES);
 	for (var _i = 0; _i < keys_to_draw; _i++) {
 		var _offset = _offsets_for_total_keys[_i], _angle_offset = _i * 2;
-		draw_sprite_swaying(sprite_index, image_index, sway_timer, x + _offset, y + _offset + _float_offset, image_blend, image_alpha, 15, _angle_offset);
+		draw_sprite_swaying(sprite_index, image_index, sway_timer + _interpolation_offset, x + _offset, y + _offset + _float_offset, image_blend, image_alpha, 15, _angle_offset);
 	}
 }

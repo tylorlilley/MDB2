@@ -1,3 +1,21 @@
+var _controller = global.controller, _fps_ratio = global.controller.fps_ratio;
+if (state == TITLE_STATES.PAN_OVER) {
+	var _view_y_pos = camera_get_view_y(view_camera[0]), _target_x_pos = 74;
+	if (camera_x >= _target_x_pos) {
+		if (bounce_count >= 3) { state = TITLE_STATES.MAIN_MENU; play_sound(snd_explosion); cursor_sway_timer = 0; }
+		else {
+			var _bounce_speed = [4, 2, 1][bounce_count] / _fps_ratio;
+			camera_speed = -_bounce_speed;
+			bounce_count += 1;
+			play_sound(snd_soft_thud);
+		}
+	}
+	else { camera_speed += (0.5 / sqr(_fps_ratio)); }
+		
+	camera_x += camera_speed / _fps_ratio;
+	camera_set_view_pos(view_camera[0], camera_x, _view_y_pos);
+}
+
 if (!global.controller.is_logic_frame()) { exit; }
 
 event_inherited();
@@ -29,20 +47,7 @@ switch (state) {
 		break;
 	}
 	case TITLE_STATES.PAN_OVER: {
-		var _view_y_pos = camera_get_view_y(view_camera[0]), _target_x_pos = 74;
-		if (camera_x >= _target_x_pos) {
-			if (bounce_count >= 3) { state = TITLE_STATES.MAIN_MENU; play_sound(snd_explosion); cursor_sway_timer = 0; }
-			else {
-				var _bounce_speed = [4, 2, 1][bounce_count];
-				camera_speed = -_bounce_speed;
-				bounce_count += 1;
-				play_sound(snd_soft_thud);
-			}
-		}
-		else { camera_speed += 0.5 }
-		
-		camera_x += camera_speed;
-		camera_set_view_pos(view_camera[0], camera_x, _view_y_pos);
+		// Done outside of logic guard above
 	
 		break;
 	}

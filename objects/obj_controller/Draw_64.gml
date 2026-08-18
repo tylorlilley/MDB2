@@ -80,9 +80,10 @@ if (transition_timer > TRANSITION_DELAY) {
 	var _max_scale = SCREEN_WIDTH, _camera = view_camera[0];
 	var _fade_pos_x = x + GRID_SIZE - camera_get_view_x(_camera), _fade_pos_y = y + GRID_SIZE - camera_get_view_y(_camera);
 		
-	var _scale = 0;
-	if (transition_timer < TRANSITION_DURATION + TRANSITION_DELAY) { _scale = power((1-((transition_timer - TRANSITION_DELAY) / TRANSITION_DURATION)), 4); }
-	else if (transition_timer > TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { _scale = power(((transition_timer - TRANSITION_DURATION - TRANSITION_HOLD - TRANSITION_DELAY) / (TRANSITION_DURATION)), 4); }
+	var _scale = 0, _interpolation_offset = get_frame_progress();
+	if (transition_timer < TRANSITION_DURATION + TRANSITION_DELAY) { _scale = power((1-(((transition_timer + _interpolation_offset) - TRANSITION_DELAY) / TRANSITION_DURATION)), 4); }
+	else if (transition_timer > TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { _scale = power((((transition_timer + _interpolation_offset) - TRANSITION_DURATION - TRANSITION_HOLD - TRANSITION_DELAY) / (TRANSITION_DURATION)), 4); }
+	_scale = clamp(_scale, 0, 1);
 		
 	// Create Transition Graphics
 	if (!surface_exists(transition_surface)) { transition_surface = surface_create(SCREEN_WIDTH, SCREEN_HEIGHT); }
