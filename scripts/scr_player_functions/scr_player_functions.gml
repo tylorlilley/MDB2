@@ -911,9 +911,6 @@ update_player_state = function() {
 		reset_controls();
 	}
 	
-	// Do Collisions After Movement
-	do_player_object_collisions();
-	
 	// Define Speed Arrays
 	//static tumble_speeds = [2, 2, 3, 3];
 	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
@@ -1365,7 +1362,7 @@ do_player_object_collisions = function(_skip_portals = false) {
 	
 	// Go Through Open Doors
 	if (can_be_controlled) {
-		if (state != PLAYER_STATES.WIN && (is_grounded_state() || is_fall_state())) {
+		if (state != PLAYER_STATES.WIN && (x_transition_timer == 0 && y_transition_timer == 0) && (is_grounded_state() || is_fall_state())) {
 			for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
 				var _inst = _objects_at_position[_i];
 				if (!instance_exists(_inst) || !_inst.is_a(obj_door)) { continue; }

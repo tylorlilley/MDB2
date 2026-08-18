@@ -78,6 +78,7 @@ draw_transition_line = function(_base, _name, _y, _phase, _progress, _direction)
 	}
 
 	var _text = _base + string_copy(TRANSITION_ELLIPSIS + _name, 1, _revealed);
-	var _width = string_width(_text);
-	draw_text(floor(transition_text_x(_phase, _progress, _width, _direction) - (_width / 2)), _y, _text);
+	var _width = string_width(_text), _gui_scale = global.controller.gui_scale;
+	var _x = transition_text_x(_phase, _progress, _width, _direction) - (_width / 2);
+	draw_text(floor(_x * _gui_scale) / _gui_scale, _y, _text);
 }

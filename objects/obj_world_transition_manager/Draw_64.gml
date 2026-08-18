@@ -13,16 +13,17 @@ draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
 // Determine current state
+var _timer = cutscene_timer + global.controller.get_frame_progress();
 var _state = TRANSITION_STATES.FINAL_WAIT, _time_in_state = 0, _elapsed = 0;
 for (var _i = 0; _i < array_length(state_durations); _i++) {
-	if (cutscene_timer < _elapsed + state_durations[_i]) {
+	if (_timer < _elapsed + state_durations[_i]) {
 		_state = _i;
-		_time_in_state = cutscene_timer - _elapsed;
+		_time_in_state = _timer - _elapsed;
 		break;
 	}
 	_elapsed += state_durations[_i];
 }
-var _progress = (_time_in_state + 1) / state_durations[_state];
+var _progress = min(1, (_time_in_state + 1) / state_durations[_state]);
 
 // Setup Strings
 switch (_state) {

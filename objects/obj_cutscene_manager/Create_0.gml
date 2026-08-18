@@ -13,7 +13,7 @@ reset_controls = function() {
 	key_jump = false;
 	key_restart = false;
 	
-	key_restart_releasded = false;
+	key_restart_released = false;
 	key_jump_released = false;
 }
 
@@ -26,7 +26,7 @@ update_controls = function() {
 	key_restart = key_restart || get_restart_pressed();
 	
 	key_jump_released = key_jump_released || get_jump_released();
-	key_restart_released = key_jump_released || get_restart_released();
+	key_restart_released = key_restart_released || get_restart_released();
 }
 
 // Creation Code

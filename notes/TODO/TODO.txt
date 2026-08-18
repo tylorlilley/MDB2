@@ -19,6 +19,7 @@ Yes / No
 - Ending Cutscene + Credits
 
 // VISUALS:
+- option to turn off special palettes for each world?
 Cape animation on dying sprite?
 Draw tree nubs on wood level from wood
 Should Gear spin always one way for up and one for down? Should  they spin slower? Move slower?
@@ -93,7 +94,9 @@ Hidden Idols buried in specific spots in many levels as an extra layer of secret
 
 // MECHANICAL ORDER
 - When is standing on switches to keep them pressed as a concept introduced?
+- When is destructible switches introduced?
 
+SOMEWHERE BELOW - Add shaping robot paths via destroying blocks? 5-6?
 walking, no player interaction (3_6)
 + destroyed by switches?
 + player interaction without falling (4_1)
@@ -104,5 +107,6 @@ walking, no player interaction (3_6)
 + robots carrying robots?
 + robots die to lava
 + robots don't die to spikes
+- generating robots?
 
 When is standin
