@@ -224,7 +224,7 @@ function build_world_background(_world) {
 			var _sky_bg = layer_background_create(_sky_layer, _sprite);
 			layer_background_htiled(_sky_bg, true);
 			layer_background_vtiled(_sky_bg, true);
-			layer_background_speed(_sky_bg, ((_sprite == bg_stars) ? 15 : 0) / _fps_ratio);
+			layer_background_speed(_sky_bg, ((_sprite == bg_stars) ? 0.5 : 0) / _fps_ratio);
 			layer_hspeed(_sky_layer, 0.125 / _fps_ratio);
 			layer_vspeed(_sky_layer, 0.038 / _fps_ratio);
 			layer_set_visible(_sky_layer, true);
@@ -288,7 +288,7 @@ function build_world_background(_world) {
 			var _forest_canopy_layer = layer_create(801, "Forest_Canopy");
 			var _forest_canopy_bg = layer_background_create(_forest_canopy_layer, bg_forest_leaves);
 			layer_background_htiled(_forest_canopy_bg, true);
-			layer_background_speed(_forest_canopy_bg, 2 / _fps_ratio);
+			layer_background_speed(_forest_canopy_bg, (1/15) / _fps_ratio);
 			layer_y(_forest_canopy_layer, _canopy_y);
 			layer_hspeed(_forest_canopy_layer, -0.125 / _fps_ratio);
 			layer_set_visible(_forest_canopy_layer, true);

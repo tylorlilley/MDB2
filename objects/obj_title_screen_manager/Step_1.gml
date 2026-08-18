@@ -12,7 +12,7 @@ if (state == TITLE_STATES.PAN_OVER) {
 	}
 	else { camera_speed += (0.5 / sqr(_fps_ratio)); }
 		
-	camera_x += camera_speed / _fps_ratio;
+	camera_x += camera_speed;
 	camera_set_view_pos(view_camera[0], camera_x, _view_y_pos);
 }
 

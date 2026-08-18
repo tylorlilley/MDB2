@@ -45,6 +45,13 @@ else { frame_sounds = []; }
 
 // Do Screen Resize
 if (screen_resize_timer > 0) {
+	var _surface_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
+	var _surface_width = SCREEN_WIDTH * _surface_scale, _surface_height = SCREEN_HEIGHT * _surface_scale;
+	if (surface_get_width(application_surface) != _surface_width || surface_get_width(application_surface) != _surface_height) {
+		surface_resize(application_surface, SCREEN_WIDTH * _surface_scale, SCREEN_HEIGHT * _surface_scale);
+		display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
+	}
+
 	screen_resize_timer--;
 	if (screen_resize_timer == 0) {
 		if (window_fullscreen_pending) { update_window_fullscreen(); }
