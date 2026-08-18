@@ -1,3 +1,5 @@
+if (!global.controller.is_logic_frame()) { exit; }
+
 event_inherited();
 
 // Handle Interrupting Original Transition
@@ -22,7 +24,7 @@ if (cutscene_timer == INTERRUPTION_FRAME) {
 	}
 	with (obj_saucer) {
 		var _part_x = x + sprite_get_width(sprite_index)/2, _part_y = y + sprite_get_height(sprite_index);
-		vspeed = -4;
+		vspeed = -4 / global.controller.fps_ratio;
 		create_particles(16, PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW, _part_x, _part_y);
 		create_particles(8, PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW, _part_x - 16, y + _part_y);
 		create_particles(8, PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW, _part_x + 16, y + _part_y);
@@ -41,5 +43,5 @@ if (text_pos_timer > 0 && cutscene_timer > INTERRUPTION_FRAME) {
 	actor = (text_pos == 10 || text_pos == 11 || text_pos == 9 || text_pos == 14) ? 1 : 0;
 	
 	with (obj_player) { reset_controls(); }
-	with (obj_saucer) { vspeed -= 0.5; }
+	with (obj_saucer) { vspeed -= 0.5 / global.controller.fps_ratio; }
 }

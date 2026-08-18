@@ -115,6 +115,11 @@ function room_data(_room = room) {
 		rm_old_w5_2: { world: WORLDS.SKY_2,  title: "Warp Whiplash", is_cutscene: false, is_classic: true },
 		rm_old_w5_3: { world: WORLDS.SKY_3,  title: "Tangerine Dreams", is_cutscene: false, is_classic: true },
 		rm_old_w5_4: { world: WORLDS.SKY_5,  title: "Dusk Bowl", is_cutscene: false, is_classic: true },
+		
+		// Modifed Levels
+		rm_mdb_4_1_modified: { world: WORLDS.FORTRESS,  title: "Rank and File", is_cutscene: false, is_classic: false },
+		rm_mdb_4_4_modified: { world: WORLDS.FORTRESS,  title: "Lava Tubes", is_cutscene: false, is_classic: false },
+		rm_mdb_5_6_modified: { world: WORLDS.NIGHT,  title: "Darkness Falls", is_cutscene: false, is_classic: false },
 			
 		// World Transition Cutscenes
 		rm_intro: { world: WORLDS.BEACH,  title: "Intro", is_cutscene: true , is_classic: false },
@@ -194,6 +199,8 @@ function get_world_palette(_object_index) {
 function build_world_background(_world) {
 	global.world_tint = c_white;
 	global.world_tint_strength = 0;
+	var _fps_ratio = global.controller.fps_ratio;
+	
 	switch(_world) {
 		case WORLDS.BEACH:
 		case WORLDS.SKY:
@@ -217,9 +224,9 @@ function build_world_background(_world) {
 			var _sky_bg = layer_background_create(_sky_layer, _sprite);
 			layer_background_htiled(_sky_bg, true);
 			layer_background_vtiled(_sky_bg, true);
-			layer_background_speed(_sky_bg, (_sprite == bg_stars) ? 15 : 0);
-			layer_hspeed(_sky_layer, 0.125);
-			layer_vspeed(_sky_layer, 0.038);
+			layer_background_speed(_sky_bg, ((_sprite == bg_stars) ? 15 : 0) / _fps_ratio);
+			layer_hspeed(_sky_layer, 0.125 / _fps_ratio);
+			layer_vspeed(_sky_layer, 0.038 / _fps_ratio);
 			layer_set_visible(_sky_layer, true);
 			
 			break;
@@ -234,8 +241,8 @@ function build_world_background(_world) {
 			var _castle_bg = layer_background_create(_castle_layer, bg_castle);
 			layer_background_htiled(_castle_bg, true);
 			layer_background_vtiled(_castle_bg, true);
-			layer_hspeed(_castle_layer, -0.0625);
-			layer_vspeed(_castle_layer, -0.0625);
+			layer_hspeed(_castle_layer, -0.0625 / _fps_ratio);
+			layer_vspeed(_castle_layer, -0.0625 / _fps_ratio);
 			layer_set_visible(_castle_layer, true);
 			
 			break;
@@ -251,8 +258,8 @@ function build_world_background(_world) {
 			layer_background_htiled(_fence_bg, true);
 			layer_background_vtiled(_fence_bg, true);
 			layer_background_speed(_fence_bg, 0);
-			layer_hspeed(_fence_layer, 0.0625);
-			layer_vspeed(_fence_layer, 0.0625);
+			layer_hspeed(_fence_layer, 0.0625 / _fps_ratio);
+			layer_vspeed(_fence_layer, 0.0625 / _fps_ratio);
 			layer_set_visible(_fence_layer, true);
 			
 			break;
@@ -272,18 +279,18 @@ function build_world_background(_world) {
 			var _forest_leaves_layer = layer_create(800, "Forest_Leaves");
 			var _forest_leaves_bg = layer_background_create(_forest_leaves_layer, bg_forest_canopy);
 			layer_background_htiled(_forest_leaves_bg, true);
-			layer_background_speed(_forest_leaves_bg, 0);
+			layer_background_speed(_forest_leaves_bg, 0 / _fps_ratio);
 			layer_y(_forest_leaves_layer, _leaves_y);
-			layer_hspeed(_forest_leaves_layer, -0.125);
+			layer_hspeed(_forest_leaves_layer, -0.125 / _fps_ratio);
 			layer_set_visible(_forest_leaves_layer, true);
 			
 			// Background Leaf Fringe Layer
 			var _forest_canopy_layer = layer_create(801, "Forest_Canopy");
 			var _forest_canopy_bg = layer_background_create(_forest_canopy_layer, bg_forest_leaves);
 			layer_background_htiled(_forest_canopy_bg, true);
-			layer_background_speed(_forest_canopy_bg, 2);
+			layer_background_speed(_forest_canopy_bg, 2 / _fps_ratio);
 			layer_y(_forest_canopy_layer, _canopy_y);
-			layer_hspeed(_forest_canopy_layer, -0.125);
+			layer_hspeed(_forest_canopy_layer, -0.125 / _fps_ratio);
 			layer_set_visible(_forest_canopy_layer, true);
 			
 			// Background Tree Layer
@@ -291,9 +298,9 @@ function build_world_background(_world) {
 			var _forest_tresss_bg = layer_background_create(_forest_tress_layer, bg_forest_trees);
 			layer_background_htiled(_forest_tresss_bg, true);
 			layer_background_vtiled(_forest_tresss_bg, true);
-			layer_background_speed(_forest_tresss_bg, 0);
+			layer_background_speed(_forest_tresss_bg, 0 / _fps_ratio);
 			layer_y(_forest_tress_layer, _canopy_y - 16);
-			layer_hspeed(_forest_tress_layer, -0.038);
+			layer_hspeed(_forest_tress_layer, -0.038 / _fps_ratio);
 			layer_set_visible(_forest_tress_layer, true);
 			
 			break;

@@ -61,7 +61,7 @@ global.last_gamepad_h_axis_value = 0;
 global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
-quips_enabled = false;
+quips_enabled = true;
 debug_enabled = true;
 level_number = 0;
 classic_level = false;
@@ -72,7 +72,6 @@ frame_sounds = [];
 audio_falloff_set_model(audio_falloff_none);
 audio_listener_position(0, 0, 0);
 audio_listener_orientation(0, 1, 0, 0, 0, 1); // forward = room +y, up = out of screen => room +x is listener right
-game_set_speed(30, gamespeed_fps);
 palettes_init();
 
 // Graphic Variables
@@ -230,9 +229,11 @@ return_to_title = function(_blank_screen) {
 	screen_shake_timer = 0;
 	transition_timer = 0;
 	frame_timer = 0;
+	fps_timer = 0;
 	float_timer = 0;
 	blank_screen = true;
 	level_number = 0;
+	latest_quip = "";
 	classic_level = false;
 }
 
@@ -261,7 +262,7 @@ get_quip_text = function() {
 		"Maybe give someone else a turn?",
 		"Try ask Vince, he's good at helping",
 		"For help call 614-747-0555 and ask for Tricky Dicky",
-		"If you go to gamefaqs.com someone probably typed out the solition for this",
+		"If you go to gamefaqs.com someone probably typed out the solution for this",
 		"Tip: if you get stuck, you can always die",
 		"Scrunty mustard sauce",
 		"Watch a tutorial to beat the level",
@@ -276,12 +277,37 @@ get_quip_text = function() {
 		"Peej waz here",
 		"And what exactly was the plan there?",
 		"This time, try utilizing a strategy",
+		"it okay, be quiet",
+		"How did that help you again?",
+		"I mean. It's a start!",
+		"And what did we learn here today?",
+		"That's not good enough...",
+		"aw fuuuuuuuuuuuuck shit daaaaaaamn you bad",
+		"WASTED",
+		"you dieded",
+		"That's rough, buddy.",
+		"Have a problem? Consult a doctor!",
+		"Scientists HATE this one weird trick: egg all their houses",
+		"Skip this level for  $5.99?"
 	]
 	
 	return _quip_text[irandom(array_length(_quip_text)-1)];
 }
 
+logical_fps = 30;
+current_fps = 60;
+fps_ratio = 2;
+fps_timer = 0;
+
+set_display_fps = function(_fps) {
+	fps_timer = 0;
+	fps_ratio = max(1, (_fps div logical_fps));
+	game_set_speed(_fps, gamespeed_fps);
+}
+
+is_logic_frame = function() { return (fps_timer == 0); }
+
 // Read Window Size Properties
 read_window_options();
-window_fullscreen_setting = FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN;
 update_window_fullscreen();
+set_display_fps(120);

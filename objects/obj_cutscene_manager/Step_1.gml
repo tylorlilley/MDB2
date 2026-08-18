@@ -1,3 +1,5 @@
+if (!global.controller.is_logic_frame()) { exit; }
+
 cutscene_timer++;
 
 with (obj_player) {

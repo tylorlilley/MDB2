@@ -1,3 +1,5 @@
+if (!global.controller.is_logic_frame()) { exit; }
+
 if (room != rm_how_to_play) { instance_destroy(); exit; }
 
 event_inherited();

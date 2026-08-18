@@ -1,3 +1,5 @@
+if (!global.controller.is_logic_frame()) { exit; }
+
 event_inherited();
 
 // Make Player Ignore Controls
@@ -134,7 +136,7 @@ switch (state) {
 			}
 			if (_current_option_pos != _prev_menu_pos) {
 				play_global_sound(snd_player_ladder_step);
-				text_shake_timer = 8;
+				//text_shake_timer = 8;
 				cursor_sway_timer = 0;
 				
 				// Apply and Write Updated Settings

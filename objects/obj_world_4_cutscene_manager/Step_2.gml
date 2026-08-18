@@ -1,3 +1,5 @@
+if (!global.controller.is_logic_frame()) { exit; }
+
 if (cutscene_timer >= INTERRUPTION_FRAME) {
 	with (obj_player) { 
 		if (is_hop_up_state() || is_hop_down_state()) {

@@ -94,7 +94,9 @@ if (transition_timer > TRANSITION_DELAY) {
 	draw_set_font(ft_pixel);
 	draw_set_valign(fa_middle);
 	draw_set_halign(fa_center);
-	draw_text_ext(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y, latest_quip, 12, SCREEN_WIDTH - (GRID_SIZE*4));
+	var _quip_width = SCREEN_WIDTH - (GRID_SIZE*4), _quip_length = string_width(latest_quip);
+	while (_quip_length > _quip_width) { _quip_length /=2; _quip_length += 16; }
+	draw_text_ext(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y, latest_quip, 12, _quip_length);
 	gpu_set_blendequation(bm_eq_subtract);
 	draw_sprite_ext(((room == rm_intro_eih) ? spr_transition_circle : spr_transition_mask), 0, _fade_pos_x, _fade_pos_y, _max_scale*_scale, _max_scale*_scale, 0, c_white, 1);
 	gpu_set_blendequation(bm_eq_add);
@@ -107,4 +109,10 @@ if (transition_timer > TRANSITION_DELAY) {
 if (blank_screen) {
 	draw_set_color(C_WHITE);
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+}
+
+if (debug_enabled) {
+	draw_set_font(ft_pixel);
+	draw_set_color(C_WHITE);
+	draw_text_outlined(SCREEN_WIDTH-12, SCREEN_HEIGHT-12, fps);
 }

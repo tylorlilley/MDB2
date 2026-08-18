@@ -1,0 +1,1 @@
+ quips_enabled = !quips_enabled;

@@ -492,15 +492,9 @@ can_start_climbing = function() {
 // Main Functions
 update_player_state = function() {
 	prev_state = state;
-
-	// Check Controls
-	var _transition_manager_exists = false;
-	with (obj_cutscene_manager) { _transition_manager_exists = true; }
-	if (!_transition_manager_exists) {
-		update_controls(object_index == obj_mirror_player);
-		if (global.combine_up_and_jump_controls) { key_jump = key_up; }
-		if (global.original_controls) { key_jump = false; }
-	}
+	
+	// Press Switches
+	do_switch_collisions();
 	
 	// Restart Room
 	if (key_restart) { instance_destroy(); exit; }
@@ -1385,9 +1379,6 @@ do_player_object_collisions = function(_skip_portals = false) {
 			}
 		}
 	}
-	
-	// Press Switches
-	do_switch_collisions();
 	
 	/*
 	// Get Destroyed From Adjacent Lethal Objects

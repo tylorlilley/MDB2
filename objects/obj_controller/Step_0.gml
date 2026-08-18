@@ -1,3 +1,17 @@
+// Read Controls for Player on All Frames
+with (obj_player) {
+	// Check Controls
+	var _transition_manager_exists = false;
+	with (obj_cutscene_manager) { _transition_manager_exists = true; }
+	if (!_transition_manager_exists) {
+		update_controls(object_index == obj_mirror_player);
+		if (global.combine_up_and_jump_controls) { key_jump = key_up; }
+		if (global.original_controls) { key_jump = false; }
+	}
+}
+
+if (!is_logic_frame()) { exit; }
+
 // Set up Switch Blocks for this Frame
 with (obj_switch_block_outline) {
 	// Refresh Flashing Switch Blocks
@@ -19,34 +33,6 @@ array_sort(_dynamic_instances, function(_a, _b) {
 for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     var _inst = _dynamic_instances[_i];
     if (instance_exists(_inst)) { _inst.game_object_step(); }
-}
-for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
-    var _inst = _dynamic_instances[_i];
-	with(_inst) {
-		// Update Swim Timer for Visual Bob
-		swim_timer = swim_timer % FLOAT_OFFSET_PERIOD_FRAMES;
-	
-		// Update Virtual X and Y Positions Based on new Actual Positions
-		var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
-		var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff / x_transition_timer);
-		var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff / y_transition_timer);
-		_y_speed = y_transition_speed ?? _y_speed;
-		_x_speed = x_transition_speed ?? _x_speed;
-		if (abs(_x_speed) > 0 && abs(_x_speed) < 1) { _x_speed = (x_transition_timer % 2 == 0) ? sign(_x_speed) : 0; }
-		if (abs(_y_speed) > 0 && abs(_y_speed) < 1) { _y_speed = (y_transition_timer % 2 == 0) ?  sign(_y_speed) : 0; }
-		virtual_x += _x_speed;
-		virtual_y += _y_speed;
-		
-		// Update Transition Timers Based on Remaining Transition Time
-		if (transition_timer > 0) { transition_timer--; }
-		if (x_transition_timer > 0) { x_transition_timer--; }
-		if (y_transition_timer > 0) { y_transition_timer-- }
-		var _new_transition_timer = 0;
-		if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = max(x_transition_timer, y_transition_timer); }
-		else if (x_transition_timer > 0) { _new_transition_timer = x_transition_timer; }
-		else if (y_transition_timer > 0) { _new_transition_timer = y_transition_timer; }
-		transition_timer = max(transition_timer, _new_transition_timer);
-	}
 }
 
 /*
@@ -87,6 +73,14 @@ with (obj_lava) {
 			}
 		}
 	}
+}
+with (obj_eih) {
+	walk_timer++;
+	should_draw = true;
+	if (x < room_width/2-8) {
+		if (walk_timer == 6) { grid_move_to(x+8,y); walk_timer = 0; play_sound(snd_eih_step); image_index++; }
+	}
+	else if (walk_timer > 80 && instance_number(obj_player) == 0)  { instance_create(x, -16, obj_player); }
 }
 
 // Handle Switch Updates

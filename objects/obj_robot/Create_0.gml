@@ -31,6 +31,8 @@ should_walk = true;
 treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst) && (!_inst.is_a(obj_player) || !_inst.can_be_controlled); }
 
 update_controls = function() {
+	if (!global.controller.is_logic_frame()) { exit; }
+	
 	// Check for turn around
 	var _blocked_on_right = is_blocked_on_right(), _blocked_on_left = is_blocked_on_left(), _prev_is_left = is_left;
 	

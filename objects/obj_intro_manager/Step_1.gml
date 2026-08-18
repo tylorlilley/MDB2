@@ -1,3 +1,5 @@
+if (!global.controller.is_logic_frame()) { exit; }
+
 event_inherited();
 
 if (cutscene_timer == 24 && room == rm_intro_eih) { instance_create(-24, SCREEN_MIDDLE_Y, obj_eih); }

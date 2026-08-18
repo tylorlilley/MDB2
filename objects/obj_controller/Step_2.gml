@@ -1,3 +1,38 @@
+// Update Dynamic Object Interpolation Visuals
+with (obj_dynamic_object) {
+	// Update Swim Timer for Visual Bob
+	swim_timer = swim_timer % FLOAT_OFFSET_PERIOD_FRAMES;
+	
+	// Update Virtual X and Y Positions Based on new Actual Positions
+	var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
+	var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff / x_transition_timer);
+	var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff / y_transition_timer);
+	_y_speed = y_transition_speed ?? _y_speed;
+	_x_speed = x_transition_speed ?? _x_speed;
+	
+	// TODO: do slower crushed walk speed another way
+	//if (abs(_x_speed) > 0 && abs(_x_speed) < 1) { _x_speed = (x_transition_timer % 2 == 0) ? sign(_x_speed) : 0; }
+	//if (abs(_y_speed) > 0 && abs(_y_speed) < 1) { _y_speed = (y_transition_timer % 2 == 0) ?  sign(_y_speed) : 0; }
+	
+	virtual_x += _x_speed / other.fps_ratio;
+	virtual_y += _y_speed / other.fps_ratio;
+		
+	// Update Transition Timers Based on Remaining Transition Time
+	if (transition_timer > 0) { transition_timer--; }
+	if (x_transition_timer > 0) { x_transition_timer--; }
+	if (y_transition_timer > 0) { y_transition_timer-- }
+	var _new_transition_timer = 0;
+	if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = max(x_transition_timer, y_transition_timer); }
+	else if (x_transition_timer > 0) { _new_transition_timer = x_transition_timer; }
+	else if (y_transition_timer > 0) { _new_transition_timer = y_transition_timer; }
+	transition_timer = max(transition_timer, _new_transition_timer);
+}
+
+// Update Frame Timer
+fps_timer = (fps_timer + 1) % fps_ratio;
+
+if (!is_logic_frame()) { exit; }
+
 // Play All Sounds in Sound Buffer
 if (transition_timer <= TRANSITION_DELAY || transition_timer >= (TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD)) {
 	while (array_length(frame_sounds) > 0) {
