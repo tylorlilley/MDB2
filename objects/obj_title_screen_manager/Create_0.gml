@@ -84,4 +84,3 @@ if (global.controller.debug_enabled) { progress_level = 2; }
 
 // Determine maximum window size
 max_scaling_size = get_maximum_screen_scale();
-max_fps = get_maximum_fps();

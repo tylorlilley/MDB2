@@ -43,24 +43,6 @@ if (transition_timer <= TRANSITION_DELAY || transition_timer >= (TRANSITION_DELA
 }
 else { frame_sounds = []; }
 
-// Do Screen Resize
-if (screen_resize_timer > 0) {
-	var _surface_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
-	var _surface_width = SCREEN_WIDTH * _surface_scale, _surface_height = SCREEN_HEIGHT * _surface_scale;
-	if (surface_get_width(application_surface) != _surface_width || surface_get_width(application_surface) != _surface_height) {
-		surface_resize(application_surface, SCREEN_WIDTH * _surface_scale, SCREEN_HEIGHT * _surface_scale);
-		display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
-	}
-
-	screen_resize_timer--;
-	if (screen_resize_timer == 0) {
-		if (window_fullscreen_pending) { update_window_fullscreen(); }
-		else { update_window_size(); }
-		read_window_options();
-		update_window_fps();
-	}
-}
-
 // Do Screenshake
 if (screen_shake_timer > 0) {
 	var _screen_x = 8, _screen_y =  8, _cam = view_camera[0];
@@ -72,6 +54,29 @@ if (screen_shake_timer > 0) {
 	camera_set_view_pos(_cam, _screen_x, _screen_y);
 }
 
+// Update Control Values
+global.last_gamepad_h_axis_value = gamepad_axis_value(global.gamepad, gp_axislh);
+global.last_gamepad_v_axis_value = gamepad_axis_value(global.gamepad, gp_axislv);
+
+if (!is_logic_frame()) { exit; }
+
+// Do Screen Resize
+if (screen_resize_timer > 0) {
+	var _surface_width = SCREEN_WIDTH * gui_scale, _surface_height = SCREEN_HEIGHT * gui_scale;
+	if (surface_get_width(application_surface) != _surface_width || surface_get_height(application_surface) != _surface_height) {
+		gui_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
+		surface_resize(application_surface, SCREEN_WIDTH * gui_scale, SCREEN_HEIGHT * gui_scale);
+		display_set_gui_size(SCREEN_WIDTH * gui_scale, SCREEN_HEIGHT * gui_scale);
+	}
+
+	screen_resize_timer--;
+	if (screen_resize_timer == 0) {
+		if (window_fullscreen_pending) { update_window_fullscreen(); }
+		else { update_window_size(); }
+		update_window_fps();
+	}
+}
+
 // Handle Initial Game Boot Sequence
 if (creation_timer > 0) {
 	creation_timer--;
@@ -79,6 +84,3 @@ if (creation_timer > 0) {
 }
 blank_screen = false;
 
-// Update Control Values
-global.last_gamepad_h_axis_value = gamepad_axis_value(global.gamepad, gp_axislh);
-global.last_gamepad_v_axis_value = gamepad_axis_value(global.gamepad, gp_axislv);

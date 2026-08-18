@@ -1452,12 +1452,14 @@ do_portal_collisions = function(_objects_at_position) {
 				grid_move_to(_inst.linked_portal.x, _inst.linked_portal.y);
 				virtual_x = x;
 				virtual_y = y;
+				portal_lockout_timer = 8;
 				var _prev_x = x, _prev_y = y;
 				start_fallback_state();
 				grid_move_to(_prev_x, _prev_y, false);
+				// These resets are needed to make the recursion work; they get overwritten immediately later in the collision call chain
 				x_transition_timer = 0;
 				y_transition_timer = 0;
-				transition_timer = 4;
+				transition_timer = 0;
 				return true;
 			}
 		}

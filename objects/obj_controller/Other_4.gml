@@ -1,7 +1,7 @@
 // Reset Surface
-var _surface_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
-surface_resize(application_surface, SCREEN_WIDTH * _surface_scale, SCREEN_HEIGHT * _surface_scale);
-display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
+gui_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
+surface_resize(application_surface, SCREEN_WIDTH * gui_scale, SCREEN_HEIGHT * gui_scale);
+display_set_gui_size(SCREEN_WIDTH * gui_scale, SCREEN_HEIGHT * gui_scale);
 
 // Load Room Data
 var _data = room_data();

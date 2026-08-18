@@ -1,8 +1,8 @@
+event_inherited();
+
 if (!global.controller.is_logic_frame()) { exit; }
 
 if (room != rm_how_to_play) { instance_destroy(); exit; }
-
-event_inherited();
 
 if (key_left || key_right || key_up || key_down || key_jump || key_restart) {
 	return_to_title = true;

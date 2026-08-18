@@ -1,6 +1,6 @@
-if (!global.controller.is_logic_frame()) { exit; }
-
 event_inherited();
+
+if (!global.controller.is_logic_frame()) { exit; }
 
 if (cutscene_timer == 24 && room == rm_intro_eih) { instance_create(-24, SCREEN_MIDDLE_Y, obj_eih); }
 if (cutscene_timer == 40 && room == rm_intro) { instance_create(SCREEN_MIDDLE_X, -16, obj_player); }

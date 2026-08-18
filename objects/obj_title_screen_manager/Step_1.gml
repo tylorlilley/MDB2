@@ -130,7 +130,7 @@ switch (state) {
 			var _option_change = 0, _min_option_pos = 0, _current_option_pos = 0, _max_option_pos = 0, _option_change_amount = 1;
 			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _min_option_pos = FULL_SCREEN_OPTIONS.FULL_SCREEN; _max_option_pos = FULL_SCREEN_OPTIONS.WINDOWED; _current_option_pos = _controller.window_fullscreen_setting; }
 			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _min_option_pos = 1; _max_option_pos = max_scaling_size; _current_option_pos = _controller.window_scale_setting; }
-			else if (menu_pos == SETTINGS_OPTIONS.FPS) { _min_option_pos = 30; _max_option_pos = max_fps; _current_option_pos = _controller.window_fps_setting; _option_change_amount = 30; }
+			else if (menu_pos == SETTINGS_OPTIONS.FPS) { _min_option_pos = 30; _max_option_pos = get_maximum_fps(); _current_option_pos = _controller.window_fps_setting; _option_change_amount = 30; }
 			var _prev_menu_pos = _current_option_pos;
 			
 			// Change menu options

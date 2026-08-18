@@ -312,6 +312,7 @@ get_quip_text = function() {
 }
 
 update_window_fps = function() {
+	window_fps_setting = clamp(floor(window_fps_setting / 30) * 30, 30, get_maximum_fps());
 	fps_timer = 0;
 	fps_ratio = max(1, (window_fps_setting div logical_fps));
 	game_set_speed(window_fps_setting, gamespeed_fps);

@@ -1,6 +1,6 @@
-if (!global.controller.is_logic_frame()) { exit; }
-
 event_inherited();
+
+if (!global.controller.is_logic_frame()) { exit; }
 
 // Handle Interrupting Original Transition
 if (cutscene_timer < INTERRUPTION_FRAME/4) {

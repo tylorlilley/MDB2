@@ -1,6 +1,6 @@
-if (!global.controller.is_logic_frame()) { exit; }
-
 event_inherited();
+
+if (!global.controller.is_logic_frame()) { exit; }
 
 audio_stop_sound(bgm_mdb_w1);
 audio_stop_sound(bgm_old_w1);
