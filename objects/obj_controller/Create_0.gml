@@ -41,6 +41,12 @@ enum FULL_SCREEN_OPTIONS {
 	WINDOWED
 }
 
+enum FPS_OPTIONS {
+	FPS_30,
+	FPS_60,
+	FPS_120
+}
+
 // Global Variables
 global.controller = id;
 global.gamepad = noone;
@@ -66,6 +72,11 @@ debug_enabled = true;
 level_number = 0;
 classic_level = false;
 draw_game_object_grid = false;
+
+// FPS Variables
+logical_fps = 30;
+fps_ratio = 2;
+fps_timer = 0;
 
 // Set Up Game Audio
 frame_sounds = [];
@@ -181,6 +192,7 @@ read_window_options = function() {
 	ini_open("mdb.ini");
 	window_fullscreen_setting = ini_read_real("settings", "full_screen", FULL_SCREEN_OPTIONS.BORDERLESS_FULL_SCREEN);
 	window_scale_setting = ini_read_real("settings", "screen_scale", get_maximum_screen_scale());
+	window_fps_setting = ini_read_real("settings", "fps", get_maximum_fps());
 	ini_close();
 }
 
@@ -188,6 +200,7 @@ write_window_options = function() {
 	ini_open("mdb.ini");
 	ini_write_real("settings", "full_screen", window_fullscreen_setting);
 	ini_write_real("settings", "screen_scale", window_scale_setting);
+	ini_write_real("settings", "fps", window_fps_setting);
 	ini_close();
 }
 
@@ -294,15 +307,10 @@ get_quip_text = function() {
 	return _quip_text[irandom(array_length(_quip_text)-1)];
 }
 
-logical_fps = 30;
-current_fps = 60;
-fps_ratio = 2;
-fps_timer = 0;
-
-set_display_fps = function(_fps) {
+update_window_fps = function() {
 	fps_timer = 0;
-	fps_ratio = max(1, (_fps div logical_fps));
-	game_set_speed(_fps, gamespeed_fps);
+	fps_ratio = max(1, (window_fps_setting div logical_fps));
+	game_set_speed(window_fps_setting, gamespeed_fps);
 }
 
 is_logic_frame = function() { return (fps_timer == 0); }
@@ -310,4 +318,4 @@ is_logic_frame = function() { return (fps_timer == 0); }
 // Read Window Size Properties
 read_window_options();
 update_window_fullscreen();
-set_display_fps(120);
+update_window_fps();

@@ -255,7 +255,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 			// Divide speeds by fps values to maintain parity
 			var _fps_ratio = global.controller.fps_ratio;
 			hspeed /= _fps_ratio;
-			vspeed /= _fps_ratio;
+			vspeed = (vspeed / _fps_ratio) + (gravity * (_fps_ratio - 1) / 2);
 			terminal_velocity /= _fps_ratio;
 			gravity /= sqr(_fps_ratio);
 			image_speed /= _fps_ratio;
@@ -271,6 +271,15 @@ function get_maximum_screen_scale() {
 		if (_max_scale > 100) { break; }
 	}
 	return max(1, _max_scale-1);
+}
+
+function get_maximum_fps() {
+	var _monitor_freq = display_get_frequency(), _fps = 30;
+	
+	if (_monitor_freq >= 120) { _fps = 120; }
+	else if (_monitor_freq >= 60) { _fps = 60; }
+	
+	return _fps;
 }
 
 // Control Functions

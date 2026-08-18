@@ -121,15 +121,17 @@ switch (state) {
 			}
 		}
 		else if (state == TITLE_STATES.SETTINGS_MENU) {
-			var _menu_change = 0, _min_option_pos = 0, _current_option_pos = 0, _max_option_pos = 0;
+			var _option_change = 0, _min_option_pos = 0, _current_option_pos = 0, _max_option_pos = 0, _option_change_amount = 1;
 			if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _min_option_pos = FULL_SCREEN_OPTIONS.FULL_SCREEN; _max_option_pos = FULL_SCREEN_OPTIONS.WINDOWED; _current_option_pos = _controller.window_fullscreen_setting; }
 			else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _min_option_pos = 1; _max_option_pos = max_scaling_size; _current_option_pos = _controller.window_scale_setting; }
+			else if (menu_pos == SETTINGS_OPTIONS.FPS) { _min_option_pos = 30; _max_option_pos = max_fps; _current_option_pos = _controller.window_fps_setting; _option_change_amount = 30; }
 			var _prev_menu_pos = _current_option_pos;
 			
 			// Change menu options
-			if (key_left && !key_right) { _menu_change = -1; }
-			else if (key_right && ! key_left) { _menu_change = 1; }
-			_current_option_pos += _menu_change;
+			if (key_left && !key_right) { _option_change = -_option_change_amount; }
+			else if (key_right && ! key_left) { _option_change = _option_change_amount; }
+			_current_option_pos += _option_change;
+			if (menu_pos == SETTINGS_OPTIONS.FPS && _current_option_pos == 90) { _current_option_pos += _option_change; }
 			if (_current_option_pos > _max_option_pos || _current_option_pos < _min_option_pos) { 
 				_current_option_pos = clamp(_current_option_pos, _min_option_pos, _max_option_pos);
 				if !(audio_is_playing(snd_solid_invulnerable)) { play_global_sound(snd_solid_invulnerable); }
@@ -142,6 +144,7 @@ switch (state) {
 				// Apply and Write Updated Settings
 				if (menu_pos == SETTINGS_OPTIONS.FULL_SCREEN) { _controller.window_fullscreen_setting = _current_option_pos;  _controller.update_window_fullscreen(); }
 				else if (menu_pos == SETTINGS_OPTIONS.SCREEN_SCALE) { _controller.window_scale_setting = _current_option_pos; _controller.update_window_size(); }
+				else if (menu_pos == SETTINGS_OPTIONS.FPS) { _controller.window_fps_setting = _current_option_pos; _controller.update_window_fps(); }
 				_controller.write_window_options();
 				
 			}

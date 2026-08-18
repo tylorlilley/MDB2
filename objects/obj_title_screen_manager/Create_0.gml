@@ -18,6 +18,7 @@ enum MENU_OPTIONS {
 enum SETTINGS_OPTIONS {
 	FULL_SCREEN,
 	SCREEN_SCALE,
+	FPS,
 	SKIP_THIS,
 	RETURN,
 }
@@ -33,6 +34,7 @@ option_strings = [
 settings_strings = [
 	"SCREEN",
 	"SCALE",
+	"FPS",
 	"",
 	"RETURN TO MENU"
 ];
@@ -80,3 +82,4 @@ ini_close();
 
 // Determine maximum window size
 max_scaling_size = get_maximum_screen_scale();
+max_fps = get_maximum_fps();

@@ -17,7 +17,7 @@ if (state >= TITLE_STATES.BEGIN) {
 	draw_set_font(ft_pixel_small);
 	draw_set_halign(fa_right);
 	draw_set_valign(fa_top);
-	draw_text(SCREEN_WIDTH - 12, SCREEN_HEIGHT - 16, "v 0.MATT");
+	draw_text(SCREEN_WIDTH - 12, SCREEN_HEIGHT - 16, "v 0.RICHARD");
 	draw_set_alpha(1);
 }
 
@@ -114,6 +114,7 @@ else if (state == TITLE_STATES.SETTINGS_MENU) {
 			var _selected_string = "";
 			if (_i == SETTINGS_OPTIONS.FULL_SCREEN) { _selected_string = full_screen_strings[_controller.window_fullscreen_setting]; }
 			else if (_i == SETTINGS_OPTIONS.SCREEN_SCALE) { _selected_string = "x" + string(_controller.window_scale_setting); }
+			else if (_i == SETTINGS_OPTIONS.FPS) { _selected_string = string(_controller.window_fps_setting); }
 			
 			// Draw Menu Option
 			var _unselected_color = (_i == SETTINGS_OPTIONS.SCREEN_SCALE && _controller.window_fullscreen_setting != FULL_SCREEN_OPTIONS.WINDOWED) ? C_GRAY_DARK : C_GRAY_LIGHT;

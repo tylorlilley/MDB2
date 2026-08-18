@@ -4,32 +4,34 @@ with (obj_dynamic_object) {
 	swim_timer = swim_timer % FLOAT_OFFSET_PERIOD_FRAMES;
 	
 	// Update Virtual X and Y Positions Based on new Actual Positions
-	var _x_diff = (x - virtual_x), _y_diff = (y - virtual_y);
-	var _x_speed = (x_transition_timer == 0) ? 0 : (_x_diff / x_transition_timer);
-	var _y_speed = (y_transition_timer == 0) ? 0 : (_y_diff / y_transition_timer);
-	_y_speed = y_transition_speed ?? _y_speed;
-	_x_speed = x_transition_speed ?? _x_speed;
+	var _x_frames = (x_transition_timer * other.fps_ratio) - other.fps_timer;
+    var _y_frames = (y_transition_timer * other.fps_ratio) - other.fps_timer;
+    var _x_speed = (_x_frames <= 0) ? 0 : ((x - virtual_x) / _x_frames);
+    var _y_speed = (_y_frames <= 0) ? 0 : ((y - virtual_y) / _y_frames);
+	
+	// Apply Per Tick Set Speeds
+	if (!is_undefined(x_transition_speed)) { _x_speed = x_transition_speed / other.fps_ratio; }
+    if (!is_undefined(y_transition_speed)) { _y_speed = y_transition_speed / other.fps_ratio; }
 	
 	// TODO: do slower crushed walk speed another way
 	//if (abs(_x_speed) > 0 && abs(_x_speed) < 1) { _x_speed = (x_transition_timer % 2 == 0) ? sign(_x_speed) : 0; }
 	//if (abs(_y_speed) > 0 && abs(_y_speed) < 1) { _y_speed = (y_transition_timer % 2 == 0) ?  sign(_y_speed) : 0; }
 	
-	virtual_x += _x_speed / other.fps_ratio;
-	virtual_y += _y_speed / other.fps_ratio;
+	virtual_x += _x_speed;
+	virtual_y += _y_speed;
 		
-	// Update Transition Timers Based on Remaining Transition Time
-	if (transition_timer > 0) { transition_timer--; }
-	if (x_transition_timer > 0) { x_transition_timer--; }
-	if (y_transition_timer > 0) { y_transition_timer-- }
-	var _new_transition_timer = 0;
-	if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = max(x_transition_timer, y_transition_timer); }
-	else if (x_transition_timer > 0) { _new_transition_timer = x_transition_timer; }
-	else if (y_transition_timer > 0) { _new_transition_timer = y_transition_timer; }
-	transition_timer = max(transition_timer, _new_transition_timer);
+	// Update Transition Timers Based on Remaining Transition Time ONLY on last tick before the next logic frame
+	if (other.fps_timer == other.fps_ratio - 1) {
+		if (transition_timer > 0) { transition_timer--; }
+		if (x_transition_timer > 0) { x_transition_timer--; }
+		if (y_transition_timer > 0) { y_transition_timer-- }
+		var _new_transition_timer = 0;
+		if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = max(x_transition_timer, y_transition_timer); }
+		else if (x_transition_timer > 0) { _new_transition_timer = x_transition_timer; }
+		else if (y_transition_timer > 0) { _new_transition_timer = y_transition_timer; }
+		transition_timer = max(transition_timer, _new_transition_timer);
+	}
 }
-
-// Update Frame Timer
-fps_timer = (fps_timer + 1) % fps_ratio;
 
 if (!is_logic_frame()) { exit; }
 

@@ -67,7 +67,7 @@ with (obj_lava) {
 			bubble_timer = irandom(256*6) + 256 + 128;
 			if (!is_inside_solid()) {
 				var _lava_bubble = create_particles(1, PARTICLE_TYPES.DEBRIS, PALETTES.RED_DARK);
-				_lava_bubble.vspeed -= 1;
+				_lava_bubble.vspeed -= 1 / global.controller.fps_ratio;
 				_lava_bubble.destroyed_y = _lava_bubble.y + sprite_get_height(_lava_bubble.sprite_index);
 				_lava_bubble.creator = id;
 			}
