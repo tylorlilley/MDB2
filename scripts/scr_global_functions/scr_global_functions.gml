@@ -254,10 +254,10 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 			
 			// Divide speeds by fps values to maintain parity
 			var _fps_ratio = global.controller.fps_ratio;
+			gravity /= sqr(_fps_ratio);
 			hspeed /= _fps_ratio;
 			vspeed = (vspeed / _fps_ratio) + (gravity * (_fps_ratio - 1) / 2);
 			terminal_velocity /= _fps_ratio;
-			gravity /= sqr(_fps_ratio);
 			image_speed /= _fps_ratio;
 		}
 		if (_total_particles == 1) { return _particle; }

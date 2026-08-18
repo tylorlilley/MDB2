@@ -1,5 +1,5 @@
 // Reset Surface
-surface_resize(application_surface, SCREEN_WIDTH * 4, SCREEN_HEIGHT * 4);
+surface_resize(application_surface, SCREEN_WIDTH * get_maximum_screen_scale(), SCREEN_HEIGHT * get_maximum_screen_scale());
 display_set_gui_size(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 // Load Room Data

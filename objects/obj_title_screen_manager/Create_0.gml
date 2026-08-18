@@ -80,6 +80,8 @@ progress_level = ini_read_real("progress", "progress_level", 0); // TODO: increa
 level_number = ini_read_real("progress", "level_number", 0); // TODO: Add this to room values information map instead
 ini_close();
 
+if (global.controller.debug_enabled) { progress_level = 2; }
+
 // Determine maximum window size
 max_scaling_size = get_maximum_screen_scale();
 max_fps = get_maximum_fps();
