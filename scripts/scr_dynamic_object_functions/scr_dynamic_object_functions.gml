@@ -94,8 +94,7 @@ spawn_contents = function() {
 }
 
 update_last_grid_position = function() {
-	// transition_timer is stale here - obj_controller recomputes it after all steps
-	if (x_transition_timer == 0 && y_transition_timer == 0) {
+	if (transition_timer == 0) {
 		last_grid_x = x;
 		last_grid_y = y;
 	}
@@ -150,7 +149,7 @@ grid_move_left = function(_speed) {
 		}
 	}
 	grid_move_to(x - GRID_SIZE, y);
-	x_transition_timer += abs(GRID_SIZE / _speed);
+	add_x_transition_timer(abs(GRID_SIZE / _speed));
 	
 	return true;
 }
@@ -167,7 +166,7 @@ grid_move_right = function(_speed) {
 	}
 	
 	grid_move_to(x + GRID_SIZE, y);
-	x_transition_timer += abs(GRID_SIZE / _speed);
+	add_x_transition_timer(abs(GRID_SIZE / _speed));
 	
 	return true;
 }
@@ -176,7 +175,7 @@ grid_move_up_direct = function(_speed) {
 	if (_speed == 0) { return false; }
 	
 	grid_move_to(x, y - GRID_SIZE);
-	y_transition_timer += abs(GRID_SIZE / _speed);
+	add_y_transition_timer(abs(GRID_SIZE / _speed));
 	return true;
 }
 
@@ -184,7 +183,7 @@ grid_move_down_direct = function(_speed) {
 	if (_speed == 0) { return false; }
 	
 	grid_move_to(x, y + GRID_SIZE);
-	y_transition_timer += abs(GRID_SIZE / _speed);
+	add_y_transition_timer(abs(GRID_SIZE / _speed));
 	return true;
 }
 
@@ -347,7 +346,7 @@ game_object_step = function() {
 	if (has_gravity) {
 		do_switch_collisions();
 			
-		if (transition_timer == 0 && x_transition_timer == 0) {
+		if (transition_timer == 0) {
 			if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.SURFACE) { fall_timer = 0; }
 			if ( state != PLAYER_STATES.SWIM) { swim_timer = 0; }
 			
@@ -394,7 +393,7 @@ game_object_step = function() {
 								
 								if (fall_timer == 0) {
 									// Start Surfacing
-									transition_timer = 8;
+									add_transition_timer(8);
 									state = PLAYER_STATES.SURFACE;
 									fall_timer = 0;
 								}
@@ -451,4 +450,32 @@ do_switch_collisions = function() {
 		var _inst = _fully_overlapping_switches[_i];
 		_inst.press_switch();
 	}
+}
+
+
+// Transition Timer Functions
+reset_transition_timer = function() {
+	transition_timer = 0;
+	x_transition_timer = 0;
+	y_transition_timer = 0;
+}
+
+set_transition_timer = function(_amount) {
+	transition_timer = _amount;
+	x_transition_timer = 0;
+	y_transition_timer = 0;
+}
+
+add_x_transition_timer = function(_amount) {
+	transition_timer += _amount;
+	x_transition_timer += _amount;
+}
+
+add_y_transition_timer = function(_amount) {
+	transition_timer += _amount;
+	y_transition_timer += _amount;
+}
+
+add_transition_timer = function(_amount) {
+	transition_timer += _amount;
 }

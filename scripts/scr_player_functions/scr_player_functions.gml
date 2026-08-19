@@ -222,13 +222,13 @@ start_pushing = function(_pushed_obj) {
 start_winning = function() {
 	start_cape_win();
 	state = PLAYER_STATES.WIN;
-	transition_timer = 52;
+	set_transition_timer(52);
 	image_index = 0;
 }
 	
 start_climbing = function() {	
 	state = PLAYER_STATES.CLIMB;
-	transition_timer = 24;
+	set_transition_timer(24);
 	climbed_inst = get_climbed_object();
 	return true;
 }
@@ -244,15 +244,13 @@ start_standing = function(_is_crushed = false) {
 	if (_is_crushed) { state = PLAYER_STATES.CRUSHED_STAND; }
 	else if (key_down && !global.original_controls) { state = PLAYER_STATES.CROUCH; }
 	else if (key_up && !global.original_controls) { state = PLAYER_STATES.LOOK_UP; }
-	transition_timer = (_is_crushed) ? 4 : 0;
+	set_transition_timer((_is_crushed) ? 4 : 0);
 	air_walk = false;
 	if (key_left || key_right) { is_left = key_left; }
 }
 
 start_falling = function(_is_dazed = false) {
-	transition_timer = 0;
-	y_transition_timer = 0;
-	x_transition_timer = 0;
+	reset_transition_timer();
 	grid_move_down(2); // If this fails, we still proceed with setting the fall state as the ultimate state fallback
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 	fall_timer = 0;
@@ -262,7 +260,7 @@ start_falling = function(_is_dazed = false) {
 
 start_laddering = function() {
 	state = PLAYER_STATES.LADDER;
-	transition_timer = 4;
+	set_transition_timer(4);
 	play_sound(snd_player_ladder_step);
 }
 
@@ -276,7 +274,7 @@ should_start_laddering = function() {
 start_turning = function() {
 	if (state == PLAYER_STATES.TURN) { prev_state = PLAYER_STATES.STAND; }
 	state = PLAYER_STATES.TURN;
-	transition_timer = 4;
+	set_transition_timer(4);
 	walk_on_ground_objects();
 }
 
@@ -291,7 +289,6 @@ start_walking = function(_is_crushed = false) {
 	// Continue with Walking or Fall
 	var _speed = (_is_crushed) ? 0.5 : 2;
 	if (grid_move_horizontal(_speed * get_left_value())) {
-		transition_timer = (_is_crushed) ? 4 : 0;
 		state = (_is_crushed) ? PLAYER_STATES.CRUSHED_FORWARD : PLAYER_STATES.WALK_FORWARD;
 	}
 }
@@ -303,7 +300,7 @@ start_hopping = function(_should_move_horizontally = false) {
 	else { state = PLAYER_STATES.HOP_UP; }
 	
 	play_sound(snd_player_jump);
-	if (grid_move_up(1)) { transition_timer = 8; }
+	if (grid_move_up(1)) { set_transition_timer(8); }
 	else { start_fallback_state(); }
 }
 
@@ -524,7 +521,7 @@ update_player_state = function() {
 		switch (state) {
 			case PLAYER_STATES.RECOIL: {
 				if (transition_timer == 6) {
-					if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
+					if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
 				}
 				
 				break;
@@ -549,15 +546,14 @@ update_player_state = function() {
 			}
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
-				if (global.original_controls && transition_timer <= 2 && x_transition_timer == 0) {
-					transition_timer = 0;
-					y_transition_timer = 0;
+				if (global.original_controls && transition_timer <= 2) {
+					reset_transition_timer(); // TODO: Does this work anymore?
 				}
 				
 				break;
 			}
 			case PLAYER_STATES.WIN: {
-				if ((key_up || key_jump) && prev_state == PLAYER_STATES.WIN && win_loops > 0) { transition_timer = 0; }
+				if ((key_up || key_jump) && prev_state == PLAYER_STATES.WIN && win_loops > 0) { reset_transition_timer(); }
 				else if (visible) {
 					if (transition_timer == 51) { image_index = 0; cape_image_index = 0; }
 					else if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); virtual_y -= 2; }
@@ -592,7 +588,7 @@ update_player_state = function() {
 					
 					if (_horizontal_input && instance_exists(get_climbed_object())) { start_climbing(); }
 					else if (_horizontal_input && _can_walk && grid_move_horizontal(get_left_value())) {
-						transition_timer = 8;
+						set_transition_timer(8);
 						state = PLAYER_STATES.SWIM_FORWARD;
 					}
 					else { state = PLAYER_STATES.SWIM; }
@@ -606,7 +602,7 @@ update_player_state = function() {
 					with (obj_door) { image_index = 2; }
 					if (room == rm_intro) { global.controller.transition_room(room_next(room)); }
 					else {
-						global.controller.transition_timer = 1;
+						global.controller.room_transition_timer = 1;
 						global.controller.x = x;
 						global.controller.y = y;
 					}
@@ -642,7 +638,7 @@ update_player_state = function() {
 					}
 					else { state = PLAYER_STATES.HOP_DOWN; }
 					
-					if (grid_move_down(1)) { transition_timer = 8; }
+					if (grid_move_down(1)) { set_transition_timer(8); }
 					else { start_fallback_state(); }
 				}
 				break;
@@ -700,12 +696,12 @@ update_player_state = function() {
 					// Update Landing on Objects from Hop/Airwalk
 					if (is_hop_down_state()) {
 						if (transition_timer == 0) { start_standing(); }
-						transition_timer = 4;
+						set_transition_timer(4);
 						fall_on_ground_objects();
 					}
 					else if (state == PLAYER_STATES.WALK_FORWARD && air_walk) {
 						start_standing();
-						transition_timer = 4;
+						set_transition_timer(4);
 					}
 						
 					// Switch to New State Based on Player Input
@@ -745,12 +741,13 @@ update_player_state = function() {
 								else if (can_push_objects) {
 									// Push Against Solid Wall
 									state = PLAYER_STATES.PUSH_STAND;
-									transition_timer = 4;
+									set_transition_timer(4);
 								}
 								else {
-									// TODO: Walk Against Solid Wall
+									// Stand Still
+									// TODO: Is this ever reachable?
 									state = PLAYER_STATES.STAND;
-									transition_timer = 4;
+									set_transition_timer(4);
 								}
 
 							}
@@ -766,7 +763,7 @@ update_player_state = function() {
 						}
 						else if (key_down && !global.original_controls) {
 							if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
-							else if (state != PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.CROUCH; transition_timer = 4; }
+							else if (state != PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.CROUCH; set_transition_timer(4); }
 
 							if (crouch_timer == 32 && state != PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.POWERCROUCH; play_sound(snd_player_powerup); }
 						}
@@ -777,7 +774,7 @@ update_player_state = function() {
 							(prev_state == PLAYER_STATES.PUSH_STAND ||
 							prev_state == PLAYER_STATES.PUSH_FORWARD ||
 							prev_state == PLAYER_STATES.CROUCH ||
-							prev_state == PLAYER_STATES.LOOK_UP)) { transition_timer = 4; }
+							prev_state == PLAYER_STATES.LOOK_UP)) { set_transition_timer(4); }
 					}
 				}
 				break;
@@ -823,19 +820,18 @@ update_player_state = function() {
 							if (!instance_exists(id)) { exit; }
 							
 							state = PLAYER_STATES.RECOIL;
-							transition_timer = 8;
-							if (!grid_move_up(4)) { play_sound(snd_soft_thud); transition_timer = 2; }
+							if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
+							else { add_transition_timer(6); }
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay
 							start_standing();
-							transition_timer = 0;
 						}
 						else {
 							// Landing Delay for Tumbling animation
 							if (key_left || key_right) { is_left = key_left; }
 							state = PLAYER_STATES.LAND;
-							transition_timer = 8;
+							set_transition_timer(8);
 							play_sound(snd_soft_thud);
 						}
 					}
@@ -895,7 +891,7 @@ update_player_state = function() {
 			}
 			case PLAYER_STATES.CLIMB: {
 				if (is_on_ground()) {
-					transition_timer = 4;
+					set_transition_timer(4);
 					state = PLAYER_STATES.CROUCH;
 				}
 				else { start_fallback_state(); }
@@ -1356,13 +1352,13 @@ do_player_object_collisions = function(_skip_portals = false) {
 	// Go Through Portals
 	if (!_skip_portals && do_portal_collisions(_objects_at_position)) {
 		do_player_object_collisions(false);
-        if (instance_exists(id) && state != PLAYER_STATES.WIN) { transition_timer = 1; }
+        if (instance_exists(id) && state != PLAYER_STATES.WIN) { set_transition_timer(1); }
         exit;
 	}
 	
 	// Go Through Open Doors
 	if (can_be_controlled) {
-		if (state != PLAYER_STATES.WIN && (x_transition_timer == 0 && y_transition_timer == 0) && (is_grounded_state() || is_fall_state())) {
+		if (state != PLAYER_STATES.WIN && transition_timer == 0 && (is_grounded_state() || is_fall_state())) {
 			for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
 				var _inst = _objects_at_position[_i];
 				if (!instance_exists(_inst) || !_inst.is_a(obj_door)) { continue; }
@@ -1455,10 +1451,7 @@ do_portal_collisions = function(_objects_at_position) {
 				var _prev_x = x, _prev_y = y;
 				start_fallback_state();
 				grid_move_to(_prev_x, _prev_y, false);
-				// These resets are needed to make the recursion work; they get overwritten immediately later in the collision call chain
-				x_transition_timer = 0;
-				y_transition_timer = 0;
-				transition_timer = 0;
+				reset_transition_timer(); // This reset is needed to make the recursion work; they get overwritten immediately later in the collision call chain
 				return true;
 			}
 		}

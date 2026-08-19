@@ -93,7 +93,7 @@ screen_shake_timer = 0;
 
 // Timers
 screen_resize_timer = 0;
-transition_timer = 0;
+room_transition_timer = 0;
 frame_timer = 0;
 float_timer = 0;
 creation_timer = 30;
@@ -149,7 +149,7 @@ transition_room = function(_new_room, _randomize_room_seed = true) {
 
 start_screen_shake = function() { screen_shake_timer = 8; }
 
-start_room_transition = function() { transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
+start_room_transition = function() { room_transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD; }
 
 create_object_grid = function(_cols, _rows) {
 	var _game_object_grid = array_create(_cols);
@@ -244,7 +244,7 @@ return_to_title = function() {
 	play_title_music();
 	transition_room(rm_title);
 	screen_shake_timer = 0;
-	transition_timer = 0;
+	room_transition_timer = 0;
 	frame_timer = 0;
 	fps_timer = 0;
 	float_timer = 0;

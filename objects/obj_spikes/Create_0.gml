@@ -23,8 +23,8 @@ parent_deal_damage = deal_damage;
 
 deal_damage = function() { 
 	shine_timer = 2;
-	y_transition_timer = 4;
 	virtual_y -= 4;
+	add_y_transition_timer(4);
 	parent_deal_damage();
 }
 

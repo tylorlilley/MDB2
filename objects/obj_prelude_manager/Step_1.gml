@@ -10,7 +10,7 @@ if (y > 1536 || key_restart_released || key_jump_released) {
 	global.controller.transition_room(room_next(room));
 }
 
-if (global.controller.transition_timer == 0) {
+if (global.controller.room_transition_timer == 0) {
 	vspeed = 1 / global.controller.fps_ratio;
 	if (get_down_held() || get_right_held()) { vspeed = 2 / global.controller.fps_ratio; }
 	else if (get_up_held() || get_left_held()) { vspeed = 0; }

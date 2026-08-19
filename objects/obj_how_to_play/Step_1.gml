@@ -6,14 +6,8 @@ if (room != rm_how_to_play) { instance_destroy(); exit; }
 
 if (key_left || key_right || key_up || key_down || key_jump || key_restart) {
 	return_to_title = true;
-	global.controller.return_to_title(true);
+	global.controller.return_to_title();
 	play_global_sound(snd_explosion);
-	/*
-	global.controller.target_room = rm_intro;
-	global.controller.transition_timer = TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD;
-	audio_stop_sound(bgm_old_how_to_play);
-	play_global_sound(bgm_mdb_title);
-	*/
 }
 
 if (cutscene_timer >= next_text_trigger && text_pos < array_length(text_box_strings)) {
@@ -168,7 +162,7 @@ with (obj_player) {
 					if (other.text_pos_timer >= (FIRST_WAIT * 4)) {
 						key_restart = true;
 						other.restarted = true;
-						global.controller.transition_timer = 1;
+						global.controller.room_transition_timer = 1;
 					}
 				}
 				

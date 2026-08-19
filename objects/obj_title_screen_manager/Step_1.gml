@@ -23,7 +23,7 @@ if (!global.controller.is_logic_frame()) { exit; }
 // Make Player Ignore Controls
 with (obj_player) {
 	is_left = false;
-	if (transition_timer == 0) { transition_timer = 4; }
+	if (transition_timer == 0) { set_transition_timer(4); }
 	sprite_index = spr_player_walk;
 	image_index = 1;
 	if (cape_state != CAPE_STATES.FLUTTER) { start_cape_flutter(); }
@@ -96,7 +96,7 @@ switch (state) {
 			if (menu_pos == MENU_OPTIONS.CONTROLS) { _next_level = rm_how_to_play; }
 			with (obj_player) { visible = (other.menu_pos > MENU_OPTIONS.START_GAME); }
 		
-			if (global.controller.transition_timer == 0 && (key_jump || key_restart)) {
+			if (global.controller.room_transition_timer == 0 && (key_jump || key_restart)) {
 				switch (menu_pos) {
 					case MENU_OPTIONS.CONTROLS:
 					case MENU_OPTIONS.START_CLASSIC:
@@ -108,7 +108,7 @@ switch (state) {
 							global.controller.y = y;
 						}
 						global.controller.target_room = _next_level;
-						global.controller.transition_timer = TRANSITION_DELAY-1;
+						global.controller.room_transition_timer = TRANSITION_DELAY-1;
 						if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
 						if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
 						stop_sound(bgm_mdb_title);
@@ -156,7 +156,7 @@ switch (state) {
 			}
 			
 			// Handle Return Selection
-			if (global.controller.transition_timer == 0 && (key_jump || key_restart)) {
+			if (global.controller.room_transition_timer == 0 && (key_jump || key_restart)) {
 				if (menu_pos = SETTINGS_OPTIONS.RETURN) {
 					play_global_sound(snd_explosion);
 					state = TITLE_STATES.MAIN_MENU;

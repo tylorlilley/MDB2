@@ -25,16 +25,11 @@ with (obj_dynamic_object) {
 		if (transition_timer > 0) { transition_timer--; }
 		if (x_transition_timer > 0) { x_transition_timer--; }
 		if (y_transition_timer > 0) { y_transition_timer-- }
-		var _new_transition_timer = 0;
-		if (x_transition_timer > 0 && y_transition_timer > 0) { _new_transition_timer = max(x_transition_timer, y_transition_timer); }
-		else if (x_transition_timer > 0) { _new_transition_timer = x_transition_timer; }
-		else if (y_transition_timer > 0) { _new_transition_timer = y_transition_timer; }
-		transition_timer = max(transition_timer, _new_transition_timer);
 	}
 }
 
 // Play All Sounds in Sound Buffer
-if (transition_timer <= TRANSITION_DELAY || transition_timer >= (TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD)) {
+if (room_transition_timer <= TRANSITION_DELAY || room_transition_timer >= (TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD)) {
 	while (array_length(frame_sounds) > 0) {
 		var _entry = array_pop(frame_sounds);
 		var _avg_x = _entry.x_sum / _entry.plays;

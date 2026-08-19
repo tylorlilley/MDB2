@@ -48,7 +48,6 @@ cape_timer = 0;
 
 // Timer Variables
 portal_lockout_timer = 0;
-transition_timer = 0;
 animation_timer = 0;
 ring_out_timer = 0;
 crouch_timer = 0;

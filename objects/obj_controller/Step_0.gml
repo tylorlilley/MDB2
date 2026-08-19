@@ -196,23 +196,23 @@ var _controllable_player_exists = false, _transition_manager_exists = false;
 with (obj_player) { if (can_be_controlled) { _controllable_player_exists = true; } }
 with (obj_cutscene_manager) { _controllable_player_exists = true; _transition_manager_exists = true; }
 
-if (!_controllable_player_exists && transition_timer == 0) { transition_timer = 1; }
-else if (transition_timer > 0) {
-	if (transition_timer == 1 && quips_enabled) {
+if (!_controllable_player_exists && room_transition_timer == 0) { room_transition_timer = 1; }
+else if (room_transition_timer > 0) {
+	if (room_transition_timer == 1 && quips_enabled) {
 		randomize();
 		latest_quip = (is_cutscene_room() || _controllable_player_exists) ? "" : get_quip_text();
 	}
 	
-	transition_timer++;
+	room_transition_timer++;
 	
-	if (transition_timer == TRANSITION_DELAY) { play_sound(snd_fade_out); }
-	else if (transition_timer == TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { 
+	if (room_transition_timer == TRANSITION_DELAY) { play_sound(snd_fade_out); }
+	else if (room_transition_timer == TRANSITION_DELAY + TRANSITION_DURATION + TRANSITION_HOLD) { 
 		if (!_controllable_player_exists) { reset_room(); }
 		else { transition_room(target_room); }
 		play_sound(snd_fade_in);
 	}
-	else if (transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) {
-		transition_timer = 0;
+	else if (room_transition_timer >= (TRANSITION_DURATION * 2) + TRANSITION_HOLD + TRANSITION_DELAY) {
+		room_transition_timer = 0;
 		if (surface_exists(transition_surface)) { surface_free(transition_surface); }
 		transition_surface = undefined;
 	}

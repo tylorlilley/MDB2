@@ -16,9 +16,7 @@ if (cutscene_timer == INTERRUPTION_FRAME) {
 	play_global_sound(snd_explosion);
 	global.controller.start_screen_shake();
 	with (obj_player) {
-		transition_timer = 0;
-		x_transition_timer = 0;
-		y_transition_timer = 0;
+		reset_transition_timer();
 		is_left = true;
 		start_hopping(true);
 	}
