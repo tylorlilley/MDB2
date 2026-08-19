@@ -104,7 +104,7 @@ pressed_switch_colors = [[], [], []];
 pressed_switches = [];
 game_object_grid = [];
 room_seed = random_get_seed();
-target_room = (irandom(100) == 0) ? rm_intro_eih : rm_intro;
+target_room = rm_intro_eih; //(irandom(100) == 0) ? rm_intro_eih : rm_intro;
 
 initialize_room = function(_new_room) {
 	play_sound(snd_fade_in);

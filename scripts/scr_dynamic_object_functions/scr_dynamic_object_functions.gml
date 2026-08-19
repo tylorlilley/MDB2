@@ -94,7 +94,7 @@ spawn_contents = function() {
 }
 
 update_last_grid_position = function() {
-	if (transition_timer == 0) {
+	if (x_transition_timer == 0 && y_transition_timer == 0) {
 		last_grid_x = x;
 		last_grid_y = y;
 	}
@@ -462,20 +462,22 @@ reset_transition_timer = function() {
 
 set_transition_timer = function(_amount) {
 	transition_timer = _amount;
+	sync_transition_timer();
 }
 
 add_x_transition_timer = function(_amount) {
 	x_transition_timer += _amount;
-	transition_timer = max(transition_timer, x_transition_timer);
+	sync_transition_timer();
 }
 
 add_y_transition_timer = function(_amount) {
 	y_transition_timer += _amount;
-	sync_transition_timer()
+	sync_transition_timer();
 }
 
 add_transition_timer = function(_amount) {
 	transition_timer += _amount;
+	sync_transition_timer();
 }
 
 sync_transition_timer = function() {

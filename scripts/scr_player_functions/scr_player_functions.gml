@@ -821,7 +821,7 @@ update_player_state = function() {
 							
 							state = PLAYER_STATES.RECOIL;
 							if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
-							else { set_transition_timer(6); }
+							else { set_transition_timer(8); }
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay
