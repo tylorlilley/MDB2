@@ -475,11 +475,6 @@ add_y_transition_timer = function(_amount) {
 	sync_transition_timer();
 }
 
-add_transition_timer = function(_amount) {
-	transition_timer += _amount;
-	sync_transition_timer();
-}
-
 sync_transition_timer = function() {
 	transition_timer = max(transition_timer, x_transition_timer, y_transition_timer);
 }

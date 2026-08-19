@@ -30,7 +30,7 @@ powered_palette = PALETTES.RED;
 death_sprite = spr_particle_player_dying;
 
 // Boolean Ability Flags
-can_be_controlled = true;
+controlled_by_human = true;
 can_power_up = true;
 can_climb = true;
 can_ladder = true;

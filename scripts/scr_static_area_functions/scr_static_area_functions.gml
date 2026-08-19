@@ -1,6 +1,6 @@
 initialize_static_area = function() {
 	// Game Maker Variables
-	//depth = STATIC_AREA_DEPTH;
+	// interaction_depth set by controller when connecting to static area manager
 	visible = false;
 	
 	// Sprite Variables

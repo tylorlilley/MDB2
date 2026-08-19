@@ -5,7 +5,7 @@ event_inherited();
 can_power_up = false;
 can_push_objects = false;
 can_carry_objects = false;
-can_be_controlled = false;
+controlled_by_human = false;
 can_be_crushed = false;
 can_ladder = false;
 can_climb = false;
@@ -28,7 +28,7 @@ walk_timer = 0;
 should_walk = true;
 
 // Function Overrides
-treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst) && (!_inst.is_a(obj_player) || !_inst.can_be_controlled); }
+treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst) && (!_inst.is_a(obj_player) || !_inst.controlled_by_human); }
 
 update_controls = function() {
 	if (!global.controller.is_logic_frame()) { exit; }

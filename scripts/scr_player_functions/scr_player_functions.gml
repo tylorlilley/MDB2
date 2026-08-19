@@ -316,11 +316,11 @@ get_left_and_right_objects = function(_get_above = false, _impact_fragile = fals
 		
 		if (is_instance_at_grid_position(x, y + _y_offset, _inst)) {
 			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-			else if (!instance_exists(_left_object) || _left_object.depth > _inst.depth) { _left_object = _inst; }
+			else if (!instance_exists(_left_object) || _left_object.interaction_depth > _inst.interaction_depth) { _left_object = _inst; }
 		}
 		else if (is_instance_at_grid_position(x + GRID_SIZE, y + _y_offset, _inst)) {
 			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-			else if (!instance_exists(_right_object) || _right_object.depth > _inst.depth) { _right_object = _inst; }
+			else if (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth) { _right_object = _inst; }
 		}
 	}
 
@@ -1340,7 +1340,7 @@ do_player_object_collisions = function(_skip_portals = false) {
 	
 	// Collect Keys
 	var _objects_at_position = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
-	if (can_be_controlled) {
+	if (controlled_by_human) {
 		for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
 			var _inst = _objects_at_position[_i];
 			if (!instance_exists(_inst) || !_inst.is_a(obj_key)) { continue; }
@@ -1357,7 +1357,7 @@ do_player_object_collisions = function(_skip_portals = false) {
 	}
 	
 	// Go Through Open Doors
-	if (can_be_controlled) {
+	if (controlled_by_human) {
 		if (state != PLAYER_STATES.WIN && transition_timer == 0 && (is_grounded_state() || is_fall_state())) {
 			for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
 				var _inst = _objects_at_position[_i];

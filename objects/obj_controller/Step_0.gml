@@ -185,7 +185,7 @@ with (obj_player) {
 	}
 	else { ring_out_timer = 0; }
 
-	if (ring_out_timer == 8) { if (can_be_controlled) { play_sound(snd_player_offscreen); } }
+	if (ring_out_timer == 8) { if (controlled_by_human) { play_sound(snd_player_offscreen); } }
 	else if (ring_out_timer == 40) { instance_destroy(); }
 }
 
@@ -193,7 +193,7 @@ with (obj_dynamic_object) { update_virtual_y_offset(); }
 
 // Handle Transition Code
 var _controllable_player_exists = false, _transition_manager_exists = false;
-with (obj_player) { if (can_be_controlled) { _controllable_player_exists = true; } }
+with (obj_player) { if (controlled_by_human) { _controllable_player_exists = true; } }
 with (obj_cutscene_manager) { _controllable_player_exists = true; _transition_manager_exists = true; }
 
 if (!_controllable_player_exists && room_transition_timer == 0) { room_transition_timer = 1; }

@@ -14,7 +14,7 @@ if (_inside_playable_area) {
 if (_inside_playable_area || !is_a(obj_robot)) { play_sound(destroyed_sound); }
 stop_sound(fall_sound);
 fall_sound = undefined;
-if (can_be_controlled) {
+if (controlled_by_human) {
 	global.controller.start_screen_shake();
 	global.controller.x = clamp(x, GRID_SIZE, room_width - GRID_SIZE*2);
 	global.controller.y = clamp(y, GRID_SIZE, room_height - GRID_SIZE*2);
