@@ -129,9 +129,10 @@ if (paused) {
 	_pause_box_height = clamp(_pause_box_height, 0, _max_pause_box_height);
 	
 	draw_set_color(C_BLACK);
-	draw_set_alpha(0.85);
-	draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2, false);
+	draw_set_alpha(0.5);
+	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 	draw_set_alpha(1);
+	draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2, false);
 	
 	if (string_length(_pause_string) > 0) {
 		draw_set_color(C_WHITE);

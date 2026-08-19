@@ -104,17 +104,19 @@ switch (state) {
 					case MENU_OPTIONS.START_CLASSIC:
 					case MENU_OPTIONS.START_GAME:
 					case MENU_OPTIONS.LOAD_GAME: {
-						// Go To Next Room
-						/*
+						// Update Room Transition Position
 						with (obj_player) {
 							global.controller.x = x;
 							global.controller.y = y;
 						}
-						*/
-						/// Values taken from Draw GUI Cursor Position Instead of player:
-						global.controller.x = SCREEN_MIDDLE_X-16-20+8;
-						global.controller.y = SCREEN_MIDDLE_Y+4+14+1-4+8;
+						// Values taken from Draw GUI Cursor Position Instead of player:
+						if (menu_pos <= MENU_OPTIONS.START_GAME) {
+							global.controller.x = SCREEN_MIDDLE_X-16-20+8;
+							global.controller.y = SCREEN_MIDDLE_Y+4+8;
+							if (menu_pos == MENU_OPTIONS.START_GAME) { global.controller.y += 14; }
+						}
 						
+						// Go To Next Room
 						global.controller.target_room = _next_level;
 						global.controller.room_transition_timer = TRANSITION_DELAY-1;
 						if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
