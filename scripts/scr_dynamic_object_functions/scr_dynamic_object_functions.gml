@@ -462,20 +462,22 @@ reset_transition_timer = function() {
 
 set_transition_timer = function(_amount) {
 	transition_timer = _amount;
-	x_transition_timer = 0;
-	y_transition_timer = 0;
 }
 
 add_x_transition_timer = function(_amount) {
-	transition_timer += _amount;
 	x_transition_timer += _amount;
+	transition_timer = max(transition_timer, x_transition_timer);
 }
 
 add_y_transition_timer = function(_amount) {
-	transition_timer += _amount;
 	y_transition_timer += _amount;
+	sync_transition_timer()
 }
 
 add_transition_timer = function(_amount) {
 	transition_timer += _amount;
+}
+
+sync_transition_timer = function() {
+	transition_timer = max(transition_timer, x_transition_timer, y_transition_timer);
 }

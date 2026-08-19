@@ -250,7 +250,8 @@ start_standing = function(_is_crushed = false) {
 }
 
 start_falling = function(_is_dazed = false) {
-	reset_transition_timer();
+	transition_timer = 0;
+	sync_transition_timer();
 	grid_move_down(2); // If this fails, we still proceed with setting the fall state as the ultimate state fallback
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
 	fall_timer = 0;
@@ -546,8 +547,8 @@ update_player_state = function() {
 			}
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
-				if (global.original_controls && transition_timer <= 2) {
-					reset_transition_timer(); // TODO: Does this work anymore?
+				if (global.original_controls && transition_timer <= 2 && x_transition_timer == 0) {
+					reset_transition_timer();
 				}
 				
 				break;
@@ -745,7 +746,6 @@ update_player_state = function() {
 								}
 								else {
 									// Stand Still
-									// TODO: Is this ever reachable?
 									state = PLAYER_STATES.STAND;
 									set_transition_timer(4);
 								}
@@ -821,7 +821,7 @@ update_player_state = function() {
 							
 							state = PLAYER_STATES.RECOIL;
 							if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
-							else { add_transition_timer(6); }
+							else { set_transition_timer(6); }
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay
