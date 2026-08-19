@@ -129,14 +129,14 @@ if (paused) {
 	_pause_box_height = clamp(_pause_box_height, 0, _max_pause_box_height);
 	
 	draw_set_color(C_BLACK);
-	draw_set_alpha(0.5);
+	draw_set_alpha(min(0.85, 0.85 * (pause_timer / (8 * fps_ratio))));
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 	draw_set_alpha(1);
 	draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2, false);
 	
 	if (string_length(_pause_string) > 0) {
 		draw_set_color(C_WHITE);
-		draw_set_font(ft_pixel);
+		draw_set_font(ft_block_blueprint);
 		draw_set_valign(fa_middle);
 		draw_set_halign(fa_center);
 		draw_text_ext(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y, _pause_string, 12, _pause_box_width - GRID_SIZE);

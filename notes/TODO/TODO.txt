@@ -10,8 +10,6 @@ Yes / No
 // TODO:
 - World 5 Impossible?
 
-- Add Yes/No confirm to starting new game and ESC buttons?
-- Game pause?
 - Intro Cutscene
 - W4 - W5 Transition Cutscene
 - Ending Cutscene + Credits
