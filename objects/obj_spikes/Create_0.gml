@@ -1,6 +1,7 @@
 event_inherited();
 
 // Gameplay Variables
+set_depth(STATIC_AREA_DEPTH);
 hits = 0;
 has_gravity = false;
 is_player_lethal = true;

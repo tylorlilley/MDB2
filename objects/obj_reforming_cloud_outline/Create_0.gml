@@ -3,8 +3,7 @@ event_inherited();
 // Overwritten Variables
 // These are overwritten by obj_controller at room start when connecting to the static area manager,
 // but need to be here because create_cloud reads from them. Keep these in sync with the manager assign.
-depth = OUTLINE_DEPTH - 1;
-interaction_depth = OUTLINE_DEPTH - 1
+set_depth( OUTLINE_DEPTH - 1);
 
 // Gameplay Variables
 hits = 0;
@@ -68,7 +67,7 @@ reform_cloud = function() {
 create_cloud = function() {
 	if (!instance_exists(solid_obj)) {
 		solid_obj = instance_create(x, y, obj_reforming_cloud);
-		solid_obj.set_depth(depth - 1);
+		solid_obj.set_depth(STATIC_AREA_DEPTH - 8); // Keep this in sync with the manager assignment in controller
 		solid_obj.main_palette = main_palette;
 		solid_obj.particle_palette = main_palette;
 		solid_obj.creator = id;

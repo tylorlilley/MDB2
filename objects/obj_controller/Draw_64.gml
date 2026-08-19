@@ -122,7 +122,7 @@ if (debug_enabled) {
 
 // Draw Pause Box
 if (paused) {
-	var _pause_box_width = SCREEN_WIDTH - (GRID_SIZE * 3), _pause_box_height = GRID_SIZE * 5;
+	var _pause_box_width = SCREEN_WIDTH - (GRID_SIZE * 3), _pause_box_height = GRID_SIZE * 6;
 	draw_set_color(C_BLACK);
 	draw_set_alpha(0.85);
 	draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2, false);

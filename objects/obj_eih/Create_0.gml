@@ -1,6 +1,7 @@
 event_inherited();
 
 // Gameplay Variables
+set_depth(STATIC_AREA_DEPTH);
 hits = 1;
 is_solid_from_above = true;
 is_solid_from_below = true;

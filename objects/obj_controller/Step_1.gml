@@ -11,6 +11,7 @@ if (!is_cutscene_room() || room == rm_how_to_play || room == rm_title) {
 			else {
 				paused = false;
 				audio_stop_all();
+				play_global_sound(snd_key);
 				return_to_title();
 			}
 		}
@@ -25,6 +26,7 @@ if (!is_cutscene_room() || room == rm_how_to_play || room == rm_title) {
 	else if (get_pause_released()) {
 		// Pause the Game
 		paused = true;
+		
 		audio_stop_sound(snd_unpause);
 		audio_pause_all();
 		play_global_sound(snd_pause);

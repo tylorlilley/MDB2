@@ -1,5 +1,5 @@
 // Game Maker Variables
-depth = VISUAL_OBJECT_DEPTH;
+set_depth(VISUAL_OBJECT_DEPTH);
 image_blend = global.world_tint;
 image_speed = 0;
 
@@ -29,6 +29,6 @@ is_a = function(_object_index) {
 }
 
 set_depth = function(_depth) {
-    depth = _depth;
-    interaction_depth = _depth;
+	depth = _depth;
+	interaction_depth = _depth;
 }
