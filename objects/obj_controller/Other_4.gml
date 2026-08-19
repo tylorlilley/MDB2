@@ -25,7 +25,6 @@ with (obj_log) { initialize_solids(); }
 with (obj_switch_block_outline) {
 	main_palette = get_switch_palette(switch_color);
 	solid_obj = instance_create(x, y, solid_obj);
-	solid_obj.set_depth(depth - 1);
 	solid_obj.main_palette = main_palette;
 }
 with (obj_reforming_cloud_outline) { create_cloud(); }

@@ -1,19 +1,21 @@
-var _controller = global.controller, _fps_ratio = global.controller.fps_ratio;
-if (state == TITLE_STATES.PAN_OVER) {
-	var _view_y_pos = camera_get_view_y(view_camera[0]), _target_x_pos = 74;
-	if (camera_x >= _target_x_pos) {
-		if (bounce_count >= 3) { state = TITLE_STATES.MAIN_MENU; play_sound(snd_explosion); cursor_sway_timer = 0; }
-		else {
-			var _bounce_speed = [4, 2, 1][bounce_count] / _fps_ratio;
-			camera_speed = -_bounce_speed;
-			bounce_count += 1;
-			play_sound(snd_soft_thud);
+if (!global.controller.paused) {
+	var _controller = global.controller, _fps_ratio = global.controller.fps_ratio;
+	if (state == TITLE_STATES.PAN_OVER) {
+		var _view_y_pos = camera_get_view_y(view_camera[0]), _target_x_pos = 74;
+		if (camera_x >= _target_x_pos) {
+			if (bounce_count >= 3) { state = TITLE_STATES.MAIN_MENU; play_sound(snd_explosion); cursor_sway_timer = 0; }
+			else {
+				var _bounce_speed = [4, 2, 1][bounce_count] / _fps_ratio;
+				camera_speed = -_bounce_speed;
+				bounce_count += 1;
+				play_sound(snd_soft_thud);
+			}
 		}
-	}
-	else { camera_speed += (0.5 / sqr(_fps_ratio)); }
+		else { camera_speed += (0.5 / sqr(_fps_ratio)); }
 		
-	camera_x += camera_speed;
-	camera_set_view_pos(view_camera[0], camera_x, _view_y_pos);
+		camera_x += camera_speed;
+		camera_set_view_pos(view_camera[0], camera_x, _view_y_pos);
+	}
 }
 
 event_inherited();
@@ -103,10 +105,16 @@ switch (state) {
 					case MENU_OPTIONS.START_GAME:
 					case MENU_OPTIONS.LOAD_GAME: {
 						// Go To Next Room
+						/*
 						with (obj_player) {
 							global.controller.x = x;
 							global.controller.y = y;
 						}
+						*/
+						/// Values taken from Draw GUI Cursor Position Instead of player:
+						global.controller.x = SCREEN_MIDDLE_X-16-20+8;
+						global.controller.y = SCREEN_MIDDLE_Y+4+14+1-4+8;
+						
 						global.controller.target_room = _next_level;
 						global.controller.room_transition_timer = TRANSITION_DELAY-1;
 						if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level

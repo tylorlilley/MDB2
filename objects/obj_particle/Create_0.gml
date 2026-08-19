@@ -12,3 +12,8 @@ decay_timer = 0;
 decay_trigger = 0;
 has_cape = false;
 particle_type = PARTICLE_TYPES.DEBRIS;
+
+paused_hspeed = 0;
+paused_vspeed = 0;
+paused_gravity = 0;
+paused_image_speed = 0;

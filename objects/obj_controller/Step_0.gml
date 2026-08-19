@@ -7,7 +7,7 @@ if (!paused) {
 		if (!_transition_manager_exists) {
 			if (portal_lockout_timer > 0) {
 				reset_controls();
-				if (is_logic_frame()) { portal_lockout_timer--; }
+				if (other.is_logic_frame()) { portal_lockout_timer--; }
 			}
 			else if (portal_lockout_timer == 0) {
 				update_controls(object_index == obj_mirror_player);
