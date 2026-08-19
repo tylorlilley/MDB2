@@ -14,6 +14,6 @@ with (obj_sand) { creator = other.id; }
 
 if (key_jump || key_restart) {
 	play_title_music();
-	global.controller.transition_room(room_next(room));
+	global.controller.transition_room(rm_title);
 }
 	

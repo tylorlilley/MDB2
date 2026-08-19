@@ -4,7 +4,7 @@ event_inherited();
 
 // Override Parent Variables
 depth = global.controller.depth - 1;
-cutscene_timer_max = (room == rm_intro_eih) ? 80 : 80; //360
+cutscene_timer_max = (room == rm_intro_eih) ? 380 : 80;
 
 // Called by EIH as a Workaround
 part_damaged = function(_inst) { } // Do Nothing

@@ -82,6 +82,12 @@ logical_fps = 30;
 fps_ratio = 2;
 fps_timer = 0;
 
+// Paused Variables
+pause_timer = 0;
+paused = false;
+unpausing = false;
+paused_layers = [];
+
 // Set Up Game Audio
 frame_sounds = [];
 audio_falloff_set_model(audio_falloff_none);

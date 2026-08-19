@@ -1,9 +1,7 @@
 event_inherited();
 
 // Overwritten Variables
-// These are overwritten by obj_controller at room start when connecting to the static area manager,
-// but need to be here because create_cloud reads from them. Keep these in sync with the manager assign.
-set_depth( OUTLINE_DEPTH - 1);
+set_depth(OUTLINE_DEPTH - 1); // Keep in sync with order in obj_controller manager assignments
 
 // Gameplay Variables
 hits = 0;

@@ -1,14 +1,19 @@
 // Read Controls for Player on All Frames
-with (obj_player) {
-	// Check Controls
-	var _transition_manager_exists = false;
-	with (obj_cutscene_manager) { _transition_manager_exists = true; }
-	if (!_transition_manager_exists) {
-		if (portal_lockout_timer > 0) { portal_lockout_timer--; reset_controls(); }
-		else if (portal_lockout_timer == 0) {
-			update_controls(object_index == obj_mirror_player);
-			if (global.combine_up_and_jump_controls) { key_jump = key_up; }
-			if (global.original_controls) { key_jump = false; }
+if (!paused) {
+	with (obj_player) {
+		// Check Controls
+		var _transition_manager_exists = false;
+		with (obj_cutscene_manager) { _transition_manager_exists = true; }
+		if (!_transition_manager_exists) {
+			if (portal_lockout_timer > 0) {
+				reset_controls();
+				if (is_logic_frame()) { portal_lockout_timer--; }
+			}
+			else if (portal_lockout_timer == 0) {
+				update_controls(object_index == obj_mirror_player);
+				if (global.combine_up_and_jump_controls) { key_jump = key_up; }
+				if (global.original_controls) { key_jump = false; }
+			}
 		}
 	}
 }
