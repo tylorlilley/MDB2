@@ -2,6 +2,7 @@ event_inherited();
 
 // Visual Variables
 if (!variable_instance_exists(id, "is_left")) { is_left = false; }
+interaction_depth = depth;
 particle_type = PARTICLE_TYPES.DEBRIS;
 particle_frequency = 0;
 particles_min = 2;
