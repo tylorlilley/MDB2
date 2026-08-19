@@ -1,4 +1,7 @@
 #macro GAME_TITLE "Mighty Dive Bomber"
+#macro PAUSE_MESSAGE_STRING "PAUSED\nPress RESTART to go to title.\nPress any other key to resume."
+#macro TITLE_PAUSE_MESSAGE_STRING "PAUSED\nPress RESTART to exit.\nPress any other key to resume."
+
 #macro GRID_SIZE 8
 #macro SCREEN_WIDTH 256
 #macro SCREEN_HEIGHT 240
@@ -72,6 +75,7 @@ debug_enabled = true;
 level_number = 0;
 classic_level = false;
 draw_game_object_grid = false;
+paused = false;
 
 // FPS Variables
 logical_fps = 30;
@@ -171,8 +175,7 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth) {
 	
 		// Set up Static Area Types
 		with (_obj_index) {
-			depth = _static_area_manager.depth - _i; // TODO: Change this and places it is used to something unique rather than overloading GM depth
-			interaction_depth = depth;
+			set_depth( _static_area_manager.depth - _i);
 			if (!is_undefined(fuzzing_sprite)) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 			if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
 			if (_obj_index != obj_bg_dirt) { update_connections(); } // TODO: Base this on something else
@@ -319,7 +322,7 @@ update_window_fps = function() {
 	game_set_speed(window_fps_setting, gamespeed_fps);
 }
 
-is_logic_frame = function() { return (fps_timer == 0); }
+is_logic_frame = function() { return (fps_timer == 0 && !paused); }
 
 get_frame_progress = function() { return fps_timer / fps_ratio; }
 

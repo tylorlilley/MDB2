@@ -6,7 +6,7 @@ activated = false;
 masked = global.mask_portals;
 
 // Visual Object Overides
-depth = PORTAL_DEPTH;
+set_depth(PORTAL_DEPTH);
 masked_palette = get_world_palette(object_index);
 original_palette = (masked) ? masked_palette : get_portal_palette(portal_color);
 main_palette = original_palette;

@@ -1,3 +1,5 @@
+if (paused) { exit; }
+
 // Update Dynamic Object Interpolation Visuals
 with (obj_dynamic_object) {
 	// Update Swim Timer for Visual Bob

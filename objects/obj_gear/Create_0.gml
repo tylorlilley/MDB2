@@ -6,7 +6,7 @@ has_gravity = false;
 
 // Visual Drawing Variables
 sprite_index = spr_gear;
-depth = GEAR_DEPTH;
+set_depth(GEAR_DEPTH);
 main_palette = PALETTES.GRAY_LIGHT;
 particle_palette = PALETTES.GRAY_LIGHT;
 particle_frequency = 0;

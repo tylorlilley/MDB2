@@ -119,3 +119,16 @@ if (debug_enabled) {
 	draw_text_outlined(SCREEN_WIDTH-12, SCREEN_HEIGHT-12, fps);
 }
 */
+
+// Draw Pause Box
+if (paused) {
+	var _pause_box_width = SCREEN_WIDTH - (GRID_SIZE * 3), _pause_box_height = GRID_SIZE * 5;
+	draw_set_color(C_BLACK);
+	draw_set_alpha(0.85);
+	draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2, false);
+	draw_set_color(C_WHITE);
+	draw_set_font(ft_pixel);
+	draw_set_valign(fa_middle);
+	draw_set_halign(fa_center);
+	draw_text_ext(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y, (room == rm_title) ? TITLE_PAUSE_MESSAGE_STRING : PAUSE_MESSAGE_STRING, 12, _pause_box_width - GRID_SIZE);
+}

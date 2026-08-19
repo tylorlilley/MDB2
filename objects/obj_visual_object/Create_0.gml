@@ -27,3 +27,8 @@ grid_add = function(_grid_to_add = global.controller.game_object_grid) {
 is_a = function(_object_index) {
 	return (object_index == _object_index || object_is_ancestor(object_index, _object_index));
 }
+
+set_depth = function(_depth) {
+    depth = _depth;
+    interaction_depth = _depth;
+}

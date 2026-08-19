@@ -21,7 +21,7 @@ climbed_inst = noone;
 fall_sound = undefined;
 
 // Palette and Visual Variables
-depth = PLAYER_DEPTH;
+set_depth(PLAYER_DEPTH);
 sprite_index = spr_player_idle;
 original_palette = PALETTES.PLAYER;
 main_palette = original_palette;

@@ -2,7 +2,7 @@
 event_inherited();
 
 // Visual Drawing Variables
-depth = KEY_DEPTH;
+set_depth(KEY_DEPTH);
 main_palette = PALETTES.YELLOW;
 particle_palette = PALETTES.YELLOW;
 particle_type = PARTICLE_TYPES.SPARKLE;

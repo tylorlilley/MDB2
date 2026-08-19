@@ -1,7 +1,7 @@
 event_inherited();
 
 // Game Maker Variable Overrides
-depth = SWITCH_DEPTH;
+set_depth(SWITCH_DEPTH);
 sprite_index = spr_switch;
 image_index = 0;
 

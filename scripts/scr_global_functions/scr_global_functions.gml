@@ -284,73 +284,85 @@ function get_maximum_fps() {
 
 // Control Functions
 function get_left_pressed() {
-	return (keyboard_check_pressed(vk_left) || gamepad_button_check_pressed(global.gamepad, gp_padl) || (gamepad_axis_value(global.gamepad, gp_axislh) < -0.5 && global.last_gamepad_h_axis_value >= -0.5));
+	return (keyboard_check_pressed(ord("A")) || keyboard_check_pressed(vk_left) || gamepad_button_check_pressed(global.gamepad, gp_padl) || (gamepad_axis_value(global.gamepad, gp_axislh) < -0.5 && global.last_gamepad_h_axis_value >= -0.5));
 }
 
 function get_right_pressed() {
-	return (keyboard_check_pressed(vk_right) || gamepad_button_check_pressed(global.gamepad, gp_padr) || (gamepad_axis_value(global.gamepad, gp_axislh) > 0.5 && global.last_gamepad_h_axis_value <= 0.5));
+	return (keyboard_check_pressed(ord("D")) || keyboard_check_pressed(vk_right) || gamepad_button_check_pressed(global.gamepad, gp_padr) || (gamepad_axis_value(global.gamepad, gp_axislh) > 0.5 && global.last_gamepad_h_axis_value <= 0.5));
 }
 
 function get_up_pressed() {
-	return (keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(global.gamepad, gp_padu) || (gamepad_axis_value(global.gamepad, gp_axislv) < -0.5 && global.last_gamepad_v_axis_value >= -0.5));
+	return (keyboard_check_pressed(ord("W")) || keyboard_check_pressed(vk_up) || gamepad_button_check_pressed(global.gamepad, gp_padu) || (gamepad_axis_value(global.gamepad, gp_axislv) < -0.5 && global.last_gamepad_v_axis_value >= -0.5));
 }
 
 function get_down_pressed() {
-	return (keyboard_check_pressed(vk_down) || gamepad_button_check_pressed(global.gamepad, gp_padd) || (gamepad_axis_value(global.gamepad, gp_axislv) > 0.5 && global.last_gamepad_v_axis_value <= 0.5));
+	return (keyboard_check_pressed(ord("S")) || keyboard_check_pressed(vk_down) || gamepad_button_check_pressed(global.gamepad, gp_padd) || (gamepad_axis_value(global.gamepad, gp_axislv) > 0.5 && global.last_gamepad_v_axis_value <= 0.5));
 }
 
 function get_jump_pressed() {
-	return (keyboard_check_pressed(ord("Z")) || gamepad_button_check_pressed(global.gamepad, gp_face1) || gamepad_button_check_pressed(global.gamepad, gp_face2) || gamepad_button_check_pressed(global.gamepad, gp_face3) || gamepad_button_check_pressed(global.gamepad, gp_face4));
+	return (keyboard_check_pressed(ord("Z")) || keyboard_check_pressed(vk_space) ||gamepad_button_check_pressed(global.gamepad, gp_face1) || gamepad_button_check_pressed(global.gamepad, gp_face2) || gamepad_button_check_pressed(global.gamepad, gp_face3));
 }
 
 function get_restart_pressed() {
-	return (keyboard_check_pressed(ord("R")) || keyboard_check_pressed(vk_enter) || gamepad_button_check_pressed(global.gamepad, gp_start) || gamepad_button_check_pressed(global.gamepad, gp_select));
+	return (keyboard_check_pressed(ord("R")) || keyboard_check_pressed(vk_enter) || gamepad_button_check_pressed(global.gamepad, gp_face4) || gamepad_button_check_pressed(global.gamepad, gp_select));
+}
+
+function get_pause_pressed() {
+	return (keyboard_check_pressed(ord("P")) || keyboard_check_pressed(vk_escape) || gamepad_button_check_pressed(global.gamepad, gp_start));
 }
 
 function get_left_held() {
-	return (keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5);
+	return (keyboard_check(ord("A")) || keyboard_check(vk_left) || gamepad_button_check(global.gamepad, gp_padl) || gamepad_axis_value(global.gamepad, gp_axislh) < -0.5);
 }
 
 function get_right_held() {
-	return (keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5);
+	return (keyboard_check(ord("D")) || keyboard_check(vk_right) || gamepad_button_check(global.gamepad, gp_padr) || gamepad_axis_value(global.gamepad, gp_axislh) > 0.5);
 }
 
 function get_up_held() {
-	return (keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5);
+	return (keyboard_check(ord("W")) || keyboard_check(vk_up) || gamepad_button_check(global.gamepad, gp_padu) || gamepad_axis_value(global.gamepad, gp_axislv) < -0.5);
 }
 
 function get_down_held() {
-	return (keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5);
+	return (keyboard_check(ord("S")) || keyboard_check(vk_down) || gamepad_button_check(global.gamepad, gp_padd) || gamepad_axis_value(global.gamepad, gp_axislv) > 0.5);
 }
 
 function get_jump_held() {
-	return (keyboard_check(ord("Z")) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3) || gamepad_button_check(global.gamepad, gp_face4));
+	return (keyboard_check(ord("Z")) || keyboard_check(vk_space) || gamepad_button_check(global.gamepad, gp_face1) || gamepad_button_check(global.gamepad, gp_face2) || gamepad_button_check(global.gamepad, gp_face3));
 }
 
 function get_restart_held() {
-	return (keyboard_check(ord("R")) || keyboard_check(vk_enter) || gamepad_button_check(global.gamepad, gp_start) || gamepad_button_check(global.gamepad, gp_select));
+	return (keyboard_check(ord("R")) || keyboard_check(vk_enter) || gamepad_button_check(global.gamepad, gp_face4) || gamepad_button_check(global.gamepad, gp_select));
+}
+
+function get_pause_held() {
+	return (keyboard_check(ord("P")) || keyboard_check(vk_escape) || gamepad_button_check(global.gamepad, gp_start));
 }
 
 function get_left_released() {
-	return (keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl) || (gamepad_axis_value(global.gamepad, gp_axislh) >= -0.5 && global.last_gamepad_h_axis_value < -0.5))));
+	return (keyboard_check_released(ord("A")) || keyboard_check_released(vk_left) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padl) || (gamepad_axis_value(global.gamepad, gp_axislh) >= -0.5 && global.last_gamepad_h_axis_value < -0.5))));
 }
 
 function get_right_released() {
-	return (keyboard_check_released(vk_right) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padr) || (gamepad_axis_value(global.gamepad, gp_axislh) <= 0.5 && global.last_gamepad_h_axis_value > 0.5))));
+	return (keyboard_check_released(ord("D")) || keyboard_check_released(vk_right) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padr) || (gamepad_axis_value(global.gamepad, gp_axislh) <= 0.5 && global.last_gamepad_h_axis_value > 0.5))));
 }
 
 function get_up_released() {
-	return (keyboard_check_released(vk_up) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padu) || (gamepad_axis_value(global.gamepad, gp_axislv) >= -0.5 && global.last_gamepad_v_axis_value < -0.5))));
+	return (keyboard_check_released(ord("W")) || keyboard_check_released(vk_up) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padu) || (gamepad_axis_value(global.gamepad, gp_axislv) >= -0.5 && global.last_gamepad_v_axis_value < -0.5))));
 }
 
 function get_down_released() {
-	return (keyboard_check_released(vk_down) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padd) || (gamepad_axis_value(global.gamepad, gp_axislv) <= 0.5 && global.last_gamepad_v_axis_value > 0.5))));
+	return (keyboard_check_released(ord("S")) || keyboard_check_released(vk_down) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_padd) || (gamepad_axis_value(global.gamepad, gp_axislv) <= 0.5 && global.last_gamepad_v_axis_value > 0.5))));
 }
 
 function get_jump_released() {
-	return (keyboard_check_released(ord("Z")) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3) || gamepad_button_check_released(global.gamepad, gp_face4))));
+	return (keyboard_check_released(ord("Z")) || keyboard_check_released(vk_space) ||(global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face1) || gamepad_button_check_released(global.gamepad, gp_face2) || gamepad_button_check_released(global.gamepad, gp_face3))));
 }
 
 function get_restart_released() {
-	return (keyboard_check_released(ord("R")) || keyboard_check_released(vk_enter) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_start) || gamepad_button_check_released(global.gamepad, gp_select))));
+	return (keyboard_check_released(ord("R")) || keyboard_check_released(vk_enter) || (global.gamepad != noone && (gamepad_button_check_released(global.gamepad, gp_face4) || gamepad_button_check_released(global.gamepad, gp_select))));
+}
+
+function get_pause_released() {
+	return (keyboard_check_released(ord("P")) || keyboard_check_released(vk_escape) || (global.gamepad != noone && gamepad_button_check_released(global.gamepad, gp_start)));
 }
