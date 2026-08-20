@@ -122,18 +122,27 @@ if (debug_enabled) {
 
 // Draw Pause Box
 if (paused) {
-	var _max_pause_box_width = SCREEN_WIDTH - (GRID_SIZE * 3), _max_pause_box_height = GRID_SIZE * 7, _pause_string = (room == rm_title) ? TITLE_PAUSE_MESSAGE_STRING : PAUSE_MESSAGE_STRING;
+	var _max_pause_box_width = SCREEN_WIDTH - (GRID_SIZE * 3), _max_pause_box_height = GRID_SIZE * 8, _pause_string = (room == rm_title) ? TITLE_PAUSE_MESSAGE_STRING : PAUSE_MESSAGE_STRING;
 	var _pause_box_width = (pause_timer / (8 * fps_ratio)) * _max_pause_box_width, _pause_box_height = (pause_timer / (8 * fps_ratio)) * _max_pause_box_height;
 	if (_pause_box_width < _max_pause_box_width || _pause_box_height < _max_pause_box_height) { _pause_string = ""; }
 	_pause_box_width = clamp(_pause_box_width, 0, _max_pause_box_width);
 	_pause_box_height = clamp(_pause_box_height, 0, _max_pause_box_height);
 	
+	// Draw Pause Box
 	draw_set_color(C_BLACK);
-	draw_set_alpha(min(0.85, 0.85 * (pause_timer / (8 * fps_ratio))));
+	draw_set_alpha(min(0.8, 0.8 * (pause_timer / (8 * fps_ratio))));
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	//draw_set_alpha(0.5);
+	//draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2 + GRID_SIZE/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2 + GRID_SIZE/2, false);
 	draw_set_alpha(1);
 	draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2, false);
+	draw_set_color(C_WHITE);
+	//draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2 + GRID_SIZE/4, SCREEN_MIDDLE_Y - _pause_box_height/2 + GRID_SIZE/4, SCREEN_MIDDLE_X + _pause_box_width/2 - GRID_SIZE/4, SCREEN_MIDDLE_Y + _pause_box_height/2 - GRID_SIZE/4, false);
+	draw_set_color(C_BLACK);
+	//draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2 + GRID_SIZE/2, SCREEN_MIDDLE_Y - _pause_box_height/2 + GRID_SIZE/2, SCREEN_MIDDLE_X + _pause_box_width/2 - GRID_SIZE/2, SCREEN_MIDDLE_Y + _pause_box_height/2 - GRID_SIZE/2, false);
+	draw_set_alpha(1);
 	
+	// Draw Pause Text
 	if (string_length(_pause_string) > 0) {
 		draw_set_color(C_WHITE);
 		draw_set_font(ft_block_blueprint);
