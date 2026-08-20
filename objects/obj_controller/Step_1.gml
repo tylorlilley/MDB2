@@ -2,16 +2,15 @@
 determine_gamepad();
 
 // Update Framerate
-if (!paused) {
-	var _fast_forward_button_held = (keyboard_check(vk_shift) || gamepad_button_check(global.gamepad, gp_shoulderl) || gamepad_button_check(global.gamepad, gp_shoulderr) || gamepad_button_check(global.gamepad, gp_shoulderlb) || gamepad_button_check(global.gamepad, gp_shoulderrb));
-	fast_forward_enabled = (_fast_forward_button_held && window_fps_setting >= 60);
-	var _new_logical_fps = (fast_forward_enabled) ? 60 : 30;
-	if (_new_logical_fps != logical_fps) {
-		recalculate_engine_speeds(_new_logical_fps/logical_fps);
-		logical_fps = _new_logical_fps;
-		fps_ratio = max(1, (window_fps_setting div logical_fps));
-		fps_timer = 0;
-	}
+var _fast_forward_button_held = (keyboard_check(vk_shift) || gamepad_button_check(global.gamepad, gp_shoulderl) || gamepad_button_check(global.gamepad, gp_shoulderr) || gamepad_button_check(global.gamepad, gp_shoulderlb) || gamepad_button_check(global.gamepad, gp_shoulderrb));
+fast_forward_enabled = (_fast_forward_button_held && !paused && window_fps_setting >= 60);
+var _new_logical_fps = (fast_forward_enabled) ? 60 : 30;
+if (_new_logical_fps != logical_fps) {
+	var _old_ratio = fps_ratio;
+	logical_fps = _new_logical_fps;
+	fps_ratio = max(1, (window_fps_setting div logical_fps));
+	fps_timer = 0;
+	recalculate_engine_speeds(fps_ratio/_old_ratio);
 }
 
 // Handle Game Pause

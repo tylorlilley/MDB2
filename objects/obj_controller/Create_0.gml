@@ -316,10 +316,12 @@ get_quip_text = function() {
 }
 
 update_window_fps = function() {
+	var _old_fps_ratio = fps_ratio
 	window_fps_setting = clamp(floor(window_fps_setting / 30) * 30, 30, get_maximum_fps());
 	fps_timer = 0;
 	fps_ratio = max(1, (window_fps_setting div logical_fps));
 	game_set_speed(window_fps_setting, gamespeed_fps);
+	recalculate_engine_speeds(_old_fps_ratio/fps_ratio);
 }
 
 is_logic_frame = function() { return (fps_timer == 0 && !paused); }
@@ -339,13 +341,16 @@ ensure_transition_surface = function() {
 }
 
 recalculate_engine_speeds = function(_speed_multiplier) {
+	if (_speed_multiplier == 1) { exit; }
+	var _acceleration_multiplier = sqr(_speed_multiplier), _is_paused = paused;
+	
 	// Recalculate Built in Motion
 	with (obj_particle) {
-		paused_hspeed = hspeed;
 		hspeed *= _speed_multiplier;
 		vspeed  *= _speed_multiplier;
-		gravity *= _speed_multiplier;
+		gravity = _acceleration_multiplier;
 		image_speed *= _speed_multiplier;
+		terminal_velocity *= _speed_multiplier;
 	}
 		
 	// Recalculate Built in Background Motion
