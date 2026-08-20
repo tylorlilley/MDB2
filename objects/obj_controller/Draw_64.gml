@@ -128,10 +128,12 @@ if (paused) {
 	_pause_box_width = clamp(_pause_box_width, 0, _max_pause_box_width);
 	_pause_box_height = clamp(_pause_box_height, 0, _max_pause_box_height);
 	
-	// Draw Pause Box
+	// Dim Screen
 	draw_set_color(C_BLACK);
-	draw_set_alpha(min(0.8, 0.8 * (pause_timer / (8 * fps_ratio))));
+	draw_set_alpha(min(0.8, 0.8 * (pause_timer / (PAUSE_TRANSITION_TIME * fps_ratio))));
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	
+	// Draw Pause Box
 	//draw_set_alpha(0.5);
 	//draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2 + GRID_SIZE/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2 + GRID_SIZE/2, false);
 	draw_set_alpha(1);
@@ -157,7 +159,6 @@ if (fast_forward_enabled) {
 	draw_set_color(C_WHITE);
 	draw_set_font(ft_title);
 	draw_set_valign(fa_bottom);
-	draw_set_halign(fa_left);
-	draw_text_outlined(GRID_SIZE, SCREEN_HEIGHT - GRID_SIZE, "x2");
-	draw_set_alpha(1);
+	draw_set_halign(fa_right);
+	draw_text_outlined(SCREEN_WIDTH - GRID_SIZE, SCREEN_HEIGHT - GRID_SIZE, "x2");
 }

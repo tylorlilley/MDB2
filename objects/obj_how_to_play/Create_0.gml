@@ -29,9 +29,9 @@ text_box_strings = [
 	"Some types of tiles can't\nbe damaged at all.",
 	"Exactly overlap a key\nto collect it.",
 	"Destroying tiles will also destroy\nany objects resting above them!",
-	"If you are stuck, press ENTER\nor START to restart the level.",
+	"If you are stuck, press ENTER\nor SELECT to restart the level.",
 	"You also restart the level if you\nfall off the bottom of the screen.",
 	"Unlock the level's door\nby collecting all the keys.",
 	"Exactly overlap the unlocked\ndoor to win the level.",
-	"Good luck, and happy dive bombing!"
+	"Good luck! Close the door\nwith UP on your way out."
 ];

@@ -68,6 +68,7 @@ global.last_gamepad_v_axis_value = 0;
 // Debug Variables
 quips_enabled = true;
 debug_enabled = false;
+can_fast_forward = false;
 draw_game_object_grid = false;
 
 // FPS Variables

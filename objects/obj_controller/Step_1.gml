@@ -3,7 +3,7 @@ determine_gamepad();
 
 // Update Framerate
 var _fast_forward_button_held = (keyboard_check(vk_shift) || gamepad_button_check(global.gamepad, gp_shoulderl) || gamepad_button_check(global.gamepad, gp_shoulderr) || gamepad_button_check(global.gamepad, gp_shoulderlb) || gamepad_button_check(global.gamepad, gp_shoulderrb));
-fast_forward_enabled = (_fast_forward_button_held && !paused && window_fps_setting >= 60);
+fast_forward_enabled = can_fast_forward && (_fast_forward_button_held && !paused && window_fps_setting >= 60);
 var _new_logical_fps = (fast_forward_enabled) ? 60 : 30;
 if (_new_logical_fps != logical_fps) {
 	var _old_ratio = fps_ratio;
@@ -51,24 +51,26 @@ else {
 	if (paused && pause_timer <= (32 * fps_ratio)) { pause_timer ++; }
 	if (!fast_forward_enabled && room != rm_controller && (!is_cutscene_room() || room == rm_how_to_play || room == rm_title)) {
 		if (paused) {
-			if (get_restart_released()) {
-				// Quit Game
-				if (room == rm_title) { game_end(); }
-				// Return to Title
-				else {
-					pause_timer = 0;
-					paused = false;
-					unpausing = false;
-					paused_layers = [];
-					return_to_title();
-					play_global_sound(snd_explosion);
+			if (pause_timer >= (PAUSE_TRANSITION_TIME * fps_ratio)) {
+				if (get_restart_released()) {
+					// Quit Game
+					if (room == rm_title) { game_end(); }
+					// Return to Title
+					else {
+						pause_timer = 0;
+						paused = false;
+						unpausing = false;
+						paused_layers = [];
+						return_to_title();
+						play_global_sound(snd_explosion);
+					}
 				}
-			}
-			else if (get_jump_released() || get_pause_released() || get_up_released() || get_down_released() || get_left_released() || get_right_released()) {
-				unpausing = true;
-				pause_timer = min(pause_timer, PAUSE_TRANSITION_TIME * fps_ratio);
-				audio_stop_sound(snd_pause);
-				audio_play_sound(snd_unpause, 0, false);
+				else if (get_jump_released() || get_pause_released() || get_up_released() || get_down_released() || get_left_released() || get_right_released()) {
+					unpausing = true;
+					pause_timer = min(pause_timer, PAUSE_TRANSITION_TIME * fps_ratio);
+					audio_stop_sound(snd_pause);
+					audio_play_sound(snd_unpause, 0, false);
+				}
 			}
 		}
 		else if (get_pause_released()) {

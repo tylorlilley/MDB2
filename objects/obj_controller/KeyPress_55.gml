@@ -1,0 +1,1 @@
+if (debug_enabled) { can_fast_forward = !can_fast_forward; }
