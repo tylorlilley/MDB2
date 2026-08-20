@@ -111,8 +111,9 @@ switch (state) {
 						}
 						// Values taken from Draw GUI Cursor Position Instead of player:
 						if (menu_pos <= MENU_OPTIONS.START_GAME) {
-							global.controller.x = SCREEN_MIDDLE_X-16-20+8;
-							global.controller.y = SCREEN_MIDDLE_Y+4+8;
+							var _camera = view_camera[0];
+							global.controller.x = camera_get_view_x(_camera) + (SCREEN_MIDDLE_X-16-20+8) - GRID_SIZE;
+							global.controller.y = camera_get_view_y(_camera) + (SCREEN_MIDDLE_Y+4+8) - GRID_SIZE;
 							if (menu_pos == MENU_OPTIONS.START_GAME) { global.controller.y += 14; }
 						}
 						

@@ -1,4 +1,4 @@
-update_controls();
+if (!global.controller.paused) { update_controls(); }
 
 if (!global.controller.is_logic_frame()) { exit; }
 

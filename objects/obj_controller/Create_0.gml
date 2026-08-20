@@ -44,12 +44,6 @@ enum FULL_SCREEN_OPTIONS {
 	WINDOWED
 }
 
-enum FPS_OPTIONS {
-	FPS_30,
-	FPS_60,
-	FPS_120
-}
-
 // Global Variables
 global.controller = id;
 global.gamepad = noone;
@@ -70,12 +64,9 @@ global.last_gamepad_h_axis_value = 0;
 global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
-quips_enabled = true;
-debug_enabled = true;
-level_number = 0;
-classic_level = false;
+quips_enabled = false;
+debug_enabled = false;
 draw_game_object_grid = false;
-paused = false;
 
 // FPS Variables
 logical_fps = 30;
@@ -94,6 +85,9 @@ audio_falloff_set_model(audio_falloff_none);
 audio_listener_position(0, 0, 0);
 audio_listener_orientation(0, 1, 0, 0, 0, 1); // forward = room +y, up = out of screen => room +x is listener right
 palettes_init();
+level_number = 0;
+classic_level = false;
+fast_forward_enabled = false;
 
 // Graphic Variables
 depth = STATIC_AREA_DEPTH;

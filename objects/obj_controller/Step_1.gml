@@ -1,8 +1,12 @@
 // Poll for Gamepad
 determine_gamepad();
 
-// Handle Game Pause
+// Update Framerate
+var _fast_forward_button_held = (keyboard_check(vk_shift) || gamepad_button_check(global.gamepad, gp_shoulderl) || gamepad_button_check(global.gamepad, gp_shoulderr) || gamepad_button_check(global.gamepad, gp_shoulderlb) || gamepad_button_check(global.gamepad, gp_shoulderrb));
+fast_forward_enabled = (_fast_forward_button_held && get_maximum_fps() >= 60);
+logical_fps = (fast_forward_enabled) ? 60 : 30;
 
+// Handle Game Pause
 if (unpausing) {
 	if (pause_timer > 0) {
 		pause_timer--;
@@ -49,9 +53,8 @@ else {
 					paused = false;
 					unpausing = false;
 					paused_layers = [];
-					audio_stop_all();
-					play_global_sound(snd_explosion); // TODO: This never plays due to immedate audio stop all on title
 					return_to_title();
+					play_global_sound(snd_explosion);
 				}
 			}
 			else if (get_jump_released() || get_pause_released() || get_up_released() || get_down_released() || get_left_released() || get_right_released()) {

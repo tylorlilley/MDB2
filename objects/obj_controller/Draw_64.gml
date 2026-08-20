@@ -151,3 +151,13 @@ if (paused) {
 		draw_text_ext(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y, _pause_string, 12, _pause_box_width - GRID_SIZE);
 	}
 }
+
+// Draw Fast Forward Indicator
+if (fast_forward_enabled) {
+	draw_set_color(C_WHITE);
+	draw_set_font(ft_title);
+	draw_set_valign(fa_bottom);
+	draw_set_halign(fa_left);
+	draw_text_outlined(GRID_SIZE, SCREEN_HEIGHT - GRID_SIZE, "x2");
+	draw_set_alpha(1);
+}
