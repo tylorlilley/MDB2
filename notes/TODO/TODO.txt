@@ -9,6 +9,11 @@ Yes / No
 
 // TODO:
 - World 5 Impossible?
+- How To Play - Update for:
+-- Pause and Fast Forward
+-- Push button to go through door
+-- loop back to land on rock when talking about damaged twice
+-- walk past ladder edge like in 1_2?
 
 - Intro Cutscene
 - W4 - W5 Transition Cutscene
@@ -16,6 +21,7 @@ Yes / No
 
 // VISUALS:
 - option to turn off special palettes for each world?
+- option to turn off bg dirt tiles?
 Cape animation on dying sprite?
 Draw tree nubs on wood level from wood
 Should Gear spin always one way for up and one for down? Should  they spin slower? Move slower?

@@ -2,6 +2,8 @@
 #macro PAUSE_MESSAGE_STRING "PAUSED\n\nPress RESTART to go to title.\nPress any other key to resume."
 #macro TITLE_PAUSE_MESSAGE_STRING "PAUSED\n\nPress RESTART to exit.\nPress any other key to resume."
 
+#macro PAUSE_TRANSITION_TIME 4
+
 #macro GRID_SIZE 8
 #macro SCREEN_WIDTH 256
 #macro SCREEN_HEIGHT 240
@@ -65,7 +67,7 @@ global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
 quips_enabled = false;
-debug_enabled = true;
+debug_enabled = false;
 draw_game_object_grid = false;
 
 // FPS Variables
@@ -346,25 +348,45 @@ recalculate_engine_speeds = function(_speed_multiplier) {
 	
 	// Recalculate Built in Motion
 	with (obj_particle) {
-		hspeed *= _speed_multiplier;
-		vspeed  *= _speed_multiplier;
-		gravity = _acceleration_multiplier;
-		image_speed *= _speed_multiplier;
+		if (_is_paused) {
+			paused_hspeed *= _speed_multiplier;
+			paused_vspeed *= _speed_multiplier;
+			paused_image_speed *= _speed_multiplier;
+			paused_gravity = original_gravity / sqr(global.controller.fps_ratio);
+		}
+		else {
+			hspeed *= _speed_multiplier;
+			vspeed  *= _speed_multiplier;
+			image_speed *= _speed_multiplier;
+			gravity = original_gravity / sqr(global.controller.fps_ratio);
+		}
 		terminal_velocity *= _speed_multiplier;
 	}
 		
 	// Recalculate Built in Background Motion
-	var _layers = layer_get_all();
-	for (var _i = 0; _i < array_length(_layers); _i++) {
-		var _layer = _layers[_i], _backgrounds = [], _elements = layer_get_all_elements(_layer);
-		for (var _j = 0; _j < array_length(_elements); _j++) {
-			var _element = _elements[_j];
-			if (layer_get_element_type(_element) != layerelementtype_background) { continue; }
-			
-			layer_background_speed(_element, layer_background_get_speed(_element)*_speed_multiplier);
+	if (_is_paused) {
+		for (var _i = 0; _i < array_length(paused_layers); _i++) {
+			var _paused_layer = paused_layers[_i];
+			_paused_layer.h_speed *= _speed_multiplier;
+			_paused_layer.v_speed *= _speed_multiplier;
+			for (var _j = 0; _j < array_length(_paused_layer.backgrounds); _j++) {
+				_paused_layer.backgrounds[_j].img_speed *= _speed_multiplier;
+			}
 		}
-		layer_hspeed(_layer, layer_get_hspeed(_layer) * _speed_multiplier);
-		layer_vspeed(_layer, layer_get_vspeed(_layer) * _speed_multiplier);
+	}
+	else {
+		var _layers = layer_get_all();
+		for (var _i = 0; _i < array_length(_layers); _i++) {
+			var _layer = _layers[_i], _backgrounds = [], _elements = layer_get_all_elements(_layer);
+			for (var _j = 0; _j < array_length(_elements); _j++) {
+				var _element = _elements[_j];
+				if (layer_get_element_type(_element) != layerelementtype_background) { continue; }
+			
+				layer_background_speed(_element, layer_background_get_speed(_element)*_speed_multiplier);
+			}
+			layer_hspeed(_layer, layer_get_hspeed(_layer) * _speed_multiplier);
+			layer_vspeed(_layer, layer_get_vspeed(_layer) * _speed_multiplier);
+		}
 	}
 }
 

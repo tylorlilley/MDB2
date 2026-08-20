@@ -45,9 +45,9 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 
 // Handle Static Object Step
 with (obj_dynamic_object) {
-	if (is_carrying_key()) {
-		shine_timer++;
-		if (shine_timer == 0) { reset_shine_timer(); }
+	if (shine_timer > 0) {
+		shine_timer--;
+		if (shine_timer <= 0) { reset_shine_timer(); }
 	}
 }
 with (obj_water) {
@@ -110,7 +110,7 @@ with (obj_switch_block_outline) { if (array_length(other.pressed_switch_colors[s
 with (obj_switch_block_outline) { if (array_length(other.pressed_switch_colors[switch_color]) > 0 && array_length(other.blocked_switch_colors[switch_color]) == 0) { solid_obj.update_connections(); } }
 with (obj_key) {
 	// Update Timers
-	shine_timer++;
+	shine_timer--;
 	if (shine_timer == 0) { reset_shine_timer(); }
 	sway_timer++;
 	if (sway_timer > 32) { sway_timer = -(irandom(60) + 60); }
@@ -128,7 +128,7 @@ with (obj_key) {
 with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else if (image_index == 0) {
-		shine_timer++;
+		shine_timer--;
 		if (shine_timer == 0) { reset_shine_timer(); }
 		
 		if (global.room_keys == global.keys_collected) {
@@ -138,6 +138,14 @@ with (obj_door) {
 			play_sound(snd_door_unlock);
 			global.controller.start_screen_shake();
 		}
+	}
+	else if (image_index == 1) {
+		shine_timer--;
+		if (shine_timer == 2) {
+			shine_timer = 24 + irandom(24);
+			create_particles(1, PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT, x + sprite_get_width(sprite_index)/2, y + sprite_get_height(sprite_index)/2);	
+		}
+		sway_timer = (sway_timer + 1) % 24;
 	}
 }
 with (obj_spawner) {

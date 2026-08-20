@@ -2,6 +2,7 @@ enum PLAYER_STATES
 {
 	// Grounded States
 	STAND,
+	STAND_EDGE,
 	LOOK_UP,
 	WALK_FORWARD,
 	TURN,
@@ -29,6 +30,7 @@ enum PLAYER_STATES
 	POWERFALL,
 	RECOIL,
 	LADDER,
+	LADDER_LOOK,
 	LADDER_UP,
 	LADDER_DOWN,
 	CLIMB
@@ -54,6 +56,7 @@ player_state_to_string = function(_state) {
 	var _player_state_string = "UNKNOWN STATE"
 	switch (_state) {
 		case PLAYER_STATES.STAND: { _player_state_string = "Stand"; break; }
+		case PLAYER_STATES.STAND_EDGE: { _player_state_string = "Stand on Edge"; break; }
 		case PLAYER_STATES.LOOK_UP: { _player_state_string = "Looking Up"; break; }
 		case PLAYER_STATES.WALK_FORWARD: { _player_state_string = "Walk"; break; }
 		case PLAYER_STATES.TURN: { _player_state_string = "Turn"; break; }
@@ -73,6 +76,7 @@ player_state_to_string = function(_state) {
 		case PLAYER_STATES.LAND: { _player_state_string = "Land"; break; }
 		case PLAYER_STATES.CLIMB: { _player_state_string = "Climb"; break; }
 		case PLAYER_STATES.LADDER: { _player_state_string = "Ladder"; break; }
+		case PLAYER_STATES.LADDER_LOOK: { _player_state_string = "Ladder Look"; break; }
 		case PLAYER_STATES.LADDER_UP: { _player_state_string = "Ladder Up"; break; }
 		case PLAYER_STATES.LADDER_DOWN: { _player_state_string = "Ladder Down"; break; }
 		case PLAYER_STATES.HOP_DOWN: { _player_state_string = "Hop Straight Down"; break; }
@@ -118,7 +122,7 @@ is_crushed_state = function() {
 }
 
 is_stand_state = function() {
-	return (state == PLAYER_STATES.STAND || state == PLAYER_STATES.LOOK_UP || state == PLAYER_STATES.PUSH_STAND || state == PLAYER_STATES.CRUSHED_STAND);
+	return (state == PLAYER_STATES.STAND_EDGE || state == PLAYER_STATES.STAND || state == PLAYER_STATES.LOOK_UP || state == PLAYER_STATES.PUSH_STAND || state == PLAYER_STATES.CRUSHED_STAND);
 }
 
 is_hop_down_state = function() {
@@ -138,7 +142,7 @@ is_grounded_state = function() {
 }
 	
 is_ladder_state = function() {
-	return (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN)
+	return (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_LOOK || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN)
 }
 	
 is_fly_state = function() {
@@ -242,8 +246,8 @@ start_fallback_state = function(_is_crushed = false) {
 start_standing = function(_is_crushed = false) {
 	state = PLAYER_STATES.STAND;
 	if (_is_crushed) { state = PLAYER_STATES.CRUSHED_STAND; }
-	else if (key_down && !global.original_controls) { state = PLAYER_STATES.CROUCH; }
-	else if (key_up && !global.original_controls) { state = PLAYER_STATES.LOOK_UP; }
+	else if (key_down && can_duck) { state = PLAYER_STATES.CROUCH; }
+	else if (key_up && can_look_up) { state = PLAYER_STATES.LOOK_UP; }
 	set_transition_timer((_is_crushed) ? 4 : 0);
 	air_walk = false;
 	if (key_left || key_right) { is_left = key_left; }
@@ -306,6 +310,40 @@ start_hopping = function(_should_move_horizontally = false) {
 }
 
 // Interactions with Other Object Functions
+get_left_object = function(_get_above = false, _impact_fragile = false) {
+	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _left_object = noone;
+	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
+			
+	for (var _i = 0; _i < array_length(_objects); _i++) {
+		var _inst = _objects[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (is_instance_at_grid_position(x, y + _y_offset, _inst)) {
+			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
+			else if (!instance_exists(_left_object) || _left_object.interaction_depth > _inst.interaction_depth) { _left_object = _inst; }
+		}
+	}
+
+	return _left_object;
+}
+
+get_right_object = function(_get_above = false, _impact_fragile = false) {
+	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _right_object = noone;
+	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
+			
+	for (var _i = 0; _i < array_length(_objects); _i++) {
+		var _inst = _objects[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
+		else if (is_instance_at_grid_position(x + GRID_SIZE, y + _y_offset, _inst)) {
+			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
+			else if (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth) { _right_object = _inst; }
+		}
+	}
+
+	return _right_object;
+}
+
 get_left_and_right_objects = function(_get_above = false, _impact_fragile = false) {
 	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _left_object = noone, _right_object = noone, _returned_objects = [];
 	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
@@ -495,7 +533,7 @@ update_player_state = function() {
 	do_switch_collisions();
 	
 	// Restart Room
-	if (key_restart) { instance_destroy(); exit; }
+	if (key_restart && state != PLAYER_STATES.WIN) { instance_destroy(); exit; }
 
 	// Reset Timers
 	if (!is_ladder_state()) { is_up = false; }
@@ -547,6 +585,7 @@ update_player_state = function() {
 			}
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
+				// Shorten Hop Time for Original Controls
 				if (global.original_controls && transition_timer <= 2 && x_transition_timer == 0) {
 					reset_transition_timer();
 				}
@@ -597,7 +636,7 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.WIN: {
-				if (visible && (key_up || key_jump) && win_loops > 0) {
+				if (visible && (key_up || key_jump || key_restart) && win_loops > 0) {
 					visible = false;
 					play_sound(snd_impact);
 					with (obj_door) { image_index = 2; }
@@ -628,7 +667,7 @@ update_player_state = function() {
 				grid_move_to(_prev_x, _prev_y, false);
 
 				// Determine New State
-				if (should_start_laddering()) { start_laddering() }
+				if (should_start_laddering()) { start_laddering(); }
 				else if (is_on_ground()) { start_standing(); }
 				else if (_on_hop_height_ground && _can_walk && _horizontal_input) { air_walk = true; start_walking(); }
 				else if (state == PLAYER_STATES.HOP_UP && (_horizontal_input || global.original_controls) && instance_exists(get_climbed_object())) { start_climbing(); }
@@ -647,6 +686,7 @@ update_player_state = function() {
 			case PLAYER_STATES.HOP_DOWN:
 			case PLAYER_STATES.HOP_DOWN_FORWARD:
 			case PLAYER_STATES.STAND:
+			case PLAYER_STATES.STAND_EDGE:
 			case PLAYER_STATES.LOOK_UP:
 			case PLAYER_STATES.WALK_FORWARD:
 			case PLAYER_STATES.PUSH_STAND:
@@ -685,6 +725,8 @@ update_player_state = function() {
 					}
 					else if (is_left != _prev_is_left &&
 						(prev_state == PLAYER_STATES.STAND ||
+							prev_state == PLAYER_STATES.STAND_EDGE ||
+							prev_state == PLAYER_STATES.LOOK_UP ||
 							prev_state == PLAYER_STATES.HOP_UP_FORWARD ||
 							prev_state == PLAYER_STATES.HOP_DOWN_FORWARD ||
 							prev_state == PLAYER_STATES.WALK_FORWARD ||
@@ -761,11 +803,11 @@ update_player_state = function() {
 							else if (!global.original_controls) { start_hopping(); }
 							else { start_fallback_state(); }
 						}
-						else if (key_down && !global.original_controls) {
+						else if (key_down && can_duck) {
 							if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
 							else if (state != PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.CROUCH; set_transition_timer(4); }
 
-							if (crouch_timer == 32 && state != PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.POWERCROUCH; play_sound(snd_player_powerup); }
+							if (crouch_timer == 32 && state != PLAYER_STATES.POWERCROUCH && can_fly) { state = PLAYER_STATES.POWERCROUCH; play_sound(snd_player_powerup); }
 						}
 						else { start_fallback_state(); }
 					
@@ -859,6 +901,7 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.LADDER:
+			case PLAYER_STATES.LADDER_LOOK:
 			case PLAYER_STATES.LADDER_UP:
 			case PLAYER_STATES.LADDER_DOWN: {
 				// Decide New State Based on Player Input
@@ -883,6 +926,11 @@ update_player_state = function() {
 						else { state = PLAYER_STATES.LADDER; }
 					}
 					else { state = PLAYER_STATES.LADDER; }
+					
+					if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_LOOK) {
+						if (key_left || key_right) {  state = PLAYER_STATES.LADDER_LOOK; is_left = key_left; }
+						else { state = PLAYER_STATES.LADDER; }
+					}
 				}
 				else { start_fallback_state(); }
 						
@@ -902,9 +950,13 @@ update_player_state = function() {
 				break;
 			}
 		}
-		
-		// Reset Controls
-		reset_controls();
+	}
+	
+	// Update On Edge Status
+	if (state == PLAYER_STATES.STAND) {
+		if ((is_left && !instance_exists(get_left_object(false, false))) || (!is_left && !instance_exists(get_right_object(false, false)))) {
+			state = PLAYER_STATES.STAND_EDGE;
+		}
 	}
 	
 	// Define Speed Arrays
@@ -993,7 +1045,7 @@ update_cape_graphics = function() {
 				else if (is_ladder_state()) { start_cape_ladder(); }
 				else if (is_fall_state()) { start_cape_fall_begin(); }
 				else if (is_hop_up_state()) { start_cape_crouch(); }
-				else if (cape_state == CAPE_STATES.STOP_FLUTTER || state == PLAYER_STATES.STAND) { start_cape_stand(); }
+				else if (cape_state == CAPE_STATES.STOP_FLUTTER || is_stand_state()) { start_cape_stand(); }
 				else { start_cape_crouch(); }
 				break;
 			}
@@ -1033,16 +1085,16 @@ update_cape_graphics = function() {
 	if (state != prev_state) {
 		if (state == PLAYER_STATES.WIN) { start_cape_win(); }
 		else if ((cape_state == CAPE_STATES.FALL_START || cape_state == CAPE_STATES.FALL) && is_grounded_state()) { start_cape_flutter_end(); }
-		else if (state == PLAYER_STATES.HOP_UP || state == PLAYER_STATES.HOP_UP_FORWARD) { start_cape_flutter_end(); }
-		else if (state == PLAYER_STATES.HOP_DOWN || state == PLAYER_STATES.HOP_DOWN_FORWARD) { start_cape_flutter(); }
+		else if (is_hop_up_state()) { start_cape_flutter_end(); }
+		else if (is_hop_down_state()) { start_cape_flutter(); }
 		else if (state == PLAYER_STATES.TURN) { start_cape_turn(); }
-		else if (state == PLAYER_STATES.FLY || state == PLAYER_STATES.POWERFLY) {
+		else if (is_fly_state()) {
 			if (cape_state != CAPE_STATES.FLY) { start_cape_fly(); }
 		}
 		else if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { start_cape_fall_begin(); }
 		else if (state == PLAYER_STATES.WIN) { start_cape_win(); }
 		else if (state == PLAYER_STATES.LAND) { start_cape_land(); }
-		else if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_UP || state == PLAYER_STATES.LADDER_DOWN) {
+		else if (is_ladder_state()) {
 			if (cape_state == CAPE_STATES.FLUTTER || cape_state == CAPE_STATES.FALL) { start_cape_fall_onto_ladder(); }
 			else if (cape_state != CAPE_STATES.FALL_TO_LADDER) { start_cape_ladder(); }
 		}
@@ -1066,6 +1118,7 @@ update_cape_graphics = function() {
 			break;
 		}
 		case PLAYER_STATES.LADDER:
+		case PLAYER_STATES.LADDER_LOOK:
 		case PLAYER_STATES.LADDER_UP:
 		case PLAYER_STATES.LADDER_DOWN:
 		case PLAYER_STATES.POWERFALL: {
@@ -1103,6 +1156,11 @@ update_player_graphics = function() {
 			}
 			case PLAYER_STATES.STAND: {
 				sprite_index = spr_player_idle;
+				image_index = 0;
+				break;
+			}
+			case PLAYER_STATES.STAND_EDGE: {
+				sprite_index = spr_player_on_edge;
 				image_index = 0;
 				break;
 			}
@@ -1174,6 +1232,11 @@ update_player_graphics = function() {
 				image_index = 0;
 				break;
 			}
+			case PLAYER_STATES.LADDER_LOOK: {
+				sprite_index = spr_player_ladder_look;
+				image_index = 0;
+				break;
+			}
 			case PLAYER_STATES.LADDER_UP:
 			case PLAYER_STATES.LADDER_DOWN: {
 				sprite_index = spr_player_ladder;
@@ -1234,6 +1297,7 @@ update_player_graphics = function() {
 			case PLAYER_STATES.LADDER_UP:
 			case PLAYER_STATES.LADDER_DOWN: 
 			case PLAYER_STATES.SWIM:
+			case PLAYER_STATES.STAND_EDGE:
 			case PLAYER_STATES.SWIM_FORWARD:{ animation_speed = 8; break; }
 			case PLAYER_STATES.LAND:
 			case PLAYER_STATES.CRUSHED_FORWARD:
@@ -1296,8 +1360,10 @@ update_player_graphics = function() {
 }
 
 draw_cape_graphics = function() {
-	var _cape_x = virtual_x, _cape_y = virtual_y;
+	var _cape_x = virtual_x, _cape_y = virtual_y, _cape_image_x_scale = get_left_value();
+	// Determine Cape X
 	if (state != PLAYER_STATES.LADDER &&
+		state != PLAYER_STATES.LADDER_LOOK &&
 		state !=  PLAYER_STATES.LADDER_UP &&
 		state != PLAYER_STATES.LADDER_DOWN &&
 		state != PLAYER_STATES.FALL &&
@@ -1314,9 +1380,11 @@ draw_cape_graphics = function() {
 			_cape_x += get_left_value() * -GRID_SIZE * ((state == PLAYER_STATES.TURN) ? -1 : 1);
 		}
 	}
+	
+	// Determine Cape Y
 	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
 	else if (state == PLAYER_STATES.POWERFALL) { _cape_y -= 1; }
-	else if (is_ladder_state()) { _cape_y += 1; }
+	else if (is_ladder_state()) { _cape_y += 1; _cape_image_x_scale = 1; }
 	
 	set_shader_palette(PALETTES.GRAY_LIGHT);
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_left_value(), 1, 0, image_blend, 1);

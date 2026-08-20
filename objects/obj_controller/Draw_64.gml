@@ -123,7 +123,7 @@ if (debug_enabled) {
 // Draw Pause Box
 if (paused) {
 	var _max_pause_box_width = SCREEN_WIDTH - (GRID_SIZE * 3), _max_pause_box_height = GRID_SIZE * 8, _pause_string = (room == rm_title) ? TITLE_PAUSE_MESSAGE_STRING : PAUSE_MESSAGE_STRING;
-	var _pause_box_width = (pause_timer / (8 * fps_ratio)) * _max_pause_box_width, _pause_box_height = (pause_timer / (8 * fps_ratio)) * _max_pause_box_height;
+	var _pause_box_width = (pause_timer / (PAUSE_TRANSITION_TIME * fps_ratio)) * _max_pause_box_width, _pause_box_height = (pause_timer / (PAUSE_TRANSITION_TIME * fps_ratio)) * _max_pause_box_height;
 	if (_pause_box_width < _max_pause_box_width || _pause_box_height < _max_pause_box_height) { _pause_string = ""; }
 	_pause_box_width = clamp(_pause_box_width, 0, _max_pause_box_width);
 	_pause_box_height = clamp(_pause_box_height, 0, _max_pause_box_height);

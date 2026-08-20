@@ -49,7 +49,7 @@ if (unpausing) {
 }
 else {
 	if (paused && pause_timer <= (32 * fps_ratio)) { pause_timer ++; }
-	if (room != rm_controller && (!is_cutscene_room() || room == rm_how_to_play || room == rm_title)) {
+	if (!fast_forward_enabled && room != rm_controller && (!is_cutscene_room() || room == rm_how_to_play || room == rm_title)) {
 		if (paused) {
 			if (get_restart_released()) {
 				// Quit Game
@@ -66,7 +66,7 @@ else {
 			}
 			else if (get_jump_released() || get_pause_released() || get_up_released() || get_down_released() || get_left_released() || get_right_released()) {
 				unpausing = true;
-				pause_timer = min(pause_timer, 8 * fps_ratio);
+				pause_timer = min(pause_timer, PAUSE_TRANSITION_TIME * fps_ratio);
 				audio_stop_sound(snd_pause);
 				audio_play_sound(snd_unpause, 0, false);
 			}

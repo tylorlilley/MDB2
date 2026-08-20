@@ -34,9 +34,13 @@ controlled_by_human = true;
 can_power_up = true;
 can_climb = true;
 can_ladder = true;
+can_push_objects = true//!global.original_controls;
+can_duck = true//!global.original_controls;
+can_look_up = true//!global.original_controls;
+can_fly = !global.original_controls;
 can_carry_objects = !global.original_controls;
-can_push_objects = !global.original_controls;
 can_be_crushed = !global.original_controls;
+
 
 // Cape Variables
 has_cape = true;
@@ -70,6 +74,11 @@ game_object_step = function() {
 		update_last_grid_position();
 		update_player_graphics();
 		if (has_cape) { update_cape_graphics(); }
+	}
+	
+	if (instance_exists(id) && transition_timer == 0) {
+		// Reset Controls
+		reset_controls();
 	}
 }
 

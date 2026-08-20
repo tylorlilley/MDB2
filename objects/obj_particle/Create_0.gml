@@ -6,6 +6,7 @@ main_palette = PALETTES.GRAY_LIGHT;
 // Physics Variables
 image_rotation = 0;
 terminal_velocity = 8;
+original_gravity = 0;
 destroyed_y = room_height + sprite_get_height(sprite_index);
 creator = noone;
 decay_timer = 0;
