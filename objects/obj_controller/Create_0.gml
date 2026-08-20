@@ -27,7 +27,7 @@
 
 // -- Static Objects
 #macro KEY_DEPTH -11
-#macro LADDER_DEPTH -10
+#macro LADDER_DEPTH 45//-10
 
 #macro OUTLINE_DEPTH 0
 //--- Dynamic Objects

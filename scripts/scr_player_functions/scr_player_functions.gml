@@ -1140,6 +1140,9 @@ update_player_graphics = function() {
 		animation_timer = 0;
 		image_index = 0;
 		
+		if (is_ladder_state()) { depth = LADDER_DEPTH - 1; }
+		else { depth = PLAYER_DEPTH; }
+		
 		// Set New Sprites
 		switch (state) {
 			case PLAYER_STATES.CLIMB: {
