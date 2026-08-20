@@ -28,7 +28,7 @@ walk_timer = 0;
 should_walk = true;
 
 // Function Overrides
-treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst) && (!_inst.is_a(obj_player) || !_inst.controlled_by_human); }
+treat_object_as_solid = function(_inst) { return _inst.is_a(obj_spikes) || _inst.is_a(obj_lava) || !would_be_damaged_by(_inst) && (!_inst.is_a(obj_player) || !_inst.controlled_by_human); }
 
 update_controls = function() {
 	if (!global.controller.is_logic_frame()) { exit; }

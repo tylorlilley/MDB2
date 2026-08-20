@@ -1375,7 +1375,6 @@ do_player_object_collisions = function(_skip_portals = false) {
 		}
 	}
 	
-	/*
 	// Get Destroyed From Adjacent Lethal Objects
 	if (is_grounded_state()) {
 		// Destroy if Standing on Lethal Object and No Other Solids
@@ -1403,9 +1402,7 @@ do_player_object_collisions = function(_skip_portals = false) {
 	}
 	
 	if (!instance_exists(id)) { exit; }
-	*/
 
-	
 	// Handle Water
 	/* TODO: What order in the collisions should the water happen?
 	if (is_fully_submerged()) {

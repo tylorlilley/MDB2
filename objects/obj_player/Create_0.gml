@@ -61,7 +61,7 @@ step_index = 1;
 // Functions
 scr_player_functions();
 
-treat_object_as_solid = function(_inst) { return !would_be_damaged_by(_inst); }
+treat_object_as_solid = function(_inst) { return _inst.is_a(obj_spikes) || _inst.is_a(obj_lava) || !would_be_damaged_by(_inst); }
 
 game_object_step = function() {
 	update_player_state();

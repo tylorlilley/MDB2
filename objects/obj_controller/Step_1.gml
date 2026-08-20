@@ -2,9 +2,17 @@
 determine_gamepad();
 
 // Update Framerate
-var _fast_forward_button_held = (keyboard_check(vk_shift) || gamepad_button_check(global.gamepad, gp_shoulderl) || gamepad_button_check(global.gamepad, gp_shoulderr) || gamepad_button_check(global.gamepad, gp_shoulderlb) || gamepad_button_check(global.gamepad, gp_shoulderrb));
-fast_forward_enabled = (_fast_forward_button_held && get_maximum_fps() >= 60);
-logical_fps = (fast_forward_enabled) ? 60 : 30;
+if (!paused) {
+	var _fast_forward_button_held = (keyboard_check(vk_shift) || gamepad_button_check(global.gamepad, gp_shoulderl) || gamepad_button_check(global.gamepad, gp_shoulderr) || gamepad_button_check(global.gamepad, gp_shoulderlb) || gamepad_button_check(global.gamepad, gp_shoulderrb));
+	fast_forward_enabled = (_fast_forward_button_held && window_fps_setting >= 60);
+	var _new_logical_fps = (fast_forward_enabled) ? 60 : 30;
+	if (_new_logical_fps != logical_fps) {
+		recalculate_engine_speeds(_new_logical_fps/logical_fps);
+		logical_fps = _new_logical_fps;
+		fps_ratio = max(1, (window_fps_setting div logical_fps));
+		fps_timer = 0;
+	}
+}
 
 // Handle Game Pause
 if (unpausing) {
@@ -42,7 +50,7 @@ if (unpausing) {
 }
 else {
 	if (paused && pause_timer <= (32 * fps_ratio)) { pause_timer ++; }
-	if (room_transition_timer == 0 && room != rm_controller && (!is_cutscene_room() || room == rm_how_to_play || room == rm_title)) {
+	if (room != rm_controller && (!is_cutscene_room() || room == rm_how_to_play || room == rm_title)) {
 		if (paused) {
 			if (get_restart_released()) {
 				// Quit Game

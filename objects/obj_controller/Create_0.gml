@@ -65,7 +65,7 @@ global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
 quips_enabled = false;
-debug_enabled = false;
+debug_enabled = true;
 draw_game_object_grid = false;
 
 // FPS Variables
@@ -336,6 +336,31 @@ ensure_transition_surface = function() {
         surface_free(transition_surface);
     }
     if (!surface_exists(transition_surface)) { transition_surface = surface_create(_w, _h); }
+}
+
+recalculate_engine_speeds = function(_speed_multiplier) {
+	// Recalculate Built in Motion
+	with (obj_particle) {
+		paused_hspeed = hspeed;
+		hspeed *= _speed_multiplier;
+		vspeed  *= _speed_multiplier;
+		gravity *= _speed_multiplier;
+		image_speed *= _speed_multiplier;
+	}
+		
+	// Recalculate Built in Background Motion
+	var _layers = layer_get_all();
+	for (var _i = 0; _i < array_length(_layers); _i++) {
+		var _layer = _layers[_i], _backgrounds = [], _elements = layer_get_all_elements(_layer);
+		for (var _j = 0; _j < array_length(_elements); _j++) {
+			var _element = _elements[_j];
+			if (layer_get_element_type(_element) != layerelementtype_background) { continue; }
+			
+			layer_background_speed(_element, layer_background_get_speed(_element)*_speed_multiplier);
+		}
+		layer_hspeed(_layer, layer_get_hspeed(_layer) * _speed_multiplier);
+		layer_vspeed(_layer, layer_get_vspeed(_layer) * _speed_multiplier);
+	}
 }
 
 // Read Window Size Properties
