@@ -335,7 +335,7 @@ get_right_object = function(_get_above = false, _impact_fragile = false) {
 		var _inst = _objects[_i];
 		if (!instance_exists(_inst)) { continue; }
 		
-		else if (is_instance_at_grid_position(x + GRID_SIZE, y + _y_offset, _inst)) {
+		if (is_instance_at_grid_position(x + GRID_SIZE, y + _y_offset, _inst)) {
 			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
 			else if (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth) { _right_object = _inst; }
 		}
@@ -950,6 +950,9 @@ update_player_state = function() {
 				break;
 			}
 		}
+	
+		// Reset Controls
+		reset_controls();
 	}
 	
 	// Update On Edge Status
@@ -1360,7 +1363,7 @@ update_player_graphics = function() {
 }
 
 draw_cape_graphics = function() {
-	var _cape_x = virtual_x, _cape_y = virtual_y, _cape_image_x_scale = get_left_value();
+	var _cape_x = virtual_x, _cape_y = virtual_y, _cape_image_x_scale = get_left_value(), _cape_x_offset = get_x_draw_offset();
 	// Determine Cape X
 	if (state != PLAYER_STATES.LADDER &&
 		state != PLAYER_STATES.LADDER_LOOK &&
@@ -1384,10 +1387,10 @@ draw_cape_graphics = function() {
 	// Determine Cape Y
 	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
 	else if (state == PLAYER_STATES.POWERFALL) { _cape_y -= 1; }
-	else if (is_ladder_state()) { _cape_y += 1; _cape_image_x_scale = 1; }
+	else if (is_ladder_state()) { _cape_y += 1; _cape_image_x_scale = 1; _cape_x_offset = 0; }
 	
 	set_shader_palette(PALETTES.GRAY_LIGHT);
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + get_x_draw_offset(), _cape_y+virtual_y_offset, get_left_value(), 1, 0, image_blend, 1);
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset, _cape_y+virtual_y_offset, _cape_image_x_scale, 1, 0, image_blend, 1);
 }
 
 do_player_object_collisions = function(_skip_portals = false) {

@@ -66,7 +66,7 @@ global.last_gamepad_h_axis_value = 0;
 global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
-quips_enabled = false;
+quips_enabled = true;
 debug_enabled = false;
 draw_game_object_grid = false;
 
@@ -323,7 +323,7 @@ update_window_fps = function() {
 	fps_timer = 0;
 	fps_ratio = max(1, (window_fps_setting div logical_fps));
 	game_set_speed(window_fps_setting, gamespeed_fps);
-	recalculate_engine_speeds(_old_fps_ratio/fps_ratio);
+	recalculate_engine_speeds(_old_fps_ratio);
 }
 
 is_logic_frame = function() { return (fps_timer == 0 && !paused); }
@@ -342,29 +342,30 @@ ensure_transition_surface = function() {
     if (!surface_exists(transition_surface)) { transition_surface = surface_create(_w, _h); }
 }
 
-recalculate_engine_speeds = function(_speed_multiplier) {
-	if (_speed_multiplier == 1) { exit; }
-	var _acceleration_multiplier = sqr(_speed_multiplier), _is_paused = paused;
+recalculate_engine_speeds = function(_old_fps_ratio) {
+	if (_old_fps_ratio == fps_ratio) { exit; }
+	var _speed_multiplier = _old_fps_ratio / fps_ratio, _old_half_step = (_old_fps_ratio - 1) / 2, _new_half_step = (fps_ratio - 1) / 2;
 	
 	// Recalculate Built in Motion
 	with (obj_particle) {
-		if (_is_paused) {
+		var _new_gravity = original_gravity / sqr(other.fps_ratio);
+		if (other.paused) {
 			paused_hspeed *= _speed_multiplier;
 			paused_vspeed *= _speed_multiplier;
 			paused_image_speed *= _speed_multiplier;
-			paused_gravity = original_gravity / sqr(global.controller.fps_ratio);
+			paused_gravity = _new_gravity;
 		}
 		else {
 			hspeed *= _speed_multiplier;
-			vspeed  *= _speed_multiplier;
+			vspeed = ((vspeed - (gravity * _old_half_step)) * _speed_multiplier) + (_new_gravity * _new_half_step);
 			image_speed *= _speed_multiplier;
-			gravity = original_gravity / sqr(global.controller.fps_ratio);
+			gravity = _new_gravity;
 		}
 		terminal_velocity *= _speed_multiplier;
 	}
 		
 	// Recalculate Built in Background Motion
-	if (_is_paused) {
+	if (paused) {
 		for (var _i = 0; _i < array_length(paused_layers); _i++) {
 			var _paused_layer = paused_layers[_i];
 			_paused_layer.h_speed *= _speed_multiplier;
@@ -377,7 +378,7 @@ recalculate_engine_speeds = function(_speed_multiplier) {
 	else {
 		var _layers = layer_get_all();
 		for (var _i = 0; _i < array_length(_layers); _i++) {
-			var _layer = _layers[_i], _backgrounds = [], _elements = layer_get_all_elements(_layer);
+			var _layer = _layers[_i], _elements = layer_get_all_elements(_layer);
 			for (var _j = 0; _j < array_length(_elements); _j++) {
 				var _element = _elements[_j];
 				if (layer_get_element_type(_element) != layerelementtype_background) { continue; }

@@ -10,7 +10,7 @@ if (_new_logical_fps != logical_fps) {
 	logical_fps = _new_logical_fps;
 	fps_ratio = max(1, (window_fps_setting div logical_fps));
 	fps_timer = 0;
-	recalculate_engine_speeds(fps_ratio/_old_ratio);
+	recalculate_engine_speeds(_old_ratio);
 }
 
 // Handle Game Pause

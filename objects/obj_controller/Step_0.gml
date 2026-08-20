@@ -126,6 +126,10 @@ with (obj_key) {
 	}
 }
 with (obj_door) {
+	if (!winning_player) {
+		with (obj_player) { if (state == PLAYER_STATES.WIN) { other.winning_player = true; } }
+	}
+
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else if (image_index == 0) {
 		shine_timer--;
@@ -135,11 +139,12 @@ with (obj_door) {
 			create_particles(6 + irandom(6), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
 			create_particles(6 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW);
 			image_index = 1;
+			shine_timer = irandom(24);
 			play_sound(snd_door_unlock);
 			global.controller.start_screen_shake();
 		}
 	}
-	else if (image_index == 1) {
+	else if (image_index == 1 && !winning_player) {
 		shine_timer--;
 		if (shine_timer == 2) {
 			shine_timer = 24 + irandom(24);

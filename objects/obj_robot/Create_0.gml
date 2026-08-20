@@ -59,7 +59,7 @@ update_player_graphics = function() {
 	
 	// Assign Sprite Based on State
 	var _image_index = image_index;
-	if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.WALK_FORWARD) { sprite_index = spr_robot_walk; }
+	if (state == PLAYER_STATES.STAND || state == PLAYER_STATES.WALK_FORWARD || state == PLAYER_STATES.STAND_EDGE) { sprite_index = spr_robot_walk; }
 	else if (state == PLAYER_STATES.TURN) { sprite_index = spr_robot_turn; }
 	else { sprite_index = spr_robot_fall; }
 	

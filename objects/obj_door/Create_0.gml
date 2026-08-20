@@ -7,3 +7,4 @@ main_palette = PALETTES.BROWN;
 particle_palette = PALETTES.BROWN_DARK;
 sway_timer = irandom(23);
 reset_shine_timer();
+winning_player = false;

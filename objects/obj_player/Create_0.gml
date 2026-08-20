@@ -75,11 +75,6 @@ game_object_step = function() {
 		update_player_graphics();
 		if (has_cape) { update_cape_graphics(); }
 	}
-	
-	if (instance_exists(id) && transition_timer == 0) {
-		// Reset Controls
-		reset_controls();
-	}
 }
 
 update_virtual_y_offset = function() {
