@@ -1,14 +1,4 @@
 Take Notes on Screen?
-Colorblind Portals?
-Taunting Messages on Death?
-Fast Forward Button?
-Fewer Keys? Or use them as more of a guide?
-Rythm Game Level
-Interact to Go Through Portal
-Yes / No
-
-Glimmer animation for keys?
-Draw in front of portals when on ladder
 
 // TODO:
 - World 5 Impossible?
@@ -24,6 +14,7 @@ Draw in front of portals when on ladder
 - mac version?
 
 // VISUALS:
+Desaturate background layer more?
 - option to turn off special palettes for each world?
 - option to turn off bg dirt tiles?
 Cape animation on dying sprite?

@@ -365,6 +365,7 @@
     {"id":{"name":"spr_cloud_outline","path":"sprites/spr_cloud_outline/spr_cloud_outline.yy",},},
     {"id":{"name":"spr_cloud","path":"sprites/spr_cloud/spr_cloud.yy",},},
     {"id":{"name":"spr_crate","path":"sprites/spr_crate/spr_crate.yy",},},
+    {"id":{"name":"spr_door_light","path":"sprites/spr_door_light/spr_door_light.yy",},},
     {"id":{"name":"spr_door","path":"sprites/spr_door/spr_door.yy",},},
     {"id":{"name":"spr_editor_bg_sand","path":"sprites/spr_editor_bg_sand/spr_editor_bg_sand.yy",},},
     {"id":{"name":"spr_editor_brick","path":"sprites/spr_editor_brick/spr_editor_brick.yy",},},

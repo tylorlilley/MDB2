@@ -45,10 +45,13 @@ for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
 
 // Handle Static Object Step
 with (obj_dynamic_object) {
-	if (shine_timer > 0) {
+	if (is_carrying_key()) {
 		shine_timer--;
-		main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : main_palette;
+		main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : original_palette;
 		if (shine_timer < -1) { reset_shine_timer(); }
+	}
+	else if (object_index == obj_gear || object_index == obj_spikes) {
+		if (shine_timer > -1) { shine_timer--; }
 	}
 }
 with (obj_water) {
@@ -135,7 +138,7 @@ with (obj_door) {
 	if (!is_fully_on_ground()) { instance_destroy(); }
 	else if (image_index == 0) {
 		shine_timer--;
-		main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : main_palette;
+		main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : PALETTES.BROWN;
 		if (shine_timer < -1) { reset_shine_timer(); }
 		
 		if (global.room_keys == global.keys_collected) {

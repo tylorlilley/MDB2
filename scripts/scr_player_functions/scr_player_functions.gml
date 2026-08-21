@@ -1538,7 +1538,7 @@ do_portal_collisions = function(_objects_at_position) {
 // Silhoutte Functions
 #macro SILHOUETTE_SURFACE_SIZE 32
 #macro SILHOUETTE_PAD 8
-#macro SILHOUETTE_ALPHA 0.5
+#macro SILHOUETTE_ALPHA 0.25
 build_solid_mask_surface = function(_origin_x, _origin_y) {
 	if (!surface_exists(solid_mask_surface)) { solid_mask_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
 	if (!surface_set_target(solid_mask_surface)) { show_debug_message("ERROR SETTING SOLID MASK WINDOW"); return false; }
