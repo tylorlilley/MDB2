@@ -175,7 +175,7 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth, _is_occlude
 	_static_area_manager.is_occluder = _is_occluder;
 	
 	// TODO: Make Ladder a static area tile type and don't return early from this
-	if (instance_exists(obj_ladder)) { return _static_area_manager; }
+	if (array_contains(_obj_index_array, obj_ladder)) { return _static_area_manager; }
 	
 	for (var _i = 0; _i < array_length(_obj_index_array); _i++) {
 		var _obj_index = _obj_index_array[_i];

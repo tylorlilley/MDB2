@@ -220,13 +220,15 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 				terminal_velocity = 4;
 			}
 			else if (_particle_type == PARTICLE_TYPES.CONFETTI) {
-				switch (irandom(5)) {
-					case 0: { main_palette = PALETTES.YELLOW; break; }
-					case 1: { main_palette = PALETTES.GREEN; break; }
-					case 2: { main_palette = PALETTES.PINK; break; }
-					case 3: { main_palette = PALETTES.RED; break; }
+				switch (irandom(7)) {
+					case 0: { main_palette = PALETTES.RED; break; }
+					case 1: { main_palette = PALETTES.ORANGE; break; }
+					case 2: { main_palette = PALETTES.YELLOW; break; }
+					case 3: { main_palette = PALETTES.GREEN; break; }
 					case 4: { main_palette = PALETTES.BLUE; break; }
-					case 5: { main_palette = PALETTES.PURPLE; break; }
+					case 5: { main_palette = PALETTES.INDIGO; break; }
+					case 6: { main_palette = PALETTES.PURPLE; break; }
+					case 7: { main_palette = PALETTES.PINK; break; }
 				}
 				if (irandom(1) == 0) { main_palette = get_darker_palette(main_palette); }
 				//if (irandom(32) == 0) { main_palette = PALETTES.BROWN; }
