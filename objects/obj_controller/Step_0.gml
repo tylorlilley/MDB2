@@ -48,7 +48,7 @@ with (obj_dynamic_object) {
 	if (shine_timer > 0) {
 		shine_timer--;
 		main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : main_palette;
-		if (shine_timer == -1) { reset_shine_timer(); }
+		if (shine_timer < -1) { reset_shine_timer(); }
 	}
 }
 with (obj_water) {
@@ -113,7 +113,7 @@ with (obj_key) {
 	// Update Timers
 	shine_timer--;
 	main_palette = (shine_timer == 1 || shine_timer == -1) ? get_lighter_palette(main_palette) : PALETTES.YELLOW;
-	if (shine_timer == -1) { reset_shine_timer(); }
+	if (shine_timer < -1) { reset_shine_timer(); }
 	sway_timer++;
 	if (sway_timer > 32) { sway_timer = -(irandom(60) + 60); }
 	float_timer = (float_timer + 1) % (4 * FLOAT_OFFSET_PERIOD_FRAMES);
@@ -136,7 +136,7 @@ with (obj_door) {
 	else if (image_index == 0) {
 		shine_timer--;
 		main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : main_palette;
-		if (shine_timer == -1) { reset_shine_timer(); }
+		if (shine_timer < -1) { reset_shine_timer(); }
 		
 		if (global.room_keys == global.keys_collected) {
 			create_particles(6 + irandom(6), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
