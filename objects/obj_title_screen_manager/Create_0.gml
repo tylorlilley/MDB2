@@ -61,7 +61,6 @@ cursor_palettes = [
 // State Variables
 state = TITLE_STATES.BEGIN;
 prev_state = state;
-menu_pos = MENU_OPTIONS.START_CLASSIC;
 
 // Camera Variables
 camera_x = camera_get_view_x(view_camera[0]);
@@ -84,3 +83,4 @@ if (global.controller.debug_enabled) { progress_level = 2; }
 
 // Determine maximum window size
 max_scaling_size = get_maximum_screen_scale();
+menu_pos = (progress_level > 0) ? MENU_OPTIONS.START_CLASSIC : MENU_OPTIONS.START_GAME;
