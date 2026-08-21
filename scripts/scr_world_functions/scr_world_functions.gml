@@ -176,7 +176,7 @@ function get_world_palette(_object_index) {
 			// Any palette you assign needs to support two sahdes of darker palettes for this object
 			switch (global.controller.room_world) {
 				case WORLDS.BEACH: { return PALETTES.GRAY_LIGHT; } // TODO: Make different
-				case WORLDS.FOREST: { return PALETTES.BRICK_DARK; }
+				case WORLDS.FOREST: { return PALETTES.BRICK; }
 				case WORLDS.FACTORY: { return PALETTES.BROWN; }
 				case WORLDS.FORTRESS: { return PALETTES.GRAY_LIGHT; }
 				default: { return PALETTES.YELLOW; }

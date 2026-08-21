@@ -13,10 +13,11 @@
 
 #macro TRANSITION_DURATION 24
 #macro TRANSITION_DELAY 40
-#macro TRANSITION_HOLD 24//12
+#macro TRANSITION_HOLD 12
 
 // --- Particles
 #macro PARTICLE_DEPTH -100
+#macro OUTLINE_DEPTH -50
 
 // -- Liquids
 #macro WATER_DEPTH -50
@@ -27,17 +28,17 @@
 
 // -- Static Objects
 #macro KEY_DEPTH -11
-#macro LADDER_DEPTH -10//45//-10
 
-#macro OUTLINE_DEPTH 0
+#macro SWITCH_BLOCK_DEPTH 0
 //--- Dynamic Objects
 #macro GEAR_DEPTH 6
 #macro CRATE_DEPTH 7
 #macro SWITCH_DEPTH 8
-#macro PORTAL_DEPTH 45//9
 #macro DOOR_DEPTH 10
 #macro STATIC_AREA_DEPTH 30 // Lowest Depth, works upward from obj_metal
-#macro VISUAL_OBJECT_DEPTH 40 // Door, Tree Nubs
+#macro VISUAL_OBJECT_DEPTH 40 // Tree Nubs
+#macro LADDER_DEPTH 46//-10//45//-10
+#macro PORTAL_DEPTH 45//9
 #macro BACKGROUND_DEPTH 50
 
 enum FULL_SCREEN_OPTIONS {
@@ -66,7 +67,7 @@ global.last_gamepad_h_axis_value = 0;
 global.last_gamepad_v_axis_value = 0;
 
 // Debug Variables
-quips_enabled = true;
+quips_enabled = false;
 debug_enabled = false;
 can_fast_forward = false;
 draw_game_object_grid = false;
