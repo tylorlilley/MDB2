@@ -1546,7 +1546,7 @@ build_solid_mask_surface = function(_origin_x, _origin_y) {
 
 	gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
 	with (obj_static_area_manager) {
-		if (depth > other.depth && depth < BACKGROUND_DEPTH && surface_exists(static_area_surface)) {
+		if (depth > other.depth && is_occluder && surface_exists(static_area_surface)) {
 			draw_surface_part_ext(static_area_surface, _origin_x, _origin_y, SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE, 0, 0, 1, 1, c_white, 1);
 		}
 	}

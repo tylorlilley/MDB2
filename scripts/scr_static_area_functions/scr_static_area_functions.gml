@@ -61,7 +61,9 @@ initialize_static_area = function() {
 }
 
 // Functions
-mark_manager_for_redraw = function() { if (instance_exists(manager)) { manager.should_redraw = true; } }
+mark_manager_for_redraw = function() {
+	if (instance_exists(manager)) { manager.should_redraw = true; }
+}
 
 connected_to = function(_inst) { return _inst.object_index == object_index && _inst.creator == creator; }
 

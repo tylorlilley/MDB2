@@ -169,9 +169,13 @@ create_object_grid = function(_cols, _rows) {
 	return _game_object_grid;
 }
 
-connect_static_areas_to_manager = function(_obj_index_array, _depth) {
+connect_static_areas_to_manager = function(_obj_index_array, _depth, _is_occluder) {
 	var _static_area_manager = instance_create(x, y, obj_static_area_manager);
 	_static_area_manager.depth = _depth;
+	_static_area_manager.is_occluder = _is_occluder;
+	
+	// TODO: Make Ladder a static area tile type and don't return early from this
+	if (instance_exists(obj_ladder)) { return _static_area_manager; }
 	
 	for (var _i = 0; _i < array_length(_obj_index_array); _i++) {
 		var _obj_index = _obj_index_array[_i];

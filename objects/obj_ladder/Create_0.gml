@@ -3,6 +3,7 @@ event_inherited();
 // Visual Object Override
 set_depth(LADDER_DEPTH);
 main_palette = PALETTES.GRAY_LIGHT;
+manager = noone;
 
 // Overidden Functions
 update_connections = function() {
@@ -14,4 +15,5 @@ update_connections = function() {
 	if (!_ladder_above && !_ladder_below) { image_index = 3; }
 	else if (!_ladder_below) { image_index = 1; }
 	else if (!_ladder_above) { image_index = 2; }
+	if (instance_exists(manager)) { manager.should_redraw = true; }
 }
