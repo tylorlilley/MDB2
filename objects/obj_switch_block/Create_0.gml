@@ -5,7 +5,7 @@ hits = 0;
 
 // Sprite Variables
 main_palette = PALETTES.GRAY;
-main_sprite = spr_switch_block;
+main_sprite = spr_switch_block_red;
 outline_sprite = spr_switch_block_on_outline;
 outline_mask_sprite = undefined;
 fuzzing_sprite = undefined;

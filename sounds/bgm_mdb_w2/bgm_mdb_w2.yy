@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":99.09678,
+  "duration":123.87097,
   "exportDir":"",
   "name":"bgm_mdb_w2",
   "parent":{

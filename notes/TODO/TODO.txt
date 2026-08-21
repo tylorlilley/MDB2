@@ -5,7 +5,10 @@ Fast Forward Button?
 Fewer Keys? Or use them as more of a guide?
 Rythm Game Level
 Interact to Go Through Portal
-Yes / No 
+Yes / No
+
+Glimmer animation for keys?
+Draw in front of portals when on ladder
 
 // TODO:
 - World 5 Impossible?

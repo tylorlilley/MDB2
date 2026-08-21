@@ -215,4 +215,3 @@ get_connected_instances = function(_connected_instances) {
 }
 
 treat_object_as_solid = function(_inst) { return true; }
-

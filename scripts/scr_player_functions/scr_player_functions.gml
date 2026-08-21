@@ -1140,8 +1140,10 @@ update_player_graphics = function() {
 		animation_timer = 0;
 		image_index = 0;
 		
+		/*
 		if (is_ladder_state()) { depth = LADDER_DEPTH - 1; }
 		else { depth = PLAYER_DEPTH; }
+		*/
 		
 		// Set New Sprites
 		switch (state) {
@@ -1392,8 +1394,11 @@ draw_cape_graphics = function() {
 	else if (state == PLAYER_STATES.POWERFALL) { _cape_y -= 1; }
 	else if (is_ladder_state()) { _cape_y += 1; _cape_image_x_scale = 1; _cape_x_offset = 0; }
 	
+	// Draw Cape
 	set_shader_palette(PALETTES.GRAY_LIGHT);
-	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset, _cape_y+virtual_y_offset, _cape_image_x_scale, 1, 0, image_blend, 1);
+	if (!draw_quadrants_with_silhouttes(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset, _cape_y + virtual_y_offset, _cape_image_x_scale, PALETTES.GRAY_LIGHT)) {
+		draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset, _cape_y+virtual_y_offset, _cape_image_x_scale, 1, 0, image_blend, 1);
+	}
 }
 
 do_player_object_collisions = function(_skip_portals = false) {

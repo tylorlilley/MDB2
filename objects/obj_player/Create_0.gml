@@ -28,6 +28,7 @@ main_palette = original_palette;
 particle_palette = PALETTES.BLUE;
 powered_palette = PALETTES.RED;
 death_sprite = spr_particle_player_dying;
+sprite_surface = undefined;
 
 // Boolean Ability Flags
 controlled_by_human = true;
@@ -40,7 +41,6 @@ can_look_up = true//!global.original_controls;
 can_fly = !global.original_controls;
 can_carry_objects = !global.original_controls;
 can_be_crushed = !global.original_controls;
-
 
 // Cape Variables
 has_cape = true;

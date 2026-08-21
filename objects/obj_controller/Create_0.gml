@@ -27,14 +27,14 @@
 
 // -- Static Objects
 #macro KEY_DEPTH -11
-#macro LADDER_DEPTH 45//-10
+#macro LADDER_DEPTH -10//45//-10
 
 #macro OUTLINE_DEPTH 0
 //--- Dynamic Objects
 #macro GEAR_DEPTH 6
 #macro CRATE_DEPTH 7
 #macro SWITCH_DEPTH 8
-#macro PORTAL_DEPTH 9
+#macro PORTAL_DEPTH 45//9
 #macro DOOR_DEPTH 10
 #macro STATIC_AREA_DEPTH 30 // Lowest Depth, works upward from obj_metal
 #macro VISUAL_OBJECT_DEPTH 40 // Door, Tree Nubs
@@ -312,7 +312,9 @@ get_quip_text = function() {
 		"Have a problem? Consult a doctor!",
 		"Scientists HATE this one weird trick: egg all their houses",
 		"Skip this level for  $5.99?",
-		"wow"
+		"wow",
+		"Same as it ever was...",
+		"You did a stinky"
 	]
 	
 	return _quip_text[irandom(array_length(_quip_text)-1)];
