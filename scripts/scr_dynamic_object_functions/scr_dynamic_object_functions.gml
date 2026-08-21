@@ -336,24 +336,10 @@ get_x_draw_offset = function() {
 }
 
 // Draw Function
-draw_dynamic_object = function() {
+draw_dynamic_object = function(_x_offset = 0, _y_offset = 0, _image_alpha = undefined) {
+	_image_alpha ??= image_alpha;
 	set_shader_palette((shine_timer == 1) ? PALETTES.ALL_WHITE : main_palette);
-	draw_sprite_with_center_rotation(sprite_index, image_index, virtual_x + get_x_draw_offset(), virtual_y+virtual_y_offset, get_left_value(), 1, image_angle, image_blend, image_alpha);
-}
-
-draw_quadrants_with_silhouttes = function(_sprite_index, _cape_index, _x, _y, _image_x_scale, _palette) {
-	if (!is_ladder_state()) { return false; }
-	
-	var _main_palette = (shine_timer == 1) ? PALETTES.ALL_WHITE : _palette
-	for (var _x_offset = 0; _x_offset < sprite_get_width(_sprite_index); _x_offset += GRID_SIZE) {
-		for (var _y_offset = 0; _y_offset < sprite_get_height(_sprite_index); _y_offset += GRID_SIZE) {
-			var _use_silhoutte = array_length(get_objects_at(x + _x_offset, y + _y_offset, GRID_SIZE, GRID_SIZE, function(_inst) { return _inst.is_solid_from_all_sides() && treat_object_as_solid(_inst); })) > 0;
-			
-			set_shader_palette((_use_silhoutte) ? PALETTES.ALL_BLACK : _main_palette);
-			draw_sprite_part_ext(_sprite_index, image_index, _x_offset, _y_offset, GRID_SIZE, GRID_SIZE, _x +_x_offset + get_x_draw_offset(), _y + _y_offset + virtual_y_offset, _image_x_scale, 1, image_blend, (_use_silhoutte) ? image_alpha/2 : image_alpha);
-		}
-	}
-	return true;
+	draw_sprite_with_center_rotation(sprite_index, image_index, virtual_x + get_x_draw_offset() + _x_offset, virtual_y + virtual_y_offset + _y_offset, get_left_value(), 1, image_angle, image_blend, _image_alpha);
 }
 
 // Step Function

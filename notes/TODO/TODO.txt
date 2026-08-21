@@ -21,6 +21,7 @@ Draw in front of portals when on ladder
 - Intro Cutscene
 - W4 - W5 Transition Cutscene
 - Ending Cutscene + Credits
+- mac version?
 
 // VISUALS:
 - option to turn off special palettes for each world?

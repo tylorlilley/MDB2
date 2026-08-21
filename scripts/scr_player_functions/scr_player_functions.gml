@@ -1367,7 +1367,8 @@ update_player_graphics = function() {
 	}
 }
 
-draw_cape_graphics = function() {
+draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undefined) {
+	_image_alpha ??= image_alpha;
 	var _cape_x = virtual_x, _cape_y = virtual_y, _cape_image_x_scale = get_left_value(), _cape_x_offset = get_x_draw_offset();
 	// Determine Cape X
 	if (state != PLAYER_STATES.LADDER &&
@@ -1396,9 +1397,7 @@ draw_cape_graphics = function() {
 	
 	// Draw Cape
 	set_shader_palette(PALETTES.GRAY_LIGHT);
-	if (!draw_quadrants_with_silhouttes(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset, _cape_y + virtual_y_offset, _cape_image_x_scale, PALETTES.GRAY_LIGHT)) {
-		draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset, _cape_y+virtual_y_offset, _cape_image_x_scale, 1, 0, image_blend, 1);
-	}
+	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset + _x_offset, _cape_y + virtual_y_offset + _y_offset, _cape_image_x_scale, 1, 0, image_blend, _image_alpha);
 }
 
 do_player_object_collisions = function(_skip_portals = false) {
@@ -1538,7 +1537,7 @@ do_portal_collisions = function(_objects_at_position) {
 
 // Silhoutte Functions
 #macro SILHOUETTE_SURFACE_SIZE 32
-#macro SILHOUETTE_PAD 32
+#macro SILHOUETTE_PAD 8
 #macro SILHOUETTE_ALPHA 0.5
 build_solid_mask_surface = function(_origin_x, _origin_y) {
 	if (!surface_exists(solid_mask_surface)) { solid_mask_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
@@ -1547,7 +1546,7 @@ build_solid_mask_surface = function(_origin_x, _origin_y) {
 
 	gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
 	with (obj_static_area_manager) {
-		if (depth > other.depth && surface_exists(static_area_surface)) {
+		if (depth > other.depth && depth < BACKGROUND_DEPTH && surface_exists(static_area_surface)) {
 			draw_surface_part_ext(static_area_surface, _origin_x, _origin_y, SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE, 0, 0, 1, 1, c_white, 1);
 		}
 	}
@@ -1566,7 +1565,7 @@ draw_with_ladder_silhouette = function() {
 	if (!build_solid_mask_surface(_origin_x, _origin_y)) { return false; }
 
 	if (!build_silhouette_composite(_origin_x, _origin_y, bm_inv_src_alpha)) { return false; }
-	draw_silhouette_composite(_origin_x, _origin_y, image_blend, image_alpha);
+	draw_silhouette_composite(_origin_x, _origin_y, c_white, image_alpha);
 
 	if (!build_silhouette_composite(_origin_x, _origin_y, bm_src_alpha)) { return false; }
 	draw_silhouette_composite(_origin_x, _origin_y, c_black, SILHOUETTE_ALPHA * image_alpha);
@@ -1574,7 +1573,7 @@ draw_with_ladder_silhouette = function() {
 	return true;
 }
 
-build_silhouette_composite = function(_origin_x, _origin_y, _mask, _mask_factor) {
+build_silhouette_composite = function(_origin_x, _origin_y, _mask_factor) {
 	if (!surface_exists(silhouette_surface)) { silhouette_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
 	if (!surface_set_target(silhouette_surface)) { show_debug_message("ERROR SETTING SILHOUETTE SURFACE"); return false; }
 	draw_clear_alpha(c_black, 0);
