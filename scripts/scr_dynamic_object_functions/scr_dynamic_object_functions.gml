@@ -350,7 +350,7 @@ draw_quadrants_with_silhouttes = function(_sprite_index, _cape_index, _x, _y, _i
 			var _use_silhoutte = array_length(get_objects_at(x + _x_offset, y + _y_offset, GRID_SIZE, GRID_SIZE, function(_inst) { return _inst.is_solid_from_all_sides() && treat_object_as_solid(_inst); })) > 0;
 			
 			set_shader_palette((_use_silhoutte) ? PALETTES.ALL_BLACK : _main_palette);
-			draw_sprite_part_ext(_sprite_index, image_index, _x_offset, _y_offset, GRID_SIZE, GRID_SIZE, _x +_x_offset + get_x_draw_offset(), _y + _y_offset + virtual_y_offset, _image_x_scale, 1, image_blend, (_use_silhoutte) ? image_alpha/3 : image_alpha);
+			draw_sprite_part_ext(_sprite_index, image_index, _x_offset, _y_offset, GRID_SIZE, GRID_SIZE, _x +_x_offset + get_x_draw_offset(), _y + _y_offset + virtual_y_offset, _image_x_scale, 1, image_blend, (_use_silhoutte) ? image_alpha/2 : image_alpha);
 		}
 	}
 	return true;

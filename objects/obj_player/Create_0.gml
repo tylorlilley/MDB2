@@ -28,7 +28,8 @@ main_palette = original_palette;
 particle_palette = PALETTES.BLUE;
 powered_palette = PALETTES.RED;
 death_sprite = spr_particle_player_dying;
-sprite_surface = undefined;
+silhouette_surface = undefined;
+solid_mask_surface = undefined;
 
 // Boolean Ability Flags
 controlled_by_human = true;

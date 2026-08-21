@@ -1535,3 +1535,71 @@ do_portal_collisions = function(_objects_at_position) {
 	
 	return false;
 }
+
+// Silhoutte Functions
+#macro SILHOUETTE_SURFACE_SIZE 32
+#macro SILHOUETTE_PAD 32
+#macro SILHOUETTE_ALPHA 0.5
+build_solid_mask_surface = function(_origin_x, _origin_y) {
+	if (!surface_exists(solid_mask_surface)) { solid_mask_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
+	if (!surface_set_target(solid_mask_surface)) { show_debug_message("ERROR SETTING SOLID MASK WINDOW"); return false; }
+	draw_clear_alpha(c_black, 0);
+
+	gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
+	with (obj_static_area_manager) {
+		if (depth > other.depth && surface_exists(static_area_surface)) {
+			draw_surface_part_ext(static_area_surface, _origin_x, _origin_y, SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE, 0, 0, 1, 1, c_white, 1);
+		}
+	}
+	gpu_set_blendmode(bm_normal);
+
+	surface_reset_target();
+	return true;
+}
+
+draw_with_ladder_silhouette = function() {
+	if (!is_ladder_state()) { return false; }
+
+	var _origin_x = clamp(floor(virtual_x) - SILHOUETTE_PAD, 0, room_width - SILHOUETTE_SURFACE_SIZE);
+	var _origin_y = clamp(floor(virtual_y + virtual_y_offset) - SILHOUETTE_PAD, 0, room_height - SILHOUETTE_SURFACE_SIZE);
+
+	if (!build_solid_mask_surface(_origin_x, _origin_y)) { return false; }
+
+	if (!build_silhouette_composite(_origin_x, _origin_y, bm_inv_src_alpha)) { return false; }
+	draw_silhouette_composite(_origin_x, _origin_y, image_blend, image_alpha);
+
+	if (!build_silhouette_composite(_origin_x, _origin_y, bm_src_alpha)) { return false; }
+	draw_silhouette_composite(_origin_x, _origin_y, c_black, SILHOUETTE_ALPHA * image_alpha);
+
+	return true;
+}
+
+build_silhouette_composite = function(_origin_x, _origin_y, _mask, _mask_factor) {
+	if (!surface_exists(silhouette_surface)) { silhouette_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
+	if (!surface_set_target(silhouette_surface)) { show_debug_message("ERROR SETTING SILHOUETTE SURFACE"); return false; }
+	draw_clear_alpha(c_black, 0);
+
+	// Both sprites at alpha 1: overlapping pixels resolve into one shape instead of
+	// two stacked alphas. Opacity is applied once, at blit time.
+	if (visible && has_cape && cape_depth >= depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
+	draw_dynamic_object(-_origin_x, -_origin_y, 1);
+	if (visible && has_cape && cape_depth < depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
+
+	// Only the mask's alpha channel is read
+	gpu_set_blendmode_ext(bm_zero, _mask_factor);
+	draw_surface_ext(solid_mask_surface, 0, 0, 1, 1, 0, c_white, 1);
+	gpu_set_blendmode(bm_normal);
+
+	surface_reset_target();
+	return true;
+}
+
+draw_silhouette_composite = function(_origin_x, _origin_y, _colour, _alpha) {
+	// Must bypass the palettizer: the composite already holds final palette colours,
+	shader_reset();
+	gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
+	draw_surface_ext(silhouette_surface, _origin_x, _origin_y, 1, 1, 0, _colour, _alpha);
+	gpu_set_blendmode(bm_normal);
+	shader_set(shd_palettizer);
+	shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
+}

@@ -36,8 +36,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_ladder",
-    "path":"sprites/spr_ladder/spr_ladder.yy",
+    "name":"spr_ladder_1",
+    "path":"sprites/spr_ladder_1/spr_ladder_1.yy",
   },
   "spriteMaskId":{
     "name":"spr_box_16x16",

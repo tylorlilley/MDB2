@@ -406,6 +406,8 @@
     {"id":{"name":"spr_gear","path":"sprites/spr_gear/spr_gear.yy",},},
     {"id":{"name":"spr_key_icon","path":"sprites/spr_key_icon/spr_key_icon.yy",},},
     {"id":{"name":"spr_key","path":"sprites/spr_key/spr_key.yy",},},
+    {"id":{"name":"spr_ladder_1","path":"sprites/spr_ladder_1/spr_ladder_1.yy",},},
+    {"id":{"name":"spr_ladder_no_outline","path":"sprites/spr_ladder_no_outline/spr_ladder_no_outline.yy",},},
     {"id":{"name":"spr_ladder","path":"sprites/spr_ladder/spr_ladder.yy",},},
     {"id":{"name":"spr_lava_old_1","path":"sprites/spr_lava_old_1/spr_lava_old_1.yy",},},
     {"id":{"name":"spr_lava_old","path":"sprites/spr_lava_old/spr_lava_old.yy",},},
