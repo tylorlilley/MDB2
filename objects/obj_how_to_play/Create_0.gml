@@ -16,7 +16,7 @@ text_pos_timer = 0;
 next_text_trigger = FIRST_WAIT + DISPLAY_TIME + TEXT_WAIT;
 text_pos = 0;
 text_box_strings = [
-	"Welcome to Mighty Dive Bomber!\nWATCH this demo to learn to play.",
+	"Welcome to Mighty Dive Bomber!\nWatch this demo to learn to play.",
 	"Press LEFT or RIGHT to\nmove in that direction.",
 	"You cannot climb walls that\nare two or more tiles tall.",
 	"Press LEFT or RIGHT to\nclimb up walls one tile tall.",
