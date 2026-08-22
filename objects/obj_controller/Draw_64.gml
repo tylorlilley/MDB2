@@ -88,8 +88,6 @@ if (room_transition_timer > TRANSITION_DELAY) {
 	_scale = clamp(_scale, 0, 1);
 		
 	// Create Transition Graphics
-	if (!surface_exists(transition_surface)) { transition_surface = surface_create(SCREEN_WIDTH, SCREEN_HEIGHT); }
-		
 	ensure_transition_surface();
 	surface_set_target(transition_surface);
 	draw_set_color(C_BLACK);

@@ -168,7 +168,7 @@ switch (state) {
 			
 			// Handle Return Selection
 			if (global.controller.room_transition_timer == 0 && (key_jump || key_restart)) {
-				if (menu_pos = SETTINGS_OPTIONS.RETURN) {
+				if (menu_pos == SETTINGS_OPTIONS.RETURN) {
 					play_global_sound(snd_explosion);
 					state = TITLE_STATES.MAIN_MENU;
 					menu_pos = MENU_OPTIONS.SETTINGS;

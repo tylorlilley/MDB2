@@ -23,7 +23,7 @@
 #macro WATER_DEPTH -50
 
 // -- Player
-#macro PLAYER_DEPTH 37//-20
+#macro PLAYER_DEPTH -20//37//-20
 
 // -- Static Objects
 #macro KEY_DEPTH -40//-11

@@ -244,10 +244,11 @@ start_fallback_state = function(_is_crushed = false) {
 }
 	
 start_standing = function(_is_crushed = false) {
-	state = PLAYER_STATES.STAND;
 	if (_is_crushed) { state = PLAYER_STATES.CRUSHED_STAND; }
-	else if (key_down && can_duck) { state = PLAYER_STATES.CROUCH; }
+	else if (key_down && can_duck && state != PLAYER_STATES.STAND_EDGE) { state = PLAYER_STATES.CROUCH; }
 	else if (key_up && can_look_up) { state = PLAYER_STATES.LOOK_UP; }
+	else { state = PLAYER_STATES.STAND; }
+	
 	set_transition_timer((_is_crushed) ? 4 : 0);
 	air_walk = false;
 	if (key_left || key_right) { is_left = key_left; }
@@ -805,7 +806,7 @@ update_player_state = function() {
 						}
 						else if (key_down && can_duck) {
 							if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
-							else if (state != PLAYER_STATES.POWERCROUCH) { state = PLAYER_STATES.CROUCH; set_transition_timer(4); }
+							else if (state != PLAYER_STATES.POWERCROUCH && state != PLAYER_STATES.STAND_EDGE) { state = PLAYER_STATES.CROUCH; set_transition_timer(4); }
 
 							if (crouch_timer == 32 && state != PLAYER_STATES.POWERCROUCH && can_fly) { state = PLAYER_STATES.POWERCROUCH; play_sound(snd_player_powerup); }
 						}

@@ -16,7 +16,9 @@ text_pos_timer = 0;
 next_text_trigger = FIRST_WAIT + DISPLAY_TIME + TEXT_WAIT;
 text_pos = 0;
 text_box_strings = [
+	"Welcome to Mighty Dive Bomber!\nWATCH this demo to learn to play.",
 	"Press LEFT or RIGHT to\nmove in that direction.",
+	"You cannot climb walls that\nare two or more tiles tall.",
 	"Press LEFT or RIGHT to\nclimb up walls one tile tall.",
 	"Fall a distance of one tile\nto safely land on the ground.",
 	"Fall two or more tiles to dive!\nYou damage tiles you dive into.",
@@ -30,7 +32,7 @@ text_box_strings = [
 	"Exactly overlap a key\nto collect it.",
 	"Destroying tiles will also destroy\nany objects resting above them!",
 	"If you are stuck, press ENTER\nor SELECT to restart the level.",
-	"You also restart the level if you\nfall off the bottom of the screen.",
+	"Press ESC to pause. From there you\ncan return to the title screen.",
 	"Unlock the level's door\nby collecting all the keys.",
 	"Exactly overlap the unlocked\ndoor to win the level.",
 	"Good luck! Close the door\nwith UP on your way out."

@@ -2,10 +2,7 @@ static_area_objects = [];
 should_redraw = true;
 static_area_surface = undefined;
 uses_static_area_draw = true;
-
 is_occluder = true;
-occlusion_alpha = undefined;
-occluded_surface = undefined;
 
 redraw_static_area_surface = function() {
 	// Create Static Area Surface
@@ -52,7 +49,6 @@ redraw_static_area_surface = function() {
 	}	
 
 	surface_reset_target();
-	if (!is_undefined(occlusion_alpha)) { split_surface_by_occlusion(); }
 	should_redraw = false;
 }
 
