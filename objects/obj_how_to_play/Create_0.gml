@@ -2,18 +2,19 @@ event_inherited();
 play_global_sound(bgm_old_how_to_play);
 depth = global.controller.depth - 1;
 
-#macro cancel_string "PRESS ANY KEY TO END TUTORIAL"
+#macro cancel_string "ANY KEY TO QUIT DEMO"
+#macro INTRO_WAIT TRANSITION_DURATION
 #macro FIRST_WAIT 48
 #macro PLAYER_WAIT 16
-#macro TEXT_WAIT 40
-#macro DISPLAY_TIME 164
+#macro TEXT_WAIT 32
+#macro DISPLAY_TIME 148
 
 // Override Parent Variables
 cutscene_timer_max = 9999; // TODO: Update this at end?
 return_to_title = false;
 restarted = false;
 text_pos_timer = 0;
-next_text_trigger = FIRST_WAIT + DISPLAY_TIME + TEXT_WAIT;
+next_text_trigger = INTRO_WAIT + DISPLAY_TIME + TEXT_WAIT;
 text_pos = 0;
 text_box_strings = [
 	"Welcome to Mighty Dive Bomber!\nWatch this demo to learn to play.",
