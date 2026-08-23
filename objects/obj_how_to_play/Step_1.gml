@@ -188,6 +188,7 @@ with (obj_player) {
 				break;
 			}
 			case 14: {
+				depth = global.controller.depth - 1;
 				// Run Right and Fall and Break Door
 				if (global.keys_collected > 1) { has_completed_move++; }
 
@@ -251,4 +252,11 @@ with (obj_player) {
 			}
 		}
 	}
+	
+	// Latch the demo's inputs for the control display. The state machine clears key_* on any
+	// frame where it makes a decision, so reading them at draw time flickers once per move.
+	other.shown_key_left = key_left;
+	other.shown_key_right = key_right;
+	other.shown_key_up = key_up;
+	other.shown_key_down = key_down;
 }

@@ -1,6 +1,5 @@
 event_inherited();
 play_global_sound(bgm_old_how_to_play);
-depth = global.controller.depth - 1;
 
 #macro cancel_string "ANY KEY TO QUIT DEMO"
 #macro INTRO_WAIT TRANSITION_DURATION
@@ -14,6 +13,13 @@ cutscene_timer_max = 9999; // TODO: Update this at end?
 return_to_title = false;
 restarted = false;
 text_pos_timer = 0;
+
+// Latched copy of the demo's inputs for the on-screen control display
+shown_key_left = false;
+shown_key_right = false;
+shown_key_up = false;
+shown_key_down = false;
+
 next_text_trigger = INTRO_WAIT + DISPLAY_TIME + TEXT_WAIT;
 text_pos = 0;
 text_box_strings = [

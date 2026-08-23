@@ -27,10 +27,9 @@ if (return_to_title) {
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 }
 
-with (obj_player) {
-	set_shader_palette(PALETTES.GRAY_LIGHT);
-	draw_sprite(spr_controls_down, ((key_down) ? 1 : 0), 4 + 16, SCREEN_HEIGHT - 4 - 16);
-	draw_sprite(spr_controls_up, ((key_up) ? 1 : 0), 4 + 16, SCREEN_HEIGHT - 4 - 16 - 16);
-	draw_sprite(spr_controls_left, ((key_left) ? 1 : 0), 4, SCREEN_HEIGHT - 4 - 8 - 16);
-	draw_sprite(spr_controls_right, ((key_right) ? 1 : 0), 4 + 16 + 16, SCREEN_HEIGHT - 4 - 8 - 16);
-}
+// set_shader_palette only takes effect inside the Draw GUI Begin/End shader bracket
+set_shader_palette(PALETTES.GRAY_LIGHT);
+draw_sprite(spr_controls_down, ((shown_key_down) ? 1 : 0), 4 + 16, SCREEN_HEIGHT - 4 - 16);
+draw_sprite(spr_controls_up, ((shown_key_up) ? 1 : 0), 4 + 16, SCREEN_HEIGHT - 4 - 16 - 16);
+draw_sprite(spr_controls_left, ((shown_key_left) ? 1 : 0), 4, SCREEN_HEIGHT - 4 - 8 - 16);
+draw_sprite(spr_controls_right, ((shown_key_right) ? 1 : 0), 4 + 16 + 16, SCREEN_HEIGHT - 4 - 8 - 16);
