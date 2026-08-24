@@ -51,6 +51,14 @@ cape_sprite_index = spr_cape_stand;
 cape_image_index = 0;
 cape_timer = 0;
 
+// Input Variables
+key_left = false;
+key_right = false;
+key_up = false;
+key_down = false;
+key_jump = false;
+key_restart = false;
+
 // Timer Variables
 portal_lockout_timer = 0;
 animation_timer = 0;
@@ -58,6 +66,7 @@ ring_out_timer = 0;
 crouch_timer = 0;
 fly_timer = 0;
 swim_timer = 0;
+pose_timer = 0;
 idle_timer = 0;
 idle_loops = 0;
 win_loops = 0;
@@ -65,7 +74,6 @@ step_index = 1;
 
 // Functions
 scr_player_functions();
-
 treat_object_as_solid = function(_inst) { return _inst.is_a(obj_spikes) || _inst.is_a(obj_lava) || !would_be_damaged_by(_inst); }
 
 game_object_step = function() {

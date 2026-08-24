@@ -109,6 +109,10 @@ cape_state_to_string = function(_cape_state) {
 	return _cape_state_string;
 }
 
+is_pose_state = function() {
+	return (state == PLAYER_STATES.LOOK_UP || state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.PUSH_STAND || state == PLAYER_STATES.LADDER_LOOK);
+}
+
 is_powered_state = function() {
 	return (state == PLAYER_STATES.POWERFALL || state == PLAYER_STATES.POWERFLY);
 }
@@ -163,6 +167,11 @@ is_floating_state = function() {
 	
 // Control Functions
 reset_controls = function() {
+	prev_key_left = key_left;
+	prev_key_right = key_right;
+	prev_key_up = key_up;
+	prev_key_down = key_down;
+	
 	key_left = false;
 	key_right = false;
 	key_up = false;
@@ -245,11 +254,11 @@ start_fallback_state = function(_is_crushed = false) {
 	
 start_standing = function(_is_crushed = false) {
 	if (_is_crushed) { state = PLAYER_STATES.CRUSHED_STAND; }
-	else if (key_down && can_duck && state != PLAYER_STATES.STAND_EDGE) { state = PLAYER_STATES.CROUCH; }
-	else if (key_up && can_look_up) { state = PLAYER_STATES.LOOK_UP; }
+	else if (key_down && can_duck && state != PLAYER_STATES.STAND_EDGE && pose_timer >= 4) { state = PLAYER_STATES.CROUCH; }
+	else if (key_up && can_look_up && pose_timer >= 4) { state = PLAYER_STATES.LOOK_UP; }
 	else { state = PLAYER_STATES.STAND; }
 	
-	set_transition_timer((state != PLAYER_STATES.STAND) ? 4 : 0);
+	set_transition_timer((_is_crushed) ? 4 : 0);
 	air_walk = false;
 	if (key_left || key_right) { is_left = key_left; }
 }
@@ -544,6 +553,11 @@ update_player_state = function() {
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
 	if (state != PLAYER_STATES.FLY && state != PLAYER_STATES.POWERFLY) { fly_timer = 0; }
 	if (state != PLAYER_STATES.SWIM && state != PLAYER_STATES.SWIM_FORWARD) { swim_timer = 0; }
+	if (prev_key_up && key_up) { pose_timer++; }
+	else if (prev_key_right && key_right) { pose_timer++; }
+	else if (prev_key_down && key_left) { pose_timer++; }
+	else if (prev_key_left && key_right) { pose_timer++; }
+	if (!key_up && !key_right && !key_down && !key_left && pose_timer > 0) { pose_timer--; }
 	
 	// Update Timers
 	switch (state) {
@@ -782,15 +796,13 @@ update_player_state = function() {
 								if (can_push_objects && _can_walk && instance_exists(_pushed_obj) && y == _pushed_obj.y && start_pushing(_pushed_obj)) {
 									state = PLAYER_STATES.PUSH_FORWARD;
 								}
-								else if (can_push_objects) {
+								else if (can_push_objects && pose_timer >= 4) {
 									// Push Against Solid Wall
 									state = PLAYER_STATES.PUSH_STAND;
-									set_transition_timer(4);
 								}
 								else {
 									// Stand Still
 									state = PLAYER_STATES.STAND;
-									set_transition_timer(4);
 								}
 
 							}
@@ -806,7 +818,7 @@ update_player_state = function() {
 						}
 						else if (key_down && can_duck) {
 							if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
-							else if (state != PLAYER_STATES.POWERCROUCH && state != PLAYER_STATES.STAND_EDGE) { state = PLAYER_STATES.CROUCH; set_transition_timer(4); }
+							else if (state != PLAYER_STATES.POWERCROUCH && state != PLAYER_STATES.STAND_EDGE && pose_timer >= 4) { state = PLAYER_STATES.CROUCH; }
 
 							if (crouch_timer == 32 && state != PLAYER_STATES.POWERCROUCH && can_fly) { state = PLAYER_STATES.POWERCROUCH; play_sound(snd_player_powerup); }
 						}
@@ -930,7 +942,7 @@ update_player_state = function() {
 					else { state = PLAYER_STATES.LADDER; }
 					
 					if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_LOOK) {
-						if (key_left || key_right) {  state = PLAYER_STATES.LADDER_LOOK; is_left = key_left; set_transition_timer(4); }
+						if (key_left || key_right && pose_timer >= 4) {  state = PLAYER_STATES.LADDER_LOOK; is_left = key_left; }
 						else { state = PLAYER_STATES.LADDER; }
 					}
 				}
@@ -963,6 +975,8 @@ update_player_state = function() {
 			state = PLAYER_STATES.STAND_EDGE;
 		}
 	}
+	
+	if (state != prev_state && !is_pose_state()) { pose_timer = 0; }
 	
 	// Define Speed Arrays
 	//static tumble_speeds = [2, 2, 3, 3];

@@ -191,7 +191,7 @@ with (obj_player) {
 			}
 			case 13: {
 				// Run Right to the Ladder, Pause, then Climb It and Collect the Key
-				var _ladder_x = 184, _grab_pause = PLAYER_WAIT;
+				var _ladder_x = 184, _step_off_y = 88, _grab_pause = PLAYER_WAIT;
 				
 				// Counts frames spent waiting at the foot of the ladder
 				if (x >= _ladder_x) { has_completed_move++; }
@@ -199,7 +199,7 @@ with (obj_player) {
 				if (other.text_pos_timer > FIRST_WAIT && global.keys_collected == 0) {
 					if (x < _ladder_x) { key_right = true; }
 					else if (has_completed_move <= _grab_pause) { /* Hold still before grabbing */ }
-					else if (is_on_ground() && is_ladder_state()) { key_right = true; }
+					else if (y <= _step_off_y) { key_right = true; }
 					else { key_up = true; }
 				}
 				
