@@ -823,14 +823,6 @@ update_player_state = function() {
 							if (crouch_timer == 32 && state != PLAYER_STATES.POWERCROUCH && can_fly) { state = PLAYER_STATES.POWERCROUCH; play_sound(snd_player_powerup); }
 						}
 						else { start_fallback_state(); }
-					
-						// Add Input Delay for Changing Between States and Standing
-						if (state == PLAYER_STATES.STAND && 
-							(prev_state == PLAYER_STATES.PUSH_STAND ||
-							prev_state == PLAYER_STATES.PUSH_FORWARD ||
-							prev_state == PLAYER_STATES.CROUCH ||
-							prev_state == PLAYER_STATES.LOOK_UP)) { set_transition_timer(4); }
-						else if (state == PLAYER_STATES.LADDER && prev_state == PLAYER_STATES.LADDER_LOOK) { set_transition_timer(4); }
 					}
 				}
 				break;
