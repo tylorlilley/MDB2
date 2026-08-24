@@ -1,3 +1,7 @@
+enum POSE_DIRECTIONS { NONE, LEFT, RIGHT, UP, DOWN }
+
+#macro POSE_FRAMES 4
+
 event_inherited();
 
 // Game Object Variable Overrides
@@ -19,6 +23,7 @@ prev_state = PLAYER_STATES.STAND;
 air_walk = false;
 climbed_inst = noone;
 fall_sound = undefined;
+pose_dir = POSE_DIRECTIONS.NONE;
 
 // Palette and Visual Variables
 set_depth(PLAYER_DEPTH);
@@ -50,14 +55,6 @@ cape_state = CAPE_STATES.STAND;
 cape_sprite_index = spr_cape_stand;
 cape_image_index = 0;
 cape_timer = 0;
-
-// Input Variables
-key_left = false;
-key_right = false;
-key_up = false;
-key_down = false;
-key_jump = false;
-key_restart = false;
 
 // Timer Variables
 portal_lockout_timer = 0;
