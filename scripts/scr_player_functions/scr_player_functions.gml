@@ -249,7 +249,7 @@ start_standing = function(_is_crushed = false) {
 	else if (key_up && can_look_up) { state = PLAYER_STATES.LOOK_UP; }
 	else { state = PLAYER_STATES.STAND; }
 	
-	set_transition_timer((_is_crushed) ? 4 : 0);
+	set_transition_timer((state != PLAYER_STATES.STAND) ? 4 : 0);
 	air_walk = false;
 	if (key_left || key_right) { is_left = key_left; }
 }
@@ -818,6 +818,7 @@ update_player_state = function() {
 							prev_state == PLAYER_STATES.PUSH_FORWARD ||
 							prev_state == PLAYER_STATES.CROUCH ||
 							prev_state == PLAYER_STATES.LOOK_UP)) { set_transition_timer(4); }
+						else if (state == PLAYER_STATES.LADDER && prev_state == PLAYER_STATES.LADDER_LOOK) { set_transition_timer(4); }
 					}
 				}
 				break;
@@ -929,7 +930,7 @@ update_player_state = function() {
 					else { state = PLAYER_STATES.LADDER; }
 					
 					if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_LOOK) {
-						if (key_left || key_right) {  state = PLAYER_STATES.LADDER_LOOK; is_left = key_left; }
+						if (key_left || key_right) {  state = PLAYER_STATES.LADDER_LOOK; is_left = key_left; set_transition_timer(4); }
 						else { state = PLAYER_STATES.LADDER; }
 					}
 				}

@@ -7,6 +7,7 @@ play_global_sound(bgm_old_how_to_play);
 #macro PLAYER_WAIT 16
 #macro TEXT_WAIT 32
 #macro DISPLAY_TIME 148
+#macro MIN_KEY_HOLD 12
 
 // Override Parent Variables
 cutscene_timer_max = 9999; // TODO: Update this at end?

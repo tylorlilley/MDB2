@@ -14,7 +14,7 @@ if (cutscene_timer >= next_text_trigger && text_pos < array_length(text_box_stri
 	text_pos_timer = 0;
 	next_text_trigger += DISPLAY_TIME + TEXT_WAIT;
 	text_pos += 1;
-	with (obj_player) { has_completed_move = 0; }
+	with (obj_player) { has_completed_move = 0; demo_phase = 0; }
 }
 else { text_pos_timer++; }
 
@@ -52,46 +52,52 @@ with (obj_player) {
 			}
 			case 3: {
 				// Walk Back to the Steps, Climb Both, then Step Fully onto the Upper Ledge
-				var _ledge_x = 104; // Leftmost tile with ground under both halves of the player
+				var _ledge_x = 88; // Far enough left that the next message's walk out is three steps
 				key_left = (x > _ledge_x);
 			
 				break;
 			}
 			case 4: {
 				// Pause on the Ledge Edge, Drop Down Both Steps, Pause, then Climb and Drop the Bottom Step on Repeat
-				var _edge_x = 112, _wall_x = 136; // 112 is half-supported, 136 is the foot of the bottom step
+				var _edge_x = 112, _turn_x = 120, _wall_x = 136; // 112 is half-supported, 136 is the foot of the bottom step
 				var _edge_hold = FIRST_WAIT, _bottom_pause_end = (FIRST_WAIT * 2) + PLAYER_WAIT;
 				
 				// Counts frames spent standing on the first edge
 				if (x >= _edge_x) { has_completed_move++; }
 				
-				key_left = (x >= _wall_x && other.text_pos_timer > _bottom_pause_end);
-				key_right = (x < _edge_x) || (has_completed_move > _edge_hold && x < _wall_x);
+				// Falling states hold the key that started the drop, so it is never a one frame tap
+				if (x >= _wall_x && !is_fall_state() && other.text_pos_timer > _bottom_pause_end) { demo_phase = 1; }
+				if (demo_phase == 1 && x <= _turn_x) { demo_phase = 2; }
+				
+				key_left = (demo_phase == 1);
+				key_right = (demo_phase != 1) && ((x < _edge_x) || is_fall_state() || (has_completed_move > _edge_hold && x < _wall_x));
 			
 				break;
 			}
 			case 5: {
 				// Climb Back up the Steps, Step onto the Ledge Edge, Teeter, then Step off into a Two Tile Dive
-				var _edge_x = 80, _edge_hold = FIRST_WAIT;
+				var _edge_x = 80, _edge_hold = FIRST_WAIT, _step_off_hold = MIN_KEY_HOLD;
 				
 				// Counts frames spent standing on the edge, however long the walk out took
 				if (x <= _edge_x) { has_completed_move++; }
 				
-				key_left = (x > _edge_x) || (has_completed_move > _edge_hold && x >= _edge_x);
+				// The last stretch of the hold lands in midair, where LEFT no longer moves him
+				key_left = (x > _edge_x) || (has_completed_move > _edge_hold && has_completed_move <= _edge_hold + _step_off_hold);
 			
 				break;
 			}
 			case 6: {
-				// Look Up at the Ladder, Hold Still, then Walk into it and Grab It
-				var _look_time = FIRST_WAIT;
+				// Look Up at the Ladder, Hold Still, Walk to It, then Grab It
+				var _ladder_x = 56, _look_time = FIRST_WAIT;
 				var _look_end = PLAYER_WAIT + _look_time, _gap_end = _look_end + _look_time;
 				
 				if (is_ladder_state()) { has_completed_move = 1; }
 				
 				if (has_completed_move == 0) {
-					// UP must stay held while walking, or he walks straight past the ladder
-					key_left = (other.text_pos_timer > _gap_end);
-					key_up = key_left || (other.text_pos_timer <= _look_end);
+					if (other.text_pos_timer <= _look_end) { key_up = true; }
+					else if (other.text_pos_timer <= _gap_end) { /* Hold still after looking */ }
+					else if (x > _ladder_x) { key_left = true; }
+					else { key_up = true; }
 				}
 				
 				break;
@@ -109,16 +115,16 @@ with (obj_player) {
 				break;
 			}
 			case 8: {
-				// Look, Hold Still, Climb Above the Bridge, Look, Hold Still, then Step Off onto It
-				var _look_time = FIRST_WAIT div 2, _climb_time = FIRST_WAIT div 2;
-				var _step_off_y = 88, _step_off_x = 88;
+				// Look, Hold Still, Climb to the Top, Look, Hold Still, Drop, then Step Off onto the Bridge
+				var _look_time = FIRST_WAIT div 2, _climb_time = PLAYER_WAIT * 2;
+				var _top_y = 72, _step_off_y = 88, _step_off_x = 88;
 				var _look_end = PLAYER_WAIT + _look_time, _gap_end = _look_end + _look_time;
 				var _climb_end = _gap_end + _climb_time;
 				var _look_2_end = _climb_end + _look_time, _gap_2_end = _look_2_end + _look_time;
 				
 				if (other.text_pos_timer <= _look_end) { key_right = true; }
 				else if (other.text_pos_timer <= _gap_end) { /* Hold still after looking */ }
-				else if (other.text_pos_timer <= _climb_end) { key_up = (y > _step_off_y - GRID_SIZE); }
+				else if (other.text_pos_timer <= _climb_end) { key_up = (y > _top_y); }
 				else if (other.text_pos_timer <= _look_2_end) { key_right = true; }
 				else if (other.text_pos_timer <= _gap_2_end) { /* Hold still after looking */ }
 				else if (y < _step_off_y) { key_down = true; }
@@ -136,53 +142,65 @@ with (obj_player) {
 			}
 			case 10: {
 				// Climb off the Bottom of the Ladder, Dive, then Loop Back Around to It
-				var _air_ladder_x = 24, _step_off_y = 88;
+				var _air_ladder_x = 24, _tall_ladder_x = 56, _step_off_y = 88;
 				
 				if (has_completed_move == 0 && !is_ladder_state()) { has_completed_move = 1; }
 				if (has_completed_move == 1 && is_grounded_state()) { has_completed_move = 2; }
-				if (has_completed_move == 2 && y <= _step_off_y) { has_completed_move = 3; }
-				if (has_completed_move == 3 && is_ladder_state() && x <= _air_ladder_x) { has_completed_move = 4; }
+				if (has_completed_move == 2 && x >= _tall_ladder_x) { has_completed_move = 3; }
+				if (has_completed_move == 3 && y <= _step_off_y) { has_completed_move = 4; }
+				if (has_completed_move == 4 && is_ladder_state() && x <= _air_ladder_x) { has_completed_move = 5; }
 				
 				key_down = (has_completed_move == 0);
 				key_right = (has_completed_move == 2);
-				key_up = (has_completed_move == 2 && y > _step_off_y);
-				key_left = (has_completed_move == 3);
+				key_up = (has_completed_move == 3);
+				key_left = (has_completed_move == 4);
 				
 				break;
 			}
 			case 11: {
 				// Dive onto the Same Rock a Second Time, then Head Back Out along the Bridge
-				var _step_off_y = 88, _bridge_edge_x = 160; // Rightmost bridge tile before the gap
+				var _tall_ladder_x = 56, _step_off_y = 88, _bridge_edge_x = 160; // Rightmost bridge tile before the gap
 				
 				if (has_completed_move == 0 && !is_ladder_state()) { has_completed_move = 1; }
 				if (has_completed_move == 1 && is_grounded_state()) { has_completed_move = 2; }
-				if (has_completed_move == 2 && y <= _step_off_y) { has_completed_move = 3; }
+				if (has_completed_move == 2 && x >= _tall_ladder_x) { has_completed_move = 3; }
+				if (has_completed_move == 3 && y <= _step_off_y) { has_completed_move = 4; }
 				
 				key_down = (has_completed_move == 0);
-				key_right = (has_completed_move == 2) || (has_completed_move == 3 && x < _bridge_edge_x);
-				key_up = (has_completed_move == 2 && y > _step_off_y);
+				key_right = (has_completed_move == 2) || (has_completed_move == 4 && x < _bridge_edge_x);
+				key_up = (has_completed_move == 3);
 				
 				break;
 			}
 			case 12: {
 				// Wait on the Bridge Edge, then Step off onto the Indestructible Metal
-				var _step_off_y = 88, _edge_x = 160, _gap_x = 168, _edge_hold = PLAYER_WAIT * 4;
+				var _step_off_y = 88, _edge_x = 160;
+				var _edge_hold = PLAYER_WAIT * 4, _step_off_hold = MIN_KEY_HOLD;
 				
-				// Counts frames spent standing on the edge, however long the walk out took
-				if (x >= _edge_x) { has_completed_move++; }
-				
-				key_up = (y > _step_off_y && x < _edge_x);
-				key_right = (x < _edge_x) || (has_completed_move > _edge_hold && x < _gap_x);
+				// Catches up if the previous message ran out of room before the climb finished
+				if (is_ladder_state() && y > _step_off_y) { key_up = true; }
+				else {
+					// Counts frames spent standing on the edge, however long the walk out took
+					if (x >= _edge_x) { has_completed_move++; }
+					
+					// The last stretch of the hold lands in midair, where RIGHT no longer moves him
+					key_right = (x < _edge_x) || (has_completed_move > _edge_hold && has_completed_move <= _edge_hold + _step_off_hold);
+				}
 				
 				break;
 			}
 			case 13: {
-				// Run Right and Climb Up Ladder and Collect Key
-				if (state != prev_state && state == PLAYER_STATES.LADDER_UP) { has_completed_move++; }
+				// Run Right to the Ladder, Pause, then Climb It and Collect the Key
+				var _ladder_x = 184, _grab_pause = PLAYER_WAIT;
+				
+				// Counts frames spent waiting at the foot of the ladder
+				if (x >= _ladder_x) { has_completed_move++; }
 
 				if (other.text_pos_timer > FIRST_WAIT && global.keys_collected == 0) {
-					key_right = true;
-					key_up = (!is_on_ground() || has_completed_move == 0);
+					if (x < _ladder_x) { key_right = true; }
+					else if (has_completed_move <= _grab_pause) { /* Hold still before grabbing */ }
+					else if (is_on_ground() && is_ladder_state()) { key_right = true; }
+					else { key_up = true; }
 				}
 				
 				break;
@@ -217,14 +235,20 @@ with (obj_player) {
 				
 				break;
 			}
-			case 17:{
-				// Collect all Keys
+			case 17: {
+				// Climb for the First Key, Climb Back Down, Pause, then Step Across for the Second
 				global.controller.target_room = rm_title;
 				
-				if (other.text_pos_timer > FIRST_WAIT + PLAYER_WAIT) {
-					key_right = (global.keys_collected < 2);
-					key_up = (global.keys_collected == 0);
-					key_down = !key_up && !is_on_ground();
+				var _ladder_x = 184, _step_off_pause = PLAYER_WAIT;
+				
+				// Counts frames spent back on the bridge holding the first key
+				if (global.keys_collected == 1 && is_on_ground()) { has_completed_move++; }
+				
+				if (other.text_pos_timer > FIRST_WAIT + PLAYER_WAIT && global.keys_collected < 2) {
+					if (x < _ladder_x) { key_right = true; }
+					else if (global.keys_collected == 0) { key_up = true; }
+					else if (!is_on_ground()) { key_down = true; }
+					else if (has_completed_move > _step_off_pause) { key_right = true; }
 				}
 				
 				break;
@@ -253,8 +277,8 @@ with (obj_player) {
 		}
 	}
 	
-	// Latch the demo's inputs for the control display. The state machine clears key_* on any
-	// frame where it makes a decision, so reading them at draw time flickers once per move.
+	// Mirror the demo's inputs for the control display. The state machine clears key_* on the frame
+	// it consumes them, so the display has to read this copy rather than the live variables.
 	other.shown_key_left = key_left;
 	other.shown_key_right = key_right;
 	other.shown_key_up = key_up;
