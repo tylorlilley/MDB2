@@ -17,27 +17,27 @@
 
 // --- Particles
 #macro PARTICLE_DEPTH -100
-#macro OUTLINE_DEPTH 40//-5//-50
 
 // -- Liquids
 #macro WATER_DEPTH -50
 
 // -- Player
-#macro PLAYER_DEPTH -20//37//-20
+#macro PLAYER_DEPTH -20
 
 // -- Static Objects
-#macro KEY_DEPTH -40//-11
+#macro KEY_DEPTH -11
 
-#macro SWITCH_BLOCK_DEPTH -30//0
+#macro SWITCH_BLOCK_DEPTH 0
 //--- Dynamic Objects
 #macro GEAR_DEPTH 6
 #macro CRATE_DEPTH 7
 #macro SWITCH_DEPTH 8
-#macro DOOR_DEPTH 38//10
 #macro STATIC_AREA_DEPTH 30 // Lowest Depth, works upward from obj_metal
+#macro OUTLINE_DEPTH 31//-5//-50
 #macro VISUAL_OBJECT_DEPTH 40 // Tree Nubs
 #macro LADDER_DEPTH 46//-10//45//-10
 #macro PORTAL_DEPTH 45//9
+#macro DOOR_DEPTH 49
 #macro BACKGROUND_DEPTH 50
 
 enum FULL_SCREEN_OPTIONS {

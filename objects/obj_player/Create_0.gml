@@ -1,7 +1,3 @@
-enum POSE_DIRECTIONS { NONE, LEFT, RIGHT, UP, DOWN }
-
-#macro POSE_FRAMES 4
-
 event_inherited();
 
 // Game Object Variable Overrides
@@ -23,7 +19,7 @@ prev_state = PLAYER_STATES.STAND;
 air_walk = false;
 climbed_inst = noone;
 fall_sound = undefined;
-pose_dir = POSE_DIRECTIONS.NONE;
+pose_dir = DIRECTIONS.NONE;
 
 // Palette and Visual Variables
 set_depth(PLAYER_DEPTH);

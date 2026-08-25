@@ -150,7 +150,7 @@ with (obj_door) {
 			global.controller.start_screen_shake();
 		}
 	}
-	else if (image_index == 1 && !winning_player) {
+	else if (image_index == 1 && !winning_player && !is_inside_solid()) {
 		shine_timer--;
 		if (shine_timer == 2) {
 			shine_timer = 24 + irandom(24);

@@ -52,6 +52,8 @@ enum CAPE_STATES
 	WIN
 }
 
+enum DIRECTIONS { NONE, LEFT, RIGHT, UP, DOWN }
+
 player_state_to_string = function(_state) {
 	var _player_state_string = "UNKNOWN STATE"
 	switch (_state) {
@@ -251,9 +253,9 @@ start_fallback_state = function(_is_crushed = false) {
 	
 start_standing = function(_is_crushed = false) {
 	if (_is_crushed) { state = PLAYER_STATES.CRUSHED_STAND; }
-	else if (state == PLAYER_STATES.PUSH_STAND && should_pose((is_left) ? POSE_DIRECTIONS.LEFT : POSE_DIRECTIONS.RIGHT, true)) { /* Keep the push pose while it drains */ }
-	else if (can_duck && state != PLAYER_STATES.STAND_EDGE && should_pose(POSE_DIRECTIONS.DOWN, state == PLAYER_STATES.CROUCH)) { state = PLAYER_STATES.CROUCH; }
-	else if (can_look_up && should_pose(POSE_DIRECTIONS.UP, state == PLAYER_STATES.LOOK_UP)) { state = PLAYER_STATES.LOOK_UP; }
+	else if (state == PLAYER_STATES.PUSH_STAND && should_pose((is_left) ? DIRECTIONS.LEFT : DIRECTIONS.RIGHT, true)) { /* Keep the push pose while it drains */ }
+	else if (can_duck && state != PLAYER_STATES.STAND_EDGE && should_pose(DIRECTIONS.DOWN, state == PLAYER_STATES.CROUCH)) { state = PLAYER_STATES.CROUCH; }
+	else if (can_look_up && should_pose(DIRECTIONS.UP, state == PLAYER_STATES.LOOK_UP)) { state = PLAYER_STATES.LOOK_UP; }
  	else { state = PLAYER_STATES.STAND; }
 	
 	set_transition_timer((_is_crushed) ? 4 : 0);
@@ -551,9 +553,9 @@ update_player_state = function() {
 	if (state != PLAYER_STATES.FALL && state != PLAYER_STATES.TUMBLE && state != PLAYER_STATES.POWERFALL) { fall_timer = 0; }
 	if (state != PLAYER_STATES.FLY && state != PLAYER_STATES.POWERFLY) { fly_timer = 0; }
 	if (state != PLAYER_STATES.SWIM && state != PLAYER_STATES.SWIM_FORWARD) { swim_timer = 0; }
-	var _held_dir = (key_left) ? POSE_DIRECTIONS.LEFT : ((key_right) ? POSE_DIRECTIONS.RIGHT : ((key_up) ? POSE_DIRECTIONS.UP : ((key_down) ? POSE_DIRECTIONS.DOWN : POSE_DIRECTIONS.NONE)));
-	if (_held_dir != POSE_DIRECTIONS.NONE && _held_dir != pose_dir) { pose_dir = _held_dir; pose_timer = 0; }
-	pose_timer = clamp(pose_timer + ((_held_dir == pose_dir) ? 1 : -1), 0, POSE_FRAMES);
+	var _held_dir = (key_left) ? DIRECTIONS.LEFT : ((key_right) ? DIRECTIONS.RIGHT : ((key_up) ? DIRECTIONS.UP : ((key_down) ? DIRECTIONS.DOWN : DIRECTIONS.NONE)));
+	if (_held_dir != DIRECTIONS.NONE && _held_dir != pose_dir) { pose_dir = _held_dir; pose_timer = 0; }
+	pose_timer = clamp(pose_timer + ((_held_dir == pose_dir) ? 1 : -1), 0, 4);
 	
 	// Update Timers
 	switch (state) {
@@ -792,7 +794,7 @@ update_player_state = function() {
 								if (can_push_objects && _can_walk && instance_exists(_pushed_obj) && y == _pushed_obj.y && start_pushing(_pushed_obj)) {
 									state = PLAYER_STATES.PUSH_FORWARD;
 								}
-								else if (can_push_objects && should_pose((is_left) ? POSE_DIRECTIONS.LEFT : POSE_DIRECTIONS.RIGHT, prev_state == PLAYER_STATES.PUSH_STAND)) {
+								else if (can_push_objects && should_pose((is_left) ? DIRECTIONS.LEFT : DIRECTIONS.RIGHT, prev_state == PLAYER_STATES.PUSH_STAND)) {
 									// Push Against Solid Wall
 									state = PLAYER_STATES.PUSH_STAND;
 								}
@@ -815,7 +817,7 @@ update_player_state = function() {
 						}
 						else if (key_down && can_duck) {
 							if (state == PLAYER_STATES.CROUCH) { crouch_timer++; }
-							else if (state != PLAYER_STATES.POWERCROUCH && state != PLAYER_STATES.STAND_EDGE && should_pose(POSE_DIRECTIONS.DOWN, false)) { state = PLAYER_STATES.CROUCH; }
+							else if (state != PLAYER_STATES.POWERCROUCH && state != PLAYER_STATES.STAND_EDGE && should_pose(DIRECTIONS.DOWN, false)) { state = PLAYER_STATES.CROUCH; }
 
 							if (crouch_timer == 32 && state != PLAYER_STATES.POWERCROUCH && can_fly) { state = PLAYER_STATES.POWERCROUCH; play_sound(snd_player_powerup); }
 						}
@@ -931,7 +933,7 @@ update_player_state = function() {
 					else { state = PLAYER_STATES.LADDER; }
 					
 					if (state == PLAYER_STATES.LADDER || state == PLAYER_STATES.LADDER_LOOK) {
-						var _look_dir = (key_left) ? POSE_DIRECTIONS.LEFT : ((key_right) ? POSE_DIRECTIONS.RIGHT : ((is_left) ? POSE_DIRECTIONS.LEFT : POSE_DIRECTIONS.RIGHT));
+						var _look_dir = (key_left) ? DIRECTIONS.LEFT : ((key_right) ? DIRECTIONS.RIGHT : ((is_left) ? DIRECTIONS.LEFT : DIRECTIONS.RIGHT));
 						if (should_pose(_look_dir, prev_state == PLAYER_STATES.LADDER_LOOK)) { state = PLAYER_STATES.LADDER_LOOK; if (key_left || key_right) { is_left = key_left; } }
 						else { state = PLAYER_STATES.LADDER; }
 					}
