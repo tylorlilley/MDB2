@@ -230,6 +230,13 @@ start_pushing = function(_pushed_obj) {
 	// Push Self
 	return grid_move_horizontal(get_left_value());
 }
+
+start_tumble_landing = function() {
+	if (key_left || key_right) { is_left = key_left; }
+	state = PLAYER_STATES.LAND;
+	set_transition_timer(8);
+	play_sound(snd_soft_thud);
+}
 	
 start_winning = function() {
 	start_cape_win();
@@ -415,6 +422,7 @@ damage_objects = function(_damage_above = false) {
 	}
 	
 	// Damage Objects
+	var _damaged_objects = [];
 	while (array_length(_objects_to_damage) > 0) {
 		var _inst = array_pop(_objects_to_damage);
 		if (!instance_exists(_inst)) { continue; }
@@ -433,18 +441,25 @@ damage_objects = function(_damage_above = false) {
 		
 		// Damage the Objects
 		if (instance_exists(id)) {
+			array_push(_damaged_objects, _inst.id);
+			play_sound(snd_impact);
 			if (_damage_above) { _inst.powerfly_into(id); }
 			else { _inst.powerfall_on(id); }
-			play_sound(snd_impact);
 		}
 		
 		// Interact with Reamining Objects
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 	}
+	
+	// Return if all damaged objects are destroyed
+	for (var _i = 0; _i < array_length(_damaged_objects); _i++) {
+		if (instance_exists(_damaged_objects[_i])) { return true; }
+	}
+	return false;
 }
 
-powerfall_on_ground_objects = function() { damage_objects(false); }
-powerfly_into_ceiling_objects = function() { damage_objects(true); }
+powerfall_on_ground_objects = function() { return damage_objects(false); }
+powerfly_into_ceiling_objects = function() { return damage_objects(true); }
 
 fall_on_ground_objects = function() {
 	var _ground_objects = get_left_and_right_objects(false, true);
@@ -573,11 +588,9 @@ update_player_state = function() {
 		// Do things during a state transition (other than moving virtual visuals)
 		switch (state) {
 			case PLAYER_STATES.RECOIL: {
-				/*
 				if (transition_timer == 6) {
 					if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
 				}
-				*/
 				
 				break;
 			}
@@ -866,12 +879,20 @@ update_player_state = function() {
 						// Bonk against floor
 						if (state == PLAYER_STATES.POWERFALL && !is_fully_submerged() && !is_partially_submerged()) {
 							// Player reaction to landing
-							powerfall_on_ground_objects();
+							var _damaged_object_exists = powerfall_on_ground_objects();
 							if (!instance_exists(id)) { exit; }
 							
-							state = PLAYER_STATES.RECOIL;
-							if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
-							else { set_transition_timer((global.original_controls) ? 4 : 8); do_player_object_collisions(); if (!instance_exists(id)) { exit; } }
+							if (_damaged_object_exists) { start_tumble_landing(); }
+							else {
+								// Start Recoil
+								state = PLAYER_STATES.RECOIL;
+								if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
+								else {
+									set_transition_timer((global.original_controls) ? 4 : 8);
+									do_player_object_collisions();
+									if (!instance_exists(id)) { exit; }
+								}
+							}
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay
@@ -879,10 +900,7 @@ update_player_state = function() {
 						}
 						else {
 							// Landing Delay for Tumbling animation
-							if (key_left || key_right) { is_left = key_left; }
-							state = PLAYER_STATES.LAND;
-							set_transition_timer(8);
-							play_sound(snd_soft_thud);
+							start_tumble_landing();
 						}
 					}
 					else if (grid_move_down(2)) {
@@ -902,9 +920,7 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.RECOIL: {
-				// Decide New State
 				start_fallback_state();
-				if (is_fall_state()) { fall_timer = -GRID_SIZE/2; }
 				
 				break;
 			}
@@ -971,12 +987,11 @@ update_player_state = function() {
 		}
 	}
 	
-	// Define Speed Arrays
+	// Define Speed Arrays - iterated backwards!
 	//static tumble_speeds = [2, 2, 3, 3];
 	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
 	static hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
-	static recoil_speeds = [0, 0, -2, -2, -2, -2, -4, -4];
-	static recoil_speeds_original = [0, 0, -4, -4, 0, 0, 0, 0];
+	static recoil_speeds = [0, 0, -2, -2, -4, -4, -2, -2];
 	static climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
 					  0, 0, 0, -2, 0, -2, 0, 0,
 					  0, 0, 0, 0, -1, -1, -1, -1];
@@ -991,7 +1006,10 @@ update_player_state = function() {
 	var _speed_index = max(0, (transition_timer-1));
 	if (is_hop_up_state()) { y_transition_speed = hop_up_speeds[_speed_index]; }
 	else if (is_hop_down_state()) { y_transition_speed = hop_down_speeds[_speed_index]; }
-	else if (state == PLAYER_STATES.RECOIL) { y_transition_speed = ((global.original_controls) ? recoil_speeds_original : recoil_speeds)[_speed_index]; }
+	else if (state == PLAYER_STATES.RECOIL) {
+		if (global.original_controls) { _speed_index += 1; }
+		y_transition_speed = recoil_speeds[_speed_index];
+	}
 	//else if (state == PLAYER_STATES.TUMBLE) { y_transition_speed = tumble_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.CLIMB) {
 		y_transition_speed = climb_y_speeds[_speed_index];
@@ -1026,7 +1044,7 @@ update_cape_graphics = function() {
 	// Update Cape State
 	if (cape_timer > 0) {
 		cape_timer--;
-		if (global.original_controls && cape_state == CAPE_STATES.RECOIL) { cape_timer--; }
+		if (global.original_controls && state == PLAYER_STATES.RECOIL) { cape_timer--; }
 		if (cape_state != CAPE_STATES.WIN) {
 			if (cape_timer % 2 == 0) { cape_image_index++; }
 			if (cape_image_index >= 4) { cape_image_index = 0; }
@@ -1098,6 +1116,7 @@ update_cape_graphics = function() {
 	// Interrupt Previous Cape State to Set New One
 	if (state != prev_state) {
 		if (state == PLAYER_STATES.WIN) { start_cape_win(); }
+		else if (state == PLAYER_STATES.RECOIL) { start_cape_recoil(); }
 		else if ((cape_state == CAPE_STATES.FALL_START || cape_state == CAPE_STATES.FALL) && is_grounded_state()) { start_cape_flutter_end(); }
 		else if (is_hop_up_state()) { start_cape_flutter_end(); }
 		else if (is_hop_down_state()) { start_cape_flutter(); }
