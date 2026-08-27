@@ -276,6 +276,7 @@
     {"name":"inst_6B6AEAF3","path":"rooms/rm_mdb_5_8/rm_mdb_5_8.yy",},
     {"name":"inst_21E7A3A5","path":"rooms/rm_mdb_5_8/rm_mdb_5_8.yy",},
     {"name":"inst_7AC6D5A8","path":"rooms/rm_mdb_5_8/rm_mdb_5_8.yy",},
+    {"name":"inst_145E26B5","path":"rooms/rm_mdb_5_8/rm_mdb_5_8.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -581,6 +582,7 @@
         {"$GMRInstance":"v4","%Name":"inst_6B6AEAF3","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6B6AEAF3","objectId":{"name":"obj_cloud","path":"objects/obj_cloud/obj_cloud.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":0.0,"y":16.0,},
         {"$GMRInstance":"v4","%Name":"inst_21E7A3A5","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_21E7A3A5","objectId":{"name":"obj_cloud","path":"objects/obj_cloud/obj_cloud.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":0.0,"y":8.0,},
         {"$GMRInstance":"v4","%Name":"inst_7AC6D5A8","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_7AC6D5A8","objectId":{"name":"obj_cloud","path":"objects/obj_cloud/obj_cloud.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":8.0,"y":8.0,},
+        {"$GMRInstance":"v4","%Name":"inst_145E26B5","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_145E26B5","objectId":{"name":"obj_ladder","path":"objects/obj_ladder/obj_ladder.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":112.0,"y":232.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
   ],
   "name":"rm_mdb_5_8",

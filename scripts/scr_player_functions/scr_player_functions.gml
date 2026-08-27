@@ -451,7 +451,7 @@ damage_objects = function(_damage_above = false) {
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 	}
 	
-	// Return if all damaged objects are destroyed
+	// Return whether any objects survive
 	for (var _i = 0; _i < array_length(_damaged_objects); _i++) {
 		if (instance_exists(_damaged_objects[_i])) { return true; }
 	}
@@ -886,7 +886,7 @@ update_player_state = function() {
 							else {
 								// Start Recoil
 								state = PLAYER_STATES.RECOIL;
-								if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
+								if (!grid_move_up(4)) { start_tumble_landing(); }
 								else {
 									set_transition_timer((global.original_controls) ? 4 : 8);
 									do_player_object_collisions();
@@ -920,8 +920,8 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.RECOIL: {
-				if (!global.original_controls) { fall_timer -= GRID_SIZE*2; }
 				start_fallback_state();
+				if (!global.original_controls) { fall_timer -= GRID_SIZE; }
 				
 				break;
 			}
@@ -978,6 +978,8 @@ update_player_state = function() {
 		}
 	
 		// Reset Controls
+		do_player_object_collisions();
+
 		reset_controls();
 	}
 	
@@ -993,6 +995,7 @@ update_player_state = function() {
 	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
 	static hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
 	static recoil_speeds = [0, 0, -2, -2, -4, -4, -2, -2];
+	static recoil_speeds_slow = [0, -2, -4, -2];
 	static climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
 					  0, 0, 0, -2, 0, -2, 0, 0,
 					  0, 0, 0, 0, -1, -1, -1, -1];
@@ -1008,8 +1011,7 @@ update_player_state = function() {
 	if (is_hop_up_state()) { y_transition_speed = hop_up_speeds[_speed_index]; }
 	else if (is_hop_down_state()) { y_transition_speed = hop_down_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.RECOIL) {
-		if (global.original_controls) { _speed_index += 1; }
-		y_transition_speed = recoil_speeds[_speed_index];
+		y_transition_speed = (global.original_controls) ? recoil_speeds_slow[_speed_index] : recoil_speeds[_speed_index];
 	}
 	//else if (state == PLAYER_STATES.TUMBLE) { y_transition_speed = tumble_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.CLIMB) {
@@ -1446,39 +1448,41 @@ do_player_object_collisions = function(_skip_portals = false) {
 	
 	
 	// Only Collide With the Following After Player has "Settled"
-	if (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20)) { exit; }
+	var _exact_position_only = (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20));
 	
 	// Collect Keys
 	var _objects_at_position = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
-	if (controlled_by_human) {
-		for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
-			var _inst = _objects_at_position[_i];
-			if (!instance_exists(_inst) || !_inst.is_a(obj_key)) { continue; }
-			
-			with (_inst) { instance_destroy(); }
-		}
-	}
-	
-	// Go Through Portals
-	if (!_skip_portals && do_portal_collisions(_objects_at_position)) {
-		do_player_object_collisions(false);
-        if (instance_exists(id) && state != PLAYER_STATES.WIN) { set_transition_timer(1); }
-        exit;
-	}
-	
-	// Go Through Open Doors
-	if (controlled_by_human) {
-		if (state != PLAYER_STATES.WIN && transition_timer == 0 && (is_grounded_state() || is_fall_state())) {
+	if (_exact_position_only) {
+		if (controlled_by_human) {
 			for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
 				var _inst = _objects_at_position[_i];
-				if (!instance_exists(_inst) || !_inst.is_a(obj_door)) { continue; }
+				if (!instance_exists(_inst) || !_inst.is_a(obj_key)) { continue; }
+			
+				with (_inst) { instance_destroy(); }
+			}
+		}
+	
+		// Go Through Portals
+		if (!_skip_portals && do_portal_collisions(_objects_at_position)) {
+			do_player_object_collisions(false);
+	        if (instance_exists(id) && state != PLAYER_STATES.WIN) { set_transition_timer(1); }
+	        exit;
+		}
+	
+		// Go Through Open Doors
+		if (controlled_by_human) {
+			if (state != PLAYER_STATES.WIN && transition_timer == 0 && (is_grounded_state() || is_fall_state())) {
+				for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
+					var _inst = _objects_at_position[_i];
+					if (!instance_exists(_inst) || !_inst.is_a(obj_door)) { continue; }
 				
-				with (_inst) {
-					if (image_index > 0 && is_fully_on_ground()) {
-						audio_stop_all();
-						other.start_winning();
-						play_global_sound(snd_level_clear);
-						exit;
+					with (_inst) {
+						if (image_index > 0 && is_fully_on_ground()) {
+							audio_stop_all();
+							other.start_winning();
+							play_global_sound(snd_level_clear);
+							exit;
+						}
 					}
 				}
 			}

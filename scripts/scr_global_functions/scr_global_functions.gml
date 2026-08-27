@@ -1,8 +1,18 @@
+function instance_reaches_grid_area(_inst, _min_x, _min_y, _max_x, _max_y) {
+	if (!instance_exists(_inst)) { return false; }
+
+	var _left = _inst.x div 8, _top = _inst.y div 8;
+	var _right = _left + (sprite_get_width(_inst.sprite_index) div 8) - 1;
+	var _bottom = _top + (sprite_get_height(_inst.sprite_index) div 8) - 1;
+	return (_right >= _min_x && _left < _max_x && _bottom >= _min_y && _top < _max_y);
+}
+
 function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_game_object, _ignore_outside_border = true, _grid = global.controller.game_object_grid) {
 	var _grid_width = abs(_w) div 8, _grid_height = abs(_h) div  8, _single_cell_query = (_grid_width == 1 && _grid_height == 1);
-	var _returned_instances = [], _max_x = room_width div 8, _max_y = room_height div 8, _min_x = 0, _min_y = 0;
+	var _returned_instances = [], _grid_max_x = room_width div 8, _grid_max_y = room_height div 8;
+	var _max_x = _grid_max_x, _max_y = _grid_max_y, _min_x = 0, _min_y = 0;
 	if (_ignore_outside_border) {
-		var _border_size = 1; //(global.original_controls) ? 2 : 1;
+		var _border_size = 1;
 		_max_x -= _border_size;
 		_max_y -= _border_size;
 		_min_x += _border_size;
@@ -13,13 +23,15 @@ function instances_at_grid_position(_x, _y, _w = 8, _h = 8, _object_index = obj_
 		for (var _grid_y = 0; _grid_y < _grid_height; _grid_y++) {
 			var _checked_x = (_x div 8) + _grid_x, _checked_y = (_y div 8) + _grid_y;
 
-			if (_checked_x < _min_x || _checked_x >= _max_x || _checked_y < _min_y || _checked_y >= _max_y) {
-                continue;
-            }
+			if (_checked_x < 0 || _checked_x >= _grid_max_x || _checked_y < 0 || _checked_y >= _grid_max_y) { continue; }
+			
+			// Off-screen border cells only report instances that also occupy an on-screen cell.
+			var _border_cell = (_checked_x < _min_x || _checked_x >= _max_x || _checked_y < _min_y || _checked_y >= _max_y);
 			
 			var _instances_at_grid_position = _grid[_checked_x][_checked_y];
 			for (var _i = 0; _i < array_length(_instances_at_grid_position); _i++) {
 				var _inst = _instances_at_grid_position[_i];
+				if (_border_cell && !instance_reaches_grid_area(_inst, _min_x, _min_y, _max_x, _max_y)) { continue; }
 				if (instance_exists(_inst) && id != _inst && _inst.is_a(_object_index) && (_single_cell_query || !array_contains(_returned_instances, _inst))) {
 					array_push(_returned_instances, _inst);
 				}
