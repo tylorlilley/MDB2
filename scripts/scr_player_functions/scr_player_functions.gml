@@ -386,6 +386,8 @@ get_destroyed_by_object = function() {
 }
 
 get_damaged_by_object = function(_inst) {
+	if (state == PLAYER_STATES.WIN) { exit; }
+	
 	if (would_be_damaged_by(_inst)) {
 		get_destroyed_by_object();
 		_inst.deal_damage();
@@ -571,13 +573,11 @@ update_player_state = function() {
 		// Do things during a state transition (other than moving virtual visuals)
 		switch (state) {
 			case PLAYER_STATES.RECOIL: {
+				/*
 				if (transition_timer == 6) {
 					if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
-					else {
-						do_player_object_collisions();
-						if (!instance_exists(id)) { exit; }
-					}
 				}
+				*/
 				
 				break;
 			}
@@ -871,7 +871,7 @@ update_player_state = function() {
 							
 							state = PLAYER_STATES.RECOIL;
 							if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
-							else { set_transition_timer(8); do_player_object_collisions(); if (!instance_exists(id)) { exit; } }
+							else { set_transition_timer((global.original_controls) ? 4 : 8); do_player_object_collisions(); if (!instance_exists(id)) { exit; } }
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay
@@ -904,7 +904,7 @@ update_player_state = function() {
 			case PLAYER_STATES.RECOIL: {
 				// Decide New State
 				start_fallback_state();
-				if (is_fall_state()) { fall_timer = -GRID_SIZE; }
+				if (is_fall_state()) { fall_timer = -GRID_SIZE/2; }
 				
 				break;
 			}
@@ -976,6 +976,7 @@ update_player_state = function() {
 	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
 	static hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
 	static recoil_speeds = [0, 0, -2, -2, -2, -2, -4, -4];
+	static recoil_speeds_original = [0, 0, -4, -4, 0, 0, 0, 0];
 	static climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
 					  0, 0, 0, -2, 0, -2, 0, 0,
 					  0, 0, 0, 0, -1, -1, -1, -1];
@@ -990,7 +991,7 @@ update_player_state = function() {
 	var _speed_index = max(0, (transition_timer-1));
 	if (is_hop_up_state()) { y_transition_speed = hop_up_speeds[_speed_index]; }
 	else if (is_hop_down_state()) { y_transition_speed = hop_down_speeds[_speed_index]; }
-	else if (state == PLAYER_STATES.RECOIL) { y_transition_speed = recoil_speeds[_speed_index]; }
+	else if (state == PLAYER_STATES.RECOIL) { y_transition_speed = ((global.original_controls) ? recoil_speeds_original : recoil_speeds)[_speed_index]; }
 	//else if (state == PLAYER_STATES.TUMBLE) { y_transition_speed = tumble_speeds[_speed_index]; }
 	else if (state == PLAYER_STATES.CLIMB) {
 		y_transition_speed = climb_y_speeds[_speed_index];
@@ -1025,6 +1026,7 @@ update_cape_graphics = function() {
 	// Update Cape State
 	if (cape_timer > 0) {
 		cape_timer--;
+		if (global.original_controls && cape_state == CAPE_STATES.RECOIL) { cape_timer--; }
 		if (cape_state != CAPE_STATES.WIN) {
 			if (cape_timer % 2 == 0) { cape_image_index++; }
 			if (cape_image_index >= 4) { cape_image_index = 0; }
@@ -1124,7 +1126,7 @@ update_cape_graphics = function() {
 			break;
 		}
 		case PLAYER_STATES.RECOIL: {
-			if (transition_timer <= 4) { cape_depth = depth + 1; }
+			if (transition_timer <= (global.original_controls ? 2 : 4)) { cape_depth = depth + 1; }
 			else if (image_index < 2) { cape_depth = depth - 1; }
 			else { cape_depth = depth + 1; }
 			break;
@@ -1298,7 +1300,7 @@ update_player_graphics = function() {
 		}
 	}
 	else {
-		if (state == PLAYER_STATES.RECOIL && transition_timer <= 4) { sprite_index = spr_player_fall; }
+		if (!global.original_controls && state == PLAYER_STATES.RECOIL && transition_timer <= 4) { sprite_index = spr_player_fall; }
 		
 		// Update Current Animations
 		animation_timer++;
