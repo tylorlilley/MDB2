@@ -73,9 +73,9 @@ create_cloud = function() {
 }
 
 start_reform_timer = function() {
-	reform_timer = 272;
+	reform_timer = 256//272;
 	main_sprite = spr_cloud_area;
-	outline_sprite = spr_cloud_outline;
+	outline_sprite = spr_reforming_cloud_outline;
 	should_draw = true;
 	update_connections();
 	update_connected_graphics();

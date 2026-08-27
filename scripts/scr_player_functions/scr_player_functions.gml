@@ -920,7 +920,7 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.RECOIL: {
-				if (!global.original_controls) { fall_timer -= GRID_SIZE; }
+				if (!global.original_controls) { fall_timer -= GRID_SIZE*2; }
 				start_fallback_state();
 				
 				break;

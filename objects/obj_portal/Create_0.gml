@@ -37,7 +37,11 @@ deactivate_portal = function(_player_palette) {
 }
 
 is_overlapped = function() {
-	return is_inside_object(obj_dynamic_object, function(_inst) { return _inst.is_portalable; });
+	var _nearest_dynamic_object = instance_nearest(x + GRID_SIZE, y + GRID_SIZE, obj_dynamic_object);
+	if (!instance_exists(_nearest_dynamic_object)) { return false; }
+	var _dist_to_nearest_dynamic_object = point_distance(x + GRID_SIZE, y, _nearest_dynamic_object.x + GRID_SIZE, _nearest_dynamic_object.y + GRID_SIZE);
+	return (_dist_to_nearest_dynamic_object < GRID_SIZE * 2);
+	//return is_inside_object(obj_dynamic_object, function(_inst) { return _inst.is_portalable; });
 }
 
 is_blocked = function() {
