@@ -165,6 +165,7 @@
     {"id":{"name":"rm_mdb_3_6","path":"rooms/rm_mdb_3_6/rm_mdb_3_6.yy",},},
     {"id":{"name":"rm_mdb_3_7","path":"rooms/rm_mdb_3_7/rm_mdb_3_7.yy",},},
     {"id":{"name":"rm_mdb_3_8","path":"rooms/rm_mdb_3_8/rm_mdb_3_8.yy",},},
+    {"id":{"name":"rm_mdb_4_1_modified_1","path":"rooms/rm_mdb_4_1_modified_1/rm_mdb_4_1_modified_1.yy",},},
     {"id":{"name":"rm_mdb_4_1_modified","path":"rooms/rm_mdb_4_1_modified/rm_mdb_4_1_modified.yy",},},
     {"id":{"name":"rm_mdb_4_1","path":"rooms/rm_mdb_4_1/rm_mdb_4_1.yy",},},
     {"id":{"name":"rm_mdb_4_2","path":"rooms/rm_mdb_4_2/rm_mdb_4_2.yy",},},
@@ -636,6 +637,7 @@
     {"roomId":{"name":"rm_mdb_4_1","path":"rooms/rm_mdb_4_1/rm_mdb_4_1.yy",},},
     {"roomId":{"name":"rm_mdb_2_8","path":"rooms/rm_mdb_2_8/rm_mdb_2_8.yy",},},
     {"roomId":{"name":"rm_mdb_5_6","path":"rooms/rm_mdb_5_6/rm_mdb_5_6.yy",},},
+    {"roomId":{"name":"rm_mdb_4_1_modified_1","path":"rooms/rm_mdb_4_1_modified_1/rm_mdb_4_1_modified_1.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

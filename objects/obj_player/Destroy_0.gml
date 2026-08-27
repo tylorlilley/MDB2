@@ -2,9 +2,9 @@
 grid_remove();
 spawn_contents();
 
-// Handle Creating Death Particles
 var _inside_playable_area = (x + sprite_get_width(sprite_index) >= 0 && y + sprite_get_height(sprite_index) >= 0 && x < room_width && y < room_height);
 if (_inside_playable_area) {
+	// Create Death Particles
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(particle_palette));
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(get_darker_palette(particle_palette)));
 	create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, death_sprite, has_cape);

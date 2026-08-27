@@ -138,10 +138,10 @@ draw_liquid = function() {
 // Game Action Functions
 deal_damage = function() { }
 
-walk_on = function() {
+walk_on = function(_particle_number = 1) {
 	if (audio_exists(step_sound)) { play_sound(step_sound); }
 	
-	create_walk_particles();
+	create_walk_particles(_particle_number);
 }
 
 fall_on = function(_fall_dist) {

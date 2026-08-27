@@ -379,6 +379,8 @@ get_left_and_right_objects = function(_get_above = false, _impact_fragile = fals
 }
 
 get_destroyed_by_object = function() {
+	if (state == PLAYER_STATES.WIN) { exit; }
+	
 	play_sound(damaged_sound);
 	if (instance_exists(id)) { instance_destroy(); }
 }
@@ -439,8 +441,8 @@ damage_objects = function(_damage_above = false) {
 	}
 }
 
-powerfall_on_ground_objects = function() { damage_objects(false); } //do_player_object_collisions(); 
-powerfly_into_ceiling_objects = function() { damage_objects(true); } //do_player_object_collisions(); 
+powerfall_on_ground_objects = function() { damage_objects(false); }
+powerfly_into_ceiling_objects = function() { damage_objects(true); }
 
 fall_on_ground_objects = function() {
 	var _ground_objects = get_left_and_right_objects(false, true);
@@ -450,7 +452,6 @@ fall_on_ground_objects = function() {
 		if (!instance_exists(_inst)) { continue; }
 
 		_inst.fall_on(fall_timer);
-		//get_damaged_by_object(_inst);
 	}
 }
 
@@ -467,7 +468,6 @@ fly_into_ceiling_objects = function() {
 }
 
 walk_on_ground_objects = function() {
-	// if (!is_on_ground() && !air_walk) { exit; }
 	
 	var _ground_objects = get_left_and_right_objects();
 		
@@ -475,8 +475,7 @@ walk_on_ground_objects = function() {
 		var _inst = _ground_objects[_i];
 		if (!instance_exists(_inst)) { continue; }
 		
-		_inst.walk_on();
-		//get_damaged_by_object(_inst);
+		_inst.walk_on((controlled_by_human) ? 1 : 0);
 	}
 }
 	
@@ -574,6 +573,10 @@ update_player_state = function() {
 			case PLAYER_STATES.RECOIL: {
 				if (transition_timer == 6) {
 					if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
+					else {
+						do_player_object_collisions();
+						if (!instance_exists(id)) { exit; }
+					}
 				}
 				
 				break;
@@ -868,7 +871,7 @@ update_player_state = function() {
 							
 							state = PLAYER_STATES.RECOIL;
 							if (!grid_move_up(4)) { play_sound(snd_soft_thud); set_transition_timer(2); }
-							else { set_transition_timer(8); }
+							else { set_transition_timer(8); do_player_object_collisions(); if (!instance_exists(id)) { exit; } }
 						}
 						else if (state != PLAYER_STATES.TUMBLE) {
 							// Land without extra Delay
@@ -1407,9 +1410,6 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 }
 
 do_player_object_collisions = function(_skip_portals = false) {
-	// Only Collide After Player has "Settled"
-	if (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20)) { exit; }
-	
 	// Destroy if Inside Lethal object
 	var _inside_objects = get_inside_objects(obj_game_object);
 	for (var _i = 0; _i < array_length(_inside_objects); _i++) {
@@ -1421,6 +1421,10 @@ do_player_object_collisions = function(_skip_portals = false) {
 	// Destroy if Inside Solid
 	if (is_inside_solid() && !is_ladder_state()) { get_destroyed_by_object(); }
 	if (!instance_exists(id)) { exit; }
+	
+	
+	// Only Collide With the Following After Player has "Settled"
+	if (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20)) { exit; }
 	
 	// Collect Keys
 	var _objects_at_position = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
@@ -1544,7 +1548,7 @@ do_portal_collisions = function(_objects_at_position) {
 // Silhoutte Functions
 #macro SILHOUETTE_SURFACE_SIZE 32
 #macro SILHOUETTE_PAD 8
-#macro SILHOUETTE_ALPHA 0.25
+#macro SILHOUETTE_ALPHA 0.33
 build_solid_mask_surface = function(_origin_x, _origin_y) {
 	if (!surface_exists(solid_mask_surface)) { solid_mask_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
 	if (!surface_set_target(solid_mask_surface)) { show_debug_message("ERROR SETTING SOLID MASK WINDOW"); return false; }
@@ -1562,19 +1566,21 @@ build_solid_mask_surface = function(_origin_x, _origin_y) {
 	return true;
 }
 
-draw_with_ladder_silhouette = function() {
-	if (!is_ladder_state()) { return false; }
-
+draw_with_static_area_clipping = function() {
 	var _origin_x = clamp(floor(virtual_x) - SILHOUETTE_PAD, 0, room_width - SILHOUETTE_SURFACE_SIZE);
 	var _origin_y = clamp(floor(virtual_y + virtual_y_offset) - SILHOUETTE_PAD, 0, room_height - SILHOUETTE_SURFACE_SIZE);
 
 	if (!build_solid_mask_surface(_origin_x, _origin_y)) { return false; }
 
+	// Unoccluded pixels always draw normally
 	if (!build_silhouette_composite(_origin_x, _origin_y, bm_inv_src_alpha)) { return false; }
 	draw_silhouette_composite(_origin_x, _origin_y, c_white, image_alpha);
 
-	if (!build_silhouette_composite(_origin_x, _origin_y, bm_src_alpha)) { return false; }
-	draw_silhouette_composite(_origin_x, _origin_y, c_black, SILHOUETTE_ALPHA * image_alpha);
+	// Draw occluded pixels as silhouttes while only on ladder
+	if (is_ladder_state()) {
+		if (!build_silhouette_composite(_origin_x, _origin_y, bm_src_alpha)) { return false; }
+		draw_silhouette_composite(_origin_x, _origin_y, c_black, SILHOUETTE_ALPHA * image_alpha);
+	}
 
 	return true;
 }

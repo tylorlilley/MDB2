@@ -1,13 +1,6 @@
 Take Notes on Screen?
 
 // TODO:
-- World 5 Impossible?
-- How To Play - Update for:
--- Pause and Fast Forward
--- Push button to go through door
--- loop back to land on rock when talking about damaged twice
--- walk past ladder edge like in 1_2?
-
 - Intro Cutscene
 - W4 - W5 Transition Cutscene
 - Ending Cutscene + Credits
@@ -22,7 +15,7 @@ Draw tree nubs on wood level from wood
 Should Gear spin always one way for up and one for down? Should  they spin slower? Move slower?
 Fuzzing palette on bricks different than pure black for cracks?
 swooshier leaves?
-make old transitions match the old game?
+make classic transitions match the old game's transtions instead of the new ones?
 
 // FOREST LEVELS
 2_4 - too hard

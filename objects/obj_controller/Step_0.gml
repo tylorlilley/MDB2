@@ -136,27 +136,35 @@ with (obj_door) {
 	}
 
 	if (!is_fully_on_ground()) { instance_destroy(); }
-	else if (image_index == 0) {
-		shine_timer--;
-		main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : PALETTES.BROWN;
-		if (shine_timer < -1) { reset_shine_timer(); }
+	else {
+		var _ignored_objects = [];
+		with (obj_player) { array_push(_ignored_objects, id); }
 		
-		if (global.room_keys == global.keys_collected) {
-			create_particles(6 + irandom(6), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
-			create_particles(6 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW);
-			image_index = 1;
-			shine_timer = irandom(24);
-			play_sound(snd_door_unlock);
-			global.controller.start_screen_shake();
+		if (image_index == 0) {
+			shine_timer--;
+			main_palette = (shine_timer == 1 || shine_timer == -1) ? PALETTES.YELLOW_LIGHT : PALETTES.BROWN;
+			if (shine_timer < -1) { reset_shine_timer(); }
+		
+			if (global.room_keys == global.keys_collected) {
+				image_index = 1;
+				play_sound(snd_door_unlock);
+				global.controller.start_screen_shake();
+
+				if (!is_inside_solid(_ignored_objects)) {
+					shine_timer = irandom(24);
+					create_particles(6 + irandom(6), PARTICLE_TYPES.DEBRIS, PALETTES.YELLOW_DARK);
+					create_particles(6 + irandom(6), PARTICLE_TYPES.SPARKLE, PALETTES.YELLOW);
+				}
+			}
 		}
-	}
-	else if (image_index == 1 && !winning_player && !is_inside_solid()) {
-		shine_timer--;
-		if (shine_timer == 2) {
-			shine_timer = 24 + irandom(24);
-			create_particles(1, PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT, x + sprite_get_width(sprite_index)/2, y + sprite_get_height(sprite_index)/2);	
+		else if (image_index == 1 && !winning_player && !is_inside_solid(_ignored_objects)) {
+			shine_timer--;
+			if (shine_timer == 2) {
+				shine_timer = 24 + irandom(24);
+				create_particles(1, PARTICLE_TYPES.SPARKLE, PALETTES.GRAY_LIGHT, x + sprite_get_width(sprite_index)/2, y + sprite_get_height(sprite_index)/2);	
+			}
+			sway_timer = (sway_timer + 1) % 24;
 		}
-		sway_timer = (sway_timer + 1) % 24;
 	}
 }
 with (obj_spawner) {
@@ -242,7 +250,7 @@ else if (room_transition_timer > 0) {
 	}
 }
 
-// Create Win Sparkles
+// Create Confetti
 var _winning_player_x = undefined, _door_open = true;
 with (obj_door) { if (image_index >= 2) { _door_open = false; } }
 if (instance_number(obj_cutscene_manager) == 0) {

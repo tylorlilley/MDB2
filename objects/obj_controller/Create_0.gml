@@ -26,14 +26,15 @@
 
 // -- Static Objects
 #macro KEY_DEPTH -11
-
+#macro OPEN_DOOR_DEPTH -5
 #macro SWITCH_BLOCK_DEPTH 0
+#macro OUTLINE_DEPTH 5
 //--- Dynamic Objects
 #macro GEAR_DEPTH 6
 #macro CRATE_DEPTH 7
 #macro SWITCH_DEPTH 8
 #macro STATIC_AREA_DEPTH 30 // Lowest Depth, works upward from obj_metal
-#macro OUTLINE_DEPTH 31//-5//-50
+
 #macro VISUAL_OBJECT_DEPTH 40 // Tree Nubs
 #macro LADDER_DEPTH 46//-10//45//-10
 #macro PORTAL_DEPTH 45//9
@@ -93,7 +94,7 @@ classic_level = false;
 fast_forward_enabled = false;
 
 // Graphic Variables
-depth = STATIC_AREA_DEPTH;
+depth = OPEN_DOOR_DEPTH;
 static_area_object_indexes_to_draw = [];
 transition_surface = undefined;
 screen_shake_timer = 0;

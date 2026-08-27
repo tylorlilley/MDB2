@@ -92,5 +92,7 @@ update_virtual_y_offset = function() {
 // Creation Code
 reset_controls();
 
-global.controller.x = x;
-global.controller.y = y;
+if (object_index == obj_player) {
+	global.controller.x = x;
+	global.controller.y = y;
+}
