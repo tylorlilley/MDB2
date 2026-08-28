@@ -227,6 +227,7 @@ function get_world_palette(_object_index) {
 			}
 		}
 	}
+	
 	return undefined;
 }
 

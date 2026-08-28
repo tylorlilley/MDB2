@@ -53,10 +53,10 @@ with (obj_dynamic_object) {
 	if (is_carrying_key()) { original_palette = PALETTES.YELLOW; main_palette = PALETTES.YELLOW; reset_shine_timer(); }
 }
 with (obj_player) {
+	// Robots use the variable definitions to set is_left for each room
 	if (object_index == obj_player) { is_left = other.classic_level; }
 	if (object_index == obj_mirror_player) { is_left = !other.classic_level; }
 	powered_palette = get_world_palette(object_index);
-	// Robots use the variable definitions to set is_left for each room
 }
 with (obj_door) {
 	if (global.room_keys == 0) { image_index = 1; }
