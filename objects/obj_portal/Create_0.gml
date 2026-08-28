@@ -33,6 +33,12 @@ deactivate_portal = function(_player_palette) {
 		activated = false;
 		play_sound(snd_warp);
 		create_particles(5+irandom(5), PARTICLE_TYPES.SPARKLE, [main_palette, player_palette]);
+		var _portal_line = instance_create(x, y, obj_portal_line);
+		
+		_portal_line.main_palette = translate_uniform_values_to_color(original_palette, 1);
+		_portal_line.player_palette = translate_uniform_values_to_color(player_palette, 2);
+		_portal_line.dest_x = linked_portal.x;
+		_portal_line.dest_y = linked_portal.y;
 	}
 }
 

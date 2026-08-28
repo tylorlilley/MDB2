@@ -1,0 +1,1 @@
+draw_dynamic_object();

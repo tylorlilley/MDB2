@@ -232,13 +232,13 @@ start_pushing = function(_pushed_obj) {
 }
 
 start_tumble_landing = function() {
+	play_sound(snd_soft_thud);
+	state = PLAYER_STATES.LAND;
 	do_player_object_collisions();
 	if (!instance_exists(id)) { exit; }
 	
 	if (key_left || key_right) { is_left = key_left; }
-	state = PLAYER_STATES.LAND;
-	set_transition_timer(8);
-	play_sound(snd_soft_thud);
+	set_transition_timer(8); // MUST HAPPEN AFTER COLLISIONS
 }
 	
 start_winning = function() {

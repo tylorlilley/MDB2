@@ -10,6 +10,7 @@ can_be_crushed = false;
 can_ladder = false;
 can_climb = false;
 has_cape = false;
+spawned = false;
 
 // Game Object Overrides
 is_player_lethal = true;
@@ -27,6 +28,14 @@ main_palette = original_palette;
 walk_timer = 0;
 should_walk = true;
 
+is_on_robot = function() {
+	var _ground_objects = get_ground_objects();
+	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+		if (_ground_objects[_i].is_a(obj_robot)) { return true; }
+	}
+	return false;
+}
+
 // Function Overrides
 treat_object_as_solid = function(_inst) { return _inst.is_a(obj_spikes) || _inst.is_a(obj_lava) || !would_be_damaged_by(_inst) && (!_inst.is_a(obj_player) || !_inst.controlled_by_human); }
 
@@ -38,6 +47,7 @@ update_controls = function() {
 	
 	// Update Walk Timer
 	if (!is_on_ground()) { walk_timer = 0; should_walk = true; }
+	else if (is_on_robot()) { walk_timer = 0; should_walk = true; }
 	else {
 		walk_timer = (walk_timer + 1) % 4;
 
@@ -46,9 +56,7 @@ update_controls = function() {
 			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; should_walk = true }
 			else if (!is_left && _blocked_on_right) { key_left = true; key_right = false; should_walk = true; }
 			else if (should_walk) { key_left = is_left; key_right = !is_left; should_walk = false; }
-			else {
-				key_left = false; key_right = false; should_walk = true;
-				}
+			else { key_left = false; key_right = false; should_walk = true; }
 		}
 	}	
 }

@@ -171,8 +171,23 @@ grid_move_right = function(_speed) {
 	return true;
 }
 
+create_afterimage = function() {
+	var _is_robot = (is_a(obj_robot) && spawned), _is_powered_player = is_a(obj_player) && fall_timer > 10;
+	if (_is_robot || _is_powered_player) {
+		// Create Afterimage Before Moving
+		var _img = instance_create(x, y, obj_afterimage);
+		_img.sprite_index = sprite_index;
+		_img.image_index = image_index;
+		_img.main_palette = (_is_robot) ? main_palette : powered_palette;
+		_img.is_left = is_left;
+		_img.set_dim_timer((_is_robot) ? 204 : 60)
+	}
+}
+
 grid_move_up_direct = function(_speed) {
 	if (_speed == 0) { return false; }
+	
+	create_afterimage();
 	
 	grid_move_to(x, y - GRID_SIZE);
 	add_y_transition_timer(abs(GRID_SIZE / _speed));
@@ -182,12 +197,18 @@ grid_move_up_direct = function(_speed) {
 grid_move_down_direct = function(_speed) {
 	if (_speed == 0) { return false; }
 	
+	create_afterimage();
+	
 	grid_move_to(x, y + GRID_SIZE);
 	add_y_transition_timer(abs(GRID_SIZE / _speed));
 	return true;
 }
 
 grid_move_horizontal = function(_speed) {
+	if (_speed == 0) { return false; }	
+
+	create_afterimage();
+	
 	if (_speed < 0) { return grid_move_left(_speed); } 
 	else if (_speed > 0) { return grid_move_right(_speed); }
 	
@@ -325,21 +346,6 @@ start_being_pushed = function(_pushed_left) {
 
 is_carrying_key = function() {
 	return (contents != noone && contents.object_index == obj_key);
-}
-
-get_left_value = function() {
-	return ((is_left) ? -1 : 1);
-}
-
-get_x_draw_offset = function() {
-	return ((is_left) ? sprite_get_width(sprite_index) : 0);
-}
-
-// Draw Function
-draw_dynamic_object = function(_x_offset = 0, _y_offset = 0, _image_alpha = undefined) {
-	_image_alpha ??= image_alpha;
-	set_shader_palette((shine_timer == 1) ? PALETTES.ALL_WHITE : main_palette);
-	draw_sprite_with_center_rotation(sprite_index, image_index, virtual_x + get_x_draw_offset() + _x_offset, virtual_y + virtual_y_offset + _y_offset, get_left_value(), 1, image_angle, image_blend, _image_alpha);
 }
 
 // Step Function
