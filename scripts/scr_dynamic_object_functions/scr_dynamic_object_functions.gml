@@ -175,7 +175,7 @@ create_afterimage = function() {
 	if (!is_a(obj_player)) { return noone; }
 	if (!has_afterimage && fall_timer <= 10) { return noone; }
 	
-	var _is_robot = (is_a(obj_robot) && has_afterimage), _is_dead = !instance_exists(id);
+	var _is_robot = is_a(obj_robot), _is_dead = !instance_exists(id);
 	var _img = instance_create(x, y, obj_afterimage);
 	_img.sprite_index = sprite_index;
 	_img.image_index = image_index;

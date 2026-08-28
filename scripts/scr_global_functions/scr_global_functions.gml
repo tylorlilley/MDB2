@@ -126,8 +126,9 @@ function set_shader_palette(_palette_to_use = undefined) {
 
 function set_shader_outline_palette(_palette_to_use = undefined) {
 	_palette_to_use ??= main_palette;
+	
+	static _uniforms = [0,0,0,0,  0,0,0,0,  0,0,0,0,  0,0,0,1];
 	var _source_colors = global.palette_uniform_values[_palette_to_use];
-	static _uniforms = [0,0,0,0,  0,0,0,0,  0,0,0,0,  0,0,0,1]
 	
 	_uniforms[12] = _source_colors[0];
 	_uniforms[13] = _source_colors[1];
