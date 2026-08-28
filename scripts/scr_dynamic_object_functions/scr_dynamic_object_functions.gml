@@ -172,7 +172,7 @@ grid_move_right = function(_speed) {
 }
 
 create_afterimage = function() {
-	var _is_robot = (is_a(obj_robot) && has_afterimage), _is_powered_player = is_a(obj_player) && (has_afterimage || fall_timer > 10);
+	var _is_robot = (is_a(obj_robot) && has_afterimage), _is_powered_player = object_index == obj_player && (has_afterimage || fall_timer > 10);
 	if (_is_robot || _is_powered_player) {
 		// Create Afterimage Before Moving
 		var _img = instance_create(x, y, obj_afterimage);
@@ -180,8 +180,13 @@ create_afterimage = function() {
 		_img.image_index = image_index;
 		_img.main_palette = (_is_robot) ? main_palette : powered_palette;
 		_img.is_left = is_left;
-		_img.set_dim_timer((_is_robot) ? 204 : 32)
+		_img.set_dim_timer((_is_robot || !instance_exists(id)) ? 128 : 24);
+		_img.max_alpha = ((_is_robot) ? 0.325 : 0.625);
+		
+		return _img;
 	}
+	
+	return noone;
 }
 
 grid_move_up_direct = function(_speed) {

@@ -124,6 +124,17 @@ function set_shader_palette(_palette_to_use = undefined) {
 	shader_set_uniform_f_array(global.u_replacement_colors, global.palette_uniform_values[_palette_to_use]);
 }
 
+function set_shader_outline_palette(_palette_to_use = undefined) {
+	_palette_to_use ??= main_palette;
+	var _source_colors = global.palette_uniform_values[_palette_to_use];
+	static _uniforms = [0,0,0,0,  0,0,0,0,  0,0,0,0,  0,0,0,1]
+	
+	_uniforms[12] = _source_colors[0];
+	_uniforms[13] = _source_colors[1];
+	_uniforms[14] = _source_colors[2];
+	
+	shader_set_uniform_f_array(global.u_replacement_colors, _uniforms);
+}
  
 function get_float_value(_timer, _amplitude, _period = FLOAT_OFFSET_PERIOD_FRAMES) {
 	var _y_offset = _amplitude * sin(_timer*(2 * pi / _period));

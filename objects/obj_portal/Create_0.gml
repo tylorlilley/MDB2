@@ -7,7 +7,7 @@ masked = global.mask_portals;
 
 // Visual Object Overides
 set_depth(PORTAL_DEPTH);
-masked_palette = get_world_palette(object_index);
+masked_palette = undefined; // Needs to be set by controller at Room Start
 original_palette = (masked) ? masked_palette : get_portal_palette(portal_color);
 main_palette = original_palette;
 particle_palette  = original_palette;
@@ -35,8 +35,8 @@ deactivate_portal = function(_player_palette) {
 		create_particles(5+irandom(5), PARTICLE_TYPES.SPARKLE, [main_palette, player_palette]);
 		var _portal_line = instance_create(x, y, obj_portal_line);
 		
-		_portal_line.main_color = translate_uniform_values_to_color(original_palette, 1);
-		_portal_line.player_color = translate_uniform_values_to_color(player_palette, 2);
+		_portal_line.main_color = _portal_line.get_color_with_world_tint(translate_uniform_values_to_color(original_palette, 1));
+		_portal_line.player_color = _portal_line.get_color_with_world_tint(translate_uniform_values_to_color(player_palette, 2));
 		_portal_line.dest_x = linked_portal.x;
 		_portal_line.dest_y = linked_portal.y;
 	}

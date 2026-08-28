@@ -145,10 +145,20 @@ function room_data(_room = room) {
 
 
 function get_world_palette(_object_index) {
+	var _world = global.controller.room_world, _classic = global.controller.classic_level;
+	
 	switch (_object_index) {
 		// NO line for obj_wood; this breaks log's variable definition palette steting
+		
 		case obj_bg_dirt: {
-			switch (global.controller.room_world) {
+			if (_classic) {
+				switch (_world) {
+					case WORLDS.FORTRESS: { return PALETTES.GRAY_DARK; }
+					default: { return PALETTES.BACKGROUND_DIRT; }
+				}
+			}
+			
+			switch (_world) {
 				case WORLDS.FOREST: { return PALETTES.BACKGROUND_ROCK; }
 				case WORLDS.FACTORY: { return PALETTES.TRASH_DARKEST; }
 				case WORLDS.FORTRESS: { return PALETTES.GRAY_DARK; }
@@ -156,7 +166,9 @@ function get_world_palette(_object_index) {
 			}
 		}
 		case obj_sand: {
-			switch (global.controller.room_world) {
+			if (_classic) { return PALETTES.SAND; }
+				
+			switch (_world) {
 				case WORLDS.BEACH: { return PALETTES.SAND; }
 				case WORLDS.FOREST: { return PALETTES.SOIL; }
 				case WORLDS.FACTORY: { return PALETTES.TRASH; }
@@ -165,7 +177,9 @@ function get_world_palette(_object_index) {
 			}
 		}
 		case obj_rock: {
-			switch (global.controller.room_world) {
+			if (_classic) { return PALETTES.BROWN; }
+			
+			switch (_world) {
 				case WORLDS.BEACH: { return PALETTES.BROWN; }
 				case WORLDS.FOREST: { return PALETTES.ROCK; }
 				case WORLDS.FACTORY: { return PALETTES.MAGENTA; }
@@ -175,7 +189,9 @@ function get_world_palette(_object_index) {
 		}
 		case obj_brick: {
 			// Any palette you assign needs to support two sahdes of darker palettes for this object
-			switch (global.controller.room_world) {
+			if (_classic) { return PALETTES.GRAY_LIGHT; }
+			
+			switch (_world) {
 				case WORLDS.BEACH: { return PALETTES.GRAY_LIGHT; } // TODO: Make different
 				case WORLDS.FOREST: { return PALETTES.BRICK; }
 				case WORLDS.FACTORY: { return PALETTES.BROWN; }
@@ -185,11 +201,25 @@ function get_world_palette(_object_index) {
 		}
 		case obj_portal: {
 			// This returns the initial masked portal palette color only
-			switch (global.controller.room_world) {
+			if (_classic) { return PALETTES.INDIGO_DARK; }
+			
+			switch (_world) {
 				case WORLDS.BEACH: { return PALETTES.TRASH; }
 				case WORLDS.FOREST: { return PALETTES.PURPLE_DARK; }
 				case WORLDS.FACTORY: { return PALETTES.INDIGO_DARK; }
 				case WORLDS.FORTRESS: { return PALETTES.BRICK; }
+				default: { return PALETTES.PINK; }
+			}
+		}
+		case obj_player: {
+			// This returns the powered palette color only
+			if (_classic) { return PALETTES.RED; }
+
+			switch (_world) {
+				case WORLDS.BEACH: { return PALETTES.RED; }
+				case WORLDS.FOREST: { return PALETTES.PURPLE; }
+				case WORLDS.FACTORY: { return PALETTES.YELLOW; }
+				case WORLDS.FORTRESS: { return PALETTES.ORANGE; }
 				default: { return PALETTES.PINK; }
 			}
 		}

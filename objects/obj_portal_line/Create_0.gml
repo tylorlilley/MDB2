@@ -10,3 +10,7 @@ dest_x = undefined;
 dest_y = undefined;
 
 set_dim_timer(6);
+
+get_color_with_world_tint = function(_color) {
+	return merge_color(_color, global.world_tint, global.world_tint_strength);
+}

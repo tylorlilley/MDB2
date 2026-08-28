@@ -276,9 +276,9 @@ start_standing = function(_is_crushed = false) {
 start_falling = function(_is_dazed = false) {
 	transition_timer = 0;
 	sync_transition_timer();
+	fall_timer = 0;
 	grid_move_down(2); // If this fails, we still proceed with setting the fall state as the ultimate state fallback
 	state =  (_is_dazed) ? PLAYER_STATES.DAZED_FALL : PLAYER_STATES.FALL;
-	fall_timer = 0;
 	stop_sound(fall_sound);
 	fall_sound = audio_play_sound_panned(snd_player_fall, x);
 }

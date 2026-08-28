@@ -17,18 +17,15 @@ void main()
 {
     vec4 pixel = texture2D(gm_BaseTexture, v_vTexcoord);
 
-    vec3 pal    = pixel.rgb;
+    vec4 pal    = vec4(pixel.rgb, 1.0);
     bool is_pal = true;
 
-    if      (distance(pixel.rgb, BASE_0.rgb) < 0.1) { pal = u_replacement_colors[0].rgb; }
-    else if (distance(pixel.rgb, BASE_1.rgb) < 0.1) { pal = u_replacement_colors[1].rgb; }
-    else if (distance(pixel.rgb, BASE_2.rgb) < 0.1) { pal = u_replacement_colors[2].rgb; }
-    else if (distance(pixel.rgb, BASE_3.rgb) < 0.1) { pal = u_replacement_colors[3].rgb; }
-    // Non-palette pixels — untextured primitives (1x1 white texel) and font
-    // glyphs — must keep full v_vColour modulation, or draw_rectangle /
-    // draw_text colours get diluted toward the source pixel.
+    if      (distance(pixel.rgb, BASE_0.rgb) < 0.1) { pal = u_replacement_colors[0]; }
+    else if (distance(pixel.rgb, BASE_1.rgb) < 0.1) { pal = u_replacement_colors[1]; }
+    else if (distance(pixel.rgb, BASE_2.rgb) < 0.1) { pal = u_replacement_colors[2]; }
+    else if (distance(pixel.rgb, BASE_3.rgb) < 0.1) { pal = u_replacement_colors[3]; }
     else                                            { is_pal = false; }
 
     float tint = is_pal ? u_tint_amount : 1.0;
-    gl_FragColor = vec4(mix(pal, pal * v_vColour.rgb, tint), pixel.a * v_vColour.a);
+    gl_FragColor = vec4(mix(pal.rgb, pal.rgb * v_vColour.rgb, tint), pixel.a * v_vColour.a * pal.a);
 }

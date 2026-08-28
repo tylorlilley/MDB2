@@ -55,6 +55,7 @@ with (obj_dynamic_object) {
 with (obj_player) {
 	if (object_index == obj_player) { is_left = other.classic_level; }
 	if (object_index == obj_mirror_player) { is_left = !other.classic_level; }
+	powered_palette = get_world_palette(object_index);
 	// Robots use the variable definitions to set is_left for each room
 }
 with (obj_door) {
