@@ -106,8 +106,8 @@ switch (state) {
 					case MENU_OPTIONS.LOAD_GAME: {
 						// Update Room Transition Position
 						with (obj_player) {
-							global.controller.x = x;
-							global.controller.y = y;
+							global.controller.x = virtual_x;
+							global.controller.y = virtual_y;
 						}
 						// Values taken from Draw GUI Cursor Position Instead of player:
 						if (menu_pos <= MENU_OPTIONS.START_GAME) {

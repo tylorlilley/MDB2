@@ -232,6 +232,9 @@ start_pushing = function(_pushed_obj) {
 }
 
 start_tumble_landing = function() {
+	do_player_object_collisions();
+	if (!instance_exists(id)) { exit; }
+	
 	if (key_left || key_right) { is_left = key_left; }
 	state = PLAYER_STATES.LAND;
 	set_transition_timer(8);
@@ -672,8 +675,8 @@ update_player_state = function() {
 					if (room == rm_intro) { global.controller.transition_room(room_next(room)); }
 					else {
 						global.controller.room_transition_timer = 1;
-						global.controller.x = x;
-						global.controller.y = y;
+						global.controller.x = virtual_x;
+						global.controller.y = virtual_y;
 					}
 				}
 				else {
@@ -885,9 +888,9 @@ update_player_state = function() {
 							if (_damaged_object_exists) { start_tumble_landing(); }
 							else {
 								// Start Recoil
-								state = PLAYER_STATES.RECOIL;
 								if (!grid_move_up(4)) { start_tumble_landing(); }
 								else {
+									state = PLAYER_STATES.RECOIL;
 									set_transition_timer((global.original_controls) ? 4 : 8);
 									do_player_object_collisions();
 									if (!instance_exists(id)) { exit; }
@@ -921,7 +924,7 @@ update_player_state = function() {
 			}
 			case PLAYER_STATES.RECOIL: {
 				start_fallback_state();
-				if (!global.original_controls) { fall_timer -= GRID_SIZE; }
+				if (!global.original_controls && is_fall_state()) { fall_timer -= GRID_SIZE; }
 				
 				break;
 			}
@@ -978,7 +981,6 @@ update_player_state = function() {
 		}
 	
 		// Reset Controls
-		do_player_object_collisions();
 
 		reset_controls();
 	}
@@ -1448,11 +1450,11 @@ do_player_object_collisions = function(_skip_portals = false) {
 	
 	
 	// Only Collide With the Following After Player has "Settled"
-	var _exact_position_only = (transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20));
+	var _is_settled = !(transition_timer != 0 && (state != PLAYER_STATES.CLIMB || transition_timer != 20));
 	
 	// Collect Keys
 	var _objects_at_position = instances_at_grid_position_exact(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index));
-	if (_exact_position_only) {
+	if (_is_settled) {
 		if (controlled_by_human) {
 			for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
 				var _inst = _objects_at_position[_i];
@@ -1487,35 +1489,35 @@ do_player_object_collisions = function(_skip_portals = false) {
 				}
 			}
 		}
-	}
 	
-	// Get Destroyed From Adjacent Lethal Objects
-	if (is_grounded_state()) {
-		// Destroy if Standing on Lethal Object and No Other Solids
+		// Get Destroyed From Adjacent Lethal Objects
+		if (is_grounded_state()) {
+			// Destroy if Standing on Lethal Object and No Other Solids
 		
-		var _ground_objects = get_left_and_right_objects(), _safe = false, _damaged = false;
-		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-			var _inst = _ground_objects[_i];
-			if (instance_exists(_inst)) {
-				if (!would_be_damaged_by(_inst)) { _safe = true; }
-			}
-		}
-		if (!_safe) {
+			var _ground_objects = get_left_and_right_objects(), _safe = false, _damaged = false;
 			for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-			var _inst = _ground_objects[_i];
+				var _inst = _ground_objects[_i];
+				if (instance_exists(_inst)) {
+					if (!would_be_damaged_by(_inst)) { _safe = true; }
+				}
+			}
+			if (!_safe) {
+				for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+				var _inst = _ground_objects[_i];
+					if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
+				}
+			}
+		
+			// Destroy if Carrying Lethal Object
+			var _carried_objects = get_carried_objects();
+			for (var _i = 0; _i < array_length(_carried_objects); _i++) {
+				var _inst = _carried_objects[_i]
 				if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 			}
 		}
-		
-		// Destroy if Carrying Lethal Object
-		var _carried_objects = get_carried_objects();
-		for (var _i = 0; _i < array_length(_carried_objects); _i++) {
-			var _inst = _carried_objects[_i]
-			if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
-		}
-	}
 	
-	if (!instance_exists(id)) { exit; }
+		if (!instance_exists(id)) { exit; }
+	}
 
 	// Handle Water
 	/* TODO: What order in the collisions should the water happen?

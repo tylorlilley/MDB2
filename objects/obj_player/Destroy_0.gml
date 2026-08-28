@@ -16,6 +16,6 @@ stop_sound(fall_sound);
 fall_sound = undefined;
 if (controlled_by_human) {
 	global.controller.start_screen_shake();
-	global.controller.x = clamp(x, GRID_SIZE, room_width - GRID_SIZE*2);
-	global.controller.y = clamp(y, GRID_SIZE, room_height - GRID_SIZE*2);
+	global.controller.x = clamp(virtual_x, GRID_SIZE, room_width - GRID_SIZE*2);
+	global.controller.y = clamp(virtual_y, GRID_SIZE, room_height - GRID_SIZE*2);
 }
