@@ -11,9 +11,7 @@ if (_inside_playable_area) {
 	has_afterimage = true;
 	var _img = create_afterimage();
 	if (instance_exists(_img)) {
-		_img.x += sprite_get_width(death_sprite)/2;
-		_img.y += sprite_get_height(death_sprite)/2;
-		_img.sprite_index = death_sprite;
+		_img.sprite_index = afterimage_sprite;
 		_img.image_index = 0;
 		_img.main_palette = PALETTES.ALL_WHITE;
 	}

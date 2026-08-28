@@ -478,6 +478,7 @@
     {"id":{"name":"spr_reforming_cloud_outline","path":"sprites/spr_reforming_cloud_outline/spr_reforming_cloud_outline.yy",},},
     {"id":{"name":"spr_reforming_cloud","path":"sprites/spr_reforming_cloud/spr_reforming_cloud.yy",},},
     {"id":{"name":"spr_robot_carry","path":"sprites/spr_robot_carry/spr_robot_carry.yy",},},
+    {"id":{"name":"spr_robot_dying","path":"sprites/spr_robot_dying/spr_robot_dying.yy",},},
     {"id":{"name":"spr_robot_fall","path":"sprites/spr_robot_fall/spr_robot_fall.yy",},},
     {"id":{"name":"spr_robot_turn","path":"sprites/spr_robot_turn/spr_robot_turn.yy",},},
     {"id":{"name":"spr_robot_walk","path":"sprites/spr_robot_walk/spr_robot_walk.yy",},},

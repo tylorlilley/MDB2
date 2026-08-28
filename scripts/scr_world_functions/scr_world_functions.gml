@@ -211,14 +211,17 @@ function get_world_palette(_object_index) {
 				default: { return PALETTES.PINK; }
 			}
 		}
+		case obj_robot:
+		case obj_robot_gold:
+		case obj_mirror_player:
 		case obj_player: {
 			// This returns the powered palette color only
 			if (_classic) { return PALETTES.RED; }
 
 			switch (_world) {
-				case WORLDS.BEACH: { return PALETTES.RED; }
+				case WORLDS.BEACH: { return PALETTES.BLUE_LIGHT; }
 				case WORLDS.FOREST: { return PALETTES.PURPLE; }
-				case WORLDS.FACTORY: { return PALETTES.YELLOW; }
+				case WORLDS.FACTORY: { return PALETTES.YELLOW_DARK; }
 				case WORLDS.FORTRESS: { return PALETTES.ORANGE; }
 				default: { return PALETTES.PINK; }
 			}

@@ -232,6 +232,7 @@ start_pushing = function(_pushed_obj) {
 }
 
 start_tumble_landing = function() {
+	if (state == PLAYER_STATES.POWERFALL) { create_afterimage(); }
 	play_sound(snd_soft_thud);
 	state = PLAYER_STATES.LAND;
 	do_player_object_collisions();

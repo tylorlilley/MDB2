@@ -19,6 +19,7 @@ destroyed_sound = snd_explosion;
 // Visual Object Overrides
 sprite_index = spr_robot_walk;
 death_sprite = spr_particle_robot_dying;
+afterimage_sprite = spr_robot_dying;
 original_palette = PALETTES.GRAY_LIGHT;
 particle_palette = original_palette;
 main_palette = original_palette;

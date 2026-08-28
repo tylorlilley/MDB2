@@ -29,6 +29,7 @@ main_palette = original_palette;
 particle_palette = PALETTES.BLUE;
 powered_palette = undefined; // Needs to be set by controller at Room Start
 death_sprite = spr_particle_player_dying;
+afterimage_sprite = spr_player_dying;
 silhouette_surface = undefined;
 solid_mask_surface = undefined;
 
