@@ -50,5 +50,11 @@ draw_dynamic_object = function(_x_offset = 0, _y_offset = 0, _image_alpha = unde
 	draw_sprite_with_center_rotation(sprite_index, image_index, virtual_x + get_x_draw_offset() + _x_offset, virtual_y + virtual_y_offset + _y_offset, get_left_value(), 1, image_angle, image_blend, _image_alpha);
 }
 
+set_dim_timer = function(_val) {
+	total_dim_timer = _val / global.controller.fps_ratio;
+	dim_timer = total_dim_timer;
+}
+
+
 // Initial Create Code
 set_depth(VISUAL_OBJECT_DEPTH);

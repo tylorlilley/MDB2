@@ -1,13 +1,9 @@
 event_inherited();
 
-depth = PARTICLE_DEPTH + 1;
-player_palette = undefined;
+depth = PLAYER_DEPTH + 1;
+main_color = undefined;
+player_color = undefined;
 dest_x = undefined;
 dest_y = undefined;
 
-set_dim_timer = function(_val) {
-	total_dim_timer = _val;
-	dim_timer = total_dim_timer;
-}
-
-set_dim_timer(8);
+set_dim_timer(16);

@@ -1,5 +1,5 @@
 if (!global.controller.paused) {
 	dim_timer--;
 	if (dim_timer <= 0) { instance_destroy(); }
-	//else { image_alpha = (sqr(dim_timer / total_dim_timer)); }
+	else { image_alpha = 0.75 * (sqr(dim_timer / total_dim_timer)); }
 }

@@ -180,7 +180,7 @@ create_afterimage = function() {
 		_img.image_index = image_index;
 		_img.main_palette = (_is_robot) ? main_palette : powered_palette;
 		_img.is_left = is_left;
-		_img.set_dim_timer((_is_robot) ? 204 : 60)
+		_img.set_dim_timer((_is_robot) ? 204 : 64)
 	}
 }
 
