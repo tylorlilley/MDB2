@@ -51,7 +51,7 @@ draw_dynamic_object = function(_x_offset = 0, _y_offset = 0, _image_alpha = unde
 }
 
 set_dim_timer = function(_val) {
-	total_dim_timer = _val / global.controller.fps_ratio;
+	total_dim_timer = _val * global.controller.fps_ratio;
 	dim_timer = total_dim_timer;
 }
 

@@ -10,7 +10,6 @@ can_be_crushed = false;
 can_ladder = false;
 can_climb = false;
 has_cape = false;
-spawned = false;
 
 // Game Object Overrides
 is_player_lethal = true;

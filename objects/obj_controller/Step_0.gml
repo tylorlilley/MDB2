@@ -174,7 +174,7 @@ with (obj_spawner) {
 		else {
 			var _inst = instance_create(x, y, spawned_obj);
 			_inst.is_left = is_left;
-			_inst.spawned = true;
+			_inst.has_afterimage = true;
 		}
 	    timer = frequency;
 	}
