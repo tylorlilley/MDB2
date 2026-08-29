@@ -27,7 +27,7 @@ main_palette = original_palette;
 
 // New Variables
 walk_timer = 0;
-should_walk = true;
+should_walk = false;
 
 is_on_robot = function() {
 	var _ground_objects = get_ground_objects();
@@ -47,13 +47,18 @@ update_controls = function() {
 	var _blocked_on_right = is_blocked_on_right(), _blocked_on_left = is_blocked_on_left(), _prev_is_left = is_left;
 	
 	// Update Walk Timer
-	if (!is_on_ground()) { walk_timer = 0; should_walk = true; }
+	if (!is_on_ground()) {
+		if (!is_classic_robot) {
+			walk_timer = 0;
+			should_walk = true;
+		}
+	}
 	else if (is_on_robot() && !is_classic_robot) { walk_timer = 0; should_walk = true; }
 	else {
 		walk_timer = (walk_timer + 1) % 4;
 
 		if (walk_timer == 0) {
-			if (_blocked_on_right && _blocked_on_left) { key_left = (is_classic_robot); key_right = false; should_walk = (!is_classic_robot); }
+			if (_blocked_on_right && _blocked_on_left) { key_left = (is_classic_robot) ? !is_left : false; key_right =  (is_classic_robot) ? is_left : false; should_walk = (!is_classic_robot); }
 			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; should_walk = (!is_classic_robot) }
 			else if (!is_left && _blocked_on_right) { key_left = true; key_right = false; should_walk = (!is_classic_robot); }
 			else if (should_walk) { key_left = is_left; key_right = !is_left; should_walk = false; }
