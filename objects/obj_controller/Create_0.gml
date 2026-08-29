@@ -79,7 +79,7 @@ fps_timer = 0;
 paused = false;
 unpausing = false;
 paused_layers = [];
-paused_textbox_manager = noone;
+paused_textbox = noone;
 
 // Set Up Game Audio
 frame_sounds = [];

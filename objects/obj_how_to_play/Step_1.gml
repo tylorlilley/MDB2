@@ -1,19 +1,17 @@
 event_inherited();
 
-var _text_box_transition_max = PAUSE_TRANSITION_TIME * global.controller.fps_ratio;
-if (text_box_growing) { text_box_transition_timer = min(text_box_transition_timer + 1, _text_box_transition_max); }
-else if (text_box_shrinking) { text_box_transition_timer = max(text_box_transition_timer - 1, 0); }
-
 if (!global.controller.is_logic_frame()) { exit; }
 
 if (room != rm_how_to_play) { instance_destroy(); exit; }
 
+// Exit to Title on Button Press
 if (key_left || key_right || key_up || key_down || key_jump || key_restart) {
 	return_to_title = true;
 	global.controller.return_to_title();
 	play_global_sound(snd_explosion);
 }
 
+// Update Cutscene Timers
 if (cutscene_timer >= next_text_trigger && text_pos < array_length(text_box_strings) - 1) {
 	text_pos_timer = 0;
 	next_text_trigger += DISPLAY_TIME + TEXT_WAIT;
@@ -21,10 +19,16 @@ if (cutscene_timer >= next_text_trigger && text_pos < array_length(text_box_stri
 	with (obj_player) { has_completed_move = 0; demo_phase = 0; }
 }
 else { text_pos_timer++; }
-
-// Handle text_box size change
-if (cutscene_timer == next_text_trigger - TEXT_WAIT) { text_box_growing = false; text_box_shrinking = true; }
-else if (text_pos_timer == PLAYER_WAIT - PAUSE_TRANSITION_TIME) { text_box_growing = true; text_box_shrinking = false; }
+if (cutscene_timer > INTRO_WAIT && cutscene_timer < next_text_trigger - TEXT_WAIT) {
+	if (!instance_exists(textbox)) {
+		textbox = instance_create(0, 0, obj_textbox);
+		textbox.origin_y = GRID_SIZE + (textbox.max_height/2);
+		textbox.max_width = SCREEN_WIDTH - GRID_SIZE * 2;
+		textbox.max_height = GRID_SIZE * 6;
+		textbox.text_string = text_box_strings[text_pos];
+	}
+}
+else if (cutscene_timer > next_text_trigger - TEXT_WAIT && instance_exists(textbox)) { textbox.is_opening = false; }
 
 with (obj_player) {
 	reset_controls();

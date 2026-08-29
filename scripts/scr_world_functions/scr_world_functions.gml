@@ -276,7 +276,7 @@ function build_world_background(_world) {
 			var _castle_bg = layer_background_create(_castle_layer, bg_castle);
 			layer_background_htiled(_castle_bg, true);
 			layer_background_vtiled(_castle_bg, true);
-			layer_hspeed(_castle_layer, -0.0625 / _fps_ratio);
+			// layer_hspeed(_castle_layer, -0.0625 / _fps_ratio);
 			layer_vspeed(_castle_layer, -0.0625 / _fps_ratio);
 			layer_set_visible(_castle_layer, true);
 			

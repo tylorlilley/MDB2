@@ -14,9 +14,7 @@ cutscene_timer_max = 9999; // TODO: Update this at end?
 return_to_title = false;
 restarted = false;
 text_pos_timer = 0;
-text_box_transition_timer = 0;
-text_box_growing = false;
-text_box_shrinking = false;
+textbox = noone;
 
 // Latched copy of the demo's inputs for the on-screen control display
 shown_key_left = false;
@@ -28,23 +26,23 @@ next_text_trigger = INTRO_WAIT + DISPLAY_TIME + TEXT_WAIT;
 text_pos = 0;
 text_box_strings = [
 	"Welcome to Mighty Dive Bomber!\nWatch this demo to learn to play.",
-	"Press LEFT or RIGHT to\nmove in that direction.",
-	"Moving into a wall of two or\nmore tiles will stop you.",
-	"Press LEFT or RIGHT to\nclimb up walls only one tile tall.",
-	"Fall a distance of one tile\nto safely land on the ground.",
-	"Fall two or more tiles to dive!\nYou damage tiles you dive into.",
-	"Press UP or DOWN to get on a\nladder you exactly overlap.",
-	"Press UP or DOWN while on a\nladder to move in that direction.",
-	"Press LEFT or RIGHT to get off\nabove an empty ground tile.",
-	"In midair, you automatically grab\nladders you exactly overlap.",
-	"Press DOWN to climb off the bottom\nif it's above an empty tile.",
-	"Some types of tiles will only be\ndestroyed\nafter multiple hits.",
-	"Some types of tiles can't\nbe destroyed at all.",
-	"Exactly overlap a key\nto collect it.",
-	"The door can't be entered unless\nit is unlocked and on ground.",
-	"If you are stuck, press ENTER\nor SELECT to restart the level.",
-	"Press ESC to pause. From there,\n you can go back to the menu.",
-	"Unlock a level's door\nby collecting all the keys.",
-	"Exactly overlap an unlocked\ndoor to win the level.",
-	"Good luck! Close the door\nwith UP on your way out."
+	"Press LEFT or RIGHT to move in that direction.",
+	"Moving into a wall two or more tiles tall will stop you.",
+	"Press LEFT or RIGHT to climb up walls that are one tile tall.",
+	"Fall a distance of one tile to safely land on the ground.",
+	"Fall two or more tiles to dive! You damage tiles you dive into.",
+	"Press UP or DOWN to get on a ladder that you overlap.",
+	"Press UP or DOWN while on a ladder to move in that direction.",
+	"Press LEFT or RIGHT to get off above an empty ground tile.",
+	"In midair, you automatically grab ladders that you overlap.",
+	"You can climb off the bottom of midair ladders with DOWN.",
+	"Some types of tiles will only be destroyed after multiple hits.",
+	"Some types of tiles can't be destroyed at all.",
+	"Overlap a key to collect it!",
+	"If a door is not on the ground, it can't be opened.",
+	"If you are stuck, press ENTER or SELECT to restart the level.",
+	"Press ESC if you need to pause or return to the main menu.",
+	"Unlock a level's door by collecting all the keys.",
+	"Overlap an open door, and you win the level!",
+	"Good luck! Use UP to\nclose the door and move on."
 ];

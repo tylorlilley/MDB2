@@ -17,12 +17,11 @@ if (_new_logical_fps != logical_fps) {
 if (paused && !(!fast_forward_enabled && room != rm_controller && (!is_cutscene_room() || room == rm_how_to_play || room == rm_title))) { paused = false; }
 
 if (unpausing) {
-	if (instance_exists(paused_textbox_manager)) { paused_textbox_manager.is_opening = false; }
+	if (instance_exists(paused_textbox)) { paused_textbox.is_opening = false; }
 	else {
 		// Unpause Game
 		paused = false;
 		unpausing = false;
-		pause_timer = 0;
 		audio_resume_all();
 			
 		// Unpause Built in Motion
@@ -50,21 +49,21 @@ if (unpausing) {
 else {
 	if (paused) {
 		// Create Pause Textbox
-		if (!instance_exists(paused_textbox_manager)) {
-			paused_textbox_manager = instance_create(0, 0, obj_textbox);
-			paused_textbox_manager.should_dim_screen = true;
-			paused_textbox_manager.max_width = SCREEN_WIDTH - (GRID_SIZE * 3);
-			paused_textbox_manager.max_height = GRID_SIZE * 8;
-			paused_textbox_manager.font = ft_block_blueprint;
-			paused_textbox_manager.text_string = (room == rm_title) ? TITLE_PAUSE_MESSAGE_STRING : PAUSE_MESSAGE_STRING;	
+		if (!instance_exists(paused_textbox)) {
+			paused_textbox = instance_create(0, 0, obj_textbox);
+			paused_textbox.should_dim_screen = true;
+			paused_textbox.max_width = SCREEN_WIDTH - (GRID_SIZE * 3);
+			paused_textbox.max_height = GRID_SIZE * 8;
+			paused_textbox.origin_y = SCREEN_MIDDLE_Y;
+			paused_textbox.font = ft_block_blueprint;
+			paused_textbox.text_string = (room == rm_title) ? TITLE_PAUSE_MESSAGE_STRING : PAUSE_MESSAGE_STRING;	
 		}
-		else if (paused_textbox_manager.progress >= 1) {
+		else if (paused_textbox.progress >= 1) {
 			if (get_restart_released()) {
 				// Quit Game
 				if (room == rm_title) { game_end(); }
 				// Return to Title
 				else {
-					pause_timer = 0;
 					paused = false;
 					unpausing = false;
 					paused_layers = [];
@@ -74,7 +73,6 @@ else {
 			}
 			else if (get_jump_released() || get_pause_released() || get_up_released() || get_down_released() || get_left_released() || get_right_released()) {
 				unpausing = true;
-				pause_timer = min(pause_timer, PAUSE_TRANSITION_TIME * fps_ratio);
 				audio_stop_sound(snd_pause);
 				audio_play_sound(snd_unpause, 0, false);
 			}
