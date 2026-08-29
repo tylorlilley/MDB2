@@ -58,8 +58,11 @@ update_controls = function() {
 		walk_timer = (walk_timer + 1) % 4;
 
 		if (walk_timer == 0) {
-			if (_blocked_on_right && _blocked_on_left) { key_left = (is_classic_robot) ? !is_left : false; key_right =  (is_classic_robot) ? is_left : false; should_walk = (!is_classic_robot); }
-			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; should_walk = (!is_classic_robot) }
+			// Classic soldiers act on one tick in two. A turn consumes that tick exactly like a step does,
+			// so the blocked branches must not fire on the idle tick or they invert the beat.
+			if (is_classic_robot && !should_walk) { key_left = false; key_right = false; should_walk = true; }
+			else if (_blocked_on_right && _blocked_on_left) { key_left = (is_classic_robot) ? !is_left : false; key_right = (is_classic_robot) ? is_left : false; should_walk = (!is_classic_robot); }
+			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; should_walk = (!is_classic_robot); }
 			else if (!is_left && _blocked_on_right) { key_left = true; key_right = false; should_walk = (!is_classic_robot); }
 			else if (should_walk) { key_left = is_left; key_right = !is_left; should_walk = false; }
 			else { key_left = false; key_right = false; should_walk = true; }
