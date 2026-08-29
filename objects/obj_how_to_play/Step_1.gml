@@ -1,5 +1,8 @@
 event_inherited();
 
+if (text_box_growing) { text_box_transition_timer++; }
+else if (text_box_shrinking) { text_box_transition_timer--; }
+
 if (!global.controller.is_logic_frame()) { exit; }
 
 if (room != rm_how_to_play) { instance_destroy(); exit; }
@@ -17,6 +20,11 @@ if (cutscene_timer >= next_text_trigger && text_pos < array_length(text_box_stri
 	with (obj_player) { has_completed_move = 0; demo_phase = 0; }
 }
 else { text_pos_timer++; }
+
+// Handle text_box size change
+if (cutscene_timer == next_text_trigger - PAUSE_TRANSITION_TIME) { text_box_transition_timer = PAUSE_TRANSITION_TIME * global.controller.fps_ratio; text_box_growing = false; text_box_shrinking = true; }
+else if (text_pos_timer == PLAYER_WAIT - PAUSE_TRANSITION_TIME) { text_box_transition_timer = 0; text_box_growing = true; text_box_shrinking = false; }
+else { text_box_growing = false; text_box_shrinking = false; }
 
 with (obj_player) {
 	reset_controls();

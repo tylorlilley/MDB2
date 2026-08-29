@@ -10,6 +10,7 @@ can_be_crushed = false;
 can_ladder = false;
 can_climb = false;
 has_cape = false;
+is_classic_robot = false;
 
 // Game Object Overrides
 is_player_lethal = true;
@@ -47,14 +48,14 @@ update_controls = function() {
 	
 	// Update Walk Timer
 	if (!is_on_ground()) { walk_timer = 0; should_walk = true; }
-	else if (is_on_robot()) { walk_timer = 0; should_walk = true; }
+	else if (is_on_robot() && !is_classic_robot) { walk_timer = 0; should_walk = true; }
 	else {
 		walk_timer = (walk_timer + 1) % 4;
 
 		if (walk_timer == 0) {
-			if (_blocked_on_right && _blocked_on_left) { key_left = false; key_right = false; should_walk = true; }
-			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; should_walk = true }
-			else if (!is_left && _blocked_on_right) { key_left = true; key_right = false; should_walk = true; }
+			if (_blocked_on_right && _blocked_on_left) { key_left = (is_classic_robot); key_right = false; should_walk = (!is_classic_robot); }
+			else if (is_left && _blocked_on_left) { key_left = false; key_right = true; should_walk = (!is_classic_robot) }
+			else if (!is_left && _blocked_on_right) { key_left = true; key_right = false; should_walk = (!is_classic_robot); }
 			else if (should_walk) { key_left = is_left; key_right = !is_left; should_walk = false; }
 			else { key_left = false; key_right = false; should_walk = true; }
 		}

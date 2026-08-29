@@ -1,18 +1,23 @@
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
-var _text_box_width = SCREEN_WIDTH - GRID_SIZE * 2, _text_box_height = GRID_SIZE * 6;
+// Interpolate Text Box
+var _max_text_box_width = SCREEN_WIDTH - GRID_SIZE * 2, _max_text_box_height = GRID_SIZE * 6, _displayed_string = text_box_strings[text_pos], _fps_ratio = global.controller.fps_ratio;
+var _text_box_width = (text_box_transition_timer / (PAUSE_TRANSITION_TIME * _fps_ratio)) * _max_text_box_width, _text_box_height = (text_box_transition_timer / (PAUSE_TRANSITION_TIME * _fps_ratio)) * _max_text_box_height;
+if (_text_box_width < _max_text_box_width || _text_box_height < _max_text_box_height) { _displayed_string = ""; }
+_text_box_width = clamp(_text_box_width, 0, _max_text_box_height);
+_text_box_height = clamp(_text_box_height, 0, _max_text_box_height);
 var _text_box_x = SCREEN_MIDDLE_X - (_text_box_width/2), _text_box_y = GRID_SIZE;
 
 if (cutscene_timer > INTRO_WAIT && cutscene_timer < next_text_trigger - TEXT_WAIT) {
-	// Draw Textbox
+	// Draw text_box
 	draw_set_color(C_BLACK);
 	draw_rectangle(_text_box_x, _text_box_y, _text_box_x + _text_box_width ,  _text_box_y + _text_box_height, false);
 	
 	// Draw Text
 	draw_set_color(C_WHITE);
 	draw_set_font(ft_pixel);
-	draw_text(SCREEN_MIDDLE_X, _text_box_y + (_text_box_height/2), text_box_strings[text_pos]);
+	draw_text(SCREEN_MIDDLE_X, _text_box_y + (_text_box_height/2), _displayed_string);
 }
 	
 if (((cutscene_timer div 16) % 2) == 0) {

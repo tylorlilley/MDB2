@@ -14,6 +14,9 @@ cutscene_timer_max = 9999; // TODO: Update this at end?
 return_to_title = false;
 restarted = false;
 text_pos_timer = 0;
+text_box_transition_timer = 0;
+text_box_growing = false;
+text_box_shrinking = false;
 
 // Latched copy of the demo's inputs for the on-screen control display
 shown_key_left = false;
@@ -26,22 +29,22 @@ text_pos = 0;
 text_box_strings = [
 	"Welcome to Mighty Dive Bomber!\nWatch this demo to learn to play.",
 	"Press LEFT or RIGHT to\nmove in that direction.",
-	"You cannot climb walls that\nare two or more tiles tall.",
-	"Press LEFT or RIGHT to\nclimb up walls one tile tall.",
+	"Moving into a wall of two or\nmore tiles will stop you.",
+	"Press LEFT or RIGHT to\nclimb up walls only one tile tall.",
 	"Fall a distance of one tile\nto safely land on the ground.",
 	"Fall two or more tiles to dive!\nYou damage tiles you dive into.",
 	"Press UP or DOWN to get on a\nladder you exactly overlap.",
 	"Press UP or DOWN while on a\nladder to move in that direction.",
 	"Press LEFT or RIGHT to get off\nabove an empty ground tile.",
 	"In midair, you automatically grab\nladders you exactly overlap.",
-	"Press DOWN to climb off the bottom\nof ladders above empty tiles.",
-	"Some tiles will only be destroyed\nafter they are hit multiple times.",
-	"Some types of tiles can't\nbe damaged at all.",
+	"Press DOWN to climb off the bottom\nif it's above an empty tile.",
+	"Some types of tiles will only be\ndestroyed\nafter multiple hits.",
+	"Some types of tiles can't\nbe destroyed at all.",
 	"Exactly overlap a key\nto collect it.",
-	"Destroying tiles will also destroy\nany objects resting above them!",
+	"The door can't be entered unless\nit is unlocked and on ground.",
 	"If you are stuck, press ENTER\nor SELECT to restart the level.",
-	"Press ESC to pause. From there you\ncan return to the title screen.",
-	"Unlock the level's door\nby collecting all the keys.",
-	"Exactly overlap the unlocked\ndoor to win the level.",
+	"Press ESC to pause. From there,\n you can go back to the menu.",
+	"Unlock a level's door\nby collecting all the keys.",
+	"Exactly overlap an unlocked\ndoor to win the level.",
 	"Good luck! Close the door\nwith UP on your way out."
 ];

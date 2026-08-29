@@ -1,6 +1,7 @@
 Take Notes on Screen?
 
 // TODO:
+- Refatcor 
 - Intro Cutscene
 - W4 - W5 Transition Cutscene
 - Ending Cutscene + Credits
@@ -43,13 +44,11 @@ make classic transitions match the old game's transtions instead of the new ones
 4_7 - can complete without pushing gear into blue block if timing things on the left with the yellow switch
 4_8 - does not give chase at the end
 
-5_5 unsolvable
-
 // TECH DEBT:
 
 Sort tiebreak?
 Entering a portal while flying causes you to start falling; if the portal is over ground the cape is fucked up
-Press down to get off ladder?
+Press down to get off ladder when above ground?
 
 // CRATE TODO:
 Box starts falling when pushing it off the ledge before it is fully off the ledge
@@ -70,6 +69,7 @@ Push sounds when pushing a block and it stops moving due to running into somethi
 -- Implemented but figure out if this makes sense or matches the original cadence
 
 // FUTURE IDEAS
+Portal loops linking more than just a pair
 Make gears destroy robots instead of being blocked by them
 Horizontal ladders?
 Crates/Bubbles with things in them

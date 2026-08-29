@@ -134,9 +134,13 @@ with (obj_door) {
 	if (!winning_player) {
 		with (obj_player) { if (state == PLAYER_STATES.WIN) { other.winning_player = true; } }
 	}
-
-	if (!is_fully_on_ground()) { instance_destroy(); }
+	
+	// Desaturate unreachable doors
+	if (!is_fully_on_ground()) { image_alpha = 0.85; main_palette = PALETTES.GRAY_LIGHT; }
 	else {
+		image_alpha = 1;
+		main_palette = PALETTES.BROWN
+		
 		var _ignored_objects = [];
 		with (obj_player) { array_push(_ignored_objects, id); }
 		
