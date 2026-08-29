@@ -8,6 +8,9 @@ if (_inside_playable_area) {
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(particle_palette));
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(get_darker_palette(particle_palette)));
 	create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, death_sprite, has_cape);
+	
+	// Create Death Afterimage
+	/*
 	has_afterimage = true;
 	var _img = create_afterimage(true);
 	if (instance_exists(_img)) {
@@ -15,6 +18,7 @@ if (_inside_playable_area) {
 		_img.image_index = 0;
 		_img.main_palette = PALETTES.ALL_WHITE;
 	}
+	*/
 }
 
 // Other Player Death Stuff
