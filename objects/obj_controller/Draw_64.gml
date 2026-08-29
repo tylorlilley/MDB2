@@ -6,13 +6,6 @@ if (instance_number(obj_cutscene_manager) == 0) {
 		draw_set_alpha(0.45); //global.border_alpha);
 		draw_set_color(c_black);
 		draw_rectangle(0, 0, SCREEN_WIDTH, 16, false);
-		/*
-		if (global.original_controls) {
-			draw_rectangle(0, GRID_SIZE*2, GRID_SIZE, SCREEN_HEIGHT-GRID_SIZE, false);
-			draw_rectangle(SCREEN_WIDTH-GRID_SIZE, GRID_SIZE*2, SCREEN_WIDTH, SCREEN_HEIGHT-GRID_SIZE, false);
-			draw_rectangle(0, SCREEN_HEIGHT-GRID_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT, false);
-		}
-		*/
 	}
 
 	// Draw Winning Spotlight
@@ -37,7 +30,6 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	}
 	
 	// Draw Level Text and Key Amounts
-	//var _float_offset = get_float_value(float_timer, 1, 4 * FLOAT_OFFSET_PERIOD_FRAMES);
 	var _float_offset = 0, _text_y_pos = _float_offset + ((classic_level) ? 4 : 0), _key_pos = _float_offset + ((classic_level) ? 3 : -1), _text_x_pos = (global.original_controls) ? 256-24 : 256-16;
 	var _world = (level_number div 8) + 1, _level = (level_number % 8) + 1;
 	
@@ -55,7 +47,6 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	set_shader_palette(PALETTES.ALL_BLACK);
 	draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos+1);
 	draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos+2);
-	//draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos+3);
 	set_shader_palette(PALETTES.YELLOW);
 	draw_sprite(spr_key_icon, 0, _text_x_pos, _key_pos);
 	shader_reset();
@@ -108,48 +99,6 @@ if (room_transition_timer > TRANSITION_DELAY) {
 	set_gui_matrix(false);
 	draw_surface(transition_surface, 0, 0);
 	set_gui_matrix(true);
-}
-
-/*
-if (debug_enabled) {
-	draw_set_font(ft_pixel);
-	draw_set_color(C_WHITE);
-	draw_text_outlined(SCREEN_WIDTH-12, SCREEN_HEIGHT-12, fps);
-}
-*/
-
-// Draw Pause Box
-if (paused) {
-	var _max_pause_box_width = SCREEN_WIDTH - (GRID_SIZE * 3), _max_pause_box_height = GRID_SIZE * 8, _pause_string = (room == rm_title) ? TITLE_PAUSE_MESSAGE_STRING : PAUSE_MESSAGE_STRING;
-	var _pause_box_width = (pause_timer / (PAUSE_TRANSITION_TIME * fps_ratio)) * _max_pause_box_width, _pause_box_height = (pause_timer / (PAUSE_TRANSITION_TIME * fps_ratio)) * _max_pause_box_height;
-	if (_pause_box_width < _max_pause_box_width || _pause_box_height < _max_pause_box_height) { _pause_string = ""; }
-	_pause_box_width = clamp(_pause_box_width, 0, _max_pause_box_width);
-	_pause_box_height = clamp(_pause_box_height, 0, _max_pause_box_height);
-	
-	// Dim Screen
-	draw_set_color(C_BLACK);
-	draw_set_alpha(min(0.8, 0.8 * (pause_timer / (PAUSE_TRANSITION_TIME * fps_ratio))));
-	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
-	
-	// Draw Pause Box
-	//draw_set_alpha(0.5);
-	//draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2 + GRID_SIZE/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2 + GRID_SIZE/2, false);
-	draw_set_alpha(1);
-	draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2, SCREEN_MIDDLE_Y - _pause_box_height/2, SCREEN_MIDDLE_X + _pause_box_width/2, SCREEN_MIDDLE_Y + _pause_box_height/2, false);
-	draw_set_color(C_WHITE);
-	//draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2 + GRID_SIZE/4, SCREEN_MIDDLE_Y - _pause_box_height/2 + GRID_SIZE/4, SCREEN_MIDDLE_X + _pause_box_width/2 - GRID_SIZE/4, SCREEN_MIDDLE_Y + _pause_box_height/2 - GRID_SIZE/4, false);
-	draw_set_color(C_BLACK);
-	//draw_rectangle(SCREEN_MIDDLE_X - _pause_box_width/2 + GRID_SIZE/2, SCREEN_MIDDLE_Y - _pause_box_height/2 + GRID_SIZE/2, SCREEN_MIDDLE_X + _pause_box_width/2 - GRID_SIZE/2, SCREEN_MIDDLE_Y + _pause_box_height/2 - GRID_SIZE/2, false);
-	draw_set_alpha(1);
-	
-	// Draw Pause Text
-	if (string_length(_pause_string) > 0) {
-		draw_set_color(C_WHITE);
-		draw_set_font(ft_block_blueprint);
-		draw_set_valign(fa_middle);
-		draw_set_halign(fa_center);
-		draw_text_ext(SCREEN_MIDDLE_X, SCREEN_MIDDLE_Y, _pause_string, 12, _pause_box_width - GRID_SIZE);
-	}
 }
 
 // Draw Fast Forward Indicator

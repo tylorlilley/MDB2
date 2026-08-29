@@ -2,8 +2,6 @@
 #macro PAUSE_MESSAGE_STRING "PAUSED\n\nPress RESTART to go to title.\nPress any other key to resume."
 #macro TITLE_PAUSE_MESSAGE_STRING "PAUSED\n\nPress RESTART to exit.\nPress any other key to resume."
 
-#macro PAUSE_TRANSITION_TIME 4
-
 #macro GRID_SIZE 8
 #macro SCREEN_WIDTH 256
 #macro SCREEN_HEIGHT 240
@@ -78,10 +76,10 @@ fps_ratio = 2;
 fps_timer = 0;
 
 // Paused Variables
-pause_timer = 0;
 paused = false;
 unpausing = false;
 paused_layers = [];
+paused_textbox_manager = noone;
 
 // Set Up Game Audio
 frame_sounds = [];

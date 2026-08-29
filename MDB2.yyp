@@ -128,6 +128,7 @@
     {"id":{"name":"obj_switch_yellow_down","path":"objects/obj_switch_yellow_down/obj_switch_yellow_down.yy",},},
     {"id":{"name":"obj_switch_yellow_up","path":"objects/obj_switch_yellow_up/obj_switch_yellow_up.yy",},},
     {"id":{"name":"obj_switch","path":"objects/obj_switch/obj_switch.yy",},},
+    {"id":{"name":"obj_textbox","path":"objects/obj_textbox/obj_textbox.yy",},},
     {"id":{"name":"obj_tile","path":"objects/obj_tile/obj_tile.yy",},},
     {"id":{"name":"obj_title_screen_manager","path":"objects/obj_title_screen_manager/obj_title_screen_manager.yy",},},
     {"id":{"name":"obj_tough_cloud","path":"objects/obj_tough_cloud/obj_tough_cloud.yy",},},

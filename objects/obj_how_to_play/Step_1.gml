@@ -1,7 +1,8 @@
 event_inherited();
 
-if (text_box_growing) { text_box_transition_timer++; }
-else if (text_box_shrinking) { text_box_transition_timer--; }
+var _text_box_transition_max = PAUSE_TRANSITION_TIME * global.controller.fps_ratio;
+if (text_box_growing) { text_box_transition_timer = min(text_box_transition_timer + 1, _text_box_transition_max); }
+else if (text_box_shrinking) { text_box_transition_timer = max(text_box_transition_timer - 1, 0); }
 
 if (!global.controller.is_logic_frame()) { exit; }
 
@@ -22,9 +23,8 @@ if (cutscene_timer >= next_text_trigger && text_pos < array_length(text_box_stri
 else { text_pos_timer++; }
 
 // Handle text_box size change
-if (cutscene_timer == next_text_trigger - PAUSE_TRANSITION_TIME) { text_box_transition_timer = PAUSE_TRANSITION_TIME * global.controller.fps_ratio; text_box_growing = false; text_box_shrinking = true; }
-else if (text_pos_timer == PLAYER_WAIT - PAUSE_TRANSITION_TIME) { text_box_transition_timer = 0; text_box_growing = true; text_box_shrinking = false; }
-else { text_box_growing = false; text_box_shrinking = false; }
+if (cutscene_timer == next_text_trigger - TEXT_WAIT) { text_box_growing = false; text_box_shrinking = true; }
+else if (text_pos_timer == PLAYER_WAIT - PAUSE_TRANSITION_TIME) { text_box_growing = true; text_box_shrinking = false; }
 
 with (obj_player) {
 	reset_controls();
