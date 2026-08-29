@@ -1,5 +1,6 @@
 if (progress < 0) {
 	instance_destroy();
+	exit;
 }
 
 // Update Current Progress

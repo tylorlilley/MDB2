@@ -84,7 +84,6 @@ enum PORTAL_COLORS {
 #macro C_RED            make_color_rgb(223, 23, 0)
 #macro C_RED_LIGHT      make_color_rgb(222, 116, 105) //make_color_rgb(255, 199, 207)
 
-
 #macro C_BRICK_DARKEST  make_color_rgb(39, 9, 7)
 #macro C_BRICK_DARK     make_color_rgb(77, 37, 31)
 #macro C_BRICK			make_color_rgb(160, 67, 53)

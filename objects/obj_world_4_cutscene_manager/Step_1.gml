@@ -43,9 +43,9 @@ if (text_pos_timer > 0 && cutscene_timer > INTERRUPTION_FRAME) {
 		var _text_box_text = actor_strings[actor] + ": " + text_box_strings[text_pos];
 		if (!instance_exists(textbox)) {
 			textbox = instance_create(0, 0, obj_textbox);
-			textbox.origin_y = GRID_SIZE + (textbox.max_height/2);
 			textbox.max_width = SCREEN_WIDTH - GRID_SIZE * 2;
 			textbox.max_height = GRID_SIZE * 6;
+			textbox.origin_y = GRID_SIZE + (textbox.max_height/2);
 			textbox.text_string = _text_box_text;
 		}
 	}

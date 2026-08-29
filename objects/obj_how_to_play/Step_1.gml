@@ -24,9 +24,9 @@ else { text_pos_timer++; }
 if (cutscene_timer > INTRO_WAIT && cutscene_timer < next_text_trigger - TEXT_WAIT) {
 	if (!instance_exists(textbox)) {
 		textbox = instance_create(0, 0, obj_textbox);
-		textbox.origin_y = GRID_SIZE + (textbox.max_height/2);
 		textbox.max_width = SCREEN_WIDTH - GRID_SIZE * 2;
 		textbox.max_height = GRID_SIZE * 6;
+		textbox.origin_y = GRID_SIZE + (textbox.max_height/2);
 		textbox.text_string = text_box_strings[text_pos];
 	}
 }

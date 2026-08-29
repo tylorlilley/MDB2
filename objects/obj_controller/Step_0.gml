@@ -136,7 +136,11 @@ with (obj_door) {
 	}
 	
 	// Desaturate unreachable doors
-	if (!is_fully_on_ground()) { image_alpha = 0.85; main_palette = PALETTES.GRAY_LIGHT; }
+	if (!is_fully_on_ground()) {
+		if (image_alpha == 1) { play_sound(snd_door_destroyed); }
+		image_alpha = 0.85;
+		main_palette = PALETTES.GRAY_LIGHT;
+	}
 	else {
 		image_alpha = 1;
 		main_palette = PALETTES.BROWN
