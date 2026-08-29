@@ -171,17 +171,18 @@ grid_move_right = function(_speed) {
 	return true;
 }
 
-create_afterimage = function() {
+create_afterimage = function(_is_dead = false) {
 	if (!is_a(obj_player)) { return noone; }
-	if (!has_afterimage && fall_timer <= 10) { return noone; }
 	
-	var _is_robot = is_a(obj_robot), _is_dead = !instance_exists(id);
+	var _is_robot = is_a(obj_robot);
+	if (!has_afterimage && (_is_robot || fall_timer <= 10)) { return noone; }
+	
 	var _img = instance_create(x, y, obj_afterimage);
 	_img.sprite_index = sprite_index;
 	_img.image_index = image_index;
 	_img.main_palette = (_is_robot || _is_dead) ? main_palette : powered_palette;
 	_img.is_left = is_left;
-	_img.set_dim_timer((_is_robot || _is_dead) ? 128 : 32);
+	_img.set_dim_timer((_is_dead) ? 64 : ((_is_robot) ? 128 : 32));
 	_img.max_alpha = ((_is_robot && !_is_dead) ? 0.325 : 0.625);
 		
 	return _img;
