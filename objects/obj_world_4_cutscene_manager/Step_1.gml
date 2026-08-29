@@ -37,6 +37,19 @@ if (text_pos_timer > 0 && cutscene_timer > INTERRUPTION_FRAME) {
 		text_pos += 1;
 	}
 	else { text_pos_timer++; }
+	
+	// Manage Textbox
+	if (text_pos_timer > FIRST_WAIT) {
+		var _text_box_text = actor_strings[actor] + ": " + text_box_strings[text_pos];
+		if (!instance_exists(textbox)) {
+			textbox = instance_create(0, 0, obj_textbox);
+			textbox.origin_y = GRID_SIZE + (textbox.max_height/2);
+			textbox.max_width = SCREEN_WIDTH - GRID_SIZE * 2;
+			textbox.max_height = GRID_SIZE * 6;
+			textbox.text_string = _text_box_text;
+		}
+	}
+	else if (text_pos_timer < next_text_trigger - TEXT_WAIT && instance_exists(textbox)) { textbox.is_opening = false; }
 
 	actor = (text_pos == 10 || text_pos == 11 || text_pos == 9 || text_pos == 14) ? 1 : 0;
 	

@@ -19,6 +19,8 @@ if (cutscene_timer >= next_text_trigger && text_pos < array_length(text_box_stri
 	with (obj_player) { has_completed_move = 0; demo_phase = 0; }
 }
 else { text_pos_timer++; }
+
+// Manage Textbox
 if (cutscene_timer > INTRO_WAIT && cutscene_timer < next_text_trigger - TEXT_WAIT) {
 	if (!instance_exists(textbox)) {
 		textbox = instance_create(0, 0, obj_textbox);

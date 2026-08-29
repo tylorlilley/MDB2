@@ -12,8 +12,8 @@ text_box_strings = [
 	"Thank you for coming to save me, but you are too late!",
 	"Dr. Mischevio has gotten away in his flying saucer.",
 	"He will live on, to terrorize our people once again.",
-	"Dive Bomber!? What are you doing!?",
-	"Dive Bomber, no! You can only fall straight down - you'll die!",
+	"Dive Bomber!?\nWhat are you doing!?",
+	"Dive Bomber, no! You can only fall straight down!", // - you'll die!
 	"...Dive Bomber?",
 	"WHAT!? You can FLY!?",
 	"Yahoo! Mighty Dive Bomber, you did it!",
@@ -30,3 +30,4 @@ text_pos = 0;
 actor = 0;
 next_text_trigger = FIRST_WAIT + DISPLAY_TIME + TEXT_WAIT;
 text_time = TEXT_WAIT/2;
+textbox = noone;
