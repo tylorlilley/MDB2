@@ -36,7 +36,7 @@ var _dynamic_instances = [];
 
 with (obj_dynamic_object) { array_push(_dynamic_instances, id); }
 array_sort(_dynamic_instances, function(_a, _b) {
-    return sign(_b.y - _a.y);
+	return sign(_b.y - _a.y);
 });
 for (var _i = 0; _i < array_length(_dynamic_instances); _i++) {
     var _inst = _dynamic_instances[_i];

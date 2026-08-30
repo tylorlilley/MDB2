@@ -398,6 +398,8 @@ recalculate_engine_speeds = function(_old_fps_ratio) {
 }
 
 unpause_game = function() {
+	if (instance_exists(paused_textbox)) { instance_destroy(paused_textbox); }
+	
 	// Unpause Game
 	paused = false;
 	unpausing = false;
