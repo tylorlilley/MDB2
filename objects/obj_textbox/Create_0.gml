@@ -17,8 +17,6 @@ is_opening = true;
 draw_screen_dim = function(_max_alpha = 0.8) {
 	if (!should_dim_screen || progress <= 0) { return; }
 
-	matrix_set(matrix_world, matrix_build_identity());
-	var _p = application_get_position();
 	draw_set_color(C_BLACK);
 	draw_set_alpha(_max_alpha * progress);
 	draw_rectangle(-1, -1, SCREEN_WIDTH+2, SCREEN_HEIGHT+2, false);

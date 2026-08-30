@@ -336,8 +336,11 @@ is_logic_frame = function() { return (fps_timer == 0 && !paused); }
 
 get_frame_progress = function() { return fps_timer / fps_ratio; }
 
-set_gui_matrix = function(_scaled) {
-    matrix_set(matrix_world, _scaled ? matrix_build(0, 0, 0, 0, 0, 0, gui_scale, gui_scale, 1) : matrix_build_identity());
+set_gui_matrix = function(_scale = true, _offset = true) {
+    var _s  = _scale  ? gui_scale : 1;
+    var _ox = _offset ? gui_offset_x : 0;
+    var _oy = _offset ? gui_offset_y : 0;
+    matrix_set(matrix_world, matrix_build(_ox, _oy, 0, 0, 0, 0, _s, _s, 1));
 }
 
 ensure_transition_surface = function() {
@@ -482,13 +485,6 @@ apply_screen_scale = function() {
     view_set_yport(0, gui_offset_y);
     view_set_wport(0, _game_width);
     view_set_hport(0, _game_height);
-}
-
-set_gui_matrix = function(_scale, _offset) {
-    var _s  = _scale  ? gui_scale : 1;
-    var _ox = _offset ? gui_offset_x : 0;
-    var _oy = _offset ? gui_offset_y : 0;
-    matrix_set(matrix_world, matrix_build(_ox, _oy, 0, 0, 0, 0, _s, _s, 1));
 }
 
 // Read Window Size Properties
