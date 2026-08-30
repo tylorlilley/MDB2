@@ -1,12 +1,10 @@
 Take Notes on Screen?
 
 // TODO:
-- Refatcor 
 - Intro Cutscene
 - W4 - W5 Transition Cutscene
 - Ending Cutscene + Credits
 - mac version?
-- hidden keys?
 
 // VISUALS:
 Desaturate background layer more?

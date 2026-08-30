@@ -28,7 +28,7 @@ if (state == TITLE_STATES.MAIN_MENU) {
 	if (prev_state != state) {
 		// Screen Flash on when Menu First Appears
 		draw_set_color(C_WHITE);
-		draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	draw_rectangle(-1, -1, SCREEN_WIDTH+2, SCREEN_HEIGHT+2, false);
 	}
 	else {
 		draw_set_font(ft_block_blueprint);
@@ -79,7 +79,7 @@ else if (state == TITLE_STATES.SETTINGS_MENU) {
 	if (prev_state != state) {
 		// Screen Flash on when Menu First Appears
 		draw_set_color(C_WHITE);
-		draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
+	draw_rectangle(-1, -1, SCREEN_WIDTH+2, SCREEN_HEIGHT+2, false);
 	}
 	else {
 		draw_set_font(ft_block_blueprint);

@@ -60,11 +60,8 @@ if (!is_logic_frame()) { exit; }
 // Do Screen Resize
 if (screen_resize_timer > 0) {
 	var _new_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
-    if (gui_scale != _new_scale) {
-        gui_scale = _new_scale;
-        surface_resize(application_surface, SCREEN_WIDTH * gui_scale, SCREEN_HEIGHT * gui_scale);
-        display_set_gui_size(SCREEN_WIDTH * gui_scale, SCREEN_HEIGHT * gui_scale);
-    }
+    apply_screen_scale();
+  
     screen_resize_timer--;
 	if (screen_resize_timer == 0) {
 		if (window_fullscreen_pending) { update_window_fullscreen(); }

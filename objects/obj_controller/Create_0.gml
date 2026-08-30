@@ -464,6 +464,33 @@ pause_game = function() {
 	}
 }
 
+apply_screen_scale = function() {
+    gui_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
+
+    var _window_width  = max(SCREEN_WIDTH,  window_get_width());
+    var _window_height  = max(SCREEN_HEIGHT, window_get_height());
+    var _game_width = SCREEN_WIDTH  * gui_scale;
+    var _game_height = SCREEN_HEIGHT * gui_scale;
+
+    gui_offset_x = (_window_width - _game_width) div 2;
+    gui_offset_y = (_window_height - _game_height) div 2;
+
+    surface_resize(application_surface, _window_width, _window_height);
+    display_set_gui_size(_window_width, _window_height);
+
+    view_set_xport(0, gui_offset_x);
+    view_set_yport(0, gui_offset_y);
+    view_set_wport(0, _game_width);
+    view_set_hport(0, _game_height);
+}
+
+set_gui_matrix = function(_scale, _offset) {
+    var _s  = _scale  ? gui_scale : 1;
+    var _ox = _offset ? gui_offset_x : 0;
+    var _oy = _offset ? gui_offset_y : 0;
+    matrix_set(matrix_world, matrix_build(_ox, _oy, 0, 0, 0, 0, _s, _s, 1));
+}
+
 // Read Window Size Properties
 read_window_options();
 update_window_fullscreen();

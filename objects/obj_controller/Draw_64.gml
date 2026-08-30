@@ -5,7 +5,7 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	if (!classic_level) {
 		draw_set_alpha(0.45); //global.border_alpha);
 		draw_set_color(c_black);
-		draw_rectangle(0, 0, SCREEN_WIDTH, 16, false);
+		draw_rectangle(-1, -1, SCREEN_WIDTH+2, 16+1, false);
 	}
 
 	// Draw Winning Spotlight
@@ -15,6 +15,7 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	if (!is_undefined(_winning_player_x)) {
 		// Create Spotlight Graphics
 		ensure_transition_surface();
+		set_gui_matrix(true, false);
 		surface_set_target(transition_surface);
 		draw_set_color(c_black);
 		draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
@@ -80,6 +81,7 @@ if (room_transition_timer > TRANSITION_DELAY) {
 		
 	// Create Transition Graphics
 	ensure_transition_surface();
+	set_gui_matrix(true, false);
 	surface_set_target(transition_surface);
 	draw_set_color(C_BLACK);
 	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
@@ -96,9 +98,8 @@ if (room_transition_timer > TRANSITION_DELAY) {
 	surface_reset_target();
 		
 	// Draw Transition
-	set_gui_matrix(false);
+	set_gui_matrix(false, true);
 	draw_surface(transition_surface, 0, 0);
-	set_gui_matrix(true);
 }
 
 // Draw Fast Forward Indicator
