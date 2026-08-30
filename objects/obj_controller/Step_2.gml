@@ -59,7 +59,6 @@ if (!is_logic_frame()) { exit; }
 
 // Do Screen Resize
 if (screen_resize_timer > 0) {
-	var _new_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
     apply_screen_scale();
   
     screen_resize_timer--;

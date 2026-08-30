@@ -100,6 +100,7 @@ if (room_transition_timer > TRANSITION_DELAY) {
 	// Draw Transition
 	set_gui_matrix(false, true);
 	draw_surface(transition_surface, 0, 0);
+	set_gui_matrix(true, true);
 }
 
 // Draw Fast Forward Indicator
