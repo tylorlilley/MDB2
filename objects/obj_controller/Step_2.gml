@@ -74,5 +74,3 @@ if (creation_timer > 0) {
 	creation_timer--;
 	if (creation_timer == 0) { transition_room(target_room); }
 }
-
-show_debug_message($"win {window_get_width()}x{window_get_height()} | app {surface_get_width(application_surface)}x{surface_get_height(application_surface)} | gui {display_get_gui_width()}x{display_get_gui_height()} | port {view_get_xport(0)},{view_get_yport(0)} {view_get_wport(0)}x{view_get_hport(0)}");

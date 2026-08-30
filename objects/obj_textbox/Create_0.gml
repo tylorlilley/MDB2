@@ -19,7 +19,7 @@ draw_screen_dim = function(_max_alpha = 0.8) {
 
 	draw_set_color(C_BLACK);
 	draw_set_alpha(_max_alpha * progress);
-	draw_rectangle(-1, -1, SCREEN_WIDTH+2, SCREEN_HEIGHT+2, false);
+	draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 	draw_set_alpha(1);
 }
 	
