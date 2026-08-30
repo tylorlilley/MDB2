@@ -1,5 +1,5 @@
 // Reset Surface
-apply_screen_scale();
+apply_screen_scale(true);
 
 // Load Room Data
 var _data = room_data();

@@ -66,6 +66,8 @@ prev_state = state;
 camera_x = camera_get_view_x(view_camera[0]);
 camera_speed = 0;
 bounce_count = 0;
+gui_offset_x = 0;
+gui_offset_y = 0;
 
 // Timer Variables
 text_shake_timer = 0;

@@ -99,6 +99,9 @@ screen_shake_timer = 0;
 
 // Timers
 screen_resize_timer = 0;
+applied_window_width = -1;
+applied_window_height = -1;
+gui_scale = 1;
 room_transition_timer = 0;
 frame_timer = 0;
 float_timer = 0;
@@ -243,6 +246,8 @@ update_window_fullscreen = function() {
 }
 
 update_window_size = function() {
+	if (window_fullscreen_setting != FULL_SCREEN_OPTIONS.WINDOWED) { return; }
+	
 	var _window_width = SCREEN_WIDTH * window_scale_setting, _window_height = SCREEN_HEIGHT * window_scale_setting, _display_width = display_get_width(), _display_height = display_get_height();
 
 	window_set_size(_window_width, _window_height);
@@ -467,13 +472,18 @@ pause_game = function() {
 	}
 }
 
-apply_screen_scale = function() {
-    gui_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
-
+apply_screen_scale = function(_force = false) {
+    var _new_scale = (window_fullscreen_setting == FULL_SCREEN_OPTIONS.WINDOWED) ? window_scale_setting : get_maximum_screen_scale();
     var _window_width  = max(SCREEN_WIDTH,  window_get_width());
-    var _window_height  = max(SCREEN_HEIGHT, window_get_height());
-    var _game_width = SCREEN_WIDTH  * gui_scale;
-    var _game_height = SCREEN_HEIGHT * gui_scale;
+    var _window_height = max(SCREEN_HEIGHT, window_get_height());
+
+    if (!_force && gui_scale == _new_scale && applied_window_width == _window_width && applied_window_height == _window_height) { return; }
+
+    gui_scale = _new_scale;
+    applied_window_width = _window_width;
+    applied_window_height = _window_height;
+
+    var _game_width = SCREEN_WIDTH * gui_scale, _game_height = SCREEN_HEIGHT * gui_scale;
 
     gui_offset_x = (_window_width - _game_width) div 2;
     gui_offset_y = (_window_height - _game_height) div 2;

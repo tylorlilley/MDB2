@@ -5,7 +5,7 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	if (!classic_level) {
 		draw_set_alpha(0.45); //global.border_alpha);
 		draw_set_color(c_black);
-		draw_rectangle(-1, -1, SCREEN_WIDTH+2, 16+1, false);
+		draw_rectangle(-1, -1, SCREEN_WIDTH+2, 16, false);
 	}
 
 	// Draw Winning Spotlight

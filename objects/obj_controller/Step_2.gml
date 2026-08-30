@@ -2,6 +2,8 @@
 global.last_gamepad_h_axis_value = gamepad_axis_value(global.gamepad, gp_axislh);
 global.last_gamepad_v_axis_value = gamepad_axis_value(global.gamepad, gp_axislv);
 
+apply_screen_scale();
+
 if (paused) { exit; }
 
 // Update Dynamic Object Interpolation Visuals
@@ -59,8 +61,6 @@ if (!is_logic_frame()) { exit; }
 
 // Do Screen Resize
 if (screen_resize_timer > 0) {
-    apply_screen_scale();
-  
     screen_resize_timer--;
 	if (screen_resize_timer == 0) {
 		if (window_fullscreen_pending) { update_window_fullscreen(); }
