@@ -476,25 +476,19 @@ apply_screen_scale = function(_force = false) {
     var _window_width  = max(SCREEN_WIDTH,  window_get_width());
     var _window_height = max(SCREEN_HEIGHT, window_get_height());
 
-    // Largest rect with the game's aspect ratio that fits the window. This is exactly the
-    // rect GameMaker letterboxes the application surface into, so a surface of this size
-    // is presented 1:1 and never scaled a second time.
-    var _surface_height = min(_window_height, floor(_window_width * SCREEN_HEIGHT / SCREEN_WIDTH));
-    var _surface_width  = floor(_surface_height * SCREEN_WIDTH / SCREEN_HEIGHT);
+    if (!_force && applied_window_width == _window_width && applied_window_height == _window_height) { return; }
 
-    if (!_force && applied_window_width == _surface_width && applied_window_height == _surface_height) { return; }
+    applied_window_width  = _window_width;
+    applied_window_height = _window_height;
 
-    applied_window_width  = _surface_width;
-    applied_window_height = _surface_height;
-
-    gui_scale = max(1, min(_surface_width div SCREEN_WIDTH, _surface_height div SCREEN_HEIGHT));
+    gui_scale = max(1, min(_window_width div SCREEN_WIDTH, _window_height div SCREEN_HEIGHT));
     var _game_width = SCREEN_WIDTH * gui_scale, _game_height = SCREEN_HEIGHT * gui_scale;
 
-    gui_offset_x = (_surface_width - _game_width) div 2;
-    gui_offset_y = (_surface_height - _game_height) div 2;
+    gui_offset_x = (_window_width - _game_width) div 2;
+    gui_offset_y = (_window_height - _game_height) div 2;
 
-    surface_resize(application_surface, _surface_width, _surface_height);
-    display_set_gui_size(_surface_width, _surface_height);
+    surface_resize(application_surface, _window_width, _window_height);
+    display_set_gui_size(_window_width, _window_height);
 
     view_set_xport(0, gui_offset_x);
     view_set_yport(0, gui_offset_y);
