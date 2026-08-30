@@ -98,6 +98,7 @@ transition_surface = undefined;
 screen_shake_timer = 0;
 
 // Timers
+application_surface_draw_enable(false);
 screen_resize_timer = 0;
 applied_window_width = -1;
 applied_window_height = -1;
@@ -487,13 +488,8 @@ apply_screen_scale = function(_force = false) {
     gui_offset_x = (_window_width - _game_width) div 2;
     gui_offset_y = (_window_height - _game_height) div 2;
 
-    surface_resize(application_surface, _window_width, _window_height);
-    display_set_gui_size(_window_width, _window_height);
-
-    view_set_xport(0, gui_offset_x);
-    view_set_yport(0, gui_offset_y);
-    view_set_wport(0, _game_width);
-    view_set_hport(0, _game_height);
+    surface_resize(application_surface, _game_width, _game_height);
+    display_set_gui_maximise(1, 1, 0, 0);
 }
 
 // Read Window Size Properties
