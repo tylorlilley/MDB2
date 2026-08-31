@@ -11,15 +11,6 @@ build_world_background(room_world);
 if (!is_cutscene_room()) { play_world_music(room_world); }
 window_set_caption(GAME_TITLE + ": " + room_title);
 
-// Set up Drips
-drip_frequency = 0;
-drip_color = PALETTES.BLUE_LIGHT;
-if (room_world == WORLDS.BEACH) { drip_frequency = 64; }
-else if (room_world == WORLDS.FOREST) { drip_frequency = 128; }
-else if (room_world == WORLDS.FACTORY) { drip_color = PALETTES.BROWN; drip_frequency = 24; }
-else if (room_world == WORLDS.FORTRESS) { drip_color = PALETTES.RED; drip_frequency = 96; }
-else { drip_color = PALETTES.PINK_LIGHT; drip_frequency = 12; }
-
 if (instance_exists(obj_bg_dirt)) {
 	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE, _dirt_grid = create_object_grid(_cols, _rows);
 	with (obj_bg_dirt) { grid_add(_dirt_grid); }
@@ -53,6 +44,25 @@ connect_static_areas_to_manager([obj_lava, obj_switch_block], SWITCH_BLOCK_DEPTH
 connect_static_areas_to_manager([obj_reforming_cloud_outline, obj_switch_block_outline], OUTLINE_DEPTH, false);
 with (obj_switch_block_outline) { if (begin_off) { toggle_solid(); } }
 with (obj_switch_block) { update_connections(); }
+
+// Set up Drips
+drip_frequency = 0;
+drip_color = PALETTES.BLUE_LIGHT;
+drip_alpha = 0.5;
+if (room_world == WORLDS.BEACH) { drip_frequency = 64; }
+else if (room_world == WORLDS.FOREST) { drip_frequency = 128; }
+else if (room_world == WORLDS.FACTORY) { drip_color = PALETTES.BROWN; drip_frequency = 24; drip_alpha = 0.85; }
+else if (room_world == WORLDS.FORTRESS) { drip_color = PALETTES.RED; drip_frequency = 96; drip_alpha = 0.85; }
+else { drip_color = PALETTES.YELLOW_LIGHT; drip_frequency = 0; }
+drip_locations = [];
+if (drip_frequency > 0) {
+	with (obj_static_area) {
+		if (y > room_height - (GRID_SIZE*3) || y < GRID_SIZE || x < GRID_SIZE || x > room_width - GRID_SIZE) { continue; }
+		if (object_index == obj_cloud || object_index == obj_lava || object_index == obj_switch_block) { continue; }
+
+		if (should_draw && is_solid_from_all_sides() && !is_fully_on_ground()) { array_push(other.drip_locations, id); }
+	}
+}
 
 // Other Objects
 with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }

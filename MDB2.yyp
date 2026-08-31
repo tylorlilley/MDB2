@@ -440,6 +440,8 @@
     {"id":{"name":"spr_particle_confetti","path":"sprites/spr_particle_confetti/spr_particle_confetti.yy",},},
     {"id":{"name":"spr_particle_debris_dark","path":"sprites/spr_particle_debris_dark/spr_particle_debris_dark.yy",},},
     {"id":{"name":"spr_particle_debris","path":"sprites/spr_particle_debris/spr_particle_debris.yy",},},
+    {"id":{"name":"spr_particle_drip_1","path":"sprites/spr_particle_drip_1/spr_particle_drip_1.yy",},},
+    {"id":{"name":"spr_particle_drip_forming_1","path":"sprites/spr_particle_drip_forming_1/spr_particle_drip_forming_1.yy",},},
     {"id":{"name":"spr_particle_drip_forming","path":"sprites/spr_particle_drip_forming/spr_particle_drip_forming.yy",},},
     {"id":{"name":"spr_particle_drip","path":"sprites/spr_particle_drip/spr_particle_drip.yy",},},
     {"id":{"name":"spr_particle_leaf","path":"sprites/spr_particle_leaf/spr_particle_leaf.yy",},},
