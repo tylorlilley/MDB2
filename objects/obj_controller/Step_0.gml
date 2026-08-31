@@ -277,10 +277,7 @@ if (irandom(128) == 0) {
 		if (!connected_below) { array_push(_potential_blocks, id); }
 	}
 	
-	if (array_length(_potential_blocks) > 0) {
-		array_shuffle(_potential_blocks);
-		_dripping_block = _potential_blocks[0];
-	}
+	if (array_length(_potential_blocks) > 0) { _dripping_block = array_shuffle(_potential_blocks)[0]; }
 	
 	with (_dripping_block) {
 		var _part = instance_create(x+2, y+10, obj_drip);

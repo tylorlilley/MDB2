@@ -16,9 +16,9 @@ switch (state) {
 				other.sprite_index = spr_particle_drip_forming;
 				other.image_index = 0;
 				other.image_yscale = -1;
-				other.image_speed = -0.125;
+				other.image_speed = -0.125*2;
 				other.creator = id;
-				other.y = y-4;
+				other.y = y-2;
 				break;
 			}
 		}
@@ -26,6 +26,6 @@ switch (state) {
 		break;
 	}
 	case 2: {
-		if (!instance_exists(creator) || !instance_place(x, y+4, creator)) { instance_destroy(); }
+		if (!instance_exists(creator) || !instance_place(x, y+2, creator)) { instance_destroy(); }
 	}
 }
