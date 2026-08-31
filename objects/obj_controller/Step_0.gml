@@ -270,23 +270,27 @@ if (instance_number(obj_cutscene_manager) == 0) {
 }
 
 // Create Drips
-var _total_drip_locations = array_length(drip_locations)
-if (drip_frequency > 0 && irandom(drip_frequency) < _total_drip_locations) {
-	var _dripping_block = noone;
-	while (array_length(drip_locations) > 0 && _dripping_block == noone) {
-		var _index = irandom(array_length(drip_locations) - 1);
-		_dripping_block = drip_locations[_index];
-		if (!instance_exists(_dripping_block)) { array_delete(drip_locations, _index, 1); _dripping_block = noone; }
-	}
+if (drip_timer > 0) {
+	drip_timer--;
+	if (drip_timer == 0) {
+		var _dripping_block = noone;
+		while (array_length(drip_locations) > 0 && _dripping_block == noone) {
+			var _index = irandom(array_length(drip_locations) - 1);
+			_dripping_block = drip_locations[_index];
+			if (!instance_exists(_dripping_block)) { array_delete(drip_locations, _index, 1); _dripping_block = noone; }
+		}
 	
-	with (_dripping_block) {
-		var _drip_x_min = (connected_on_left) ? 2 : 4, _drip_x_max = (connected_on_right) ? 6 : 4;
-		var _drip_x = x + _drip_x_min + irandom(_drip_x_max - _drip_x_min);
+		with (_dripping_block) {
+			var _drip_x_min = (connected_on_left) ? 2 : 4, _drip_x_max = (connected_on_right) ? 6 : 4;
+			var _drip_x = x + _drip_x_min + irandom(_drip_x_max - _drip_x_min);
 
-		var _drip = instance_create(_drip_x, y+9, obj_drip);
-		_drip.creator = _dripping_block;
-		_drip.main_palette = other.drip_color;
-		_drip.particle_palette = other.drip_color;
-		_drip.image_alpha = other.drip_alpha;
+			var _drip = instance_create(_drip_x, y+9, obj_drip);
+			_drip.creator = _dripping_block;
+			_drip.main_palette = other.drip_color;
+			_drip.particle_palette = other.drip_color;
+			_drip.image_alpha = other.drip_alpha;
+		}
+		
+		drip_timer = min(1, drip_frequency + irandom(drip_frequency*2) - irandom(_total_drip_locations));
 	}
 }

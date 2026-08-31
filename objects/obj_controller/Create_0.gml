@@ -107,6 +107,7 @@ room_transition_timer = 0;
 frame_timer = 0;
 float_timer = 0;
 creation_timer = 30;
+drip_timer = 0;
 
 // Gameplay Variables
 blocked_switch_colors = [[], [], []];

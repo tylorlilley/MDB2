@@ -10,3 +10,4 @@ if (y == room_height - (GRID_SIZE * 2)) {
 
 mark_manager_for_redraw();
 update_connected_graphics();
+global.controller.update_drip_locations();
