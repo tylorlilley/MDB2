@@ -270,17 +270,19 @@ if (instance_number(obj_cutscene_manager) == 0) {
 }
 
 // Create Drips
-if (irandom(128) == 0) {
+if (drip_frequency > 0 && irandom(drip_frequency) == 0) {
 	var _dripping_block = noone, _potential_blocks = []
 	with (obj_static_area) {
-		if (y >= room_height - GRID_SIZE || y < GRID_SIZE || x < GRID_SIZE || x >= room_width - GRID_SIZE) { continue; }
-		if (!connected_below) { array_push(_potential_blocks, id); }
+		if (y > room_height - (GRID_SIZE*3) || y < GRID_SIZE || x < GRID_SIZE || x > room_width - GRID_SIZE) { continue; }
+		if (should_draw && is_solid_from_all_sides() && !is_fully_on_ground()) { array_push(_potential_blocks, id); }
 	}
 	
 	if (array_length(_potential_blocks) > 0) { _dripping_block = array_shuffle(_potential_blocks)[0]; }
 	
 	with (_dripping_block) {
-		var _part = instance_create(x+2, y+10, obj_drip);
-		_part.creator = _dripping_block;
+		var _drip = instance_create(x+2+irandom(2), y+9, obj_drip);
+		_drip.creator = _dripping_block;
+		_drip.main_palette = other.drip_color;
+		_drip.particle_palette = other.drip_color;
 	}
 }

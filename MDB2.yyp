@@ -438,6 +438,7 @@
     {"id":{"name":"spr_metal","path":"sprites/spr_metal/spr_metal.yy",},},
     {"id":{"name":"spr_particle_cape","path":"sprites/spr_particle_cape/spr_particle_cape.yy",},},
     {"id":{"name":"spr_particle_confetti","path":"sprites/spr_particle_confetti/spr_particle_confetti.yy",},},
+    {"id":{"name":"spr_particle_debris_dark","path":"sprites/spr_particle_debris_dark/spr_particle_debris_dark.yy",},},
     {"id":{"name":"spr_particle_debris","path":"sprites/spr_particle_debris/spr_particle_debris.yy",},},
     {"id":{"name":"spr_particle_drip_forming","path":"sprites/spr_particle_drip_forming/spr_particle_drip_forming.yy",},},
     {"id":{"name":"spr_particle_drip","path":"sprites/spr_particle_drip/spr_particle_drip.yy",},},

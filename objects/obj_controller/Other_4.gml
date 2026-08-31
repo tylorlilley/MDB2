@@ -11,6 +11,15 @@ build_world_background(room_world);
 if (!is_cutscene_room()) { play_world_music(room_world); }
 window_set_caption(GAME_TITLE + ": " + room_title);
 
+// Set up Drips
+drip_frequency = 0;
+drip_color = PALETTES.BLUE_LIGHT;
+if (room_world == WORLDS.BEACH) { drip_frequency = 64; }
+else if (room_world == WORLDS.FOREST) { drip_frequency = 128; }
+else if (room_world == WORLDS.FACTORY) { drip_color = PALETTES.BROWN; drip_frequency = 24; }
+else if (room_world == WORLDS.FORTRESS) { drip_color = PALETTES.RED; drip_frequency = 96; }
+else { drip_color = PALETTES.PINK_LIGHT; drip_frequency = 12; }
+
 if (instance_exists(obj_bg_dirt)) {
 	var _cols = room_width div GRID_SIZE, _rows = room_height div GRID_SIZE, _dirt_grid = create_object_grid(_cols, _rows);
 	with (obj_bg_dirt) { grid_add(_dirt_grid); }

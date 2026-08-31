@@ -277,15 +277,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 			
 			// Switch Direction for Next Particle Created
 			_horizontal_direction *= -1;
-			
-			// Divide speeds by fps values to maintain parity
-			var _fps_ratio = global.controller.fps_ratio;
-			original_gravity = gravity;
-			gravity /= sqr(_fps_ratio);
-			hspeed /= _fps_ratio;
-			vspeed = (vspeed / _fps_ratio) + (gravity * (_fps_ratio - 1) / 2);
-			terminal_velocity /= _fps_ratio;
-			image_speed /= _fps_ratio;
+			set_engine_speeds(hspeed, vspeed, gravity, terminal_velocity, image_speed);
 		}
 		
 		if (_total_particles == 1) { return _particle; }
@@ -308,6 +300,16 @@ function get_maximum_fps() {
 	else if (_monitor_freq >= 60) { _fps = 60; }
 	
 	return _fps;
+}
+
+function set_engine_speeds(_hspeed = 0, _vspeed = 0, _gravity = 0, _terminal_velocity = 0, _image_speed = 0) {
+	var _fps_ratio = global.controller.fps_ratio;
+	original_gravity  = _gravity;
+	gravity           = _gravity / sqr(_fps_ratio);
+	hspeed            = _hspeed / _fps_ratio;
+	vspeed            = (_vspeed / _fps_ratio) + (gravity * (_fps_ratio - 1) / 2);
+	terminal_velocity = _terminal_velocity / _fps_ratio;
+	image_speed       = _image_speed / _fps_ratio;
 }
 
 // Control Functions

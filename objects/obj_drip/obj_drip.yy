@@ -14,8 +14,8 @@
     "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
-    "name":"obj_visual_object",
-    "path":"objects/obj_visual_object/obj_visual_object.yy",
+    "name":"obj_particle",
+    "path":"objects/obj_particle/obj_particle.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
