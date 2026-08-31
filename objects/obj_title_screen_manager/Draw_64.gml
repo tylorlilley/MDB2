@@ -19,7 +19,7 @@ if (state >= TITLE_STATES.BEGIN) {
 	draw_set_font(ft_pixel_small);
 	draw_set_halign(fa_right);
 	draw_set_valign(fa_top);
-	draw_text(SCREEN_WIDTH - 12, SCREEN_HEIGHT - 16, "v. CART");
+	draw_text(SCREEN_WIDTH - 12, SCREEN_HEIGHT - 16, "v. DAVID");
 	draw_set_alpha(1);
 }
 

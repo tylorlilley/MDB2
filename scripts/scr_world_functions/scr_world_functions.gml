@@ -221,7 +221,7 @@ function get_world_palette(_object_index) {
 			switch (_world) {
 				case WORLDS.BEACH: { return PALETTES.RED; }
 				case WORLDS.FOREST: { return PALETTES.PURPLE; }
-				case WORLDS.FACTORY: { return PALETTES.BROWN; }
+				case WORLDS.FACTORY: { return PALETTES.YELLOW_DARK; }
 				case WORLDS.FORTRESS: { return PALETTES.ORANGE; }
 				default: { return PALETTES.PINK; }
 			}

@@ -69,6 +69,7 @@ create_cloud = function() {
 		solid_obj.main_palette = main_palette;
 		solid_obj.particle_palette = main_palette;
 		solid_obj.creator = id;
+		global.controller.update_drip_locations();
 	}
 }
 

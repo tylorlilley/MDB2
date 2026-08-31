@@ -1,8 +1,9 @@
 if (!global.controller.is_logic_frame()) { exit; }
+if (y > destroyed_y) { instance_destroy(); }
 
 switch (state) {
 	case 0: {
-		if (!instance_exists(creator)) { instance_destroy(); }
+		if (!instance_exists(creator)) { destroy_with_particle(); }
 		break;
 	}
 	case 1: {
@@ -16,16 +17,7 @@ switch (state) {
 		}
 		if (_floor == noone) { break; }
 		
-		if (!_floor.is_a(obj_static_area) || _floor.object_index == obj_lava) {
-			instance_destroy();
-			var _part = create_particles(1);
-			if (_floor.object_index != obj_lava) {
-				_part.image_index = 0;
-				_part.image_alpha = image_alpha;
-				_part.sprite_index = spr_particle_debris_dark;
-			}
-			else { _part.particle_palette = get_darker_palette(main_palette); }
-		}
+		if (!_floor.is_a(obj_static_area) || _floor.object_index == obj_lava) { destroy_with_particle(_floor.object_index == obj_lava); }
 		else {
 			state = 2;
 			creator = _floor;
@@ -39,6 +31,6 @@ switch (state) {
 		break;
 	}
 	case 2: {
-		if (!instance_exists(creator) || !instance_place(x, y+1, creator)) { instance_destroy(); }
+		if (!instance_exists(creator) || !instance_place(x, y+1, creator)) { destroy_with_particle(); }
 	}
 }

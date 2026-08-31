@@ -291,6 +291,6 @@ if (drip_timer > 0) {
 			_drip.image_alpha = other.drip_alpha;
 		}
 		
-		drip_timer = min(1, drip_frequency + irandom(drip_frequency*2) - irandom(_total_drip_locations));
+		set_drip_timer();
 	}
 }

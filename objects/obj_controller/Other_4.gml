@@ -50,12 +50,13 @@ drip_frequency = 0;
 drip_color = PALETTES.BLUE_LIGHT;
 drip_alpha = 0.5;
 if (room_world == WORLDS.BEACH) { drip_frequency = 64; }
-else if (room_world == WORLDS.FOREST) { drip_frequency = 128; }
+else if (room_world == WORLDS.FOREST) { drip_frequency = 96; }
 else if (room_world == WORLDS.FACTORY) { drip_color = PALETTES.BROWN; drip_frequency = 24; drip_alpha = 0.85; }
-else if (room_world == WORLDS.FORTRESS) { drip_color = PALETTES.RED; drip_frequency = 96; drip_alpha = 0.85; }
+else if (room_world == WORLDS.FORTRESS) { drip_color = PALETTES.RED; drip_frequency = 128; drip_alpha = 0.85; }
 else { drip_color = PALETTES.YELLOW_LIGHT; drip_frequency = 0; }
+drip_frequency *= 2;
 update_drip_locations();
-drip_timer = min(1, drip_frequency + irandom(drip_frequency*2) - irandom(array_length(drip_locations)));
+set_drip_timer();
 
 // Other Objects
 with (obj_switch) { main_palette = get_switch_palette(switch_color); particle_palette = get_darker_palette(main_palette); }
