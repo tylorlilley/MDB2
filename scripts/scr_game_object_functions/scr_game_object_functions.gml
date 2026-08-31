@@ -28,10 +28,10 @@ grid_remove = function() {
 }
 
 // State Querying Functions
-is_fully_on_ground = function() {
+is_fully_on_ground = function(_ignored_objects = []) {
 	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
 	for (var _x = x; _x < x + _sprite_width; _x += GRID_SIZE) {
-		if (array_length(get_objects_at(_x, y + _sprite_height, GRID_SIZE, GRID_SIZE, function(_inst) { return _inst.is_solid_from_above; })) == 0) { return false; }
+		if (array_length(get_objects_at(_x, y + _sprite_height, GRID_SIZE, GRID_SIZE, function(_inst) { return _inst.is_solid_from_above; }, _ignored_objects)) == 0) { return false; }
 	}
 	return true;
 }

@@ -404,7 +404,7 @@ game_object_step = function() {
 								
 								if (fall_timer == 0) {
 									// Start Surfacing
-									add_transition_timer(8);
+									set_transition_timer(8);
 									state = PLAYER_STATES.SURFACE;
 									fall_timer = 0;
 								}

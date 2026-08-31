@@ -1,20 +1,21 @@
 {
   "$GMObject":"",
-  "%Name":"obj_reforming_cloud_outline",
+  "%Name":"obj_drip",
   "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":7,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_reforming_cloud_outline",
+  "name":"obj_drip",
   "overriddenProperties":[],
   "parent":{
-    "name":"Static Areas",
-    "path":"folders/Objects/Static Areas.yy",
+    "name":"Parents",
+    "path":"folders/Objects/Parents.yy",
   },
   "parentObjectId":{
-    "name":"obj_static_area",
-    "path":"objects/obj_static_area/obj_static_area.yy",
+    "name":"obj_visual_object",
+    "path":"objects/obj_visual_object/obj_visual_object.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -34,12 +35,9 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_editor_reforming_cloud",
-    "path":"sprites/spr_editor_reforming_cloud/spr_editor_reforming_cloud.yy",
+    "name":"spr_particle_drip",
+    "path":"sprites/spr_particle_drip/spr_particle_drip.yy",
   },
-  "spriteMaskId":{
-    "name":"spr_box_8x8",
-    "path":"sprites/spr_box_8x8/spr_box_8x8.yy",
-  },
+  "spriteMaskId":null,
   "visible":true,
 }

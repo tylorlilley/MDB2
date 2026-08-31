@@ -194,7 +194,7 @@ update_controls = function(_inverted = false) {
 	var _new_right_value = ((_inverted) ? key_left : key_right) || get_right_held();
 	var _new_up_value = key_up || get_up_held();
 	var _new_down_value = key_down || get_down_held();
-	var _new_jump_value = key_jump || ((global.original_controls) ? false : get_jump_held());
+	var _new_jump_value = key_jump || get_jump_held();
 	var _new_restart_value = key_restart || get_restart_held();
 	
 	// Cancel out released inputs

@@ -492,6 +492,14 @@ apply_screen_scale = function(_force = false) {
     display_set_gui_maximise(1, 1, 0, 0);
 }
 
+get_mouse_room_x = function() {
+	return camera_get_view_x(view_camera[0]) + ((window_mouse_get_x() - gui_offset_x) / gui_scale);
+}
+
+get_mouse_room_y = function() {
+	return camera_get_view_y(view_camera[0]) + ((window_mouse_get_y() - gui_offset_y) / gui_scale);
+}
+
 // Read Window Size Properties
 read_window_options();
 update_window_fullscreen();

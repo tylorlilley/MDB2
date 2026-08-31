@@ -5,8 +5,15 @@ Take Notes on Screen?
 - W4 - W5 Transition Cutscene
 - Ending Cutscene + Credits
 - mac version?
+- 
+limited supply of undoes and keys regenerate them
 
 // VISUALS:
+Any button not just up to close doors
+deforming clouds?
+bloom x100
+occasional leafs in the forest?
+drips in the factory?
 Desaturate background layer more?
 - option to turn off special palettes for each world?
 - option to turn off bg dirt tiles?

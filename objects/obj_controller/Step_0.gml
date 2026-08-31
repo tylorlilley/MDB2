@@ -131,12 +131,15 @@ with (obj_key) {
 	}
 }
 with (obj_door) {
-	if (!winning_player) {
-		with (obj_player) { if (state == PLAYER_STATES.WIN) { other.winning_player = true; } }
+	// Gather Player Objects
+	var _ignored_objects = [];
+	with (obj_player) {
+		array_push(_ignored_objects, id);
+		if (state == PLAYER_STATES.WIN) { other.winning_player = true; }
 	}
 	
 	// Desaturate unreachable doors
-	if (!is_fully_on_ground()) {
+	if (!is_fully_on_ground(_ignored_objects)) {
 		if (image_alpha == 1) { play_sound(snd_door_destroyed); }
 		image_alpha = 0.85;
 		main_palette = PALETTES.GRAY_LIGHT;
@@ -144,9 +147,6 @@ with (obj_door) {
 	else {
 		image_alpha = 1;
 		main_palette = PALETTES.BROWN
-		
-		var _ignored_objects = [];
-		with (obj_player) { array_push(_ignored_objects, id); }
 		
 		if (image_index == 0) {
 			shine_timer--;
@@ -266,5 +266,24 @@ if (instance_number(obj_cutscene_manager) == 0) {
 	with (obj_player) { if (state == PLAYER_STATES.WIN) { _winning_player_x = x; } }
 	if (!is_undefined(_winning_player_x) && _door_open && irandom(2) == 0) {
 		create_particles(1, PARTICLE_TYPES.CONFETTI, PALETTES.GRAY_LIGHT, _winning_player_x+8, -2);
+	}
+}
+
+// Create Drips
+if (irandom(128) == 0) {
+	var _dripping_block = noone, _potential_blocks = []
+	with (obj_static_area) {
+		if (y >= room_height - GRID_SIZE || y < GRID_SIZE || x < GRID_SIZE || x >= room_width - GRID_SIZE) { continue; }
+		if (!connected_below) { array_push(_potential_blocks, id); }
+	}
+	
+	if (array_length(_potential_blocks) > 0) {
+		array_shuffle(_potential_blocks);
+		_dripping_block = _potential_blocks[0];
+	}
+	
+	with (_dripping_block) {
+		var _part = instance_create(x+2, y+10, obj_drip);
+		_part.creator = _dripping_block;
 	}
 }
