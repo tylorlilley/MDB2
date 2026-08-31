@@ -514,7 +514,8 @@ update_drip_locations = function() {
 }
 
 set_drip_timer = function() {
-	drip_timer = (max(1, (64 - array_length(drip_locations)*2))) + irandom(drip_frequency);
+	if (drip_frequency == 0) { drip_timer = 0; }
+	else { drip_timer = (max(1, (128 - array_length(drip_locations)*2))) + irandom(drip_frequency); }
 }
 
 // Read Window Size Properties

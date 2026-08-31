@@ -1,5 +1,5 @@
 if (!global.controller.is_logic_frame()) { exit; }
-if (y > destroyed_y) { instance_destroy(); }
+if (y > destroyed_y) { instance_destroy(); exit; }
 
 switch (state) {
 	case 0: {
@@ -13,7 +13,7 @@ switch (state) {
 		var _floor = noone, _instances = instances_at_grid_position(x, y, GRID_SIZE, GRID_SIZE * 2, obj_game_object, false);
 		for (var _i = 0; _i < array_length(_instances); _i++) {
 			var _inst = _instances[_i];
-			if (_inst.is_solid_from_above && instance_place(x, y + terminal_velocity, _inst)) { _floor = _inst; break; }
+			if (_inst.is_solid_from_above && instance_place(x, y + (vspeed * global.controller.fps_ratio), _inst)) { _floor = _inst; break; }
 		}
 		if (_floor == noone) { break; }
 		

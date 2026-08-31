@@ -13,7 +13,7 @@ depth = PARTICLE_DEPTH + 1;
 set_engine_speeds(0, 0, 0, 0, 0.125);
 
 destroy_with_particle = function(_is_lava = false) {
-	var _part = create_particles(1);
+	var _part = create_particles(1, PARTICLE_TYPES.DEBRIS, main_palette, x, y);
 	if (_is_lava) { _part.main_palette = get_darker_palette(main_palette); }
 	else { 
 		_part.image_index = 0;
