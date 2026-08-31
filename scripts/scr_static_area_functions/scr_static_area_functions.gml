@@ -91,7 +91,7 @@ update_connections = function(_grid = global.controller.game_object_grid) {
 	connected_on_far_right = get_connected_instance(instances_at_grid_position(x+16, y, 8, 8, connection_object_index, false, _grid));
 
 	update_outline_offsets();
-	update_drip_locations();
+	global.controller.update_drip_locations();
 }
 
 update_connected_graphics = function() {
