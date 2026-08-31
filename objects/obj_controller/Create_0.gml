@@ -500,6 +500,18 @@ get_mouse_room_y = function() {
 	return camera_get_view_y(view_camera[0]) + ((window_mouse_get_y() - gui_offset_y) / gui_scale);
 }
 
+update_drip_locations = function() {
+	drip_locations = [];
+	if (drip_frequency > 0) {
+		with (obj_static_area) {
+			if (y > room_height - (GRID_SIZE*3) || y < GRID_SIZE || x < GRID_SIZE || x > room_width - GRID_SIZE) { continue; }
+			if (object_index == obj_cloud || object_index == obj_lava || object_index == obj_switch_block) { continue; }
+
+			if (should_draw && is_solid_from_all_sides() && !is_fully_on_ground()) { array_push(other.drip_locations, id); }
+		}
+	}
+}
+
 // Read Window Size Properties
 read_window_options();
 update_window_fullscreen();
