@@ -13,6 +13,7 @@ fuzzing_sprite = spr_leaf_fuzzing;
 	
 // Visual Drawing Variables
 animated = false;
+deform_level = 1;
 has_square_shape = true;
 has_darker_particles = false;
 particle_frequency = 4;

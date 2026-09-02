@@ -21,6 +21,7 @@ if (!paused) {
 if (!is_logic_frame()) { exit; }
 
 // Set up Switch Blocks for this Frame
+with (obj_static_area) { prev_deformed_by = is_deformed_by; is_deformed_by = 0; }
 with (obj_switch_block_outline) {
 	// Refresh Flashing Switch Blocks
 	if (solid_obj.main_palette != main_palette) {
@@ -229,8 +230,8 @@ with (obj_player) {
 	if (ring_out_timer == 8) { if (controlled_by_human) { play_sound(snd_player_offscreen); } }
 	else if (ring_out_timer == 40) { instance_destroy(); }
 }
-
 with (obj_dynamic_object) { update_virtual_y_offset(); }
+with (obj_static_area) { if (is_deformed_by != prev_deformed_by) { mark_manager_for_redraw(); } }
 
 // Handle Transition Code
 var _controllable_player_exists = false, _transition_manager_exists = false;

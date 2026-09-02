@@ -80,13 +80,15 @@ game_object_step = function() {
 	}
 }
 
+parent_update_virtual_y_offset = update_virtual_y_offset;	
 update_virtual_y_offset = function() {
 	if (state == PLAYER_STATES.CLIMB && instance_exists(climbed_inst)) {
 		climbed_inst.update_virtual_y_offset();
 		virtual_y_offset = climbed_inst.virtual_y_offset;
 	}
 	else if (is_grounded_state()) {
-		virtual_y_offset = get_switch_offset() + get_float_offset();
+		parent_update_virtual_y_offset();
+		if ((is_left && !get_object(false, false, false)) || (!is_left && !get_object(false, false, GRID_SIZE))) { virtual_y_offset += 1; }
 	}
 }
 

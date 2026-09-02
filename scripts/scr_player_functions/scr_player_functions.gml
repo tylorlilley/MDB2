@@ -331,64 +331,6 @@ start_hopping = function(_should_move_horizontally = false) {
 }
 
 // Interactions with Other Object Functions
-get_left_object = function(_get_above = false, _impact_fragile = false) {
-	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _left_object = noone;
-	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
-			
-	for (var _i = 0; _i < array_length(_objects); _i++) {
-		var _inst = _objects[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (is_instance_at_grid_position(x, y + _y_offset, _inst)) {
-			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-			else if (!instance_exists(_left_object) || _left_object.interaction_depth > _inst.interaction_depth) { _left_object = _inst; }
-		}
-	}
-
-	return _left_object;
-}
-
-get_right_object = function(_get_above = false, _impact_fragile = false) {
-	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _right_object = noone;
-	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
-			
-	for (var _i = 0; _i < array_length(_objects); _i++) {
-		var _inst = _objects[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (is_instance_at_grid_position(x + GRID_SIZE, y + _y_offset, _inst)) {
-			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-			else if (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth) { _right_object = _inst; }
-		}
-	}
-
-	return _right_object;
-}
-
-get_left_and_right_objects = function(_get_above = false, _impact_fragile = false) {
-	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _left_object = noone, _right_object = noone, _returned_objects = [];
-	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
-			
-	for (var _i = 0; _i < array_length(_objects); _i++) {
-		var _inst = _objects[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (is_instance_at_grid_position(x, y + _y_offset, _inst)) {
-			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-			else if (!instance_exists(_left_object) || _left_object.interaction_depth > _inst.interaction_depth) { _left_object = _inst; }
-		}
-		else if (is_instance_at_grid_position(x + GRID_SIZE, y + _y_offset, _inst)) {
-			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-			else if (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth) { _right_object = _inst; }
-		}
-	}
-
-	if (_left_object == _right_object) { _right_object = noone; }
-	if (instance_exists(_left_object)) { array_push(_returned_objects, _left_object); }
-	if (instance_exists(_right_object)) { array_push(_returned_objects, _right_object); }
-	return _returned_objects;
-}
-
 get_destroyed_by_object = function() {
 	if (state == PLAYER_STATES.WIN) { exit; }
 	
@@ -455,15 +397,7 @@ damage_objects = function(_damage_above = false) {
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 	}
 	
-	// Return whether any objects survive
-	var _survivor_y = y + ((_damage_above) ? -GRID_SIZE : sprite_get_height(sprite_index));
-	for (var _i = 0; _i < array_length(_damaged_objects); _i++) {
-		var _inst = _damaged_objects[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (is_instance_at_grid_position(x, _survivor_y, _inst) || is_instance_at_grid_position(x + GRID_SIZE, _survivor_y, _inst)) { return true; }
-	}
-	return false;
+	return is_on_ground();
 }
 
 powerfall_on_ground_objects = function() { return damage_objects(false); }
@@ -992,7 +926,7 @@ update_player_state = function() {
 	
 	// Update On Edge Status
 	if (state == PLAYER_STATES.STAND) {
-		if ((is_left && !instance_exists(get_left_object(false, false))) || (!is_left && !instance_exists(get_right_object(false, false)))) {
+		if ((is_left && !instance_exists(get_object(false, false))) || (!is_left && !instance_exists(get_object(false, false, GRID_SIZE)))) {
 			state = PLAYER_STATES.STAND_EDGE;
 		}
 	}
@@ -1410,6 +1344,7 @@ update_player_graphics = function() {
 draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undefined) {
 	_image_alpha ??= image_alpha;
 	var _cape_x = virtual_x, _cape_y = virtual_y, _cape_image_x_scale = get_left_value(), _cape_x_offset = get_x_draw_offset();
+	
 	// Determine Cape X
 	if (state != PLAYER_STATES.LADDER &&
 		state != PLAYER_STATES.LADDER_LOOK &&
@@ -1433,6 +1368,7 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 	// Determine Cape Y
 	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
 	else if (state == PLAYER_STATES.POWERFALL) { _cape_y -= 2; }
+	else if (state == PLAYER_STATES.LAND && image_index == 0) { _cape_y += 2; }
 	else if (is_ladder_state()) { _cape_y += 1; _cape_image_x_scale = 1; _cape_x_offset = 0; }
 	
 	// Draw Cape

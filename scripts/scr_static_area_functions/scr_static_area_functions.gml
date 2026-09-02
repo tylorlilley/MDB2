@@ -12,6 +12,8 @@ initialize_static_area = function() {
 	// Visual Drawing Variables
 	should_draw = true;
 	animated = false;
+	deform_level = 0;
+	is_deformed_by = 0;
 	has_square_shape = false;
 	has_darker_particles = false;
 	particle_frequency = 0;
@@ -203,6 +205,7 @@ draw_static_area_fill = function() {
 	
 	var _is_even_x = ((visual_origin_x div 8) % 2 == 0), _is_even_y = ((visual_origin_y div 8) % 2 == 0);
 	var _main_left = ((_is_even_x) ? 0 : 8), _main_top = ((_is_even_y) ? 0 : 8);
+	var _main_y = get_main_y();
 	
 	//if (!is_undefined(main_sprite) && sprite_get_width(main_sprite) == 8) { _main_left = 0; }
 	//if (!is_undefined(main_sprit) && sprite_get_height(main_sprite) == 8) { _main_top = 0; }
@@ -210,35 +213,35 @@ draw_static_area_fill = function() {
 	var _damage_based_main_sprite_image_index = ((hits - 1 <= 0) ? 0 : hits - 1);
 	var _main_sprite_image_index = (animated) ? get_animated_sprite_image_index(main_sprite) : _damage_based_main_sprite_image_index;
 	
-	if (!is_undefined(main_sprite)) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (!is_undefined(fuzzing_sprite)) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!is_undefined(main_sprite)) { draw_sprite_part_ext(main_sprite, _main_sprite_image_index, _main_left, _main_top, 8, 8, x, _main_y, 1, 1, image_blend, 1); }
+	if (!is_undefined(fuzzing_sprite)) { draw_sprite_part_ext(fuzzing_sprite, fuzzing_image_index, 0, 0, 8, 8, x, _main_y, 1, 1, image_blend, 1); }
 }
 
 draw_static_area_outline = function() {
 	if (!should_draw || is_undefined(outline_sprite)) { return; }
 	
-	var _outline_sprite_image_index = get_animated_sprite_image_index(outline_sprite);
-	
 	// Draw Outer Outline
+	var _main_y = get_main_y(), _outline_sprite_image_index = get_animated_sprite_image_index(outline_sprite);
 	if (!is_undefined(outline_x_offset) && !is_undefined(outline_y_offset)) {
-		draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, image_blend, 1);
+		draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, _main_y, 1, 1, image_blend, 1);
 	}
 	
 	// Draw Inner Outline Images
-	if (!connected_top_right && connected_above && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (!connected_top_left && connected_above && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 0, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (!connected_bottom_right && connected_below && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 8, 8, 8, x, y, 1, 1, image_blend, 1); }
-	if (!connected_bottom_left && connected_below && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 8, 8, 8, x, y, 1, 1, image_blend, 1); }
+	if (!connected_top_right && connected_above && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 0, 8, 8, x, _main_y, 1, 1, image_blend, 1); }
+	if (!connected_top_left && connected_above && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 0, 8, 8, x, _main_y, 1, 1, image_blend, 1); }
+	if (!connected_bottom_right && connected_below && connected_on_right) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 32, 8, 8, 8, x, _main_y, 1, 1, image_blend, 1); }
+	if (!connected_bottom_left && connected_below && connected_on_left) { draw_sprite_part_ext(outline_sprite, _outline_sprite_image_index, 24, 8, 8, 8, x, _main_y, 1, 1, image_blend, 1); }
 }
 
 draw_static_area_mask = function() {
 	if (!should_draw) { return; }
 	
+	var _main_y = get_main_y();
 	if (is_undefined(outline_sprite) || is_undefined(outline_x_offset) || is_undefined(outline_y_offset)) {
 		// Apply Alpha to Interior Tiles with No Outline clipping
 		if (image_alpha < 1) {
 			draw_set_alpha(image_alpha);
-			draw_rectangle(x, y, x + GRID_SIZE, y + GRID_SIZE, false);
+			draw_rectangle(x, y, x + GRID_SIZE, _main_y + GRID_SIZE, false);
 			draw_set_alpha(1);
 		}
 	}
@@ -246,6 +249,15 @@ draw_static_area_mask = function() {
 		// Draw Mask to Clip Beyond Outline And Apply Alpha
 		var _outline_mask_sprite = outline_mask_sprite ?? outline_sprite;
 		var _outline_mask_sprite_image_index = (animated) ? get_animated_sprite_image_index(_outline_mask_sprite) : 1;
-		draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, y, 1, 1, c_white, image_alpha);
+		draw_sprite_part_ext(_outline_mask_sprite, _outline_mask_sprite_image_index, outline_x_offset, outline_y_offset, 8, 8, x, _main_y, 1, 1, c_white, image_alpha);
 	}
+}
+
+get_main_y = function() {
+	return y + is_deformed_by;
+}
+
+set_column_deformed = function(_deform_level) {
+	is_deformed_by = max(is_deformed_by, _deform_level);
+	with (connected_below) { set_column_deformed(_deform_level); }
 }
