@@ -88,7 +88,7 @@ update_virtual_y_offset = function() {
 	}
 	else if (is_grounded_state()) {
 		parent_update_virtual_y_offset();
-		if ((is_left && !get_object(false, false, false)) || (!is_left && !get_object(false, false, GRID_SIZE))) { virtual_y_offset += 1; }
+		if ((is_left && !get_object(false, 0)) || (!is_left && !get_object(false, GRID_SIZE))) { virtual_y_offset += 1; }
 	}
 }
 

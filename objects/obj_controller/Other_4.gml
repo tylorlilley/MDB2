@@ -38,8 +38,8 @@ with (obj_dynamic_object) {
 // Static Area Objects
 with (obj_visual_object) { image_blend = global.world_tint; }
 connect_static_areas_to_manager([obj_bg_dirt], BACKGROUND_DEPTH, false);
-//connect_static_areas_to_manager([obj_ladder], LADDER_DEPTH, false);
-connect_static_areas_to_manager([obj_metal, obj_tile, obj_brick, obj_rock, obj_sand, obj_bridge, obj_wood, obj_leaf, obj_cloud], STATIC_AREA_DEPTH, true);
+connect_static_areas_to_manager([obj_metal, obj_tile, obj_brick, obj_rock, obj_sand, obj_bridge, obj_wood], STATIC_AREA_DEPTH, true);
+connect_static_areas_to_manager([obj_leaf, obj_cloud], STATIC_AREA_DEPTH + 6, true);
 connect_static_areas_to_manager([obj_lava, obj_switch_block], SWITCH_BLOCK_DEPTH, true);
 connect_static_areas_to_manager([obj_reforming_cloud_outline, obj_switch_block_outline], OUTLINE_DEPTH, false);
 with (obj_switch_block_outline) { if (begin_off) { toggle_solid(); } }

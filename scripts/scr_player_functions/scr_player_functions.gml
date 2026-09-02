@@ -397,7 +397,7 @@ damage_objects = function(_damage_above = false) {
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 	}
 	
-	return is_on_ground();
+	return (_damage_above) ? is_below_ceiling() : is_on_ground();
 }
 
 powerfall_on_ground_objects = function() { return damage_objects(false); }
@@ -926,7 +926,7 @@ update_player_state = function() {
 	
 	// Update On Edge Status
 	if (state == PLAYER_STATES.STAND) {
-		if ((is_left && !instance_exists(get_object(false, false))) || (!is_left && !instance_exists(get_object(false, false, GRID_SIZE)))) {
+		if ((is_left && !instance_exists(get_object(false, 0))) || (!is_left && !instance_exists(get_object(false, GRID_SIZE)))) {
 			state = PLAYER_STATES.STAND_EDGE;
 		}
 	}

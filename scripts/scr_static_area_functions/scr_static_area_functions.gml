@@ -14,6 +14,7 @@ initialize_static_area = function() {
 	animated = false;
 	deform_level = 0;
 	is_deformed_by = 0;
+	prev_deformed_by = 0;
 	has_square_shape = false;
 	has_darker_particles = false;
 	particle_frequency = 0;
@@ -241,7 +242,7 @@ draw_static_area_mask = function() {
 		// Apply Alpha to Interior Tiles with No Outline clipping
 		if (image_alpha < 1) {
 			draw_set_alpha(image_alpha);
-			draw_rectangle(x, y, x + GRID_SIZE, _main_y + GRID_SIZE, false);
+			draw_rectangle(x, _main_y, x + GRID_SIZE - 1, _main_y + GRID_SIZE - 1, false);
 			draw_set_alpha(1);
 		}
 	}
@@ -258,6 +259,10 @@ get_main_y = function() {
 }
 
 set_column_deformed = function(_deform_level) {
+	if (_deform_level < 1) { exit; }
+	
 	is_deformed_by = max(is_deformed_by, _deform_level);
-	with (connected_below) { set_column_deformed(_deform_level); }
+	with (connected_on_left) { set_column_deformed(_deform_level-1); }
+	with (connected_on_right) { set_column_deformed(_deform_level-1); }
+	with (connected_below) { set_column_deformed(_deform_level-1); }
 }

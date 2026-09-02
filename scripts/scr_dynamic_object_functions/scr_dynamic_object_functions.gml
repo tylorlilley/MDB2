@@ -66,27 +66,21 @@ get_deformed_offset = function() {
 		var _inst = _ground_objects[_i];
 		if (instance_exists(_inst)) {
 			if (_inst.deform_level < 1) { return 0; }
+			else { _deform_offset = min(_deform_offset, _inst.deform_level); }
 		}
 	}
 	
 	// Deform those objects and return offset
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) { 
 		var _inst = _ground_objects[_i];
-		if (instance_exists(_inst)) {
-			_deform_offset = min(_deform_offset, _inst.deform_level);
-			_inst.set_column_deformed(_inst.deform_level);
-			if (_inst.deform_level > 1) {
-				with (_inst.connected_on_left) { set_column_deformed(1); }
-				with (_inst.connected_on_right) { set_column_deformed(1); }
-			}
-		}
+		if (instance_exists(_inst)) { _inst.set_column_deformed(_deform_offset); }
 	}
-	if (_deform_offset = 9999) { _deform_offset = 0; }
+	if (_deform_offset == 9999) { _deform_offset = 0; }
 	
 	return _deform_offset;
 }
 
-get_object = function(_get_above = false, _impact_fragile = false, _x_offset = 0) {
+get_object = function(_get_above = false, _x_offset = 0) {
 	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _right_object = noone;
 	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
 			
@@ -94,20 +88,27 @@ get_object = function(_get_above = false, _impact_fragile = false, _x_offset = 0
 		var _inst = _objects[_i];
 		if (!instance_exists(_inst)) { continue; }
 		
-		if (is_instance_at_grid_position(x + _x_offset, y + _y_offset, _inst)) {
-			if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-			else if (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth) { _right_object = _inst; }
-		}
+		if (is_instance_at_grid_position(x + _x_offset, y + _y_offset, _inst) && (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth)) { _right_object = _inst; }
 	}
 
 	return _right_object;
 }
 
 get_left_and_right_objects = function(_get_above = false, _impact_fragile = false) {
-	var _left_object = get_object(_get_above, _impact_fragile), _right_object = get_object(_get_above, _impact_fragile, GRID_SIZE), _returned_objects = [];
+	var _left_object = get_object(_get_above, 0), _right_object = get_object(_get_above, GRID_SIZE), _returned_objects = [];
 	if (_left_object != noone && _left_object != _right_object) {  array_push(_returned_objects, _left_object); }
 	if (_right_object != noone) { array_push(_returned_objects, _right_object); }
-	return _returned_objects;
+	
+	if (!_impact_fragile) { return _returned_objects; }
+	
+	var _surviving_fragile_objects = [];
+	for (var _i = 0; _i < array_length(_returned_objects); _i++) {
+		var _inst = _returned_objects[_i];
+		if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
+		if (instance_exists(_inst)) { array_push(_surviving_fragile_objects, _inst); }
+	}
+	
+	return _surviving_fragile_objects;
 }
 
 

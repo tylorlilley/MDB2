@@ -8,7 +8,6 @@ hits = 1;
 main_palette = PALETTES.GRAY_LIGHT;
 main_sprite = spr_cloud_area;
 outline_sprite = spr_cloud_outline;
-deformed_outline_sprite = spr_cloud_deformed_outline;
 outline_mask_sprite = undefined;
 fuzzing_sprite = spr_cloud_fuzzing;
 	
