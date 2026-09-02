@@ -324,7 +324,7 @@ start_hopping = function(_should_move_horizontally = false) {
 	virtual_y_offset = get_switch_offset(); // This gets reset elsewhere if we remain grounded before being used in the Draw
 	
 	if (_should_move_horizontally && grid_move_horizontal(get_left_value())) { state = PLAYER_STATES.HOP_UP_FORWARD; }
-	else { state = PLAYER_STATES.HOP_UP; }
+	else { state = PLAYER_STATES.HOP_UP; set_transition_timer(8); }
 	
 	play_sound(snd_player_jump);
 	if (!grid_move_up(2)) { start_fallback_state(); }
@@ -623,11 +623,10 @@ update_player_state = function() {
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
 				// Shorten Hop Time for Original Controls
-				/*
-				if (global.original_controls && transition_timer <= 2 && x_transition_timer == 0) {
+				// TODO: Allow player to grab ledge at any point after 4, autograb in original_controls
+				if (global.original_controls && transition_timer <= 4 && x_transition_timer == 0) {
 					reset_transition_timer();
 				}
-				*/
 				
 				break;
 			}
@@ -715,7 +714,7 @@ update_player_state = function() {
 					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(get_left_value())) {
 						state = PLAYER_STATES.HOP_DOWN_FORWARD
 					}
-					else { state = PLAYER_STATES.HOP_DOWN; }
+					else { state = PLAYER_STATES.HOP_DOWN; set_transition_timer(8); }
 					
 					if (!grid_move_down(2)) { start_fallback_state(); }
 				}
