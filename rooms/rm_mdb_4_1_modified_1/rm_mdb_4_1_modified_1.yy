@@ -1856,8 +1856,8 @@
   ],
   "name":"rm_mdb_4_1_modified_1",
   "parent":{
-    "name":"MDB",
-    "path":"folders/Rooms/Translated Rooms/MDB.yy",
+    "name":"Replaced",
+    "path":"folders/Rooms/Translated Rooms/Replaced.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

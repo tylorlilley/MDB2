@@ -2,7 +2,7 @@
   "$GMSprite":"v2",
   "%Name":"spr_player_fly",
   "bboxMode":0,
-  "bbox_bottom":13,
+  "bbox_bottom":14,
   "bbox_left":1,
   "bbox_right":14,
   "bbox_top":0,

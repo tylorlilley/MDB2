@@ -1430,8 +1430,8 @@
   ],
   "name":"rm_mdb_2_8",
   "parent":{
-    "name":"MDB",
-    "path":"folders/Rooms/Translated Rooms/MDB.yy",
+    "name":"Replaced",
+    "path":"folders/Rooms/Translated Rooms/Replaced.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

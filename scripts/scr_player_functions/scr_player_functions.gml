@@ -326,8 +326,7 @@ start_hopping = function(_should_move_horizontally = false) {
 	else { state = PLAYER_STATES.HOP_UP; }
 	
 	play_sound(snd_player_jump);
-	if (grid_move_up(1)) { set_transition_timer(8); }
-	else { start_fallback_state(); }
+	if (!grid_move_up(2)) { start_fallback_state(); }
 }
 
 // Interactions with Other Object Functions
@@ -457,7 +456,7 @@ damage_objects = function(_damage_above = false) {
 	
 	// Return whether any objects survive
 	for (var _i = 0; _i < array_length(_damaged_objects); _i++) {
-		if (instance_exists(_damaged_objects[_i])) { return true; }
+		if (instance_exists(_damaged_objects[_i]) && _damaged_objects[_i].y == y + sprite_get_height(sprite_index)) { return true; }
 	}
 	return false;
 }
@@ -619,9 +618,11 @@ update_player_state = function() {
 			case PLAYER_STATES.HOP_UP:
 			case PLAYER_STATES.HOP_UP_FORWARD: {
 				// Shorten Hop Time for Original Controls
+				/*
 				if (global.original_controls && transition_timer <= 2 && x_transition_timer == 0) {
 					reset_transition_timer();
 				}
+				*/
 				
 				break;
 			}
@@ -711,8 +712,7 @@ update_player_state = function() {
 					}
 					else { state = PLAYER_STATES.HOP_DOWN; }
 					
-					if (grid_move_down(1)) { set_transition_timer(8); }
-					else { start_fallback_state(); }
+					if (!grid_move_down(2)) { start_fallback_state(); }
 				}
 				break;
 			}
@@ -995,8 +995,8 @@ update_player_state = function() {
 	
 	// Define Speed Arrays - iterated backwards!
 	//static tumble_speeds = [2, 2, 3, 3];
-	static hop_up_speeds = [0, 0, -1, -1, -1, -1, -2, -2];
-	static hop_down_speeds = [2, 2, 1, 1, 1, 1, 0, 0];
+	static hop_up_speeds = [-1, -1, -2, -4];//[0, 0, -1, -1, -1, -1, -2, -2];
+	static hop_down_speeds = [4, 2, 1, 1, 0];//[2, 2, 1, 1, 1, 1, 0, 0];
 	static recoil_speeds = [0, 0, -2, -2, -4, -4, -2, -2];
 	static recoil_speeds_slow = [0, -2, -4, -2];
 	static climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
@@ -1021,6 +1021,8 @@ update_player_state = function() {
 		y_transition_speed = climb_y_speeds[_speed_index];
 		x_transition_speed = climb_x_speeds[_speed_index] * get_left_value();
 	}
+	
+	if (is_hop_forward_state()) { x_transition_speed = 2 * get_left_value(); }
 }
 
 set_cape_state = function(_state, _sprite, _image, _timer) {
@@ -1428,7 +1430,7 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 	
 	// Determine Cape Y
 	if (state == PLAYER_STATES.FALL || state == PLAYER_STATES.DAZED_FALL) { _cape_y -= 4; }
-	else if (state == PLAYER_STATES.POWERFALL) { _cape_y -= 1; }
+	else if (state == PLAYER_STATES.POWERFALL) { _cape_y -= 2; }
 	else if (is_ladder_state()) { _cape_y += 1; _cape_image_x_scale = 1; _cape_x_offset = 0; }
 	
 	// Draw Cape

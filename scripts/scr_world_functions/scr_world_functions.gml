@@ -117,7 +117,8 @@ function room_data(_room = room) {
 		rm_old_w5_4: { world: WORLDS.SKY_5,  title: "Dusk Bowl", is_cutscene: false, is_classic: true },
 		
 		// Modifed Levels
-		rm_mdb_2_8_modified: { world: WORLDS.FOREST,  title: "Linking Logs", is_cutscene: false, is_classic: false },
+		rm_mdb_2_8_modified: { world: WORLDS.FOREST,  title: "Top Soil", is_cutscene: false, is_classic: false },
+		rm_mdb_2_8_modified_2: { world: WORLDS.FOREST,  title: "Linking Logs", is_cutscene: false, is_classic: false },
 		rm_mdb_4_1_modified: { world: WORLDS.FORTRESS,  title: "Rank and File", is_cutscene: false, is_classic: false },
 		rm_mdb_4_4_modified: { world: WORLDS.FORTRESS,  title: "Lava Tubes", is_cutscene: false, is_classic: false },
 		rm_mdb_5_6_modified: { world: WORLDS.NIGHT,  title: "Darkness Falls", is_cutscene: false, is_classic: false },
@@ -137,7 +138,7 @@ function room_data(_room = room) {
 		rm_old_t1: { world: WORLDS.BEACH,  title: "Leaving Beach, Entering Forest", is_cutscene: true, is_classic: true },
 		rm_old_t2: { world: WORLDS.FOREST,  title: "Leaving Forest, Entering Factory", is_cutscene: true, is_classic: true },
 		rm_old_t3: { world: WORLDS.FORTRESS,  title: "Leaving Factory, Entering Fortress", is_cutscene: true, is_classic: true },
-		rm_old_t4: { world: WORLDS.BEACH,  title: "Leaving Fortress, Entering...?", is_cutscene: true, is_classic: true },
+		// TODO: rm_old_t4: { world: WORLDS.BEACH,  title: "Leaving Fortress, Entering...?", is_cutscene: true, is_classic: true },
 	};
 
 	return _room_data[$ room_get_name(_room)] ?? _default;
