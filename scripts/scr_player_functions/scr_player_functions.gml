@@ -322,7 +322,7 @@ start_walking = function(_is_crushed = false) {
 start_hopping = function(_should_move_horizontally = false) {
 	virtual_y_offset = get_switch_offset(); // This gets reset elsewhere if we remain grounded before being used in the Draw
 	
-	if (_should_move_horizontally && grid_move_horizontal(get_left_value())) { state = PLAYER_STATES.HOP_UP_FORWARD; }
+	if (_should_move_horizontally && grid_move_horizontal(get_left_value() * 2)) { state = PLAYER_STATES.HOP_UP_FORWARD; }
 	else { state = PLAYER_STATES.HOP_UP; }
 	
 	play_sound(snd_player_jump);
@@ -455,8 +455,12 @@ damage_objects = function(_damage_above = false) {
 	}
 	
 	// Return whether any objects survive
+	var _survivor_y = y + ((_damage_above) ? -GRID_SIZE : sprite_get_height(sprite_index));
 	for (var _i = 0; _i < array_length(_damaged_objects); _i++) {
-		if (instance_exists(_damaged_objects[_i]) && _damaged_objects[_i].y == y + sprite_get_height(sprite_index)) { return true; }
+		var _inst = _damaged_objects[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (is_instance_at_grid_position(x, _survivor_y, _inst) || is_instance_at_grid_position(x + GRID_SIZE, _survivor_y, _inst)) { return true; }
 	}
 	return false;
 }
@@ -707,7 +711,7 @@ update_player_state = function() {
 				else if (state == PLAYER_STATES.HOP_UP && (_horizontal_input || global.original_controls) && instance_exists(get_climbed_object())) { start_climbing(); }
 				else {
 					// Continue with Hop Down
-					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(get_left_value())) {
+					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(2 * get_left_value())) {
 						state = PLAYER_STATES.HOP_DOWN_FORWARD
 					}
 					else { state = PLAYER_STATES.HOP_DOWN; }
@@ -996,9 +1000,9 @@ update_player_state = function() {
 	// Define Speed Arrays - iterated backwards!
 	//static tumble_speeds = [2, 2, 3, 3];
 	static hop_up_speeds = [-1, -1, -2, -4];//[0, 0, -1, -1, -1, -1, -2, -2];
-	static hop_down_speeds = [4, 2, 1, 1, 0];//[2, 2, 1, 1, 1, 1, 0, 0];
-	static recoil_speeds = [0, 0, -2, -2, -4, -4, -2, -2];
-	static recoil_speeds_slow = [0, -2, -4, -2];
+	static hop_down_speeds = [4, 2, 1, 1];//[2, 2, 1, 1, 1, 1, 0, 0];
+	static recoil_speeds = [2, 0, -2, -2, -2, -4, -4, -4];
+	static recoil_speeds_slow = [0, 0, -4, -4];
 	static climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,
 					  0, 0, 0, -2, 0, -2, 0, 0,
 					  0, 0, 0, 0, -1, -1, -1, -1];
@@ -1021,8 +1025,6 @@ update_player_state = function() {
 		y_transition_speed = climb_y_speeds[_speed_index];
 		x_transition_speed = climb_x_speeds[_speed_index] * get_left_value();
 	}
-	
-	if (is_hop_forward_state()) { x_transition_speed = 2 * get_left_value(); }
 }
 
 set_cape_state = function(_state, _sprite, _image, _timer) {
