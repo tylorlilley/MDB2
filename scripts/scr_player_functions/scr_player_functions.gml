@@ -20,6 +20,7 @@ enum PLAYER_STATES
 	// Non-Grounded States
 	FLY, // Currently Unused
 	HOP_UP,
+	HOP_HANG,
 	HOP_DOWN,
 	HOP_UP_FORWARD,
 	HOP_DOWN_FORWARD,
@@ -322,7 +323,7 @@ start_walking = function(_is_crushed = false) {
 start_hopping = function(_should_move_horizontally = false) {
 	virtual_y_offset = get_switch_offset(); // This gets reset elsewhere if we remain grounded before being used in the Draw
 	
-	if (_should_move_horizontally && grid_move_horizontal(get_left_value() * 2)) { state = PLAYER_STATES.HOP_UP_FORWARD; }
+	if (_should_move_horizontally && grid_move_horizontal(get_left_value())) { state = PLAYER_STATES.HOP_UP_FORWARD; }
 	else { state = PLAYER_STATES.HOP_UP; }
 	
 	play_sound(snd_player_jump);
@@ -711,7 +712,7 @@ update_player_state = function() {
 				else if (state == PLAYER_STATES.HOP_UP && (_horizontal_input || global.original_controls) && instance_exists(get_climbed_object())) { start_climbing(); }
 				else {
 					// Continue with Hop Down
-					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(2 * get_left_value())) {
+					if (_can_walk && state == PLAYER_STATES.HOP_UP_FORWARD && grid_move_horizontal(get_left_value())) {
 						state = PLAYER_STATES.HOP_DOWN_FORWARD
 					}
 					else { state = PLAYER_STATES.HOP_DOWN; }
@@ -999,8 +1000,8 @@ update_player_state = function() {
 	
 	// Define Speed Arrays - iterated backwards!
 	//static tumble_speeds = [2, 2, 3, 3];
-	static hop_up_speeds = [-1, -1, -2, -4];//[0, 0, -1, -1, -1, -1, -2, -2];
-	static hop_down_speeds = [4, 2, 1, 1];//[2, 2, 1, 1, 1, 1, 0, 0];
+	static hop_up_speeds = [0, 0, 0, 0, -1, -1, -2, -4];
+	static hop_down_speeds = [4, 2, 1, 1, 0, 0, 0, 0];
 	static recoil_speeds = [2, 0, -2, -2, -2, -4, -4, -4];
 	static recoil_speeds_slow = [0, 0, -4, -4];
 	static climb_y_speeds = [0, 0, 0, 0, 0, 0, 0, 0,

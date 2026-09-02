@@ -446,6 +446,7 @@
     {"id":{"name":"spr_player_float","path":"sprites/spr_player_float/spr_player_float.yy",},},
     {"id":{"name":"spr_player_fly","path":"sprites/spr_player_fly/spr_player_fly.yy",},},
     {"id":{"name":"spr_player_hop_down","path":"sprites/spr_player_hop_down/spr_player_hop_down.yy",},},
+    {"id":{"name":"spr_player_hop_hang","path":"sprites/spr_player_hop_hang/spr_player_hop_hang.yy",},},
     {"id":{"name":"spr_player_hop_up","path":"sprites/spr_player_hop_up/spr_player_hop_up.yy",},},
     {"id":{"name":"spr_player_idle","path":"sprites/spr_player_idle/spr_player_idle.yy",},},
     {"id":{"name":"spr_player_ladder_look","path":"sprites/spr_player_ladder_look/spr_player_ladder_look.yy",},},
