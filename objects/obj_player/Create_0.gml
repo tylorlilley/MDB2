@@ -86,27 +86,22 @@ update_virtual_y_offset = function() {
 		climbed_inst.update_virtual_y_offset();
 		virtual_y_offset = climbed_inst.virtual_y_offset;
 		if (array_contains(get_ground_objects(), climbed_inst)) { virtual_y_offset += get_deformed_offset(); }
-		
-		// Add more offset on corners for certain tile types
-		if (climbed_inst.is_a(obj_cloud)) { virtual_y_offset += 2; }
-		else if (climbed_inst.is_a(obj_leaf)) { virtual_y_offset += 1; }
 	}
 	else if (is_grounded_state()) {
 		parent_update_virtual_y_offset();
-		var _left_ground = get_object(false, 0), _right_ground = get_object(false, GRID_SIZE);
 		
-		// Add more offset on corners for certain tile types
-		// TODO: Instead of applying this offset only when on an edge, apply it when the tile below is drawing a corner and not has_square_corners AND is a cloud or leaf.
-		if (!instance_exists(_left_ground) && instance_exists(_right_ground)) {
-			if (_right_ground.is_a(obj_cloud)) { virtual_y_offset += 2; }
-			else if (_right_ground.is_a(obj_leaf)) { virtual_y_offset += 1; }
+		// Add offset from rounded corners
+		var _ground_objects = get_left_and_right_objects(false, false), _min_corner_offset = 9999;
+		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+			var _inst = _ground_objects[_i];
+			if (!instance_exists(_inst)) { continue; }
+			
+			_min_corner_offset = min(_min_corner_offset, _inst.virtual_y_offset);
 		}
-		else if (!instance_exists(_right_ground) && instance_exists(_left_ground)) {
-			if (_left_ground.is_a(obj_cloud)) { virtual_y_offset += 2; }
-			else if (_left_ground.is_a(obj_leaf)) { virtual_y_offset += 1; }
-		}
+		if (_min_corner_offset == 9999) { _min_corner_offset = 0; }
+		virtual_y_offset += _min_corner_offset;
 		
-		// Add more offset when teeterring
+		// Add even more offset when teeterring on edge
 		if (state == PLAYER_STATES.STAND_EDGE) || (state == PLAYER_STATES.LOOK_UP && ((is_left && !_left_ground) || (!is_left && !_right_ground))) { virtual_y_offset += 1; }
 	}
 	else { virtual_y_offset = 0; }

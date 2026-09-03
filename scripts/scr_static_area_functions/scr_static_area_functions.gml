@@ -20,6 +20,7 @@ initialize_static_area = function() {
 	particle_frequency = 0;
 	outline_x_offset = undefined;
 	outline_y_offset = undefined;
+	virtual_y_offset = undefined;
 	visual_origin_x = x;
 	visual_origin_y = y;
 	positional_animation_offset = 0;
@@ -115,21 +116,26 @@ update_connected_graphics = function() {
 update_outline_offsets = function() {
 	outline_x_offset = undefined;
 	outline_y_offset = undefined;
+	virtual_y_offset = 0;
 	
 	if (!connected_above && !connected_on_left && connected_below && connected_on_right) { // Top Left Corner
 		outline_x_offset = 0;
 		outline_y_offset = 0;
+		if (is_a(obj_cloud) || is_a(obj_leaf)) { virtual_y_offset = 2; }
 		if (has_square_shape && !connected_on_far_right && !connected_far_bottom) {
 			outline_x_offset = 24;
 			outline_y_offset = 16;
+			if (is_a(obj_cloud) || is_a(obj_leaf)) { virtual_y_offset = 1; }
 		}
 	}
 	else if (!connected_above && connected_on_left && connected_below && !connected_on_right) { // Top Right Corner
 		outline_x_offset = 16;
 		outline_y_offset = 0;
+		if (is_a(obj_cloud) || is_a(obj_leaf)) { virtual_y_offset = 2; }
 		if (has_square_shape && !connected_on_far_left && !connected_far_bottom) {
 			outline_x_offset = 32;
 			outline_y_offset = 16;
+			if (is_a(obj_cloud) || is_a(obj_leaf)) { virtual_y_offset = 1; }
 		}
 	}
 	else if (!connected_below && !connected_on_left && connected_above && connected_on_right) { // Bottom Left Corner
