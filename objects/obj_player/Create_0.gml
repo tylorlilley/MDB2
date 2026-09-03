@@ -92,6 +92,7 @@ update_virtual_y_offset = function() {
 		var _left_ground = get_object(false, 0), _right_ground = get_object(false, GRID_SIZE);
 		
 		// Add more offset on corners and when teetring
+		// TODO: Instead of applying this offset only when on an edge, apply it when the tile below is drawing a corner and not has_square_corners AND is a cloud or leaf.
 		if ((!_left_ground && instance_exists(_right_ground) && (_right_ground.is_a(obj_cloud) || _right_ground.is_a(obj_leaf))) || (!_right_ground && instance_exists(_left_ground) && (_left_ground.is_a(obj_cloud) || _left_ground.is_a(obj_leaf)))) { virtual_y_offset += 2; }
 		if ((is_left && !_left_ground) || (!is_left && !_right_ground)) { virtual_y_offset += 1; }
 	}
