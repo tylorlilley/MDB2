@@ -490,6 +490,8 @@ game_object_step = function() {
 		}
 	}
 	else {
+		do_switch_collisions();
+		
 		// TODO: don't base this on lack of gravity
 		if (transition_timer == 0) {	
 			var _can_move = (is_left) ? !is_blocked_on_left() : !is_blocked_on_right();

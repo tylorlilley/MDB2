@@ -58,6 +58,8 @@ game_object_step = function() {
 	if (abs(gear_timer) == 4) {
 		if (!start_gear_move(_dir * 4)) { gear_timer = 0; image_angle = 0; }
 	}
+	
+	do_switch_collisions();
 }
 
 // New Functions

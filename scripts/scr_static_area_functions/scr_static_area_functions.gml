@@ -259,10 +259,10 @@ get_main_y = function() {
 }
 
 set_column_deformed = function(_deform_level) {
-	if (_deform_level < 1) { exit; }
+	if (_deform_level <= 0) { exit; }
 	
-	is_deformed_by = max(is_deformed_by, _deform_level);
-	with (connected_on_left) { set_column_deformed(_deform_level-1); }
-	with (connected_on_right) { set_column_deformed(_deform_level-1); }
-	with (connected_below) { set_column_deformed(_deform_level-1); }
+	is_deformed_by = max(is_deformed_by, floor(_deform_level));
+	with (connected_on_left) { set_column_deformed((is_deformed_by / 2)); }
+	with (connected_on_right) { set_column_deformed((is_deformed_by / 2)); }
+	with (connected_below) { set_column_deformed((is_deformed_by-1)); }
 }
