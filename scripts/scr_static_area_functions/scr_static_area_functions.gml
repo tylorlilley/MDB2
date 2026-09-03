@@ -55,11 +55,11 @@ initialize_static_area = function() {
 	creator = noone;
 	manager = noone;
 
-
 	with (obj_static_area_manager) {
-	    for (var _i = 0; _i < array_length(static_area_objects); _i++) {
-	        if (other.is_a(static_area_objects[_i])) { other.manager = id; break; }
-	    }
+		for (var _i = 0; _i < array_length(static_area_objects); _i++) {
+			if (static_area_objects[_i] == other.object_index) { other.manager = id; break; }
+			if (other.manager == noone && other.is_a(static_area_objects[_i])) { other.manager = id; }
+		}
 	}
 }
 

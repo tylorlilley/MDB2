@@ -24,20 +24,26 @@ redraw_static_area_surface = function() {
 		var _last_palette = undefined;
 		if (uses_static_area_draw) {
 			with (_object_index) {
+				if (manager != other.id) { continue; }
 				if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
 				draw_static_area_fill();
 			}
 			_last_palette = undefined;
 			with (_object_index) {
+				if (manager != other.id) { continue; }
 				if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
 				draw_static_area_outline();
 			}
 			gpu_set_blendmode_ext(bm_zero, bm_src_alpha);
-			with (_object_index) { draw_static_area_mask(); }
+			with (_object_index) {
+				if (manager != other.id) { continue; }
+				draw_static_area_mask();
+			}
 			gpu_set_blendmode(bm_normal);
 		}
 		else {
 			with (_object_index) {
+				if (manager != other.id) { continue; }
 				if (main_palette != _last_palette) { set_shader_palette(main_palette); _last_palette = main_palette; }
 				draw_self();
 			}

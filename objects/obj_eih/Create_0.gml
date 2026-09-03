@@ -8,6 +8,7 @@ is_solid_from_below = true;
 is_solid_from_right = true;
 is_solid_from_left = true;
 is_climbable = true;
+//is_fragile = true;
 
 // Sprite Variables
 main_palette = PALETTES.GRAY_LIGHT;

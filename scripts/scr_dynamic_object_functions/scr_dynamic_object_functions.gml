@@ -60,7 +60,7 @@ get_float_offset = function() {
 get_deformed_offset = function() {
 	if (!is_grounded_state() && state != PLAYER_STATES.CLIMB) { return 0; }
 
-	var _ground_objects = (is_grounded_state()) ?  get_left_and_right_objects() : [get_climbed_object()], _should_deform = true, _deform_offset = 9999;
+	var _ground_objects = (is_grounded_state()) ? get_left_and_right_objects() : [climbed_inst], _should_deform = true, _deform_offset = 9999;
 	// Check if Player is Only Standing on Deformable Objects
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) { 
 		var _inst = _ground_objects[_i];
@@ -107,6 +107,13 @@ get_deformed_offset = function() {
 				}
 			}
 		}
+	}
+	
+	// Determine Final Offset
+	_deform_offset = 9999;
+	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
+		var _inst = _ground_objects[_i];
+		if (instance_exists(_inst)) { _deform_offset = min(_deform_offset, _inst.is_deformed_by); }
 	}
 	if (_deform_offset == 9999) { _deform_offset = 0; }
 	
