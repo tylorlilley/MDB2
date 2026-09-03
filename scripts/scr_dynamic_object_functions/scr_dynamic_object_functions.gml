@@ -17,7 +17,7 @@ get_switch_offset = function() {
 	// Calculate Base Offset Yourself
 	if (_y_offset == 999) {
 		_y_offset = 0;
-		var _potential_objects = get_relative_vertical_objects(false, false, function(_inst) { return (_inst.x == x && _inst.is_a(obj_switch)); });
+		var _potential_objects = get_relative_overlapping_objects(function(_inst) { return (_inst.x == x && _inst.is_a(obj_switch)); });
 		for (var _i = 0; _i < array_length(_potential_objects); _i++) {
 			var _inst = _potential_objects[_i], _image_index_offset;
 			switch (_inst.image_index) {
