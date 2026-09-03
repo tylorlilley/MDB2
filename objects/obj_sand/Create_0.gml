@@ -9,7 +9,6 @@ main_sprite = spr_sand;
 outline_sprite = spr_sand_outline;
 outline_mask_sprite = undefined;
 fuzzing_sprite = spr_sand_fuzzing;
-deform_level = 1;
 	
 // Visual Drawing Variables
 animated = false;

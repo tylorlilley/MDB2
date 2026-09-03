@@ -186,6 +186,8 @@ connect_static_areas_to_manager = function(_obj_index_array, _depth, _is_occlude
 	
 		// Set up Static Area Types
 		with (_obj_index) {
+			if (is_a(obj_cloud) && object_index != _obj_index) { continue; } // TODO: Base this on something else
+			
 			set_depth(_static_area_manager.depth - _i);
 			if (!is_undefined(fuzzing_sprite)) { fuzzing_image_index = irandom(sprite_get_number(fuzzing_sprite)-1); }
 			if (animated) { positional_animation_offset = ((((visual_origin_x div 8) - (visual_origin_y div 8)) % 4 + 4) % 4) * 2; }
@@ -506,7 +508,7 @@ update_drip_locations = function() {
 	if (drip_frequency > 0) {
 		with (obj_static_area) {
 			if (y > room_height - (GRID_SIZE*3) || y < GRID_SIZE || x < GRID_SIZE || x > room_width - GRID_SIZE) { continue; }
-			if (object_index == obj_cloud || object_index == obj_lava || object_index == obj_switch_block) { continue; }
+			if (is_a(obj_cloud) || is_a(obj_switch_block) || object_index == obj_tile || object_index == obj_lava) { continue; }
 
 			if (should_draw && is_solid_from_all_sides() && !is_fully_on_ground()) { array_push(other.drip_locations, id); }
 		}

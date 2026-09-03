@@ -397,7 +397,7 @@ damage_objects = function(_damage_above = false) {
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }
 	}
 	
-	return (_damage_above) ? is_below_ceiling() : is_on_ground();
+	return (_damage_above) ? is_under_ceiling() : is_on_ground();
 }
 
 powerfall_on_ground_objects = function() { return damage_objects(false); }
@@ -1414,7 +1414,7 @@ do_player_object_collisions = function(_skip_portals = false) {
 	
 		// Go Through Open Doors
 		if (controlled_by_human) {
-			if (state != PLAYER_STATES.WIN && transition_timer == 0 && (is_grounded_state() || is_fall_state())) {
+			if (state != PLAYER_STATES.LAND && state != PLAYER_STATES.WIN && transition_timer == 0 && (is_grounded_state() || is_fall_state())) {
 				for (var _i = 0; _i < array_length(_objects_at_position); _i++) {
 					var _inst = _objects_at_position[_i];
 					if (!instance_exists(_inst) || !_inst.is_a(obj_door)) { continue; }

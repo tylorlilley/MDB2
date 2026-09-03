@@ -90,6 +90,7 @@ update_virtual_y_offset = function() {
 		parent_update_virtual_y_offset();
 		if ((is_left && !get_object(false, 0)) || (!is_left && !get_object(false, GRID_SIZE))) { virtual_y_offset += 1; }
 	}
+	else { virtual_y_offset = 0; }
 }
 
 // Creation Code

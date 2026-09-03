@@ -58,9 +58,9 @@ get_float_offset = function() {
 }
 
 get_deformed_offset = function() {
-	if (!is_grounded_state()) { return 0; }
+	if (!is_grounded_state() && state != PLAYER_STATES.CLIMB) { return 0; }
 
-	var _ground_objects = get_left_and_right_objects(), _should_deform = true, _deform_offset = 9999;
+	var _ground_objects = (is_grounded_state()) ?  get_left_and_right_objects() : [get_climbed_object()], _should_deform = true, _deform_offset = 9999;
 	// Check if Player is Only Standing on Deformable Objects
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) { 
 		var _inst = _ground_objects[_i];
@@ -73,7 +73,40 @@ get_deformed_offset = function() {
 	// Deform those objects and return offset
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) { 
 		var _inst = _ground_objects[_i];
-		if (instance_exists(_inst)) { _inst.set_column_deformed(_deform_offset); }
+		if (instance_exists(_inst)) {
+			// Deform Main Set of Blocks
+			_inst.set_column_deformed(_deform_offset);
+			if (instance_exists(_inst.connected_below)) { _inst.connected_below.set_column_deformed(_deform_offset); }
+
+			// Deform Surrounding Blocks
+			if (_deform_offset > 1) {
+				// Deform Left
+				if (instance_exists(_inst.connected_on_left) && !instance_exists(_inst.connected_on_left.connected_above)) {
+					_inst.connected_on_left.set_column_deformed(_deform_offset-1);
+					if (instance_exists(_inst.connected_on_left.connected_below)) { _inst.connected_on_left.connected_below.set_column_deformed(_deform_offset-1); }
+					if (instance_exists(_inst.connected_on_left.connected_on_left) && !instance_exists(_inst.connected_on_left.connected_on_left.connected_above)) {
+						_inst.connected_on_left.connected_on_left.set_column_deformed(_deform_offset-1);
+						if (instance_exists(_inst.connected_on_left.connected_on_left.connected_below)) { _inst.connected_on_left.connected_on_left.connected_below.set_column_deformed(_deform_offset-1); }
+					}
+				}
+				// Deform Right
+				if (instance_exists(_inst.connected_on_right) && !instance_exists(_inst.connected_on_right.connected_above)) {
+					_inst.connected_on_right.set_column_deformed(_deform_offset-1);
+					if (instance_exists(_inst.connected_on_right.connected_below)) { _inst.connected_on_right.connected_below.set_column_deformed(_deform_offset-1); }
+					if (instance_exists(_inst.connected_on_right.connected_on_right) && !instance_exists(_inst.connected_on_right.connected_on_right.connected_above)) {
+						_inst.connected_on_right.connected_on_right.set_column_deformed(_deform_offset-1);
+						if (instance_exists(_inst.connected_on_right.connected_on_right.connected_below)) { _inst.connected_on_right.connected_on_right.connected_below.set_column_deformed(_deform_offset-1); }
+					}
+				}
+				// Deform Down
+				if (instance_exists(_inst.connected_below)) {
+					if (instance_exists(_inst.connected_below.connected_below)) {
+						_inst.connected_below.connected_below.set_column_deformed(_deform_offset-1);
+						if (instance_exists(_inst.connected_below.connected_below.connected_below)) { _inst.connected_below.connected_below.connected_below.set_column_deformed(_deform_offset-1); }
+					}
+				}
+			}
+		}
 	}
 	if (_deform_offset == 9999) { _deform_offset = 0; }
 	
@@ -104,6 +137,8 @@ get_left_and_right_objects = function(_get_above = false, _impact_fragile = fals
 	var _surviving_fragile_objects = [];
 	for (var _i = 0; _i < array_length(_returned_objects); _i++) {
 		var _inst = _returned_objects[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
 		if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
 		if (instance_exists(_inst)) { array_push(_surviving_fragile_objects, _inst); }
 	}
@@ -135,7 +170,7 @@ get_float_offset = function() {
 */
 
 update_virtual_y_offset = function() {
-	if (!is_grounded_state()) { return virtual_y_offset; }
+	if (!is_grounded_state()) { virtual_y_offset = 0; return virtual_y_offset; }
 	
 	virtual_y_offset = get_switch_offset() + get_float_offset() + get_deformed_offset();
 }
