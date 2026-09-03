@@ -85,10 +85,15 @@ update_virtual_y_offset = function() {
 	if (state == PLAYER_STATES.CLIMB && instance_exists(climbed_inst)) {
 		climbed_inst.update_virtual_y_offset();
 		virtual_y_offset = climbed_inst.virtual_y_offset;
+		if (array_contains(get_ground_objects(), climbed_inst)) { virtual_y_offset += get_deformed_offset(); }
 	}
 	else if (is_grounded_state()) {
 		parent_update_virtual_y_offset();
-		if ((is_left && !get_object(false, 0)) || (!is_left && !get_object(false, GRID_SIZE))) { virtual_y_offset += 1; }
+		var _left_ground = get_object(false, 0), _right_ground = get_object(false, GRID_SIZE);
+		
+		// Add more offset on corners and when teetring
+		if (!_left_ground || !_right_ground) { virtual_y_offset += 1; }
+		if ((is_left && !_left_ground) || (!is_left && !_right_ground)) { virtual_y_offset += 1; }
 	}
 	else { virtual_y_offset = 0; }
 }
