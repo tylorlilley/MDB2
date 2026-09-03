@@ -38,11 +38,11 @@ text_box_strings = [
 	"You can climb off the bottom of midair ladders with DOWN.",
 	"Some types of tiles will only be destroyed after multiple hits.",
 	"Some types of tiles can't be destroyed at all.",
-	"Overlap a key to collect it!",
-	"If you destroy a tile above empty space, you will dive again!",
+	"Overlap a key to collect it.",
+	"If you destroy a tile above an empty space, you will dive again!",
 	"If you are stuck, press ENTER or SELECT to restart the level.",
 	"Press ESC if you need to pause or return to the main menu.",
 	"Unlock a level's door by collecting all the keys.",
-	"Overlap an open, grounded door to immediately complete the level!",
+	"Overlap an open, grounded door to win the level!",
 	"Good luck! Use UP to\nclose the door and move on."
 ];
