@@ -102,7 +102,7 @@ update_virtual_y_offset = function() {
 		virtual_y_offset += _min_corner_offset;
 		
 		// Add even more offset when teeterring on edge
-		if (state == PLAYER_STATES.STAND_EDGE) || (state == PLAYER_STATES.LOOK_UP && ((is_left && !_left_ground) || (!is_left && !_right_ground))) { virtual_y_offset += 1; }
+		if (state == PLAYER_STATES.STAND_EDGE) || (state == PLAYER_STATES.LOOK_UP && ((is_left && !instance_exists(_left_ground)) || (!is_left && !instance_exists(_right_ground)))) { virtual_y_offset += 1; }
 	}
 	else { virtual_y_offset = 0; }
 }

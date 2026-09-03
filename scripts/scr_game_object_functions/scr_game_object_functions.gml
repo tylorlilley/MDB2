@@ -29,11 +29,7 @@ grid_remove = function() {
 
 // State Querying Functions
 is_fully_on_ground = function(_ignored_objects = []) {
-	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
-	for (var _x = x; _x < x + _sprite_width; _x += GRID_SIZE) {
-		if (array_length(get_objects_at(_x, y + _sprite_height, GRID_SIZE, GRID_SIZE, function(_inst) { return _inst.is_solid_from_above; }, _ignored_objects)) == 0) { return false; }
-	}
-	return true;
+	return (array_length(get_ground_objects()) >= (sprite_get_width(sprite_index) div GRID_SIZE));
 }
 
 is_fully_solid = function(_inst) { return _inst.is_solid_from_all_sides() && treat_object_as_solid(_inst); }
@@ -204,7 +200,7 @@ get_relative_vertical_objects = function(_get_above = false, _impact_fragile = f
 		var _inst = get_relative_object(_x_offset + _base_x_offset, _y_offset, _pred);
 		if (!instance_exists(_inst)) { continue; }
 		
-		if (!array_contains(_returned_objects, id)) { array_push(_returned_objects, id); }
+		if (!array_contains(_returned_objects, _inst.id)) { array_push(_returned_objects, _inst.id); }
 	}
 	
 	if (_impact_fragile) { return impact_fragile_objects(_returned_objects); }
@@ -217,7 +213,7 @@ get_relative_horizontal_objects = function(_get_left = false, _impact_fragile = 
 		var _inst = get_relative_object(_x_offset, _y_offset, _pred);
 		if (!instance_exists(_inst) || array_contains(_ignored_objects, _inst.id)) { continue; }
 		
-		if (!array_contains(_returned_objects, id)) { array_push(_returned_objects, id); }
+		if (!array_contains(_returned_objects, _inst.id)) { array_push(_returned_objects, _inst.id); }
 	}
 	
 	if (_impact_fragile) { return impact_fragile_objects(_returned_objects); }
@@ -231,7 +227,7 @@ get_relative_overlapping_objects = function(_pred = always_true, _filter_by_inde
 			var _inst = get_relative_object(_x_offset, _y_offset, _pred);
 			if (!instance_exists(_inst) || !_inst.is_a(_filter_by_index) || array_contains(_ignored_objects, _inst.id)) { continue; }
 		
-			if (!array_contains(_returned_objects, id)) { array_push(_returned_objects, id); }
+			if (!array_contains(_returned_objects, _inst.id)) { array_push(_returned_objects, _inst.id); }
 		}
 	}
 	
@@ -260,61 +256,20 @@ is_pushable_from_right = function(_inst) { return _inst.can_be_pushed_right(); }
 is_climbable_from_left = function(_inst) { return _inst.can_be_climbed_from_right(); }
 is_climbable_from_right = function(_inst) { return _inst.can_be_climbed_from_left(); }
 
-get_ceiling_objects = function(_impact_fragile = false) {
-	return get_relative_vertical_objects(true, _impact_fragile, is_solid_ceiling);
-}
-
-get_ground_objects = function(_impact_fragile = false) {
-	return get_relative_vertical_objects(false, _impact_fragile, is_solid_ground);
-}
-
-get_left_wall_objects = function() {
-	return get_relative_horizontal_objects(true, false, is_solid_left_wall);
-}
-
-get_right_wall_objects = function() {
-	return get_relative_horizontal_objects(false, false, is_solid_right_wall);
-}
-
-get_left_pushable_objects = function() {
-	return get_relative_horizontal_objects(true, false, is_pushable_from_right);
-}
-
-get_right_pushable_objects = function() {
-	return get_relative_horizontal_objects(false, false, is_pushable_from_left);
-}
-
-get_left_climbable_objects = function(_ignored_objects = []) {
-	return get_relative_horizontal_objects(true, false, is_climbable_from_left, _ignored_objects);
-}
-
-get_right_climbable_objects = function(_ignored_objects = []) {
-	return get_relative_horizontal_objects(false, false, is_climbable_from_right, _ignored_objects);
-}
-
-get_left_diagonal_ceiling_objects = function() {
-	return get_relative_vertical_objects(true, false, is_solid_ceiling, -GRID_SIZE);
-}
-
-get_right_diagonal_ceiling_objects = function() {
-	return get_relative_vertical_objects(true, false, is_solid_ceiling, GRID_SIZE);
-}
-
-get_left_ceiling_object = function() {
-	return get_relative_object(0, -GRID_SIZE, is_solid_ceiling);
-}
-
-get_right_ceiling_object = function() {
-	return get_relative_object(GRID_SIZE, -GRID_SIZE, is_solid_ceiling);
-}
-
-get_left_ground_object = function() {
-	return get_relative_object(0, GRID_SIZE, is_solid_ground);
-}
-
-get_right_ground_object = function() {
-	return get_relative_object(GRID_SIZE, GRID_SIZE, is_solid_ground);
-}
+get_ceiling_objects = function(_impact_fragile = false) { return get_relative_vertical_objects(true, _impact_fragile, is_solid_ceiling); }
+get_ground_objects = function(_impact_fragile = false) { return get_relative_vertical_objects(false, _impact_fragile, is_solid_ground); }
+get_left_wall_objects = function() { return get_relative_horizontal_objects(true, false, is_solid_left_wall); }
+get_right_wall_objects = function() { return get_relative_horizontal_objects(false, false, is_solid_right_wall); }
+get_left_pushable_objects = function() { return get_relative_horizontal_objects(true, false, is_pushable_from_right); }
+get_right_pushable_objects = function() { return get_relative_horizontal_objects(false, false, is_pushable_from_left); }
+get_left_climbable_objects = function(_ignored_objects = []) { return get_relative_horizontal_objects(true, false, is_climbable_from_left, _ignored_objects); }
+get_right_climbable_objects = function(_ignored_objects = []) { return get_relative_horizontal_objects(false, false, is_climbable_from_right, _ignored_objects); }
+get_left_diagonal_ceiling_object  = function() { return get_relative_object(-GRID_SIZE, -GRID_SIZE, is_solid_ceiling); }
+get_right_diagonal_ceiling_object = function() { return get_relative_object(sprite_get_width(sprite_index), -GRID_SIZE, is_solid_ceiling); }
+get_left_ceiling_object = function() { return get_relative_object(0, -GRID_SIZE, is_solid_ceiling); }
+get_right_ceiling_object = function() { return get_relative_object(GRID_SIZE, -GRID_SIZE, is_solid_ceiling); }
+get_left_ground_object = function() { return get_relative_object(0, sprite_get_height(sprite_index), is_solid_ground); }
+get_right_ground_object = function() { return get_relative_object(sprite_get_width(sprite_index) - GRID_SIZE, sprite_get_height(sprite_index), is_solid_ground); }
 
 update_virtual_y_offset = function() {
 	if (!is_grounded_state()) { virtual_y_offset = 0; return virtual_y_offset; }
