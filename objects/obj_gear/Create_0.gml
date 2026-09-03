@@ -48,7 +48,8 @@ start_gear_damaged = function(_other, _gear_timer) {
 }
 
 game_object_step = function() {
-	if (gear_timer == 0) { image_angle = 0; return; }
+	do_switch_collisions();
+	if (gear_timer == 0) { image_angle = 0; state = PLAYER_STATES.STAND; return; }
 
 	var _dir = sign(gear_timer);
 	gear_timer -= _dir;
@@ -58,8 +59,6 @@ game_object_step = function() {
 	if (abs(gear_timer) == 4) {
 		if (!start_gear_move(_dir * 4)) { gear_timer = 0; image_angle = 0; }
 	}
-	
-	do_switch_collisions();
 }
 
 // New Functions

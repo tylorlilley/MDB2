@@ -277,13 +277,13 @@ would_be_damaged_by = function(_inst) {
 	return ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (is_a(obj_robot) && _inst.is_robot_lethal));
 }
 
-is_blocked_on_left = function(_ignored_objects = []) {
-	var _wall_objects = get_left_wall_objects(_ignored_objects);
+is_blocked_on_left = function() {
+	var _wall_objects = get_left_wall_objects();
 	return (x <= GRID_SIZE || array_length(_wall_objects) > 0); //((global.original_controls) ? (GRID_SIZE * 2) : GRID_SIZE));
 }
 
-is_blocked_on_right = function(_ignored_objects = []) {
-	var _wall_objects = get_right_wall_objects(_ignored_objects);
+is_blocked_on_right = function() {
+	var _wall_objects = get_right_wall_objects();
 	var _max_x = (room_width - GRID_SIZE - sprite_get_width(sprite_index));
 	//if (global.original_controls) { _max_x -= GRID_SIZE; }
 	return (x >= _max_x || array_length(_wall_objects) > 0);

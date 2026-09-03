@@ -20,7 +20,6 @@ enum PLAYER_STATES
 	// Non-Grounded States
 	FLY, // Currently Unused
 	HOP_UP,
-	HOP_HANG,
 	HOP_DOWN,
 	HOP_UP_FORWARD,
 	HOP_DOWN_FORWARD,
@@ -1377,7 +1376,7 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 
 do_player_object_collisions = function(_skip_portals = false) {
 	// Destroy if Inside Lethal object
-	var _inside_objects = get_inside_objects(obj_game_object);
+	var _inside_objects = get_relative_overlapping_objects();
 	for (var _i = 0; _i < array_length(_inside_objects); _i++) {
 		var _inst = _inside_objects[_i]
 		if (instance_exists(_inst)) { get_damaged_by_object(_inst); }

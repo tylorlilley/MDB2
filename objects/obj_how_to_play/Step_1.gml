@@ -9,6 +9,7 @@ if (key_left || key_right || key_up || key_down || key_jump || key_restart) {
 	instance_destroy();
 	global.controller.return_to_title();
 	play_global_sound(snd_explosion);
+	exit;
 }
 
 // Update Cutscene Timers
