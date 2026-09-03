@@ -28,7 +28,7 @@ text_box_strings = [
 	"Press LEFT or RIGHT to move in that direction.",
 	"Moving into a wall two or more tiles tall will stop you.",
 	"Press LEFT or RIGHT to climb up walls that are one tile tall.",
-	"Fall a distance of one tile to safely land on the ground.",
+	"Fall a distance of one tile\nand you will safely land on the ground.",
 	"Fall two or more tiles to dive! You damage tiles you dive into.",
 	"Press UP or DOWN to get on a ladder that you overlap.",
 	"Press UP or DOWN while on a ladder to move in that direction.",

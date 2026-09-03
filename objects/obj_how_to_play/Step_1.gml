@@ -24,6 +24,7 @@ else { text_pos_timer++; }
 if (cutscene_timer > INTRO_WAIT && cutscene_timer < next_text_trigger - TEXT_WAIT) {
 	if (!instance_exists(textbox)) {
 		textbox = instance_create(0, 0, obj_textbox);
+		textbox.persistent = true;
 		textbox.max_width = SCREEN_WIDTH - GRID_SIZE * 2;
 		textbox.max_height = GRID_SIZE * 6;
 		textbox.origin_y = GRID_SIZE + (textbox.max_height/2);
@@ -74,17 +75,18 @@ with (obj_player) {
 			case 4: {
 				// Pause on the Ledge Edge, Drop Down Both Steps, Pause, then Climb and Drop the Bottom Step on Repeat
 				var _edge_x = 112, _turn_x = 120, _wall_x = 136; // 112 is half-supported, 136 is the foot of the bottom step
-				var _edge_hold = FIRST_WAIT, _bottom_pause_end = (FIRST_WAIT * 2) + PLAYER_WAIT;
-				
-				// Counts frames spent standing on the first edge
-				if (x >= _edge_x) { has_completed_move++; }
+				var _bottom_pause_end = (FIRST_WAIT * 2) + PLAYER_WAIT;
 				
 				// Falling states hold the key that started the drop, so it is never a one frame tap
+				var _message_frames_left = other.next_text_trigger - other.cutscene_timer;
+
 				if (x >= _wall_x && !is_fall_state() && other.text_pos_timer > _bottom_pause_end) { demo_phase = 1; }
-				if (demo_phase == 1 && x <= _turn_x) { demo_phase = 2; }
+
+				// Don't start a rightward leg the message has no time to finish; message 5 walks left from here
+				if (demo_phase == 1 && x <= _turn_x && _message_frames_left > FIRST_WAIT) { demo_phase = 2; }
 				
 				key_left = (demo_phase == 1);
-				key_right = (demo_phase != 1);// && ((x < _edge_x) || is_fall_state() || (has_completed_move > _edge_hold && x < _wall_x));
+				key_right = (demo_phase != 1);
 			
 				break;
 			}
@@ -235,20 +237,24 @@ with (obj_player) {
 				global.controller.target_room = rm_how_to_play;
 
 				if (!other.restarted) {
-				    // Equal-length alternating presses, timed from the first frame of input in this message
-				    var _press_hold = MIN_KEY_HOLD * 2, _press_count = 4;
-				    var _presses_elapsed = other.text_pos_timer - PLAYER_WAIT - 1;
+					// Struggle beats: alternate LEFT/RIGHT, pause, hold UP, pause, then give up
+					var _beat = PLAYER_WAIT, _press_count = 4;
+					var _elapsed = other.text_pos_timer - PLAYER_WAIT - 1;
+					var _presses_end = _beat * _press_count;
+					var _up_start = _presses_end + _beat, _up_end = _up_start + (_beat * 2);
+					var _restart_at = _up_end + _beat;
 
-				    if (_presses_elapsed < _press_hold * _press_count) {
-				        var _left_dir = (((_presses_elapsed div _press_hold) % 2) == 0);
-				        key_left = _left_dir;
-				        key_right = !_left_dir;
-				    }
-				    if (other.text_pos_timer >= (FIRST_WAIT * 3)) {
-				        key_restart = true;
-				        other.restarted = true;
-				        global.controller.room_transition_timer = 1;
-				    }
+					if (_elapsed < _presses_end) {
+						var _left_dir = (((_elapsed div _beat) % 2) == 0);
+						key_left = _left_dir;
+						key_right = !_left_dir;
+					}
+					else if (_elapsed >= _up_start && _elapsed < _up_end) { key_up = true; }
+					else if (_elapsed >= _restart_at) {
+						key_restart = true;
+						other.restarted = true;
+						global.controller.room_transition_timer = 1;
+					}
 				}
 				
 				break;
