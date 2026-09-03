@@ -117,7 +117,7 @@ function room_data(_room = room) {
 		rm_old_w5_4: { world: WORLDS.SKY_5,  title: "Dusk Bowl", is_cutscene: false, is_classic: true },
 		
 		// Modifed Levels
-		rm_mdb_2_8_modified: { world: WORLDS.FOREST,  title: "Top Soil", is_cutscene: false, is_classic: false },
+		rm_mdb_2_8_modified: { world: WORLDS.FOREST,  title: "Topsoil", is_cutscene: false, is_classic: false },
 		rm_mdb_2_8_modified_2: { world: WORLDS.FOREST,  title: "Linking Logs", is_cutscene: false, is_classic: false },
 		rm_mdb_3_2_modified: { world: WORLDS.FACTORY,  title: "Sawmill", is_cutscene: false, is_classic: false },
 		rm_mdb_4_1_modified: { world: WORLDS.FORTRESS,  title: "Rank and File", is_cutscene: false, is_classic: false },

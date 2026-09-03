@@ -10,10 +10,8 @@ limited supply of undoes and keys regenerate them
 
 // VISUALS:
 Any button not just up to close doors
-deforming clouds?
-bloom x100
 occasional leafs in the forest?
-drips in the factory?
+
 Desaturate background layer more?
 - option to turn off special palettes for each world?
 - option to turn off bg dirt tiles?
@@ -31,6 +29,10 @@ make classic transitions match the old game's transtions instead of the new ones
 2_8 - too hard?
 
 // FACTORY LEVELS
+
+- level with red block bar at top, robots stepping on switches at bottom, gears in between. Crush robots to modify fall timing for gears. Robots walk on spikes as well?
+- level with three colors of switches and gears that can be pushed down to press the switches?
+
 - more levels with spikes not at bottom
 - spikes where switch blocks save movement
 - Sawmill level?

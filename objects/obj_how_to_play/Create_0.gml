@@ -39,10 +39,10 @@ text_box_strings = [
 	"Some types of tiles will only be destroyed after multiple hits.",
 	"Some types of tiles can't be destroyed at all.",
 	"Overlap a key to collect it!",
-	"If a door is not on the ground, it can't be opened.",
+	"If you destroy a tile above empty space, you will dive again!",
 	"If you are stuck, press ENTER or SELECT to restart the level.",
 	"Press ESC if you need to pause or return to the main menu.",
 	"Unlock a level's door by collecting all the keys.",
-	"Overlap an open door, and you win the level!",
+	"Overlap an open, grounded door to immediately complete the level!",
 	"Good luck! Use UP to\nclose the door and move on."
 ];
