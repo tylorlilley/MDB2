@@ -1,0 +1,1 @@
+if (instance_exists(textbox)) { instance_destroy(textbox); }

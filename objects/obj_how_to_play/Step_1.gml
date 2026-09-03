@@ -6,7 +6,7 @@ if (room != rm_how_to_play) { instance_destroy(); exit; }
 
 // Exit to Title on Button Press
 if (key_left || key_right || key_up || key_down || key_jump || key_restart) {
-	return_to_title = true;
+	instance_destroy();
 	global.controller.return_to_title();
 	play_global_sound(snd_explosion);
 }
@@ -84,7 +84,7 @@ with (obj_player) {
 				if (demo_phase == 1 && x <= _turn_x) { demo_phase = 2; }
 				
 				key_left = (demo_phase == 1);
-				key_right = (demo_phase != 1) && ((x < _edge_x) || is_fall_state() || (has_completed_move > _edge_hold && x < _wall_x));
+				key_right = (demo_phase != 1);// && ((x < _edge_x) || is_fall_state() || (has_completed_move > _edge_hold && x < _wall_x));
 			
 				break;
 			}
@@ -235,16 +235,20 @@ with (obj_player) {
 				global.controller.target_room = rm_how_to_play;
 
 				if (!other.restarted) {
-					if (other.text_pos_timer <= (FIRST_WAIT * 2)) {
-						var _left_dir = ((other.cutscene_timer div 32) % 2 == 0);
-						key_left = _left_dir;
-						key_right = !_left_dir;
-					}
-					if (other.text_pos_timer >= (FIRST_WAIT * 3)) {
-						key_restart = true;
-						other.restarted = true;
-						global.controller.room_transition_timer = 1;
-					}
+				    // Equal-length alternating presses, timed from the first frame of input in this message
+				    var _press_hold = MIN_KEY_HOLD * 2, _press_count = 4;
+				    var _presses_elapsed = other.text_pos_timer - PLAYER_WAIT - 1;
+
+				    if (_presses_elapsed < _press_hold * _press_count) {
+				        var _left_dir = (((_presses_elapsed div _press_hold) % 2) == 0);
+				        key_left = _left_dir;
+				        key_right = !_left_dir;
+				    }
+				    if (other.text_pos_timer >= (FIRST_WAIT * 3)) {
+				        key_restart = true;
+				        other.restarted = true;
+				        global.controller.room_transition_timer = 1;
+				    }
 				}
 				
 				break;

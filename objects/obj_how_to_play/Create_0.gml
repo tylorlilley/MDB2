@@ -11,7 +11,6 @@ play_global_sound(bgm_old_how_to_play);
 
 // Override Parent Variables
 cutscene_timer_max = 9999; // TODO: Update this at end?
-return_to_title = false;
 restarted = false;
 text_pos_timer = 0;
 textbox = noone;
@@ -43,6 +42,6 @@ text_box_strings = [
 	"If you are stuck, press ENTER or SELECT to restart the level.",
 	"Press ESC if you need to pause or return to the main menu.",
 	"Unlock a level's door by collecting all the keys.",
-	"Overlap an open, grounded door to win the level!",
+	"Overlap an open, grounded door\nto win the level!",
 	"Good luck! Use UP to\nclose the door and move on."
 ];
