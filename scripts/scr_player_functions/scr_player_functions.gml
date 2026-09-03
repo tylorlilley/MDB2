@@ -452,8 +452,8 @@ get_ladder_at = function(_x = x, _y = y) {
 
 get_climbed_object = function() {
 	if (!can_climb || is_under_ceiling() || (!key_jump && !key_up && !global.original_controls) || (global.original_controls && y <= 24)) { return noone; }
-	var _diagonal_ceiling_objects = (is_left) ? get_left_diagonal_ceiling_objects() : get_right_diagonal_ceiling_objects();
-	if (array_length(_diagonal_ceiling_objects) > 0) { return noone; }
+	var _diagonal_ceiling_object = (is_left) ? get_left_diagonal_ceiling_object() : get_right_diagonal_ceiling_object();
+	if (instance_exists(_diagonal_ceiling_object)) { return noone; }
 	
 	var _climbable_objects = (is_left) ? get_left_climbable_objects([id]) : get_right_climbable_objects([id]);
 	var _climbed_obj = grid_array_first(_climbable_objects);
@@ -721,7 +721,7 @@ update_player_state = function() {
 						if (should_start_laddering()) { start_laddering(); }
 						else if (key_left || key_right) {
 							// Determine if Can Hop
-							var _diagonal_ceiling_objects = (is_left) ? get_left_diagonal_ceiling_objects() : get_right_diagonal_ceiling_objects(), _under_diagonal_ceiling = (array_length(_diagonal_ceiling_objects) > 0);
+							var _under_diagonal_ceiling = instance_exists((is_left) ? get_left_diagonal_ceiling_object() : get_right_diagonal_ceiling_object());
 							var _can_walk = (is_on_ground() || air_walk)  && ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
 							var _can_hop_up = !is_under_ceiling() && (key_jump || (can_start_climbing() && global.original_controls));
 							var _can_hop_forward = _can_walk && _can_hop_up && !_under_diagonal_ceiling && !global.original_controls;
