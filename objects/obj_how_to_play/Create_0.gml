@@ -10,7 +10,7 @@ play_global_sound(bgm_old_how_to_play);
 #macro MIN_KEY_HOLD 12
 
 // Override Parent Variables
-cutscene_timer_max = 9999; // TODO: Update this at end?
+cutscene_timer_max = 999; // TODO: Update this at end?
 restarted = false;
 text_pos_timer = 0;
 textbox = noone;

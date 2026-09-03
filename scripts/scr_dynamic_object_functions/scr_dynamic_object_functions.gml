@@ -1,10 +1,11 @@
 #macro FLOAT_OFFSET_PERIOD_FRAMES 32
 
-get_switch_offset = function() {
+get_switch_offset = function(_ground_objects = undefined) {
 	if (!is_grounded_state()) { return 0; }
 	
 	// Get Offset From Ground Objects
-	var _ground_objects = get_ground_objects(), _y_offset = 999;
+	var _y_offset = 999;
+	_ground_objects ??= get_ground_objects();
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 		var _inst = _ground_objects[_i];
 		if (instance_exists(_inst) && _inst.is_a(obj_dynamic_object)) {
@@ -32,13 +33,13 @@ get_switch_offset = function() {
 	return _y_offset;
 }
 
-get_float_offset = function() {
+get_float_offset = function(_ground_objects = undefined) {
 	if (!is_grounded_state() && !is_floating_state()) { return 0; }
 	
 	// Get Offset From Ground Objects
 	var _y_offset = 999;
 	if (is_grounded_state()) {
-		var _ground_objects = get_ground_objects();
+		_ground_objects ??= get_ground_objects();
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
 			if (instance_exists(_inst) && _inst.is_a(obj_dynamic_object)) {
@@ -57,10 +58,11 @@ get_float_offset = function() {
 	return _y_offset;
 }
 
-get_deformed_offset = function() {
+get_deformed_offset = function(_ground_objects = undefined) {
 	if (!is_grounded_state() && state != PLAYER_STATES.CLIMB) { return 0; }
 
-	var _ground_objects = (is_grounded_state()) ? get_ground_objects() : [climbed_inst], _should_deform = true, _deform_offset = 9999;
+	var _should_deform = true, _deform_offset = 999;
+	_ground_objects ??= (is_grounded_state()) ? get_ground_objects() : [climbed_inst]
 	// Check if Player is Only Standing on Deformable Objects
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) { 
 		var _inst = _ground_objects[_i];
@@ -110,12 +112,12 @@ get_deformed_offset = function() {
 	}
 	
 	// Determine Final Offset
-	_deform_offset = 9999;
+	_deform_offset = 999;
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 		var _inst = _ground_objects[_i];
 		if (instance_exists(_inst)) { _deform_offset = min(_deform_offset, _inst.is_deformed_by); }
 	}
-	if (_deform_offset == 9999) { _deform_offset = 0; }
+	if (_deform_offset == 999) { _deform_offset = 0; }
 	
 	return _deform_offset;
 }
@@ -264,30 +266,11 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 }
 
 // Boolean Checks
-is_on_ground = function() {
-	return (array_length(get_ground_objects()) > 0);
-}
-
-is_under_ceiling = function() {
-	// TODO: Remove all carried objects resting on self from the is_under_ceiling check
-	return (array_length(get_ceiling_objects()) > 0);
-}
-
-would_be_damaged_by = function(_inst) {
-	return ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (is_a(obj_robot) && _inst.is_robot_lethal));
-}
-
-is_blocked_on_left = function() {
-	var _wall_objects = get_left_wall_objects();
-	return (x <= GRID_SIZE || array_length(_wall_objects) > 0); //((global.original_controls) ? (GRID_SIZE * 2) : GRID_SIZE));
-}
-
-is_blocked_on_right = function() {
-	var _wall_objects = get_right_wall_objects();
-	var _max_x = (room_width - GRID_SIZE - sprite_get_width(sprite_index));
-	//if (global.original_controls) { _max_x -= GRID_SIZE; }
-	return (x >= _max_x || array_length(_wall_objects) > 0);
-}
+would_be_damaged_by = function(_inst) { return ((object_index == obj_player && (_inst.is_powered_player_lethal || (!is_powered_state() && _inst.is_player_lethal))) || (is_a(obj_robot) && _inst.is_robot_lethal)); }
+is_on_ground = function() { return has_relative_vertical_object(false, is_solid_ground); }
+is_under_ceiling = function() { return has_relative_vertical_object(true, is_solid_ceiling); }
+is_blocked_on_left = function() { return (x <= GRID_SIZE || has_relative_horizontal_object(true, is_solid_left_wall)); }
+is_blocked_on_right = function() { return (x >= (room_width - GRID_SIZE - sprite_get_width(sprite_index)) || has_relative_horizontal_object(false, is_solid_right_wall)); }
 
 fully_covered_by = function(_object_index) {
 	return at_each_grid_position(x, y, sprite_get_width(sprite_index), sprite_get_height(sprite_index), _object_index);

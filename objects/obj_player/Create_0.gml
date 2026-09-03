@@ -91,14 +91,14 @@ update_virtual_y_offset = function() {
 		parent_update_virtual_y_offset();
 		
 		// Add offset from rounded corners
-		var _left_ground = get_left_ground_object(), _right_ground = get_right_ground_object(), _ground_objects = [_left_ground, _right_ground], _min_corner_offset = 9999;
+		var _left_ground = get_left_ground_object(), _right_ground = get_right_ground_object(), _ground_objects = [_left_ground, _right_ground], _min_corner_offset = 999;
 		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 			var _inst = _ground_objects[_i];
 			if (!instance_exists(_inst)) { continue; }
 			
 			_min_corner_offset = min(_min_corner_offset, _inst.virtual_y_offset);
 		}
-		if (_min_corner_offset == 9999) { _min_corner_offset = 0; }
+		if (_min_corner_offset == 999) { _min_corner_offset = 0; }
 		virtual_y_offset += _min_corner_offset;
 		
 		// Add even more offset when teeterring on edge
