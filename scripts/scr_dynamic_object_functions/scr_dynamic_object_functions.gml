@@ -17,7 +17,7 @@ get_switch_offset = function() {
 	// Calculate Base Offset Yourself
 	if (_y_offset == 999) {
 		_y_offset = 0;
-		var _potential_objects = get_relative_objects(0, 0,  function(_inst) { return (_inst.x == x && _inst.is_a(obj_switch)); });
+		var _potential_objects = get_relative_vertical_objects(false, false, function(_inst) { return (_inst.x == x && _inst.is_a(obj_switch)); });
 		for (var _i = 0; _i < array_length(_potential_objects); _i++) {
 			var _inst = _potential_objects[_i], _image_index_offset;
 			switch (_inst.image_index) {
@@ -60,7 +60,7 @@ get_float_offset = function() {
 get_deformed_offset = function() {
 	if (!is_grounded_state() && state != PLAYER_STATES.CLIMB) { return 0; }
 
-	var _ground_objects = (is_grounded_state()) ? get_left_and_right_objects() : [climbed_inst], _should_deform = true, _deform_offset = 9999;
+	var _ground_objects = (is_grounded_state()) ? get_ground_objects() : [climbed_inst], _should_deform = true, _deform_offset = 9999;
 	// Check if Player is Only Standing on Deformable Objects
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) { 
 		var _inst = _ground_objects[_i];
@@ -118,82 +118,6 @@ get_deformed_offset = function() {
 	if (_deform_offset == 9999) { _deform_offset = 0; }
 	
 	return _deform_offset;
-}
-
-get_object = function(_get_above = false, _x_offset = 0) {
-	var _objects = (_get_above) ? get_ceiling_objects() : get_ground_objects(), _right_object = noone;
-	var _y_offset = (_get_above) ? -GRID_SIZE : sprite_get_height(sprite_index);
-			
-	for (var _i = 0; _i < array_length(_objects); _i++) {
-		var _inst = _objects[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (is_instance_at_grid_position(x + _x_offset, y + _y_offset, _inst) && (!instance_exists(_right_object) || _right_object.interaction_depth > _inst.interaction_depth)) { _right_object = _inst; }
-	}
-
-	return _right_object;
-}
-
-get_left_and_right_objects = function(_get_above = false, _impact_fragile = false) {
-	var _left_object = get_object(_get_above, 0), _right_object = get_object(_get_above, GRID_SIZE), _returned_objects = [];
-	if (_left_object != noone && _left_object != _right_object) {  array_push(_returned_objects, _left_object); }
-	if (_right_object != noone) { array_push(_returned_objects, _right_object); }
-	
-	if (!_impact_fragile) { return _returned_objects; }
-	
-	var _surviving_fragile_objects = [];
-	for (var _i = 0; _i < array_length(_returned_objects); _i++) {
-		var _inst = _returned_objects[_i];
-		if (!instance_exists(_inst)) { continue; }
-		
-		if (_impact_fragile && _inst.is_fragile) { _inst.get_damaged(); }
-		if (instance_exists(_inst)) { array_push(_surviving_fragile_objects, _inst); }
-	}
-	
-	return _surviving_fragile_objects;
-}
-
-
-/*
-get_float_offset = function() {
-	var _amplitude = 2, _period = FLOAT_OFFSET_PERIOD_FRAMES, _swim_bob = round(_amplitude * sin(swim_timer*(2 * pi / _period)));
-	var _y_offset = (is_floating_state()) ? _swim_bob : 0;
-	if (is_grounded_state()) {
-		_y_offset = 999;
-		var _ground_objects = get_ground_objects();
-		for (var _i = 0; _i < array_length(_ground_objects); _i++) {
-			var _inst = _ground_objects[_i];
-			if (instance_exists(_inst) && is_a(_inst.obj_dynamic_object) && (_inst.is_floating_state() || _inst.is_grounded_state())) {
-				with (_inst) {
-					_y_offset = min(_y_offset, get_float_offset());
-				}
-			}
-		}
-		if (_y_offset == 999) { _y_offset = 0; }
-	}
-	
-	return _y_offset;
-}
-*/
-
-update_virtual_y_offset = function() {
-	if (!is_grounded_state()) { virtual_y_offset = 0; return virtual_y_offset; }
-	
-	virtual_y_offset = get_switch_offset() + get_float_offset() + get_deformed_offset();
-}
-
-spawn_contents = function() {
-	if (contents != noone) {
-		instance_activate_object(contents);
-		contents.grid_move_to(x, y);
-	}
-}
-
-update_last_grid_position = function() {
-	if (x_transition_timer == 0 && y_transition_timer == 0) {
-		last_grid_x = x;
-		last_grid_y = y;
-	}
 }
 
 // State References
@@ -319,7 +243,7 @@ grid_move_horizontal = function(_speed) {
 get_carried_objects = function(_sort_x_by_negative = true) {
 	// Get All Dynamic Objects Above Current Position
 	var _actual_carried_objects = []
-	var _possible_carried_objects = get_relative_objects(0, -GRID_SIZE, function(_inst) {
+	var _possible_carried_objects = get_relative_vertical_objects(true, false, function(_inst) {
         return _inst.is_a(obj_dynamic_object) && _inst.has_gravity && _inst.is_grounded_state() && _inst.is_on_ground();
     });
 	
@@ -339,74 +263,14 @@ get_carried_objects = function(_sort_x_by_negative = true) {
 	return _actual_carried_objects;
 }
 
-get_ground_objects = function(_ignored_objects = []) {
-	return get_relative_objects(0, GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_above && treat_object_as_solid(_inst);
-    }, _ignored_objects);
-}
-
-get_left_wall_objects = function(_ignored_objects = []) {
-	return get_relative_objects(-GRID_SIZE, 0, function(_inst) {
-        return _inst.is_solid_from_right && treat_object_as_solid(_inst);
-    }, _ignored_objects);
-}
-
-get_right_wall_objects = function(_ignored_objects = []) {
-	return get_relative_objects(GRID_SIZE, 0, function(_inst) {
-        return _inst.is_solid_from_left && treat_object_as_solid(_inst);
-    }, _ignored_objects);
-}
-
-get_ceiling_objects = function(_ignored_objects = []) {
-	return get_relative_objects(0, -GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_below && treat_object_as_solid(_inst);
-    }, _ignored_objects);
-}
-
-get_left_ground_objects = function() {
-	return get_relative_objects(-GRID_SIZE, GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_above && treat_object_as_solid(_inst);
-    });
-}
-
-get_right_ground_objects = function() {
-	return get_relative_objects(GRID_SIZE, GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_above && treat_object_as_solid(_inst);
-    });
-}
-
-get_left_pushable_objects = function() {
-	return get_relative_objects(-GRID_SIZE, 0, function(_inst) {
-        return _inst.can_be_pushed_left();
-    });
-}
-
-get_right_pushable_objects = function() {
-	return get_relative_objects(GRID_SIZE, 0, function(_inst) {
-        return _inst.can_be_pushed_right();
-    });
-}
-
-get_left_climbable_objects = function(_ignored_objects = []) {
-	return get_relative_objects(-GRID_SIZE, 0, function(_inst, _ignored) {
-        return _inst.can_be_climbed_from_right(_ignored);
-    }, _ignored_objects);
-}
-
-get_right_climbable_objects = function(_ignored_objects = []) {
-	return get_relative_objects(GRID_SIZE, 0, function(_inst, _ignored) {
-        return _inst.can_be_climbed_from_left(_ignored);
-    }, _ignored_objects);
-}
-
 // Boolean Checks
-is_on_ground = function(_ignored_objects = []) {
-	return (array_length(get_ground_objects(_ignored_objects)) > 0);
+is_on_ground = function() {
+	return (array_length(get_ground_objects()) > 0);
 }
 
-is_under_ceiling = function(_ignored_objects = []) {
+is_under_ceiling = function() {
 	// TODO: Remove all carried objects resting on self from the is_under_ceiling check
-	return (array_length(get_ceiling_objects(_ignored_objects)) > 0);
+	return (array_length(get_ceiling_objects()) > 0);
 }
 
 would_be_damaged_by = function(_inst) {

@@ -36,47 +36,10 @@ is_fully_on_ground = function(_ignored_objects = []) {
 	return true;
 }
 
-get_relative_objects = function(_x_offset, _y_offset, _pred, _ignored_objects = [], _object_index = obj_game_object) {
-	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
-	var _x = x + _x_offset, _y = y + _y_offset, _width = _sprite_width, _height = _sprite_height;
-	
-	
-	if (_x_offset > 0) { _x += _sprite_width - GRID_SIZE; }
-	if (_y_offset > 0) { _y += _sprite_height - GRID_SIZE; }
-	if (_x_offset != 0) { _width = GRID_SIZE; }
-	if (_y_offset != 0) { _height = GRID_SIZE; }
-	
-	return get_objects_at(_x, _y, _width, _height, _pred, _ignored_objects, _object_index);
-}
+is_fully_solid = function(_inst) { return _inst.is_solid_from_all_sides() && treat_object_as_solid(_inst); }
 
-get_left_ceiling_objects = function(_ignored_objects = []) {
-	return get_relative_objects(-GRID_SIZE, -GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_below;
-    }, _ignored_objects);
-}
-
-get_right_ceiling_objects = function(_ignored_objects = []) {
-	return get_relative_objects(GRID_SIZE, -GRID_SIZE, function(_inst) {
-        return _inst.is_solid_from_below;
-    }, _ignored_objects);
-}
-
-get_inside_objects = function(_object_index = obj_game_object, _pred = always_true, _ignored_objects = []) {
-	return get_relative_objects(0, 0, _pred, _ignored_objects, _object_index);
-}
-
-is_inside_object = function(_object_index = obj_game_object, _pred = always_true, _ignored_objects = []) {
-	return array_length(get_inside_objects(_object_index, _pred, _ignored_objects)) > 0;
-}
-
-get_inside_solids = function(_ignored_objects = []) {
-	return get_inside_objects(obj_game_object, function(_inst) {
-        return _inst.is_solid_from_all_sides() && treat_object_as_solid(_inst);
-    }, _ignored_objects);
-}
-
-is_inside_solid = function(_ignored_objects = []) {
-	return array_length(get_inside_solids(_ignored_objects)) > 0;
+is_inside_solid = function() {
+	return array_length(get_relative_overlapping_objects(is_fully_solid)) > 0;
 }
 
 can_be_pushed_left = function() {
@@ -93,14 +56,14 @@ can_be_pushed_right = function() {
 
 can_be_climbed_from_left = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
-	if (array_length(get_left_ceiling_objects(_ignored_objects)) > 0) { return false; }
+	if (array_length(get_left_diagonal_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x-GRID_SIZE, y, GRID_SIZE, GRID_SIZE, object_index));
 }
 
 can_be_climbed_from_right = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
-	if (array_length(get_right_ceiling_objects(_ignored_objects)) > 0) { return false; }
+	if (array_length(get_right_diagonal_ceiling_objects(_ignored_objects)) > 0) { return false; }
 	
 	return (!is_connected || !at_grid_position(x+GRID_SIZE, y, GRID_SIZE, GRID_SIZE, object_index));
 }
@@ -215,3 +178,162 @@ get_connected_instances = function(_connected_instances) {
 }
 
 treat_object_as_solid = function(_inst) { return true; }
+
+// Position Functions
+get_relative_object = function(_x_offset = 0, _y_offset = 0, _pred = always_true) {
+	var _sprite_width = sprite_get_width(sprite_index), _sprite_height = sprite_get_height(sprite_index);
+	var _x = x + _x_offset, _y = y + _y_offset;
+	
+	if (_x_offset > 0) { _x += _sprite_width - GRID_SIZE; }
+	if (_y_offset > 0) { _y += _sprite_height - GRID_SIZE; }
+			
+	var _objects = get_objects_at(_x, _y, GRID_SIZE, GRID_SIZE, _pred), _chosen_object = noone;
+	for (var _i = 0; _i < array_length(_objects); _i++) {
+		var _inst = _objects[_i];
+		if (!instance_exists(_inst)) { continue; }
+		if (!_pred(_inst)) { continue; } 
+		
+		if (!instance_exists(_chosen_object) || _chosen_object.interaction_depth > _inst.interaction_depth) { _chosen_object = _inst; }
+	}
+
+	return _chosen_object;
+}
+
+get_relative_vertical_objects = function(_get_above = false, _impact_fragile = false, _pred = always_true, _base_x_offset = 0) {
+	var _returned_objects = [], _sprite_width = sprite_get_width(sprite_index), _y_offset = GRID_SIZE * ((_get_above) ? -1 : 1);
+	for (var _x_offset = 0; _x_offset < _sprite_width; _x_offset += GRID_SIZE) {
+		var _inst = get_relative_object(_x_offset + _base_x_offset, _y_offset, _pred);
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (!array_contains(_returned_objects, id)) { array_push(_returned_objects, id); }
+	}
+	
+	if (_impact_fragile) { return impact_fragile_objects(_returned_objects); }
+	else { return _returned_objects; }
+}
+
+get_relative_horizontal_objects = function(_get_left = false, _impact_fragile = false, _pred = always_true) {
+	var _returned_objects = [], _sprite_height = sprite_get_height(sprite_index), _x_offset = GRID_SIZE * ((_get_left) ? -1 : 1);
+	for (var _y_offset = 0; _y_offset < _sprite_height; _y_offset += GRID_SIZE) {
+		var _inst = get_relative_object(_x_offset, _y_offset, _pred);
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (!array_contains(_returned_objects, id)) { array_push(_returned_objects, id); }
+	}
+	
+	if (_impact_fragile) { return impact_fragile_objects(_returned_objects); }
+	else { return _returned_objects; }
+}
+
+get_relative_overlapping_objects = function(_pred = always_true, _filter_by_index = obj_game_object, _ignored_objects = []) {
+	var _returned_objects = [], _sprite_height = sprite_get_height(sprite_index), _sprite_width = sprite_get_width(sprite_index);
+	for (var _x_offset = 0; _x_offset < _sprite_width; x += GRID_SIZE) {
+		for (var _y_offset = 0; _y_offset < _sprite_height; _y_offset += GRID_SIZE) {
+			var _inst = get_relative_object(_x_offset, _y_offset, _pred);
+			if (!instance_exists(_inst) || !is_a(_filter_by_index) || array_contains(_ignored_objects, id)) { continue; }
+		
+			if (!array_contains(_returned_objects, id)) { array_push(_returned_objects, id); }
+		}
+	}
+	
+	return _returned_objects;
+}
+
+impact_fragile_objects = function(_objects_to_impact) {
+	var _surviving_fragile_objects = [];
+	for (var _i = 0; _i < array_length(_objects_to_impact); _i++) {
+		var _inst = _objects_to_impact[_i];
+		if (!instance_exists(_inst)) { continue; }
+		
+		if (_inst.is_fragile) { _inst.get_damaged(); }
+		if (instance_exists(_inst)) { array_push(_surviving_fragile_objects, _inst); }
+	}
+	
+	return _surviving_fragile_objects;
+}
+
+is_solid_ceiling = function(_inst) { return _inst.is_solid_from_below && treat_object_as_solid(_inst); }
+is_solid_ground = function(_inst) { return _inst.is_solid_from_above && treat_object_as_solid(_inst); }
+is_solid_right_wall = function(_inst) { return _inst.is_solid_from_left && treat_object_as_solid(_inst); }
+is_solid_left_wall = function(_inst) { return _inst.is_solid_from_right && treat_object_as_solid(_inst); }
+is_pushable_from_left = function(_inst) { return _inst.can_be_pushed_left(); }
+is_pushable_from_right = function(_inst) { return _inst.can_be_pushed_right(); }
+is_climbable_from_left = function(_inst) { return _inst.can_be_climbed_from_right(); }
+is_climbable_from_right = function(_inst) { return _inst.can_be_climbed_from_left(); }
+
+get_ceiling_objects = function(_impact_fragile = false) {
+	get_relative_vertical_objects(true, _impact_fragile, is_solid_ceiling);
+}
+
+get_ground_objects = function(_impact_fragile = false) {
+	get_relative_vertical_objects(true, _impact_fragile, is_solid_ground);
+}
+
+get_left_wall_objects = function() {
+	get_relative_horizontal_objects(true, false, is_solid_left_wall);
+}
+
+get_right_wall_objects = function(_ignored_objects = []) {
+	get_relative_horizontal_objects(false, false, is_solid_right_wall);
+}
+
+get_left_pushable_objects = function() {
+	get_relative_horizontal_objects(true, false, is_pushable_from_right);
+}
+
+get_right_pushable_objects = function() {
+	get_relative_horizontal_objects(false, false, is_pushable_from_left);
+}
+
+get_left_climbable_objects = function(_ignored_objects = []) {
+	get_relative_horizontal_objects(true, false, is_climbable_from_left);
+}
+
+get_right_climbable_objects = function(_ignored_objects = []) {
+	get_relative_horizontal_objects(false, false, is_climbable_from_right);
+}
+
+get_left_diagonal_ceiling_objects = function(_ignored_objects = []) {
+	get_relative_vertical_objects(true, _impact_fragile, is_solid_ceiling, -GRID_SIZE);
+}
+
+get_right_diagonal_ceiling_objects = function(_ignored_objects = []) {
+	get_relative_vertical_objects(true, _impact_fragile, is_solid_ceiling, GRID_SIZE);
+}
+
+
+get_left_ceiling_object = function() {
+	get_relative_object(0, -GRID_SIZE, is_solid_ceiling);
+}
+
+get_right_ceiling_object = function() {
+	get_relative_object(GRID_SIZE, -GRID_SIZE, is_solid_ceiling);
+}
+
+get_left_ground_object = function() {
+	get_relative_object(0, GRID_SIZE, is_solid_ground);
+}
+
+get_right_ground_object = function() {
+	get_relative_object(GRID_SIZE, GRID_SIZE, is_solid_ground);
+}
+
+update_virtual_y_offset = function() {
+	if (!is_grounded_state()) { virtual_y_offset = 0; return virtual_y_offset; }
+	
+	virtual_y_offset = get_switch_offset() + get_float_offset() + get_deformed_offset();
+}
+
+spawn_contents = function() {
+	if (contents != noone) {
+		instance_activate_object(contents);
+		contents.grid_move_to(x, y);
+	}
+}
+
+update_last_grid_position = function() {
+	if (x_transition_timer == 0 && y_transition_timer == 0) {
+		last_grid_x = x;
+		last_grid_y = y;
+	}
+}

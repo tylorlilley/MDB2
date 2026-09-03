@@ -42,6 +42,8 @@ deactivate_portal = function(_player_palette) {
 	}
 }
 
+is_portalable = function(_inst) { return _inst.is_portalable; }
+is_solid_and_not_portalable = function(_inst) { return !_inst.is_portalable && _inst.is_solid_from_all_sides(); }
 is_overlapped = function() {
 	/*
 	var _nearest_dynamic_object = instance_nearest(x + GRID_SIZE, y + GRID_SIZE, obj_dynamic_object);
@@ -49,9 +51,9 @@ is_overlapped = function() {
 	var _dist_to_nearest_dynamic_object = point_distance(x + GRID_SIZE, y, _nearest_dynamic_object.x + GRID_SIZE, _nearest_dynamic_object.y + GRID_SIZE);
 	return (_dist_to_nearest_dynamic_object < GRID_SIZE * 2);
 	*/
-	return is_inside_object(obj_dynamic_object, function(_inst) { return _inst.is_portalable; });
+	return array_length(get_relative_overlapping_objects(is_portalable, obj_dynamic_object)) > 0
 }
 
 is_blocked = function() {
-	return is_inside_object(obj_dynamic_object, function(_inst) { return !_inst.is_portalable && _inst.is_solid_from_all_sides(); });
+	return array_length(get_relative_overlapping_objects(is_solid_and_not_portalable, obj_dynamic_object)) > 0
 }

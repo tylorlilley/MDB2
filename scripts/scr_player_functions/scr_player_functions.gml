@@ -348,7 +348,7 @@ get_damaged_by_object = function(_inst) {
 }
 
 damage_objects = function(_damage_above = false) {
-	var _objects_to_damage = get_left_and_right_objects(_damage_above);
+	var _objects_to_damage = (_damage_above) ? get_ceiling_objects() : get_ground_objects();
 	
 	// Also Damage Static Area Objects One Layer Deeper
 	for (var _i = 0; _i < array_length(_objects_to_damage); _i++) {
@@ -356,7 +356,7 @@ damage_objects = function(_damage_above = false) {
 		if (_inst.is_a(obj_static_area)) {
 			var _prev_y = y;
 			grid_move_to(x, y + (_damage_above ? -GRID_SIZE : GRID_SIZE), false);
-			var _deeper_objects_to_damage = get_left_and_right_objects(_damage_above);
+			var _deeper_objects_to_damage = (_damage_above) ? get_ceiling_objects() : get_ground_objects();
 			for (var _d = 0; _d < array_length(_deeper_objects_to_damage); _d++) {
 				var _deeper_inst = _deeper_objects_to_damage[_d];
 				if (!instance_exists(_deeper_inst)) { continue; }
@@ -404,7 +404,7 @@ powerfall_on_ground_objects = function() { return damage_objects(false); }
 powerfly_into_ceiling_objects = function() { return damage_objects(true); }
 
 fall_on_ground_objects = function() {
-	var _ground_objects = get_left_and_right_objects(false, true);
+	var _ground_objects = get_ground_objects(true);
 		
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 		var _inst = _ground_objects[_i];
@@ -415,7 +415,7 @@ fall_on_ground_objects = function() {
 }
 
 fly_into_ceiling_objects = function() {
-	var _ceiling_objects = get_left_and_right_objects(true, true);
+	var _ceiling_objects = get_ceiling_objects(true);
 		
 	for (var _i = 0; _i < array_length(_ceiling_objects); _i++) {
 		var _inst = _ceiling_objects[_i];
@@ -427,8 +427,7 @@ fly_into_ceiling_objects = function() {
 }
 
 walk_on_ground_objects = function() {
-	
-	var _ground_objects = get_left_and_right_objects();
+	var _ground_objects = get_ground_objects();
 		
 	for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 		var _inst = _ground_objects[_i];
@@ -454,7 +453,7 @@ get_ladder_at = function(_x = x, _y = y) {
 
 get_climbed_object = function() {
 	if (!can_climb || is_under_ceiling() || (!key_jump && !key_up && !global.original_controls) || (global.original_controls && y <= 24)) { return noone; }
-	var _diagonal_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects();
+	var _diagonal_ceiling_objects = (is_left) ? get_left_diagonal_ceiling_objects() : get_right_diagonal_ceiling_objects();
 	if (array_length(_diagonal_ceiling_objects) > 0) { return noone; }
 	
 	var _climbable_objects = (is_left) ? get_left_climbable_objects([id]) : get_right_climbable_objects([id]);
@@ -723,7 +722,7 @@ update_player_state = function() {
 						if (should_start_laddering()) { start_laddering(); }
 						else if (key_left || key_right) {
 							// Determine if Can Hop
-							var _diagonal_ceiling_objects = (is_left) ? get_left_ceiling_objects() : get_right_ceiling_objects(), _under_diagonal_ceiling = (array_length(_diagonal_ceiling_objects) > 0);
+							var _diagonal_ceiling_objects = (is_left) ? get_left_diagonal_ceiling_objects() : get_right_diagonal_ceiling_objects(), _under_diagonal_ceiling = (array_length(_diagonal_ceiling_objects) > 0);
 							var _can_walk = (is_on_ground() || air_walk)  && ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
 							var _can_hop_up = !is_under_ceiling() && (key_jump || (can_start_climbing() && global.original_controls));
 							var _can_hop_forward = _can_walk && _can_hop_up && !_under_diagonal_ceiling && !global.original_controls;
@@ -926,7 +925,7 @@ update_player_state = function() {
 	
 	// Update On Edge Status
 	if (state == PLAYER_STATES.STAND) {
-		if ((is_left && !instance_exists(get_object(false, 0))) || (!is_left && !instance_exists(get_object(false, GRID_SIZE)))) {
+		if ((is_left && !instance_exists(get_left_ground_object())) || (!is_left && !instance_exists(get_right_ground_object()))) {
 			state = PLAYER_STATES.STAND_EDGE;
 		}
 	}
@@ -1435,7 +1434,7 @@ do_player_object_collisions = function(_skip_portals = false) {
 		if (is_grounded_state()) {
 			// Destroy if Standing on Lethal Object and No Other Solids
 		
-			var _ground_objects = get_left_and_right_objects(), _safe = false, _damaged = false;
+			var _ground_objects = get_ground_objects(), _safe = false, _damaged = false;
 			for (var _i = 0; _i < array_length(_ground_objects); _i++) {
 				var _inst = _ground_objects[_i];
 				if (instance_exists(_inst)) {
