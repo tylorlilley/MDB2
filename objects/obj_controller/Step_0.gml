@@ -12,7 +12,7 @@ if (!paused) {
 			else if (portal_lockout_timer == 0) {
 				update_controls(object_index == obj_mirror_player);
 				if (global.combine_up_and_jump_controls) { key_jump = key_up; }
-				if (global.original_controls) { key_jump = false; }
+				//if (global.original_controls) { key_jump = false; }
 			}
 		}
 	}

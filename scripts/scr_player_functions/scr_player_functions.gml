@@ -563,7 +563,7 @@ update_player_state = function() {
 				break;
 			}
 			case PLAYER_STATES.WIN: {
-				if ((key_up || key_jump) && prev_state == PLAYER_STATES.WIN && win_loops > 0) { reset_transition_timer(); }
+				if ((key_up || key_jump || key_restart) && prev_state == PLAYER_STATES.WIN && win_loops > 0) { reset_transition_timer(); }
 				else if (visible) {
 					if (transition_timer == 51) { image_index = 0; cape_image_index = 0; }
 					else if (transition_timer == 36) { image_index = 1; cape_image_index = 1; play_sound(snd_player_jump); virtual_y -= 2; }

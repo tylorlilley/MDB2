@@ -39,6 +39,7 @@ if (text_pos_timer > 0 && cutscene_timer > INTERRUPTION_FRAME) {
 	else { text_pos_timer++; }
 	
 	// Manage Textbox
+	actor = (text_pos == 10 || text_pos == 11 || text_pos == 9 || text_pos == 14) ? 1 : 0;
 	if (text_pos_timer > FIRST_WAIT) {
 		var _text_box_text = actor_strings[actor] + ": " + text_box_strings[text_pos];
 		if (!instance_exists(textbox)) {
@@ -51,8 +52,10 @@ if (text_pos_timer > 0 && cutscene_timer > INTERRUPTION_FRAME) {
 	}
 	else if (text_pos_timer < next_text_trigger - TEXT_WAIT && instance_exists(textbox)) { textbox.is_opening = false; }
 
-	actor = (text_pos == 10 || text_pos == 11 || text_pos == 9 || text_pos == 14) ? 1 : 0;
-	
 	with (obj_player) { reset_controls(); }
 	with (obj_saucer) { vspeed -= 0.5 / global.controller.fps_ratio; }
+	with (obj_princess) {
+		if (!instance_exists(other.textbox) || !other.textbox.is_opening) { image_index = 0; }
+		else if (other.actor == 0 && other.text_pos_timer % 16 == 0) { image_index++; }
+	}
 }

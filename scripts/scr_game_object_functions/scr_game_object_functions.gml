@@ -54,14 +54,15 @@ can_be_pushed_right = function() {
 	return array_length(get_right_wall_objects()) == 0;
 }
 
-is_climbable_by_object_on_right = function(_ignored_objects = []) {
+is_climbable_by_object_on_left
+ = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
 	if (instance_exists(get_left_diagonal_ceiling_object(_ignored_objects))) { return false; }
 	
 	return (!is_connected || !at_grid_position(x-GRID_SIZE, y, GRID_SIZE, GRID_SIZE, object_index));
 }
 
-is_climbable_by_object_on_left = function(_ignored_objects = []) {
+is_climbable_by_object_on_right = function(_ignored_objects = []) {
 	if (!is_climbable) { return false; }
 	if (instance_exists(get_right_diagonal_ceiling_object(_ignored_objects))) { return false; }
 	
@@ -266,17 +267,17 @@ is_solid_ceiling = function(_inst) { return _inst.is_solid_from_below && treat_o
 is_solid_ground = function(_inst) { return _inst.is_solid_from_above && treat_object_as_solid(_inst); }
 is_solid_right_wall = function(_inst) { return _inst.is_solid_from_left && treat_object_as_solid(_inst); }
 is_solid_left_wall = function(_inst) { return _inst.is_solid_from_right && treat_object_as_solid(_inst); }
-is_pushable_from_left = function(_inst) { return _inst.can_be_pushed_left(); }
-is_pushable_from_right = function(_inst) { return _inst.can_be_pushed_right(); }
-is_climbable_from_left = function(_inst, _ignored_objects = []) { return _inst.is_climbable_by_object_on_left(_ignored_objects); }
-is_climbable_from_right = function(_inst, _ignored_objects = []) { return _inst.is_climbable_by_object_on_right(_ignored_objects); }
+is_pushable_to_left = function(_inst) { return _inst.can_be_pushed_left(); }
+is_pushable_to_right = function(_inst) { return _inst.can_be_pushed_right(); }
+is_climbable_from_left = function(_inst, _ignored_objects = []) { return _inst.is_climbable_by_object_on_right(_ignored_objects); }
+is_climbable_from_right = function(_inst, _ignored_objects = []) { return _inst.is_climbable_by_object_on_left(_ignored_objects); }
 
 get_ceiling_objects = function(_impact_fragile = false) { return get_relative_vertical_objects(true, _impact_fragile, is_solid_ceiling); }
 get_ground_objects = function(_impact_fragile = false) { return get_relative_vertical_objects(false, _impact_fragile, is_solid_ground); }
 get_left_wall_objects = function() { return get_relative_horizontal_objects(true, false, is_solid_left_wall); }
 get_right_wall_objects = function() { return get_relative_horizontal_objects(false, false, is_solid_right_wall); }
-get_left_pushable_objects = function() { return get_relative_horizontal_objects(true, false, is_pushable_from_right); }
-get_right_pushable_objects = function() { return get_relative_horizontal_objects(false, false, is_pushable_from_left); }
+get_left_pushable_objects = function() { return get_relative_horizontal_objects(true, false, is_pushable_to_left); }
+get_right_pushable_objects = function() { return get_relative_horizontal_objects(false, false, is_pushable_to_right); }
 get_left_climbable_objects = function(_ignored_objects = []) { return get_relative_horizontal_objects(true, false, is_climbable_from_left, _ignored_objects); }
 get_right_climbable_objects = function(_ignored_objects = []) { return get_relative_horizontal_objects(false, false, is_climbable_from_right, _ignored_objects); }
 get_left_diagonal_ceiling_object = function(_ignored_objects = []) { return get_relative_object(-GRID_SIZE, -GRID_SIZE, is_solid_ceiling, _ignored_objects); }
@@ -287,7 +288,7 @@ get_left_ground_object = function() { return get_relative_object(0, sprite_get_h
 get_right_ground_object = function() { return get_relative_object(sprite_get_width(sprite_index) - GRID_SIZE, sprite_get_height(sprite_index), is_solid_ground); }
 
 update_virtual_y_offset = function() {
-	if (!is_a(obj_dynamic_object) || !is_grounded_state()) { virtual_y_offset = 0; return virtual_y_offset; }
+	if (!is_a(obj_dynamic_object) || !is_grounded_state()) { return virtual_y_offset; }
 
 	var _ground_objects = get_ground_objects();
 	virtual_y_offset = get_switch_offset(_ground_objects) + get_float_offset(_ground_objects) + get_deformed_offset(_ground_objects);
