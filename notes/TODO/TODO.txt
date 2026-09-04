@@ -5,8 +5,7 @@ Take Notes on Screen?
 - W4 - W5 Transition Cutscene
 - Ending Cutscene + Credits
 - mac version?
-- 
-limited supply of undoes and keys regenerate them
+- limited supply of undoes and keys regenerate them
 
 // VISUALS:
 Any button not just up to close doors
