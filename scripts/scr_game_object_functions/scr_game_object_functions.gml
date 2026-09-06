@@ -115,9 +115,9 @@ create_footstep = function(_is_left) {
 	_step.creator = id;
 	_step.sprite_index = spr_particle_footstep;
 	_step.image_index = 0;
-	_step.is_left = _is_left;
 	_step.depth = depth - 1;
-	_step.main_palette = get_darker_palette(main_palette);
+	_step.is_left = _is_left;
+	_step.main_palette = main_palette;
 	_step.set_dim_timer(40);
 	_step.max_alpha = 1//0.85;
 	_step.use_outline_draw = false;

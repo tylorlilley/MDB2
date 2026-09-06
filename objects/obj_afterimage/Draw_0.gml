@@ -1,4 +1,4 @@
-if (instance_exists(creator)) { virtual_y = creator.get_main_y() + 1; }
+if (instance_exists(creator)) { virtual_y = creator.get_main_y() + 1; set_shader_palette(main_palette); }
 else if (use_outline_draw) { set_shader_outline_palette(main_palette); }
 
 // Coppied from Draw Dynamic Object
