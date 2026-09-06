@@ -110,7 +110,7 @@ walk_on = function(_particle_number = 1) {
 }
 
 create_footstep = function(_is_left) {
-	var _step = instance_create(x + 2, y, obj_afterimage);
+	var _step = instance_create(x + 2, virtual_y_offset + 2, obj_afterimage);
 	_step.creator = id;
 	_step.sprite_index = spr_player_classic // spr_particle_footstep;
 	_step.image_index = 0;
