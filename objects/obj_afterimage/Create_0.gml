@@ -5,6 +5,7 @@ main_palette = undefined;
 max_alpha = 0.325;
 creator = noone;
 is_left = false;
+use_outline_draw = true;
 
 // Game Maker Variables
 depth = BACKGROUND_DEPTH - 1;

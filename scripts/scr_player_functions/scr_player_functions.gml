@@ -306,7 +306,7 @@ start_turning = function() {
 
 start_walking = function(_is_crushed = false) {
 	// First, walk on next object
-	var _prev_x = x, _prev_y = y, _footstep_spot = (is_left) ? get_right_ground_object() : get_left_ground_object();
+	var _prev_x = x, _prev_y = y, _footstep_spot = (is_left) ? get_left_ground_object() : get_right_ground_object();
 	with (_footstep_spot) { if (has_footsteps) { create_footstep(other.is_left); } }
 	grid_move_to((is_left) ? x - GRID_SIZE : x + GRID_SIZE, y, false);
 	walk_on_ground_objects();
