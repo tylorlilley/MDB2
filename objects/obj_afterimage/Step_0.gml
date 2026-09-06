@@ -1,8 +1,5 @@
 if (!global.controller.paused) {
-	if (creator != noone) {
-		if (!instance_exists(creator)) { instance_destroy(); exit; }
-		else { y = creator.y + creator.virtual_y_offset + 1; main_palette = creator.main_palette; }
-	}
+	if (creator != noone && !instance_exists(creator)) { instance_destroy(); exit; }
 	
 	dim_timer--;
 	if (dim_timer <= 0) { instance_destroy(); }

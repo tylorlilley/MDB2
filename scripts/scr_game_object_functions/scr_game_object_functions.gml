@@ -109,18 +109,20 @@ walk_on = function(_particle_number = 1) {
 }
 
 create_footstep = function(_is_left) {
-	var _step = instance_create(x + 2, y + virtual_y_offset + 2, obj_afterimage);
+	if ((!_is_left && !connected_on_left) || (_is_left && !connected_on_right)) { return noone; }
+	
+	var _step = instance_create(x + 2 - ((_is_left ? -4 : 4)), get_main_y(), obj_afterimage);
 	_step.creator = id;
 	_step.sprite_index = spr_particle_footstep;
 	_step.image_index = 0;
 	_step.is_left = _is_left;
 	_step.depth = depth - 1;
-	_step.main_palette = main_palette;
-	_step.set_dim_timer(32);
-	_step.max_alpha = 0.85;
+	_step.main_palette = get_darker_palette(main_palette);
+	_step.set_dim_timer(40);
+	_step.max_alpha = 1//0.85;
 	_step.use_outline_draw = false;
 	
-	return _step
+	return _step;
 }
 
 fall_on = function(_fall_dist) {

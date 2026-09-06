@@ -321,6 +321,8 @@ start_walking = function(_is_crushed = false) {
 }
 	
 start_hopping = function(_should_move_horizontally = false) {
+	_footstep_spot = (is_left) ? get_left_ground_object() : get_right_ground_object();
+	with (_footstep_spot) { if (has_footsteps) { create_footstep(other.is_left); } }
 	virtual_y_offset = get_switch_offset(); // This gets reset elsewhere if we remain grounded before being used in the Draw
 	
 	if (_should_move_horizontally && grid_move_horizontal(get_left_value())) { state = PLAYER_STATES.HOP_UP_FORWARD; }
