@@ -14,9 +14,12 @@ has_cape = false;
 particle_type = PARTICLE_TYPES.DEBRIS;
 
 // Creator Variables
+creator = noone;
 creator_object_index = undefined;
 destroyed_by_solids = false;
 destroyed_by_creator = false;
+has_left_solid = false;
+original_y = y;
 
 // Pause Variables
 paused_hspeed = 0;

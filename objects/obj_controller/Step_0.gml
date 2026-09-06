@@ -282,6 +282,8 @@ if (drip_timer > 0) {
 		}
 	
 		with (_dripping_block) {
+			if (is_fully_on_ground()) { break; }
+			
 			var _drip_x_min = (connected_on_left) ? 2 : 4, _drip_x_max = (connected_on_right) ? 6 : 4;
 			var _drip_x = x + _drip_x_min + irandom(_drip_x_max - _drip_x_min);
 

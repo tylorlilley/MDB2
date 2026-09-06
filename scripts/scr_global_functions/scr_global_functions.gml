@@ -234,7 +234,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 				}
 				else {
 					destroyed_by_solids = true;
-					if (creator_object_index == obj_cloud) { decay_trigger = 12; }
+					//if (creator_object_index == obj_cloud) { decay_trigger = 12; }
 				}
 			}
 			else if (_particle_type == PARTICLE_TYPES.LEAF) {

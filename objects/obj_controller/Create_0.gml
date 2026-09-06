@@ -96,6 +96,7 @@ depth = OPEN_DOOR_DEPTH;
 static_area_object_indexes_to_draw = [];
 transition_surface = undefined;
 screen_shake_timer = 0;
+should_update_drip_locations = false;
 
 // Timers
 application_surface_draw_enable(false);

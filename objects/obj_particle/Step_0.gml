@@ -5,14 +5,8 @@ if (!global.controller.is_logic_frame()) { exit; }
 if (y > destroyed_y) { instance_destroy(); }
 else if (destroyed_by_creator && instance_exists(creator) && place_meeting(x, y, creator_object_index)) { instance_destroy(); }
 else if (destroyed_by_solids) {
-	var _instances = instances_at_grid_position(x, y);
-	for (var _i = 0; _i < array_length(_instances); _i++) {
-		var _inst = _instances[_i];
-		if (instance_exists(_inst) && _inst.is_solid_from_all_sides && _inst.object_index != creator_object_index) {
-			instance_destroy();
-			break;
-		}
-	}
+	if (y > original_y && !has_left_solid) { has_left_solid = !place_meeting(x, y, obj_static_area); }
+	if (has_left_solid && place_meeting(x, y, obj_static_area)) { instance_destroy(); }
 }
 if (!instance_exists(id)) { exit; }
 
