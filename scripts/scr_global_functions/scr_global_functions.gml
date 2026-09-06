@@ -200,6 +200,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 		
 		var _particle = instance_create(_x_pos, _y_pos, obj_particle);
 		with (_particle) {
+			creator_object_index = other.object_index;
 			main_palette = _particle_palette;
 			particle_type = _particle_type;
 			sprite_index = _particle_sprite;
@@ -230,6 +231,10 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 					vspeed = _y_speed; //- 0.125;
 					gravity = 0.0;
 					decay_trigger = 5;
+				}
+				else {
+					destroyed_by_solids = true;
+					if (creator_object_index == obj_cloud) { decay_trigger = 12; }
 				}
 			}
 			else if (_particle_type == PARTICLE_TYPES.LEAF) {
