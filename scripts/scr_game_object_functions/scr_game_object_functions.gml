@@ -106,6 +106,21 @@ walk_on = function(_particle_number = 1) {
 	if (audio_exists(step_sound)) { play_sound(step_sound); }
 	
 	create_walk_particles(_particle_number);
+	if (has_footsteps) { create_footstep(other.is_left); }
+}
+
+create_footstep = function(_is_left) {
+	var _step = instance_create(x + 2, y, obj_afterimage);
+	_step.creator = id;
+	_step.sprite_index = spr_player_classic // spr_particle_footstep;
+	_step.image_index = 0;
+	_step.is_left = _is_left;
+	_step.depth = other.depth - 1;
+	_step.main_palette = other.main_palette;
+	_step.set_dim_timer(32);
+	_step.max_alpha = 0.85;
+	
+	return _step
 }
 
 fall_on = function(_fall_dist) {

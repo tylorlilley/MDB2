@@ -432,6 +432,7 @@
     {"id":{"name":"spr_particle_drip_forming_1","path":"sprites/spr_particle_drip_forming_1/spr_particle_drip_forming_1.yy",},},
     {"id":{"name":"spr_particle_drip_forming","path":"sprites/spr_particle_drip_forming/spr_particle_drip_forming.yy",},},
     {"id":{"name":"spr_particle_drip","path":"sprites/spr_particle_drip/spr_particle_drip.yy",},},
+    {"id":{"name":"spr_particle_footstep","path":"sprites/spr_particle_footstep/spr_particle_footstep.yy",},},
     {"id":{"name":"spr_particle_leaf","path":"sprites/spr_particle_leaf/spr_particle_leaf.yy",},},
     {"id":{"name":"spr_particle_player_dying","path":"sprites/spr_particle_player_dying/spr_particle_player_dying.yy",},},
     {"id":{"name":"spr_particle_robot_dying","path":"sprites/spr_particle_robot_dying/spr_particle_robot_dying.yy",},},

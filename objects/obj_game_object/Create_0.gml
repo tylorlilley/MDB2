@@ -8,6 +8,7 @@ particles_min = 2;
 particles_max = 8;
 virtual_y_offset = 0;
 deform_level = 0;
+has_footsteps = false;
 
 // Sound Variables
 destroyed_sound = undefined;
