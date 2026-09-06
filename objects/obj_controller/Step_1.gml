@@ -2,10 +2,7 @@
 determine_gamepad();
 
 // Update Drips
-if (should_update_drip_locations) {
-	should_update_drip_locations = false;
-	update_drip_locations();
-}
+if (should_update_drip_locations) { update_drip_locations(); }
 
 // Update Framerate
 var _fast_forward_button_held = (keyboard_check(vk_shift) || gamepad_button_check(global.gamepad, gp_shoulderl) || gamepad_button_check(global.gamepad, gp_shoulderr) || gamepad_button_check(global.gamepad, gp_shoulderlb) || gamepad_button_check(global.gamepad, gp_shoulderrb));

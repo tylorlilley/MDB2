@@ -73,6 +73,7 @@ with (obj_lava) {
 				_lava_bubble.vspeed -= 1 / global.controller.fps_ratio;
 				_lava_bubble.destroyed_y = _lava_bubble.y + sprite_get_height(_lava_bubble.sprite_index);
 				_lava_bubble.destroyed_by_creator = true;
+				_lava_bubble.creator = id;
 			}
 		}
 	}
@@ -278,12 +279,10 @@ if (drip_timer > 0) {
 		while (array_length(drip_locations) > 0 && _dripping_block == noone) {
 			var _index = irandom(array_length(drip_locations) - 1);
 			_dripping_block = drip_locations[_index];
-			if (!instance_exists(_dripping_block)) { array_delete(drip_locations, _index, 1); _dripping_block = noone; }
+			if (!instance_exists(_dripping_block) || !_dripping_block.is_fully_on_ground()) { array_delete(drip_locations, _index, 1); _dripping_block = noone; }
 		}
 	
-		with (_dripping_block) {
-			if (is_fully_on_ground()) { break; }
-			
+		with (_dripping_block) {			
 			var _drip_x_min = (connected_on_left) ? 2 : 4, _drip_x_max = (connected_on_right) ? 6 : 4;
 			var _drip_x = x + _drip_x_min + irandom(_drip_x_max - _drip_x_min);
 

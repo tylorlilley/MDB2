@@ -514,6 +514,7 @@ update_drip_locations = function() {
 			if (should_draw && is_solid_from_all_sides() && !is_fully_on_ground()) { array_push(other.drip_locations, id); }
 		}
 	}
+	should_update_drip_locations = false;
 }
 
 set_drip_timer = function() {
