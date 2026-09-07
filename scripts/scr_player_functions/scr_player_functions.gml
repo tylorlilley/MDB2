@@ -321,7 +321,7 @@ start_walking = function(_is_crushed = false) {
 }
 	
 start_hopping = function(_should_move_horizontally = false) {
-	_footstep_spot = (is_left) ? get_left_ground_object() : get_right_ground_object();
+	var _footstep_spot = (is_left) ? get_left_ground_object() : get_right_ground_object();
 	with (_footstep_spot) { if (has_footsteps) { create_footstep(other.is_left); } }
 	virtual_y_offset = get_switch_offset(); // This gets reset elsewhere if we remain grounded before being used in the Draw
 	
@@ -726,7 +726,7 @@ update_player_state = function() {
 							// Determine if Can Hop
 							var _under_diagonal_ceiling = instance_exists((is_left) ? get_left_diagonal_ceiling_object() : get_right_diagonal_ceiling_object());
 							var _can_walk = (is_on_ground() || air_walk)  && ((is_left) ? !is_blocked_on_left() : !is_blocked_on_right());
-							var _can_hop_up = !is_under_ceiling() && (key_jump || (can_start_climbing() && global.original_controls));
+							var _can_hop_up = !is_under_ceiling() && ((global.original_controls) ? can_start_climbing() : key_jump);
 							var _can_hop_forward = _can_walk && _can_hop_up && !_under_diagonal_ceiling && !global.original_controls;
 							
 							if (_can_hop_forward) {

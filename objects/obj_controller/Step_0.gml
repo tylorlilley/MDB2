@@ -279,7 +279,7 @@ if (drip_timer > 0) {
 		while (array_length(drip_locations) > 0 && _dripping_block == noone) {
 			var _index = irandom(array_length(drip_locations) - 1);
 			_dripping_block = drip_locations[_index];
-			if (!instance_exists(_dripping_block) || !_dripping_block.is_fully_on_ground()) { array_delete(drip_locations, _index, 1); _dripping_block = noone; }
+			if (!instance_exists(_dripping_block) || _dripping_block.is_fully_on_ground()) { array_delete(drip_locations, _index, 1); _dripping_block = noone; }
 		}
 	
 		with (_dripping_block) {			
