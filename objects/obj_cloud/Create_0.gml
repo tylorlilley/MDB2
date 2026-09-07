@@ -17,7 +17,6 @@ has_square_shape = true;
 has_darker_particles = false;
 deform_level = 2;
 particle_frequency = 4;
-has_footsteps = true;
 	
 // Sound Variables
 step_sound = snd_step_cloud;

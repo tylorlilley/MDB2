@@ -118,8 +118,9 @@ create_footstep = function(_is_left) {
 	_step.depth = depth - 1;
 	_step.is_left = _is_left;
 	_step.main_palette = main_palette;
-	_step.set_dim_timer(40);
-	_step.max_alpha = 1//0.85;
+	_step.set_dim_timer(56);
+	_step.max_alpha = 0.85;
+	_step.image_alpha = _step.max_alpha;
 	_step.use_outline_draw = false;
 	
 	return _step;
