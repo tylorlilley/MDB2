@@ -8,7 +8,9 @@ if (_inside_playable_area) {
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(particle_palette));
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(get_darker_palette(particle_palette)));
 	create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, death_sprite, has_cape);
-	create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, spr_head_lopez, false);
+	if (global.has_head) {
+		create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, global.head_sprite, false, 26 / sprite_get_height(global.head_sprite));
+	}
 	
 	// Create Death Afterimage
 	/*

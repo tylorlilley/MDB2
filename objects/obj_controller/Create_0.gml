@@ -64,6 +64,7 @@ global.static_area_scratch_surface = undefined;
 global.last_gamepad_h_axis_value = 0;
 global.last_gamepad_v_axis_value = 0;
 global.has_head = true;
+global.head_sprite = spr_head_lopez;
 
 // Debug Variables
 quips_enabled = false;

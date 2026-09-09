@@ -1378,21 +1378,24 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 }
 
 draw_head_graphics = function(_head_sprite) {
-	var _head_scale = 24 / sprite_get_height(_head_sprite), _x_offset = 10, _y_offset = 13, _angle = 0;
+	var _head_scale = 26 / sprite_get_height(_head_sprite), _x_offset = 9, _y_offset = 11, _angle = 0;
+	
+	if (_head_sprite == spr_head_leni) { _x_offset += 1; _y_offset -= 1; }
+	else if (_head_sprite == spr_head_gavin) { _y_offset += 1; }
 	
 	if (state == PLAYER_STATES.RECOIL) { _y_offset += (4-image_index) * 2; }
 	else if (state == PLAYER_STATES.TUMBLE) { _y_offset += (image_index+1) * 2; }
 	else if (state == PLAYER_STATES.LAND) { _y_offset += (image_index == 0) ? 8 : 2; }
-	else if (state == PLAYER_STATES.WIN || state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH) { _y_offset += 2; }
+	else if (state == PLAYER_STATES.WIN) { _y_offset += 2; _x_offset -= (image_index > 1) ? 4 : 0; }
 	else if (state == PLAYER_STATES.POWERFALL) { _y_offset += 8; }
-	else if (state == PLAYER_STATES.STAND_EDGE) { _x_offset += (image_index * 2); }
-	else if (state == PLAYER_STATES.LOOK_UP) { _angle = 15; }
+	else if (state == PLAYER_STATES.STAND_EDGE) { _x_offset += 1 + (image_index * 2); _y_offset += 2; }
+	else if (state == PLAYER_STATES.LOOK_UP) { _angle = 15; _x_offset += 2; }
+	else if (state == PLAYER_STATES.LADDER_LOOK) { _x_offset += 1; }
 	else if (is_push_state()) { _x_offset += 2; }
 	else if (is_crouch_state()) { _y_offset += 2; }
-	else if (is_ladder_state() || is_fly_state() || is_crushed_state() || state == PLAYER_STATES.FALL || state == PLAYER_STATES.WIN) {
+	else if (is_fly_state() || is_crushed_state() || state == PLAYER_STATES.FALL || state == PLAYER_STATES.WIN) {
 		_x_offset -= 2;
-		if (state == PLAYER_STATES.LADDER_LOOK) { _x_offset += 2; }
-		else if (state == PLAYER_STATES.CRUSHED_STAND) { _y_offset += (image_index < 2) ? 4 : 6; }
+		if (state == PLAYER_STATES.CRUSHED_STAND) { _y_offset += (image_index < 2) ? 4 : 6; }
 		else if (state == PLAYER_STATES.CRUSHED_FORWARD) { _y_offset += (image_index %2 == 1) ? 4 : 2; }
 	}
 	else if (is_hop_up_state()) { _y_offset += 1; }
@@ -1401,7 +1404,7 @@ draw_head_graphics = function(_head_sprite) {
 		
 	shader_reset();
 	
-	draw_sprite_ext(_head_sprite, 0, virtual_x + (_x_offset * get_left_value()), virtual_y + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), image_blend, 1);
+	draw_sprite_ext(_head_sprite, 0, virtual_x + (_x_offset * get_left_value()) + get_x_draw_offset(), virtual_y + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), c_white, 1);
 	
 	shader_set(shd_palettizer);
     shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
@@ -1546,8 +1549,8 @@ do_portal_collisions = function(_objects_at_position) {
 }
 
 // Silhoutte Functions
-#macro SILHOUETTE_SURFACE_SIZE 32
-#macro SILHOUETTE_PAD 8
+#macro SILHOUETTE_SURFACE_SIZE 128
+#macro SILHOUETTE_PAD 88
 #macro SILHOUETTE_ALPHA 0.33
 build_solid_mask_surface = function(_origin_x, _origin_y) {
 	if (!surface_exists(solid_mask_surface)) { solid_mask_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
