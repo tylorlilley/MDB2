@@ -63,6 +63,7 @@ global.border_alpha = 0.5;
 global.static_area_scratch_surface = undefined;
 global.last_gamepad_h_axis_value = 0;
 global.last_gamepad_v_axis_value = 0;
+global.has_head = true;
 
 // Debug Variables
 quips_enabled = false;
@@ -129,7 +130,7 @@ initialize_room = function(_new_room) {
 	if (surface_exists(global.static_area_scratch_surface)) { surface_free(global.static_area_scratch_surface); global.static_area_scratch_surface = undefined; }
 	
 	// If Leaving Non-Cutscene Room for a New Room
-	if (!is_cutscene_room() && _new_room != room && _new_room != rm_title) {
+	if (!is_cutscene_room() && _new_room != room && _new_room != rm_title && _new_room != rm_mdb_2_8) {
 		level_number++;
 		
 		// Save Current Room

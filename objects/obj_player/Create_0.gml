@@ -1,5 +1,7 @@
 event_inherited();
 
+has_lopez_head = true;
+
 // Game Object Variable Overrides
 has_gravity = true;
 is_solid_from_above = true;

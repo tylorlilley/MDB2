@@ -1344,7 +1344,7 @@ update_player_graphics = function() {
 
 draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undefined) {
 	_image_alpha ??= image_alpha;
-	var _cape_x = virtual_x, _cape_y = virtual_y, _cape_image_x_scale = get_left_value(), _cape_x_offset = get_x_draw_offset();
+	var _cape_x = virtual_x, _cape_y = virtual_y, _cape_image_x_scale = get_left_value(), _cape_x_offset = get_x_draw_offset(cape_sprite_index);
 	
 	// Determine Cape X
 	if (state != PLAYER_STATES.LADDER &&
@@ -1375,6 +1375,39 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 	// Draw Cape
 	set_shader_palette(PALETTES.GRAY_LIGHT);
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset + _x_offset, _cape_y + virtual_y_offset + _y_offset, _cape_image_x_scale, 1, 0, image_blend, _image_alpha);
+}
+
+draw_head_graphics = function(_head_sprite) {
+	var _head_scale = 24 / sprite_get_height(_head_sprite), _x_offset = get_x_draw_offset(_head_sprite) + 11, _y_offset = 14, _angle = 0;
+	
+	if (state == PLAYER_STATES.LAND) { _y_offset += (image_index == 0) ? 16 : 12; }
+	
+	
+	if (state == PLAYER_STATES.RECOIL) { _y_offset += (4-image_index) * 2; }
+	else if (state == PLAYER_STATES.TUMBLE) { _y_offset += (image_index+1) * 2; }
+	else if (state == PLAYER_STATES.LAND) { _y_offset += (image_index == 0) ? 8 : 2; }
+	else if (state == PLAYER_STATES.WIN || state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH) { _y_offset += 2; }
+	else if (state == PLAYER_STATES.POWERFALL) { _y_offset += 8; }
+	else if (state == PLAYER_STATES.STAND_EDGE) { _x_offset += (image_index * 2); }
+	else if (state == PLAYER_STATES.LOOK_UP) { _x_offset -= 2; _angle = 15; }
+	else if (is_push_state()) { _x_offset += 2; }
+	else if (is_crouch_state()) { _y_offset += 2; }
+	else if (is_ladder_state() || is_fly_state() || is_crushed_state() || state == PLAYER_STATES.FALL || state == PLAYER_STATES.WIN) {
+		_x_offset -= 2;
+		if (state == PLAYER_STATES.LADDER_LOOK) { _x_offset += 2; }
+		else if (state == PLAYER_STATES.CRUSHED_STAND) { _y_offset += (image_index < 2) ? 4 : 6; }
+		else if (state == PLAYER_STATES.CRUSHED_FORWARD) { _y_offset += (image_index %2 == 1) ? 4 : 2; }
+	}
+	else if (is_hop_up_state()) { _y_offset += 1; }
+	else if (is_hop_down_state()) { _y_offset -= 1; }
+	else if (state == PLAYER_STATES.CLIMB) { _y_offset += (image_index < 7) ? 0 : 2; }
+		
+	shader_reset();
+	
+	draw_sprite_ext(_head_sprite, 0, virtual_x + _x_offset, virtual_y + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), image_blend, 1);
+	
+	shader_set(shd_palettizer);
+    shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
 }
 
 do_player_object_collisions = function(_skip_portals = false) {

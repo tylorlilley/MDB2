@@ -1,0 +1,1 @@
+global.has_head = !global.has_head;
