@@ -122,6 +122,7 @@ switch (state) {
 						global.controller.room_transition_timer = TRANSITION_DELAY-1;
 						if (menu_pos == MENU_OPTIONS.START_CLASSIC) { global.controller.classic_level = true; } // TODO: move this into room info array to fix loading to a classic level
 						if (menu_pos == MENU_OPTIONS.LOAD_GAME) { global.controller.level_number = level_number; }
+						else { global.has_head = true; global.controller.quips_enabled = true; }
 						stop_sound(bgm_mdb_title);
 						stop_sound(bgm_old_title);
 					

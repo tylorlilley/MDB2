@@ -6,6 +6,7 @@ max_alpha = 0.325;
 creator = noone;
 is_left = false;
 use_outline_draw = true;
+use_linear_fade = false;
 
 // Game Maker Variables
 depth = BACKGROUND_DEPTH - 1;

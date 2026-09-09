@@ -1377,7 +1377,7 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 	draw_sprite_ext(cape_sprite_index, cape_image_index, _cape_x + _cape_x_offset + _x_offset, _cape_y + virtual_y_offset + _y_offset, _cape_image_x_scale, 1, 0, image_blend, _image_alpha);
 }
 
-draw_head_graphics = function(_head_sprite) {
+draw_head_graphics = function(_draw_x = 0, _draw_y = 0, _head_sprite) {
 	var _head_scale = 26 / sprite_get_height(_head_sprite), _x_offset = 9, _y_offset = 11, _angle = 0;
 	
 	if (_head_sprite == spr_head_leni) { _x_offset += 1; _y_offset -= 1; }
@@ -1403,11 +1403,14 @@ draw_head_graphics = function(_head_sprite) {
 	else if (state == PLAYER_STATES.CLIMB) { _y_offset += (image_index < 7) ? 0 : 2; }
 		
 	shader_reset();
+	var _old_filter = gpu_get_texfilter();
+	gpu_set_texfilter(true);
 	
-	draw_sprite_ext(_head_sprite, 0, virtual_x + (_x_offset * get_left_value()) + get_x_draw_offset(), virtual_y + virtual_y_offset + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), c_white, 1);
+	draw_sprite_ext(_head_sprite, 0, _draw_x + virtual_x + (_x_offset * get_left_value()) + get_x_draw_offset(), _draw_y + virtual_y + virtual_y_offset + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), c_white, 1);
 	
+	gpu_set_texfilter(_old_filter);
 	shader_set(shd_palettizer);
-    shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
+	shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
 }
 
 do_player_object_collisions = function(_skip_portals = false) {
@@ -1589,15 +1592,19 @@ draw_with_static_area_clipping = function() {
 }
 
 build_silhouette_composite = function(_origin_x, _origin_y, _mask_factor) {
-	if (!surface_exists(silhouette_surface)) { silhouette_surface = surface_create(SILHOUETTE_SURFACE_SIZE, SILHOUETTE_SURFACE_SIZE); }
+	var _s = global.controller.gui_scale, _size = SILHOUETTE_SURFACE_SIZE * _s;
+	if (surface_exists(silhouette_surface) && surface_get_width(silhouette_surface) != _size) { surface_free(silhouette_surface); }
+	if (!surface_exists(silhouette_surface)) { silhouette_surface = surface_create(_size, _size); }
 	if (!surface_set_target(silhouette_surface)) { show_debug_message("ERROR SETTING SILHOUETTE SURFACE"); return false; }
 	draw_clear_alpha(c_black, 0);
 
+	matrix_set(matrix_world, matrix_build(0, 0, 0, 0, 0, 0, _s, _s, 1));
 	draw_player(_origin_x, _origin_y);
-	
+	matrix_set(matrix_world, matrix_build_identity());
+
 	// Only the mask's alpha channel is read
 	gpu_set_blendmode_ext(bm_zero, _mask_factor);
-	draw_surface_ext(solid_mask_surface, 0, 0, 1, 1, 0, c_white, 1);
+	draw_surface_ext(solid_mask_surface, 0, 0, _s, _s, 0, c_white, 1);
 	gpu_set_blendmode(bm_normal);
 
 	surface_reset_target();
@@ -1608,14 +1615,17 @@ draw_player = function(_origin_x = 0, _origin_y = 0) {
 	if (has_cape && cape_depth >= depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
 	draw_dynamic_object(-_origin_x, -_origin_y, 1);
 	if (has_cape && cape_depth < depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
-	if (global.has_head && object_index == obj_player) { draw_head_graphics(global.head_sprite); }
+	if (global.has_head && object_index == obj_player) { draw_head_graphics(-_origin_x, -_origin_y, global.head_sprite); }
 }
 
 draw_silhouette_composite = function(_origin_x, _origin_y, _colour, _alpha) {
 	// Must bypass the palettizer: the composite already holds final palette colours,
 	shader_reset();
 	gpu_set_blendmode_ext(bm_one, bm_inv_src_alpha);
-	draw_surface_ext(silhouette_surface, _origin_x, _origin_y, 1, 1, 0, _colour, _alpha);
+	
+	var _inv = 1 / global.controller.gui_scale;
+	draw_surface_ext(silhouette_surface, _origin_x, _origin_y, _inv, _inv, 0, _colour, _alpha);
+	
 	gpu_set_blendmode(bm_normal);
 	shader_set(shd_palettizer);
 	shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);

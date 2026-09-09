@@ -11,7 +11,11 @@ if (_inside_playable_area) {
 	if (global.has_head) {
 		var _head = create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, global.head_sprite, false, 26 / sprite_get_height(global.head_sprite));
 		_head.depth = PARTICLE_DEPTH - 2;
-		_head.hspeed *= -1;
+		_head.hspeed = (abs(hspeed) + 200) * (-1 * sign(hspeed));
+		_head.vspeed -= 0.125;
+		_head.image_xscale *= get_left_value();
+		_head.image_rotation += 5;
+		_head.is_head = true;
 	}
 	
 	// Create Death Afterimage

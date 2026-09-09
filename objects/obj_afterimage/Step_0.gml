@@ -3,5 +3,8 @@ if (!global.controller.paused) {
 	
 	dim_timer--;
 	if (dim_timer <= 0) { instance_destroy(); }
-	else { image_alpha = (max_alpha * sqr(dim_timer / total_dim_timer)); }
+	else { 
+		var _fade_amount = (use_linear_fade) ? (dim_timer / total_dim_timer) : sqr(dim_timer / total_dim_timer);
+		image_alpha = max_alpha * _fade_amount;
+	}
 }
