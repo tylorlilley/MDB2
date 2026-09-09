@@ -205,7 +205,6 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 			particle_type = _particle_type;
 			sprite_index = _particle_sprite;
 			depth = PARTICLE_DEPTH;
-			image_angle = 15 * image_rotation;
 			image_speed = 0;
 			
 			// Randomize Physics Variables
@@ -283,7 +282,7 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 			_horizontal_direction *= -1;
 			set_engine_speeds(hspeed, vspeed, gravity, terminal_velocity, image_speed);
 			
-			
+			image_angle = 15 * image_rotation;
 			image_xscale *= _scale;
 			image_yscale *= _scale;
 			if (_scale != 1) { image_blend = c_white; }

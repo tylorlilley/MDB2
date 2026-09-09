@@ -7,14 +7,14 @@ if (_inside_playable_area) {
 	// Create Death Particles
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(particle_palette));
 	create_particles(8 + irandom(8), PARTICLE_TYPES.DEBRIS, get_darker_palette(get_darker_palette(particle_palette)));
-	create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, death_sprite, has_cape);
+	var _corpse = create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, death_sprite, has_cape);
 	if (global.has_head) {
 		var _head = create_particles(1, PARTICLE_TYPES.CORPSE, original_palette, undefined, undefined, global.head_sprite, false, 26 / sprite_get_height(global.head_sprite));
 		_head.depth = PARTICLE_DEPTH - 2;
-		_head.hspeed = (abs(hspeed) + 200) * (-1 * sign(hspeed));
+		_head.hspeed = -_corpse.hspeed * 1.25;
+		_head.image_rotation = -_corpse.image_rotation * 5;
 		_head.vspeed -= 0.125;
 		_head.image_xscale *= get_left_value();
-		_head.image_rotation += 5;
 		_head.is_head = true;
 	}
 	
