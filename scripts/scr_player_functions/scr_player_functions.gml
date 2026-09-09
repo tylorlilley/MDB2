@@ -1378,10 +1378,7 @@ draw_cape_graphics = function(_x_offset = 0, _y_offset = 0, _image_alpha = undef
 }
 
 draw_head_graphics = function(_head_sprite) {
-	var _head_scale = 24 / sprite_get_height(_head_sprite), _x_offset = get_x_draw_offset(_head_sprite) + 11, _y_offset = 14, _angle = 0;
-	
-	if (state == PLAYER_STATES.LAND) { _y_offset += (image_index == 0) ? 16 : 12; }
-	
+	var _head_scale = 24 / sprite_get_height(_head_sprite), _x_offset = 10, _y_offset = 13, _angle = 0;
 	
 	if (state == PLAYER_STATES.RECOIL) { _y_offset += (4-image_index) * 2; }
 	else if (state == PLAYER_STATES.TUMBLE) { _y_offset += (image_index+1) * 2; }
@@ -1389,7 +1386,7 @@ draw_head_graphics = function(_head_sprite) {
 	else if (state == PLAYER_STATES.WIN || state == PLAYER_STATES.CROUCH || state == PLAYER_STATES.POWERCROUCH) { _y_offset += 2; }
 	else if (state == PLAYER_STATES.POWERFALL) { _y_offset += 8; }
 	else if (state == PLAYER_STATES.STAND_EDGE) { _x_offset += (image_index * 2); }
-	else if (state == PLAYER_STATES.LOOK_UP) { _x_offset -= 2; _angle = 15; }
+	else if (state == PLAYER_STATES.LOOK_UP) { _angle = 15; }
 	else if (is_push_state()) { _x_offset += 2; }
 	else if (is_crouch_state()) { _y_offset += 2; }
 	else if (is_ladder_state() || is_fly_state() || is_crushed_state() || state == PLAYER_STATES.FALL || state == PLAYER_STATES.WIN) {
@@ -1404,7 +1401,7 @@ draw_head_graphics = function(_head_sprite) {
 		
 	shader_reset();
 	
-	draw_sprite_ext(_head_sprite, 0, virtual_x + _x_offset, virtual_y + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), image_blend, 1);
+	draw_sprite_ext(_head_sprite, 0, virtual_x + (_x_offset * get_left_value()), virtual_y + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), image_blend, 1);
 	
 	shader_set(shd_palettizer);
     shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);

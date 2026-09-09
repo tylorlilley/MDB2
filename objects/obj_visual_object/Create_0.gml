@@ -37,8 +37,8 @@ set_depth = function(_depth) {
 }
 
 get_x_draw_offset = function(_sprite = undefined) {
-	_sprite ??=  sprite_index;
-	return ((is_left) ? sprite_get_width(sprite_index) : 0);
+	_sprite ??= sprite_index;
+	return ((is_left) ? sprite_get_width(_sprite) : 0);
 }
 
 get_left_value = function() {
