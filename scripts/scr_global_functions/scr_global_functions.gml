@@ -207,7 +207,6 @@ function create_particles(_total_particles, _particle_type = undefined, _particl
 			depth = PARTICLE_DEPTH;
 			image_angle = 15 * image_rotation;
 			image_speed = 0;
-			image_yscale = _scale;
 			
 			// Randomize Physics Variables
 			hspeed = (random(3) / 2) * _horizontal_direction;

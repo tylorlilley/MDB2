@@ -1404,7 +1404,7 @@ draw_head_graphics = function(_head_sprite) {
 		
 	shader_reset();
 	
-	draw_sprite_ext(_head_sprite, 0, virtual_x + (_x_offset * get_left_value()) + get_x_draw_offset(), virtual_y + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), c_white, 1);
+	draw_sprite_ext(_head_sprite, 0, virtual_x + (_x_offset * get_left_value()) + get_x_draw_offset(), virtual_y + virtual_y_offset + _y_offset,  _head_scale * get_left_value(), _head_scale, _angle * get_left_value(), c_white, 1);
 	
 	shader_set(shd_palettizer);
     shader_set_uniform_f(global.u_tint_amount, global.world_tint_strength);
@@ -1593,12 +1593,8 @@ build_silhouette_composite = function(_origin_x, _origin_y, _mask_factor) {
 	if (!surface_set_target(silhouette_surface)) { show_debug_message("ERROR SETTING SILHOUETTE SURFACE"); return false; }
 	draw_clear_alpha(c_black, 0);
 
-	// Both sprites at alpha 1: overlapping pixels resolve into one shape instead of
-	// two stacked alphas. Opacity is applied once, at blit time.
-	if (visible && has_cape && cape_depth >= depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
-	draw_dynamic_object(-_origin_x, -_origin_y, 1);
-	if (visible && has_cape && cape_depth < depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
-
+	draw_player(_origin_x, _origin_y);
+	
 	// Only the mask's alpha channel is read
 	gpu_set_blendmode_ext(bm_zero, _mask_factor);
 	draw_surface_ext(solid_mask_surface, 0, 0, 1, 1, 0, c_white, 1);
@@ -1606,6 +1602,13 @@ build_silhouette_composite = function(_origin_x, _origin_y, _mask_factor) {
 
 	surface_reset_target();
 	return true;
+}
+
+draw_player = function(_origin_x = 0, _origin_y = 0) {
+	if (has_cape && cape_depth >= depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
+	draw_dynamic_object(-_origin_x, -_origin_y, 1);
+	if (has_cape && cape_depth < depth) { draw_cape_graphics(-_origin_x, -_origin_y, 1); }
+	if (global.has_head && object_index == obj_player) { draw_head_graphics(global.head_sprite); }
 }
 
 draw_silhouette_composite = function(_origin_x, _origin_y, _colour, _alpha) {
